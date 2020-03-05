@@ -1,3 +1,4 @@
+
 package be.ipl.pae.dal.services;
 
 import java.sql.Connection;
@@ -24,5 +25,4 @@ public class DALServiceImpl implements DALService {
       System.exit(1);
     }
   }
-
 }
