@@ -1,7 +1,13 @@
+
 package be.ipl.pae.util;
 
 public class Util {
 
+  /**
+   * 
+   * @param chaine
+   * @return
+   */
   public static boolean verifNonVide(String chaine) {
     return chaine == null || "".equals(chaine);
   }
