@@ -10,7 +10,7 @@ public class Util {
    * @return true si la chaine n'est pas vide, false si oui
    */
   public static boolean verifNonVide(String chaine) {
-    return chaine == null || "".equals(chaine);
+    return chaine != null && !"".equals(chaine);
   }
 
   /**
