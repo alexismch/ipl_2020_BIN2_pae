@@ -6,6 +6,8 @@ public class FactoryImpl implements Factory {
 
   @Override
   public UtilisateurDTO getUtilisateur() {
-    return null;
+    return new UtilisateurImpl();
   }
+
+
 }
