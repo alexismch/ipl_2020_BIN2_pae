@@ -1,13 +1,13 @@
 package be.ipl.pae.biz.objets;
 
-import be.ipl.pae.biz.dto.UtilisateurDTOImpl;
+import be.ipl.pae.biz.dto.UtilisateurDTO;
 
 public class FactoryImpl implements Factory {
 
   @Override
-  public UtilisateurDTOImpl getUtilisateur() {
-    return new UtilisateurDTOImpl();
+  public UtilisateurDTO getUtilisateur() {
+    return new UtilisateurImpl();
   }
-  
-  
+
+
 }
