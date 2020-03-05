@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class AbstractHttpServlet extends HttpServlet {
 
   /**
-   * Renvoie un message à la requête
+   * Renvoie un message à la requête.
    *
    * @param rep         la requête qui va recevoir le message
    * @param messageType le type de message à renvoyer
@@ -24,7 +24,7 @@ public abstract class AbstractHttpServlet extends HttpServlet {
   }
 
   /**
-   * Renvoie un message d'erreur à la requête
+   * Renvoie un message d'erreur à la requête.
    *
    * @param rep    la requête qui va recevoir le message
    * @param statut le statut de la requête en retour

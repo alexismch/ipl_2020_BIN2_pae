@@ -4,7 +4,7 @@ package be.ipl.pae.util;
 public class Util {
 
   /**
-   * Vérifie si la chaine n'est pas vide
+   * Vérifie si la chaine n'est pas vide.
    *
    * @param chaine la chaine à vérifier
    * @return true si la chaine n'est pas vide, false si oui
@@ -14,7 +14,7 @@ public class Util {
   }
 
   /**
-   * Vérifie si toutes les chaines ne sont pas vides
+   * Vérifie si toutes les chaines ne sont pas vides.
    *
    * @param chaines les chaines à vérifier
    * @return true si toutes les chaines ne sont pas vides, false si oui
