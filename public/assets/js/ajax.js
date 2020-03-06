@@ -47,6 +47,7 @@ function ajax(method = 'GET', url = '', data = null, onSuccess = null,
 
   console.log({data});
   $.ajax({
+    method: method,
     url: url,
     dataType: 'json',
     data: data,

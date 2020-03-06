@@ -1,8 +1,8 @@
 package be.ipl.pae.main;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainTest {
 
@@ -10,5 +10,4 @@ public class MainTest {
   public void testDemo() {
     assertTrue(true);
   }
-
 }

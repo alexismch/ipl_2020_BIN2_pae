@@ -12,14 +12,18 @@ class UtilisateurImpl implements Utilisateur {
   private Date dateInscription;
   private String statut;
 
-
-
   public UtilisateurImpl() {
     super();
   }
 
-  public UtilisateurImpl(String nom, String prenom, String mdp, String ville, String email,
-      Date dateInscription, String statut) {
+  public UtilisateurImpl(
+      String nom,
+      String prenom,
+      String mdp,
+      String ville,
+      String email,
+      Date dateInscription,
+      String statut) {
 
     this.nom = nom;
     this.prenom = prenom;
@@ -85,7 +89,4 @@ class UtilisateurImpl implements Utilisateur {
   public void setStatut(String statut) {
     this.statut = statut;
   }
-
-
-
 }

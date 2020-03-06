@@ -8,6 +8,4 @@ public class FactoryImpl implements Factory {
   public UtilisateurDTO getUtilisateur() {
     return new UtilisateurImpl();
   }
-
-
 }

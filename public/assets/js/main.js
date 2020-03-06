@@ -95,8 +95,8 @@ $('#content').on('submit', 'form', function (e) {
   const form = $(this);
   const data = form.serialize();
 
-  ajaxPOST('/api/connexion', data, () => {
-    console.log('connecté');
+  ajaxPOST('/api/connexion', data, (data) => {
+    console.log({data}, 'connecté');
   });
 
 });

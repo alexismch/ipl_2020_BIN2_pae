@@ -1,7 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.ihm.servlets.ConnexionServlet;
-import javax.servlet.http.HttpServlet;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -10,6 +10,8 @@ import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import javax.servlet.http.HttpServlet;
 
 public class Main {
 
@@ -44,5 +46,4 @@ public class Main {
 
     return backendContext;
   }
-
 }

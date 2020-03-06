@@ -4,34 +4,31 @@ import java.util.Date;
 
 public interface UtilisateurDTO {
 
+  String getNom();
 
-  public String getNom();
+  void setNom(String nom);
 
-  public void setNom(String nom);
+  String getPrenom();
 
-  public String getPrenom();
+  void setPrenom(String prenom);
 
-  public void setPrenom(String prenom);
+  String getMdp();
 
-  public String getMdp();
+  void setMdp(String mdp);
 
-  public void setMdp(String mdp);
+  String getVille();
 
-  public String getVille();
+  void setVille(String ville);
 
-  public void setVille(String ville);
+  String getEmail();
 
-  public String getEmail();
+  void setEmail(String email);
 
-  public void setEmail(String email);
+  Date getDateInscription();
 
-  public Date getDateInscription();
+  void setDateInscription(Date dateInscription);
 
-  public void setDateInscription(Date dateInscription);
+  String getStatut();
 
-  public String getStatut();
-
-  public void setStatut(String statut);
-
-
+  void setStatut(String statut);
 }
