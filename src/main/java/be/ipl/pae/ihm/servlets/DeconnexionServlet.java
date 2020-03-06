@@ -5,7 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DeconnexionServlet extends AbstractHttpServlet {
+public class DeconnexionServlet extends AbstractServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)

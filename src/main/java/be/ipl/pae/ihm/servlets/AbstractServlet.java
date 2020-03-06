@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class AbstractHttpServlet extends HttpServlet {
+public abstract class AbstractServlet extends HttpServlet {
 
   protected void envoyerMessage(HttpServletResponse rep, String messageType, int statut, String msg)
       throws IOException {
