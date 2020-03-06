@@ -6,6 +6,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractServlet extends HttpServlet {
 
+  /**
+   * Renvoie un message à la requête.
+   *
+   * @param rep         la requête qui va recevoir le message
+   * @param messageType le type de message à renvoyer
+   * @param statut      le statut de la requête en retour
+   * @param msg         le message à renvoyer
+   * @throws IOException en cas de problème avec le writer du message
+   */
   protected void envoyerMessage(HttpServletResponse rep, String messageType, int statut, String msg)
       throws IOException {
     rep.setContentType(messageType);
@@ -14,12 +23,20 @@ public abstract class AbstractServlet extends HttpServlet {
     rep.getWriter().write(msg);
   }
 
-  protected void envoyerErreur(HttpServletResponse rep, int numErreur, String msgErreur)
+  /**
+   * Renvoie un message d'erreur à la requête.
+   *
+   * @param rep    la requête qui va recevoir le message
+   * @param statut le statut de la requête en retour
+   * @param msg    le message à renvoyer
+   * @throws IOException en cas de problème avec le writer du message
+   */
+  protected void envoyerErreur(HttpServletResponse rep, int statut, String msg)
       throws IOException {
     String json = "{\""
         + "success\":\"false\", "
-        + "\"error\":" + msgErreur
+        + "\"error\":" + msg
         + "}";
-    envoyerMessage(rep, "application/json", numErreur, json);
+    envoyerMessage(rep, "application/json", statut, json);
   }
 }

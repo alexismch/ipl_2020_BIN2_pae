@@ -1,5 +1,7 @@
 package be.ipl.pae.main;
 
+import be.ipl.pae.ihm.servlets.ConnexionServlet;
+import javax.servlet.http.HttpServlet;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -37,7 +39,8 @@ public class Main {
     ServletContextHandler backendContext = new ServletContextHandler(1);
     backendContext.setContextPath("/api");
 
-    //
+    HttpServlet connexionServlet = new ConnexionServlet();
+    backendContext.addServlet(new ServletHolder(connexionServlet), "/connexion");
 
     return backendContext;
   }
