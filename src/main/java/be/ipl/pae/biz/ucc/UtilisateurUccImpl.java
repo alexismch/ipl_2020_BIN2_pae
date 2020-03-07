@@ -17,13 +17,13 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
 
 
   public UtilisateurDto seConnecter(String pseudo, String mdp) {
-    UtilisateurDto utilisateurDTO = utilisateurDAO.getUtilisateurParPseudo(pseudo);
-    if (utilisateurDTO == null) {
+    UtilisateurDto utilisateurDto = utilisateurDAO.getUtilisateurParPseudo(pseudo);
+    if (utilisateurDto == null) {
       return null;
     }
-    if (!((Utilisateur) utilisateurDTO).verifierMdp(mdp))
+    if (!((Utilisateur) utilisateurDto).verifierMdp(mdp))
       return null;
 
-    return utilisateurDTO;
+    return utilisateurDto;
   }
 }
