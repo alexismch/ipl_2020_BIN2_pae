@@ -2,7 +2,7 @@ package be.ipl.pae.biz.dto;
 
 import java.time.LocalDate;
 
-public interface UtilisateurDTO {
+public interface UtilisateurDto {
 
   int getId();
 

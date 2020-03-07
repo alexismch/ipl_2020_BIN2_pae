@@ -1,6 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
-import be.ipl.pae.biz.dto.UtilisateurDTO;
+import be.ipl.pae.biz.dto.UtilisateurDto;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ public class ConnexionServlet extends AbstractServlet {
     if (verifNonVide(email, mdp)) {
       System.out.println("Connexion de " + email + " avec le mot de passe " + mdp);
       // TODO: envoyer les infos au biz pour vérifier
-      UtilisateurDTO utilisateurDTO = null;
+      UtilisateurDto utilisateurDTO = null;
       if (utilisateurDTO == null) {
         envoyerErreur(rep, 200, "Adresse email ou mot de passe incorrect");
       } else {

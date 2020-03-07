@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
-import be.ipl.pae.biz.dto.UtilisateurDTO;
+import be.ipl.pae.biz.dto.UtilisateurDto;
 
 public interface UtilisateurUCC {
 
@@ -12,5 +12,5 @@ public interface UtilisateurUCC {
    * @param mdp: mot de passe de l'utilisateur
    * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
    */
-  UtilisateurDTO seConnecter(String pseudo, String mdp);
+  UtilisateurDto seConnecter(String pseudo, String mdp);
 }

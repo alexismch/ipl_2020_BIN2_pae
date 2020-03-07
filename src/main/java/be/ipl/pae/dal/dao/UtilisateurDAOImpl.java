@@ -1,12 +1,12 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.UtilisateurDTO;
+import be.ipl.pae.biz.dto.UtilisateurDto;
 
 public class UtilisateurDAOImpl implements UtilisateurDAO {
 
   @Override
-  public UtilisateurDTO getUtilisateurParPseudo(String pseudo) {
-    UtilisateurDTO utilisateurDTO;
+  public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
+    UtilisateurDto utilisateurDTO;
     return null;
   }
 }
