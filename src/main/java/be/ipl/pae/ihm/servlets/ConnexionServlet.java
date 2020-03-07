@@ -27,7 +27,7 @@ public class ConnexionServlet extends AbstractServlet {
       } else {
         HttpSession session = req.getSession();
         //TODO: Modifier l'id 252 par l'id récupéré via l'utilisateur
-        String clef = creerClef(req.getRemoteAddr(), "252");
+        String clef = creerClef(req.getRemoteAddr(), utilisateurDTO.getId());
         session.setAttribute("clef", clef);
         System.out.println("\nClef générée : " + clef);
         envoyerSucces(rep);

@@ -42,7 +42,7 @@ public class Util {
    * @param id l'id de l'utilisateur
    * @return la clef de session
    */
-  public static String creerClef(String ip, String id) {
+  public static String creerClef(String ip, int id) {
     return JWT.create()
         .withIssuer("auth0")
         .withClaim("ip", ip)
@@ -70,11 +70,11 @@ public class Util {
    * @param ip          l'ip à vérifier
    * @return l'id de l'utilisateur
    */
-  public static String recupererUId(DecodedJWT clefDecodee, String ip) {
+  public static int recupererUId(DecodedJWT clefDecodee, String ip) {
     if (!ip.equals(clefDecodee.getClaim("ip").asString())) {
       throw new MauvaiseClefException("Mauvaise adresse IP");
     }
-    return clefDecodee.getClaim("uId").asString();
+    return clefDecodee.getClaim("uId").asInt();
   }
 
   /**
@@ -84,7 +84,7 @@ public class Util {
    * @param ip   l'ip à vérifier
    * @return l'id de l'utilisateur
    */
-  public static String recuperUId(String clef, String ip) {
+  public static int recuperUId(String clef, String ip) {
     return recupererUId(decoderClef(clef), ip);
   }
 }
