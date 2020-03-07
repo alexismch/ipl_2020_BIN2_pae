@@ -5,12 +5,12 @@ import be.ipl.pae.biz.objets.Utilisateur;
 import be.ipl.pae.dal.dao.UtilisateurDAO;
 
 
-public class UtilisateurUCCImpl implements UtilisateurUcc {
+public class UtilisateurUccImpl implements UtilisateurUcc {
 
   private UtilisateurDAO utilisateurDAO;
 
 
-  public UtilisateurUCCImpl(UtilisateurDAO utilisateurDAO) {
+  public UtilisateurUccImpl(UtilisateurDAO utilisateurDAO) {
     super();
     this.utilisateurDAO = utilisateurDAO;
   }
