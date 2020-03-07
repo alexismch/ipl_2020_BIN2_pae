@@ -21,8 +21,9 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
     if (utilisateurDto == null) {
       return null;
     }
-    if (!((Utilisateur) utilisateurDto).verifierMdp(mdp))
+    if (!((Utilisateur) utilisateurDto).verifierMdp(mdp)) {
       return null;
+    }
 
     return utilisateurDto;
   }
