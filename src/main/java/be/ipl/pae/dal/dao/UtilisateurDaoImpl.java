@@ -6,7 +6,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
-    UtilisateurDto utilisateurDTO;
+    UtilisateurDto utilisateurDto;
     return null;
   }
 }
