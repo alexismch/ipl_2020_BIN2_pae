@@ -7,17 +7,17 @@ import be.ipl.pae.dal.dao.UtilisateurDao;
 
 public class UtilisateurUccImpl implements UtilisateurUcc {
 
-  private UtilisateurDao utilisateurDAO;
+  private UtilisateurDao utilisateurDao;
 
 
   public UtilisateurUccImpl(UtilisateurDao utilisateurDao) {
     super();
-    this.utilisateurDAO = utilisateurDao;
+    this.utilisateurDao = utilisateurDao;
   }
 
 
   public UtilisateurDto seConnecter(String pseudo, String mdp) {
-    UtilisateurDto utilisateurDto = utilisateurDAO.getUtilisateurParPseudo(pseudo);
+    UtilisateurDto utilisateurDto = utilisateurDao.getUtilisateurParPseudo(pseudo);
     if (utilisateurDto == null) {
       return null;
     }
