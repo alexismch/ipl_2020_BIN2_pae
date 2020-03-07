@@ -10,9 +10,9 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
   private UtilisateurDao utilisateurDAO;
 
 
-  public UtilisateurUccImpl(UtilisateurDao utilisateurDAO) {
+  public UtilisateurUccImpl(UtilisateurDao utilisateurDao) {
     super();
-    this.utilisateurDAO = utilisateurDAO;
+    this.utilisateurDAO = utilisateurDao;
   }
 
 
