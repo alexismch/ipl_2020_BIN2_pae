@@ -1,18 +1,28 @@
 package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UtilisateurDTO;
-import be.ipl.pae.biz.objets.Factory;
+import be.ipl.pae.biz.objets.Utilisateur;
 import be.ipl.pae.dal.dao.UtilisateurDAO;
-import be.ipl.pae.dal.dao.UtilisateurDAOImpl;
+
 
 public class UtilisateurUCCImpl implements UtilisateurUCC {
 
-  Factory factory;
+  private UtilisateurDAO utilisateurDAO;
+
+
+  public UtilisateurUCCImpl(UtilisateurDAO utilisateurDAO) {
+    super();
+    this.utilisateurDAO = utilisateurDAO;
+  }
+
 
   public UtilisateurDTO seConnecter(String pseudo, String mdp) {
-    UtilisateurDTO utilisateurDTO = factory.getUtilisateur();
-    UtilisateurDAO utilisateurDao = new UtilisateurDAOImpl();
-    utilisateurDTO = utilisateurDao.getUtilisateurParPseudo(pseudo);
+    UtilisateurDTO utilisateurDTO = utilisateurDAO.getUtilisateurParPseudo(pseudo);
+    if (utilisateurDTO == null) {
+      return null;
+    }
+    if (!((Utilisateur) utilisateurDTO).verifierMdp(mdp))
+      return null;
 
     return utilisateurDTO;
   }

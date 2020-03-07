@@ -1,8 +1,12 @@
 package be.ipl.pae.biz.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface UtilisateurDTO {
+
+  int getId();
+
+  void setId(int id);
 
   String getNom();
 
@@ -24,11 +28,12 @@ public interface UtilisateurDTO {
 
   void setEmail(String email);
 
-  Date getDateInscription();
+  LocalDate getDateInscription();
 
-  void setDateInscription(Date dateInscription);
+  void setDateInscription(LocalDate dateInscription);
 
   String getStatut();
 
   void setStatut(String statut);
+
 }
