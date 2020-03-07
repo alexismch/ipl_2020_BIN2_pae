@@ -5,7 +5,7 @@ import be.ipl.pae.biz.objets.Utilisateur;
 import be.ipl.pae.dal.dao.UtilisateurDAO;
 
 
-public class UtilisateurUCCImpl implements UtilisateurUCC {
+public class UtilisateurUCCImpl implements UtilisateurUcc {
 
   private UtilisateurDAO utilisateurDAO;
 

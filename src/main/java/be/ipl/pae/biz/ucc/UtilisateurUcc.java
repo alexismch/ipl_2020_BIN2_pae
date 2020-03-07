@@ -2,7 +2,7 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 
-public interface UtilisateurUCC {
+public interface UtilisateurUcc {
 
   /**
    * Permet à l'utilisateur de se connecter, on va vérifier si le pseudo donné par l'utilisateur
