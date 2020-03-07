@@ -23,6 +23,13 @@ noscript {
   z-index: 1000;
 }
 
+.centred {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .logo-icon {
   height: 60px;
 }

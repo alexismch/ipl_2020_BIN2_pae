@@ -1,7 +1,8 @@
 'use strict';
 
-import {ajaxPOST} from './ajax.js'
-import {checkFormValidity, checkInputValidity} from './forms.js'
+import {checkInputValidity, onSubmit} from './forms.js'
+
+let router;
 
 $(() => {
 
@@ -10,13 +11,13 @@ $(() => {
    * @see https://github.com/krasimir/navigo
    ***********************************************************************************/
 
-  let router = new Navigo('/', false);
+  router = new Navigo('/', false);
   router.on({
     'deconnexion': () => {
       console.log('deco');
     },
     'connexion': () => {
-      chargerTemplate('Page de connexion', 'page-connexion');
+      chargerTemplate('Page de connexion', 'page-connexion', pageConnexion);
     },
     'inscription': () => {
       chargerTemplate('Page d\'inscription', 'page-inscription');
@@ -46,6 +47,12 @@ $(() => {
   })
   .resolve();
 
+  // Validation de n'importe quel element de type input, textarea, select se trouvant en #content
+  // @see checkInputValidity
+  $('#content').on('focusout input', 'input, textarea, select', function () {
+    checkInputValidity(this);
+  });
+
 });
 
 function chargerTemplate(nom, idTemplate, onLoaded) {
@@ -58,19 +65,23 @@ function chargerTemplate(nom, idTemplate, onLoaded) {
 
   contenu.add(contenu.find('*')).each((i, e) => {
     for (const attr of ['id', 'for']) {
-      if (e.getAttribute(attr) !== null) {
-        e.setAttribute(attr, e.getAttribute(attr).replace(/^template-/, ''));
+      let attrValue = e.getAttribute(attr);
+      if (attrValue !== null) {
+        attrValue = attrValue.replace(/^template-/, '');
+        e.setAttribute(attr, attrValue);
       }
     }
     for (const attr of ['href', 'data-target']) {
-      if (e.getAttribute(attr) !== null) {
-        e.setAttribute(attr,
-            '#' + e.getAttribute(attr).replace(/^#template-/, ''));
+      let attrValue = e.getAttribute(attr);
+      if (attrValue !== null && attrValue.match(/^#template-/)) {
+        attrValue = attrValue.replace(/^#template-/, '');
+        e.setAttribute(attr, `#${attrValue}`);
       }
     }
   });
 
   $('#content').html(contenu);
+  router.updatePageLinks();
 
   if (onLoaded != undefined) {
     onLoaded();
@@ -81,22 +92,11 @@ function pageAccueil() {
   console.log('des trucs page accueil');
 }
 
-$('#content').on('focusout input', 'input', function () {
-  checkInputValidity(this);
-});
-
-$('#content').on('submit', 'form', function (e) {
-  e.preventDefault();
-
-  if (!checkFormValidity(this)) {
-    return;
-  }
-
-  const form = $(this);
-  const data = form.serialize();
-
-  ajaxPOST('/api/connexion', data, (data) => {
-    console.log({data}, 'connecté');
+function pageConnexion() {
+  onSubmit($('#content').find('form'), () => {
+    console.log('conecté');
+    $('.nav-user').addClass('d-none');
+    $('.nav-client').removeClass('d-none');
   });
+}
 
-});

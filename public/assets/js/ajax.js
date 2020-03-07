@@ -40,7 +40,7 @@ function ajaxDELETE(url, data, onSuccess, onError) {
  * @param {String} url Url vers laquelle la requete est effectuée
  * @param {String} data Les différentes données passées par methode
  * @param {function} onSuccess Fonction appelée lorsque la requête est effectuée correctement
- * @param {function} onError Fonction appelée en case d'echec de la requête
+ * @param {function} onError Fonction appelée en cas d'echec de la requête
  */
 function ajax(method = 'GET', url = '', data = null, onSuccess = null,
     onError = null) {

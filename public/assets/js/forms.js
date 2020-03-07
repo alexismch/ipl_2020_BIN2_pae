@@ -1,5 +1,7 @@
 'use strict';
 
+import {ajax} from './ajax.js';
+
 /**
  * Valide le formulaire. En cas d'erreur affiche des messages d'erreur pour chaque entrée conformément à la methode {@link checkInputValidity}
  *
@@ -28,6 +30,7 @@ function checkFormValidity(form) {
  * @returns {boolean} true si l'input est valide
  */
 function checkInputValidity(element) {
+
   const errorElement = $(element).next('.input-error');
   if (element.checkValidity()) {
     errorElement.hide(100);
@@ -36,6 +39,40 @@ function checkInputValidity(element) {
     errorElement.show(100);
     return false;
   }
+
 }
 
-export {checkFormValidity, checkInputValidity};
+/**
+ * Ajoute un écouteur d'événement quand le formulaire est soumis.
+ * Cet écouteur d'événement se chargera de valider le fumulaire avec la methode {@link checkFormValidity}
+ * Il enverra ensuite le formulaire via une requête ajax en traduisant les parametres method et action
+ *
+ * @param {Jquery} $form Formulaire è envoyé
+ * @param {function} onSuccess Fonction appelée lorsque le formulaire est envoyé correctement
+ * @param {function} onError Fonction appellé en cas d'erreur d'envoi du formulaire
+ * @param {function} onInvalid Fonction appellé si de formulaire n'est pas valide
+ */
+function onSubmit($form, onSuccess, onError, onInvalid) {
+
+  $form.on('submit', function (e) {
+    e.preventDefault();
+
+    if (!checkFormValidity($form[0])) {
+      if (onInvalid !== undefined) {
+        onInvalid();
+      }
+      return;
+    }
+
+    const method = $form.attr('method');
+    const url = $form.attr('action');
+
+    const data = $form.serialize();
+
+    ajax(method, url, data, onSuccess, onError);
+
+  });
+
+}
+
+export {checkFormValidity, checkInputValidity, onSubmit};

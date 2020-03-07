@@ -72,14 +72,14 @@
             <a class="dropdown-item" data-navigo href="amenagements/2">Action</a>
           </div>
         </li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="connexion">Se connecter</a></li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="inscription">S'inscrire</a></li>
-        <!--<li class="nav-item"><a class="nav-link" data-navigo href="mes-devis">Mes devis</a></li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="devis">Devis</a></li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="clients">Clients</a></li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="utilisateurs">Utilisateur</a></li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="nouveau-devis">Introduire une devis</a></li>
-        <li class="nav-item"><a class="nav-link" data-navigo href="deconnexion">Se déconnecter</a></li>-->
+        <li class="nav-item nav-user"><a class="nav-link" data-navigo href="connexion">Se connecter</a></li>
+        <li class="nav-item nav-user"><a class="nav-link" data-navigo href="inscription">S'inscrire</a></li>
+        <li class="nav-item d-none nav-client"><a class="nav-link" data-navigo href="mes-devis">Mes devis</a></li>
+        <li class="nav-item d-none"><a class="nav-link" data-navigo href="devis">Devis</a></li>
+        <li class="nav-item d-none"><a class="nav-link" data-navigo href="clients">Clients</a></li>
+        <li class="nav-item d-none"><a class="nav-link" data-navigo href="utilisateurs">Utilisateur</a></li>
+        <li class="nav-item d-none"><a class="nav-link" data-navigo href="nouveau-devis">Introduire une devis</a></li>
+        <li class="nav-item d-none nav-client"><a class="nav-link" data-navigo href="deconnexion">Se déconnecter</a></li>
       </ul>
     </div>
   </nav>
@@ -141,7 +141,7 @@
 <template id="page-connexion">
   <div class="container">
     <h2>Connexion</h2>
-    <form novalidate>
+    <form action="/api/connexion" class="w-100" method="post" novalidate>
       <div class="form-group">
         <label for="template-page-connexion-pseudo">Pseudo<span class="text-danger">*</span></label>
         <input class="form-control" id="template-page-connexion-pseudo" name="email" required type="text"/>
@@ -154,6 +154,8 @@
       </div>
       <input class="btn btn-primary" type="submit" value="Se Connecter"/>
     </form>
+    <p class="mt-4">Pas encore de compte ? <a data-navigo href="inscription">Créer un compte</a></p>
+    <p class="">Mot de pass oublié ? Dommage...</p>
   </div>
 </template>
 
@@ -189,7 +191,6 @@
     <p>Cette page n'existe pas</p>
   </div>
 </template>
-
 
 <script src="/assets/js/main.js" type="module"></script>
 </body>
