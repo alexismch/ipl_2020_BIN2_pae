@@ -3,9 +3,8 @@ package be.ipl.pae.ihm.servlets;
 import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.verifNonVide;
 
-import be.ipl.pae.biz.dto.UtilisateurDTO;
+import be.ipl.pae.biz.dto.UtilisateurDto;
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,7 +20,7 @@ public class ConnexionServlet extends AbstractServlet {
 
     if (verifNonVide(email, mdp)) {
       // TODO: envoyer les infos au biz pour vérifier
-      UtilisateurDTO utilisateurDTO = null;
+      UtilisateurDto utilisateurDTO = null;
 
       if (utilisateurDTO == null) {
         envoyerErreur(rep, 200, "Adresse email ou mot de passe incorrect");
