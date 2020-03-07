@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 public class ConnexionServlet extends AbstractServlet {
 
   @Override
@@ -20,14 +21,14 @@ public class ConnexionServlet extends AbstractServlet {
 
     if (verifNonVide(email, mdp)) {
       // TODO: envoyer les infos au biz pour vérifier
-      UtilisateurDto utilisateurDTO = null;
+      UtilisateurDto utilisateurDto = null;
 
-      if (utilisateurDTO == null) {
+      if (utilisateurDto == null) {
         envoyerErreur(rep, 200, "Adresse email ou mot de passe incorrect");
       } else {
         HttpSession session = req.getSession();
         //TODO: Modifier l'id 252 par l'id récupéré via l'utilisateur
-        String clef = creerClef(req.getRemoteAddr(), utilisateurDTO.getId());
+        String clef = creerClef(req.getRemoteAddr(), utilisateurDto.getId());
         session.setAttribute("clef", clef);
         System.out.println("\nClef générée : " + clef);
         envoyerSucces(rep);
