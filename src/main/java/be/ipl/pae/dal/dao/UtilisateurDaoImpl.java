@@ -2,7 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 
-public class UtilisateurDAOImpl implements UtilisateurDAO {
+public class UtilisateurDaoImpl implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {

@@ -2,15 +2,15 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.Utilisateur;
-import be.ipl.pae.dal.dao.UtilisateurDAO;
+import be.ipl.pae.dal.dao.UtilisateurDao;
 
 
 public class UtilisateurUccImpl implements UtilisateurUcc {
 
-  private UtilisateurDAO utilisateurDAO;
+  private UtilisateurDao utilisateurDAO;
 
 
-  public UtilisateurUccImpl(UtilisateurDAO utilisateurDAO) {
+  public UtilisateurUccImpl(UtilisateurDao utilisateurDAO) {
     super();
     this.utilisateurDAO = utilisateurDAO;
   }
