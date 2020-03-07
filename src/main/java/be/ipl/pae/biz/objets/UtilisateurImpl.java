@@ -1,28 +1,24 @@
 package be.ipl.pae.biz.objets;
 
-import java.util.Date;
+import java.time.LocalDate;
+import org.mindrot.bcrypt.BCrypt;
 
 class UtilisateurImpl implements Utilisateur {
 
+  private int id;
   private String nom;
   private String prenom;
   private String mdp;
   private String ville;
   private String email;
-  private Date dateInscription;
+  private LocalDate dateInscription;
   private String statut;
 
   public UtilisateurImpl() {
     super();
   }
 
-  public UtilisateurImpl(
-      String nom,
-      String prenom,
-      String mdp,
-      String ville,
-      String email,
-      Date dateInscription,
+  public UtilisateurImpl(String nom, String prenom, String mdp, String ville, String email,
       String statut) {
 
     this.nom = nom;
@@ -30,8 +26,16 @@ class UtilisateurImpl implements Utilisateur {
     this.mdp = mdp;
     this.ville = ville;
     this.email = email;
-    this.dateInscription = dateInscription;
+    this.dateInscription = LocalDate.now();
     this.statut = statut;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getNom() {
@@ -74,11 +78,11 @@ class UtilisateurImpl implements Utilisateur {
     this.email = email;
   }
 
-  public Date getDateInscription() {
+  public LocalDate getDateInscription() {
     return dateInscription;
   }
 
-  public void setDateInscription(Date dateInscription) {
+  public void setDateInscription(LocalDate dateInscription) {
     this.dateInscription = dateInscription;
   }
 
@@ -89,4 +93,10 @@ class UtilisateurImpl implements Utilisateur {
   public void setStatut(String statut) {
     this.statut = statut;
   }
+
+  @Override
+  public boolean verifierMdp(String mdp) {
+    return BCrypt.checkpw(mdp, this.mdp);
+  }
+
 }
