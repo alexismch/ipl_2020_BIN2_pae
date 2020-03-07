@@ -6,7 +6,7 @@ public interface UtilisateurUcc {
 
   /**
    * Permet à l'utilisateur de se connecter, on va vérifier si le pseudo donné par l'utilisateur
-   * existe et si le mdp qu'il a donné est le bon
+   * existe et si le mdp qu'il a donné est le bon.
    * 
    * @param pseudo pseudo de l'utilisateur
    * @param mdp mot de passe de l'utilisateur
