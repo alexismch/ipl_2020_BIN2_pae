@@ -21,12 +21,14 @@ public class InjectionService {
     }
   }
 
+
+
   /**
    * Methode permettant de faire une injection de dépendance
    * 
    * @param <T>
-   * @param la classe dans laquelle on va faire l'injection
-   * @return retourne une factory ou lance une exception
+   * @param c la classe dans laquelle on va faire l'injection
+   * @return une factory ou lance une exception
    */
   public static <T> T getDependance(Class<?> c) {
     String implName = props.getProperty(c.getName());
