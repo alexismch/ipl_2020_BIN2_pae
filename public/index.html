@@ -64,7 +64,8 @@
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" data-navigo href="">Accueil</a></li>
         <li class="nav-item dropdown">
-          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="template-type_amenagements" role="button">
+          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+             href="#" id="template-type_amenagements" role="button">
             Type d'aménagements
           </a>
           <div aria-labelledby="template-type_amenagements" class="dropdown-menu">
@@ -85,6 +86,7 @@
   </nav>
 </header>
 
+<div id="alerts"></div>
 <div id="content"></div>
 
 <template id="page-accueil">
@@ -143,7 +145,7 @@
     <h2>Connexion</h2>
     <form action="/api/connexion" class="w-100" method="post" novalidate>
       <div class="form-group">
-        <label for="template-page-connexion-pseudo">Pseudo<span class="text-danger">*</span></label>
+        <label for="template-page-connexion-pseudo">Email<span class="text-danger">*</span></label>
         <input class="form-control" id="template-page-connexion-pseudo" name="email" required type="text"/>
         <small class="input-error form-text text-danger">L'adresse email est requise.</small>
       </div>

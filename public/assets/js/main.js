@@ -1,6 +1,7 @@
 'use strict';
 
 import {checkInputValidity, onSubmit} from './forms.js'
+import {clearAlerts, createAlert} from './alerts.js'
 
 let router;
 
@@ -94,9 +95,13 @@ function pageAccueil() {
 
 function pageConnexion() {
   onSubmit($('#content').find('form'), () => {
-    console.log('conecté');
+    console.log('connecté');
     $('.nav-user').addClass('d-none');
     $('.nav-client').removeClass('d-none');
+  }, (error) => {
+    console.log(error);
+    clearAlerts();
+    createAlert('danger', error.responseJSON.error);
   });
 }
 

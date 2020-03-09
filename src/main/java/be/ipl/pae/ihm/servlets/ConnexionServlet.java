@@ -1,13 +1,15 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.creerClef;
-import static be.ipl.pae.util.Util.verifNonVide;
-
 import be.ipl.pae.biz.dto.UtilisateurDto;
+
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import static be.ipl.pae.util.Util.creerClef;
+import static be.ipl.pae.util.Util.verifNonVide;
 
 
 public class ConnexionServlet extends AbstractServlet {
@@ -24,7 +26,7 @@ public class ConnexionServlet extends AbstractServlet {
       UtilisateurDto utilisateurDto = null;
 
       if (utilisateurDto == null) {
-        envoyerErreur(rep, 200, "Adresse email ou mot de passe incorrect");
+        envoyerErreur(rep, 401, "Adresse email ou mot de passe incorrect");
       } else {
         HttpSession session = req.getSession();
         //TODO: Modifier l'id 252 par l'id récupéré via l'utilisateur
