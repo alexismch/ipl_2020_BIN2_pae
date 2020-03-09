@@ -9,7 +9,7 @@ import java.util.Properties;
 public class InjectionService {
 
   private static Properties props = new Properties();
-  private static Map<String, Object> dependencies = new HashMap<String, Object>();
+  private static Map<String, Object> mapDesDependances = new HashMap<String, Object>();
 
   static {
     try {
@@ -33,15 +33,15 @@ public class InjectionService {
   public static <T> T getDependance(Class<?> classe) {
     String implName = props.getProperty(classe.getName());
     System.out.println(implName);
-    if (dependencies.containsKey(implName)) {
+    if (mapDesDependances.containsKey(implName)) {
 
-      return (T) dependencies.get(implName);
+      return (T) mapDesDependances.get(implName);
     }
     try {
       Constructor<?> constructor = Class.forName(implName).getDeclaredConstructor();
       constructor.setAccessible(true);
       Object dependency = constructor.newInstance();
-      dependencies.put(implName, dependency);
+      mapDesDependances.put(implName, dependency);
       return (T) dependency;
     } catch (Throwable ex) {
       ex.printStackTrace();
