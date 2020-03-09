@@ -24,14 +24,14 @@ public class InjectionService {
 
 
   /**
-   * Methode permettant de faire une injection de dépendance
+   * Methode permettant de faire une injection de dépendance.
    * 
    * @param <T>
-   * @param c la classe dans laquelle on va faire l'injection
+   * @param classe la classe dans laquelle on va faire l'injection
    * @return une factory ou lance une exception
    */
-  public static <T> T getDependance(Class<?> c) {
-    String implName = props.getProperty(c.getName());
+  public static <T> T getDependance(Class<?> classe) {
+    String implName = props.getProperty(classe.getName());
     System.out.println(implName);
     if (dependencies.containsKey(implName)) {
 
