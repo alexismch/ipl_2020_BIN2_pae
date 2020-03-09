@@ -16,11 +16,17 @@ public class InjectionService {
       FileInputStream file = new FileInputStream("./config/dependance.properties");
       props.load(file);
       file.close();
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
+    } catch (Throwable ex) {
+      throw new RuntimeException(ex);
     }
   }
 
+  /**
+   * Methode permettant de faire une injection de dépendance
+   * @param <T>
+   * @param 
+   * @return
+   */
   public static <T> T getDependency(Class<?> c) {
     String implName = props.getProperty(c.getName());
     System.out.println(implName);
@@ -34,9 +40,9 @@ public class InjectionService {
       Object dependency = constructor.newInstance();
       dependencies.put(implName, dependency);
       return (T) dependency;
-    } catch (Throwable e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
+    } catch (Throwable ex) {
+      ex.printStackTrace();
+      throw new RuntimeException(ex);
     }
   }
 }
