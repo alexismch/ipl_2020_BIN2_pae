@@ -27,7 +27,7 @@ public class InjectionService {
    * @param 
    * @return
    */
-  public static <T> T getDependency(Class<?> c) {
+  public static <T> T getDependance(Class<?> c) {
     String implName = props.getProperty(c.getName());
     System.out.println(implName);
     if (dependencies.containsKey(implName)) {

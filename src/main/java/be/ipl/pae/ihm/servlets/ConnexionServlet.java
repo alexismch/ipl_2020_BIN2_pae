@@ -17,7 +17,7 @@ import config.InjectionService;
 
 public class ConnexionServlet extends AbstractServlet {
 
-  DtoFactory factory = InjectionService.getDependency(DtoFactory.class);
+  DtoFactory factory = InjectionService.getDependance(DtoFactory.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
