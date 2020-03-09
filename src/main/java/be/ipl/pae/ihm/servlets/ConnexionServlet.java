@@ -4,7 +4,7 @@ import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.verifNonVide;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.ucc.UtilisateurUcc;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ import config.InjectionService;
 
 public class ConnexionServlet extends AbstractServlet {
 
-  DtoFactory factory = InjectionService.getDependance(DtoFactory.class);
+  UtilisateurUcc ucc = InjectionService.getDependance(UtilisateurUcc.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
@@ -28,7 +28,7 @@ public class ConnexionServlet extends AbstractServlet {
 
     if (verifNonVide(email, mdp)) {
       // TODO: envoyer les infos au biz pour vérifier
-      UtilisateurDto utilisateurDto = factory.getUtilisateur();
+      UtilisateurDto utilisateurDto = ucc.seConnecter(email, mdp);
 
       if (utilisateurDto == null) {
         envoyerErreur(rep, 401, "Adresse email ou mot de passe incorrect");
