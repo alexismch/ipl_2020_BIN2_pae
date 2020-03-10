@@ -17,15 +17,15 @@ public class LoadProperties {
     this.properties = new Properties();
   }
 
-  public void createPropertiesFile(String fileName) {
-    try (OutputStream output = new FileOutputStream("./target/classes/config/" + fileName)) {
+  public void createPropertiesFile() {
+    try (OutputStream output = new FileOutputStream("./target/classes/config/" + fichier)) {
 
       Properties prop = new Properties();
 
       // set the properties value
-      prop.setProperty("db.url", "localhost");
-      prop.setProperty("db.user", "mkyong");
-      prop.setProperty("db.password", "password");
+      prop.setProperty("url", "jdbc:postgresql://coursinfo.ipl.be:5432/dbalexis_michiels");
+      prop.setProperty("user", "alexis_michiels");
+      prop.setProperty("mdp", "KZQJKY2S");
 
       // save properties to project root folder
       prop.store(output, null);
