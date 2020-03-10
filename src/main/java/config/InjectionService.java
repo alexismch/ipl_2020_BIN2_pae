@@ -41,8 +41,8 @@ public class InjectionService {
       // System.out.println("\n"+ classe.getName());
       // System.out.println(implName);
       Class<?> classeAImplementer = Class.forName(implName);
-      // System.out.println(aClass.getDeclaredConstructor());
-      // System.out.println(aClass.getConstructors());
+      // System.out.println(classeAImplementer.getDeclaredConstructor());
+      // System.out.println(classeAImplementer.getConstructors());
       // System.out.println(implName);
       Constructor<?> constructor = classeAImplementer.getDeclaredConstructor();
       constructor.setAccessible(true);
