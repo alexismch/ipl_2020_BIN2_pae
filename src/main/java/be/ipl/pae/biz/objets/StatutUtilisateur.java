@@ -6,7 +6,7 @@ public enum StatutUtilisateur {
 
   private String statut;
 
-  private StatutUtilisateur(String statut) {
+  StatutUtilisateur(String statut) {
     this.statut = statut;
   }
 
