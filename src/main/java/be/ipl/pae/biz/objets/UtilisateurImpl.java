@@ -1,8 +1,7 @@
 package be.ipl.pae.biz.objets;
 
-import org.mindrot.bcrypt.BCrypt;
-
 import java.time.LocalDate;
+import org.mindrot.bcrypt.BCrypt;
 
 class UtilisateurImpl implements Utilisateur {
 
@@ -110,5 +109,4 @@ class UtilisateurImpl implements Utilisateur {
   public boolean verifierMdp(String mdp) {
     return BCrypt.checkpw(mdp, this.mdp);
   }
-
 }

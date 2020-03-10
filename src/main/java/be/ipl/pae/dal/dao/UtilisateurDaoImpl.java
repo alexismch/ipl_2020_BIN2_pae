@@ -1,12 +1,12 @@
 package be.ipl.pae.dal.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import config.InjectionService;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
@@ -18,7 +18,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
-    UtilisateurDto utilisateurDto = utilisateurDtoFactory.getUtilisateur();
+    UtilisateurDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE pseudo =?");
     try {
@@ -26,6 +26,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
       try (ResultSet resultSet = ps.executeQuery()) {
         while (resultSet.next()) {
+          utilisateurDto = utilisateurDtoFactory.getUtilisateur();
           utilisateurDto.setId(resultSet.getInt(1));
           utilisateurDto.setPseudo(resultSet.getString(2));
           utilisateurDto.setMdp(resultSet.getString(3));
@@ -36,7 +37,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
           utilisateurDto.setDateInscription(resultSet.getDate(8).toLocalDate());
           utilisateurDto.setStatut(resultSet.getString(9));
         }
-
       }
     } catch (SQLException ex) {
       ex.printStackTrace();

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
-
 public class UtilisateurUccImplTest {
 
 
@@ -23,7 +22,6 @@ public class UtilisateurUccImplTest {
   public void setUp() {
     utilisateurDtoFactory = InjectionService.getDependance(DtoFactory.class);
     ucc = InjectionService.getDependance(UtilisateurUcc.class);
-
   }
 
   @DisplayName("Test ucc différent de null")
@@ -36,7 +34,7 @@ public class UtilisateurUccImplTest {
   @DisplayName("Test se connecter avec bon pseudo et mdp")
   @Test
   public void testSeConnecterOk() {
-    assertNull(ucc.seConnecter("alexismch", "test"));
+    assertNotNull(ucc.seConnecter("alexismch", "test"));
   }
 
   @DisplayName("Test se connecter avec mauvais mdp")
@@ -51,6 +49,4 @@ public class UtilisateurUccImplTest {
   public void testSeConnecterko2() {
     assertNull(ucc.seConnecter("blabla", "test"));
   }
-
-
 }
