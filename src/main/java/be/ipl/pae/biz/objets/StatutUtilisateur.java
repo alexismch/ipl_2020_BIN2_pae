@@ -1,12 +1,12 @@
 package be.ipl.pae.biz.objets;
 
-public enum StatutsUtilisateur {
+public enum StatutUtilisateur {
 
   NON_VALIDE("nv"), CLIENT("c"), OUVRIER("o");
 
   private String statut;
 
-  private StatutsUtilisateur(String statut) {
+  private StatutUtilisateur(String statut) {
     this.statut = statut;
   }
 
