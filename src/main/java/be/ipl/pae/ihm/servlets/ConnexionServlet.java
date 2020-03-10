@@ -20,15 +20,14 @@ public class ConnexionServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/connexion by " + req.getRemoteAddr());
     System.out.println("\tParamètres reçus : " + req.getParameterMap());
-    String email = req.getParameter("email");
+    String pseudo = req.getParameter("pseudo");
     String mdp = req.getParameter("mdp");
 
-    if (verifNonVide(email, mdp)) {
-      // TODO: envoyer les infos au biz pour vérifier
-      UtilisateurDto utilisateurDto = ucc.seConnecter(email, mdp);
+    if (verifNonVide(pseudo, mdp)) {
+      UtilisateurDto utilisateurDto = ucc.seConnecter(pseudo, mdp);
 
       if (utilisateurDto == null) {
-        envoyerErreur(rep, 401, "Adresse email ou mot de passe incorrect");
+        envoyerErreur(rep, 401, "Pseudo ou mot de passe incorrect");
       } else {
         HttpSession session = req.getSession();
         String clef = creerClef(req.getRemoteAddr(), utilisateurDto.getId());
