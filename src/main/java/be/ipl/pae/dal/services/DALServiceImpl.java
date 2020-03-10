@@ -1,10 +1,10 @@
 package be.ipl.pae.dal.services;
 
+import config.LoadProperties;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import config.LoadProperties;
 
 public class DALServiceImpl implements DALService {
 
@@ -14,7 +14,6 @@ public class DALServiceImpl implements DALService {
       "jdbc:postgresql://coursinfo.ipl.be:5432/dbalexis_michiels?user=alexis_michiels&password=KZQJKY2S";
 
   public DALServiceImpl() {
-
 
     initierConnexion();
 

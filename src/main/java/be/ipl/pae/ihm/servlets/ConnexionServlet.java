@@ -2,13 +2,14 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.verifNonVide;
+
+import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import config.InjectionService;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
-import config.InjectionService;
 
 
 public class ConnexionServlet extends AbstractServlet {
@@ -30,14 +31,13 @@ public class ConnexionServlet extends AbstractServlet {
         envoyerErreur(rep, 401, "Adresse email ou mot de passe incorrect");
       } else {
         HttpSession session = req.getSession();
-        // TODO: Modifier l'id 252 par l'id récupéré via l'utilisateur
         String clef = creerClef(req.getRemoteAddr(), utilisateurDto.getId());
         session.setAttribute("clef", clef);
         System.out.println("\nClef générée : " + clef);
         envoyerSucces(rep);
       }
     } else {
-      envoyerErreur(rep, 400, "Paramètres invalides");
+      envoyerErreur(rep, 412, "Paramètres invalides");
     }
   }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.mindrot.bcrypt.BCrypt;
 
 class UtilisateurImpl implements Utilisateur {
+
   // Je pense que tu as oublie le pseudo, je l'ai change et aussi adapte le
   // reste(interface,getter,sett,constructeur,...) //Ahmed
   private String pseudo;

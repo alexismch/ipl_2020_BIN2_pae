@@ -5,18 +5,18 @@ import be.ipl.pae.biz.dto.UtilisateurDto;
 public interface UtilisateurDao {
 
   /**
-   * Recupere les données d'un utilisateur depuis la bd grace au pseudo
-   * 
-   * @param pseudo
+   * Recupere les données d'un utilisateur depuis la bd grace au pseudo.
+   *
+   * @param pseudo le pseudo de la personne
    * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoi null
    */
-  public UtilisateurDto getUtilisateurParPseudo(String pseudo);
+  UtilisateurDto getUtilisateurParPseudo(String pseudo);
 
   /**
-   * Recupere les données d'un utilisateur depuis la bd grace a son identifiant
-   * 
-   * @param idUtilisateur
+   * Recupere les données d'un utilisateur depuis la bd grace a son identifiant.
+   *
+   * @param idUtilisateur l'id de l'utilisateur
    * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoi null
    */
-  public UtilisateurDto getUser(int idUtilisateur);
+  UtilisateurDto getUser(int idUtilisateur);
 }

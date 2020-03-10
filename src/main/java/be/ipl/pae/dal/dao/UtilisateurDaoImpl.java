@@ -1,11 +1,11 @@
 package be.ipl.pae.dal.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.dal.services.DALService;
 import config.InjectionService;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
@@ -33,12 +33,13 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
       utilisateurDto.setId(resultSet.getInt(9));
 
     } catch (SQLException e) {
-
+      e.printStackTrace();
     }
     return utilisateurDto;
   }
 
   // pas sur si je dois utiliser ca pour l'instant
+
   /**
    * private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
    * rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
