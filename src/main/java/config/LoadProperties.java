@@ -12,7 +12,6 @@ public class LoadProperties {
   private String fichier = "prod.properties";
 
   public LoadProperties() {
-
     this.properties = new Properties();
   }
 

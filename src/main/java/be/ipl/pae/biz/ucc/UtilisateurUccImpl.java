@@ -3,6 +3,7 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.Utilisateur;
 import be.ipl.pae.dal.dao.UtilisateurDao;
+import config.InjectionService;
 
 
 public class UtilisateurUccImpl implements UtilisateurUcc {
@@ -10,9 +11,9 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
   private UtilisateurDao utilisateurDao;
 
 
-  public UtilisateurUccImpl(UtilisateurDao utilisateurDao) {
+  public UtilisateurUccImpl() {
     super();
-    this.utilisateurDao = utilisateurDao;
+    this.utilisateurDao = InjectionService.getDependance(UtilisateurDao.class);
   }
 
 

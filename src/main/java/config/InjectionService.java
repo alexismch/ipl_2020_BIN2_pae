@@ -25,7 +25,6 @@ public class InjectionService {
     }
   }
 
-
   /**
    * Methode permettant de faire une injection de dépendance.
    *
@@ -33,16 +32,19 @@ public class InjectionService {
    * @return une factory ou lance une exception
    */
   public static <T> T getDependance(Class<?> classe) {
-    //TODO: ne fonctionne pas
     String implName = props.getProperty(classe.getName());
-    System.out.println(implName);
-    // implName = null et classe.getName() = be.ipl.pae.biz.ucc.UtilisateurUcc
-    if (mapDesDependances.containsKey(implName)) {
 
+    if (mapDesDependances.containsKey(implName)) {
       return (T) mapDesDependances.get(implName);
     }
     try {
-      Constructor<?> constructor = Class.forName(implName).getDeclaredConstructor();
+      //System.out.println("\n"+ classe.getName());
+      //System.out.println(implName);
+      Class<?> aClass = Class.forName(implName);
+      //System.out.println(aClass.getDeclaredConstructor());
+      //System.out.println(aClass.getConstructors());
+      //System.out.println(implName);
+      Constructor<?> constructor = aClass.getDeclaredConstructor();
       constructor.setAccessible(true);
       Object dependency = constructor.newInstance();
       mapDesDependances.put(implName, dependency);

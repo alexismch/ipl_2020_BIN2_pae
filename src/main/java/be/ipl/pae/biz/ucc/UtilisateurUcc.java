@@ -13,5 +13,4 @@ public interface UtilisateurUcc {
    * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
    */
   UtilisateurDto seConnecter(String pseudo, String mdp);
-
 }
