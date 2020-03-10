@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import org.mindrot.bcrypt.BCrypt;
 
 class UtilisateurImpl implements Utilisateur {
-
+  // Je pense que tu as oublie le pseudo, je l'ai change et aussi adapte le
+  // reste(interface,getter,sett,constructeur,...) //Ahmed
+  private String pseudo;
   private int id;
   private String nom;
   private String prenom;
@@ -18,9 +20,9 @@ class UtilisateurImpl implements Utilisateur {
     super();
   }
 
-  public UtilisateurImpl(String nom, String prenom, String mdp, String ville, String email,
-      String statut) {
-
+  public UtilisateurImpl(String pseudo, String nom, String prenom, String mdp, String ville,
+      String email, String statut) {
+    this.pseudo = pseudo;
     this.nom = nom;
     this.prenom = prenom;
     this.mdp = mdp;
@@ -28,6 +30,14 @@ class UtilisateurImpl implements Utilisateur {
     this.email = email;
     this.dateInscription = LocalDate.now();
     this.statut = statut;
+  }
+
+  public String getPseudo() {
+    return this.pseudo;
+  }
+
+  public void setPseudo(String pseudo) {
+    this.pseudo = pseudo;
   }
 
   public int getId() {

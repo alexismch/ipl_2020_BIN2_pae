@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 public interface UtilisateurDto {
 
+  String getPseudo();
+
+  void setPseudo(String pseudo);
+
   int getId();
 
   void setId(int id);

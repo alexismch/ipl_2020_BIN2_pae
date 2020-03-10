@@ -13,6 +13,9 @@ public class InjectionService {
 
   static {
     try {
+      // La personne qui a fait cette partie c'est probablement trompe de chemin //Ahmed *A LIRE*
+      // FileInputStream file = new
+      // FileInputStream("./target/classes/config/dependance.properties");
       FileInputStream file = new FileInputStream("./config/dependance.properties");
       props.load(file);
       file.close();
@@ -33,6 +36,7 @@ public class InjectionService {
   public static <T> T getDependance(Class<?> classe) {
     String implName = props.getProperty(classe.getName());
     System.out.println(implName);
+    // implName = null et classe.getName() = be.ipl.pae.biz.ucc.UtilisateurUcc
     if (mapDesDependances.containsKey(implName)) {
 
       return (T) mapDesDependances.get(implName);

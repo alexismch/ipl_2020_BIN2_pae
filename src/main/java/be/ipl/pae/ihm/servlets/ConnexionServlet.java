@@ -2,16 +2,12 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.verifNonVide;
-
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.ucc.UtilisateurUcc;
 import config.InjectionService;
 
 
