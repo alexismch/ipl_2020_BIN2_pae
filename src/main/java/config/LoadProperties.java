@@ -16,7 +16,7 @@ public class LoadProperties {
   }
 
   /**
-   * Permet de récuperer les valeurs d'un fichier properties
+   * Permet de récuperer les valeurs d'un fichier properties.
    */
   public void loadProperties() {
 

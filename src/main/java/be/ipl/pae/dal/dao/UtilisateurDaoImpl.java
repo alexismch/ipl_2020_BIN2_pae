@@ -1,7 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.dal.services.DALService;
+import be.ipl.pae.dal.services.DalService;
 import config.InjectionService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
 
-  DALService dalService = InjectionService.getDependance(DALService.class);
+  DalService dalService = InjectionService.getDependance(DalService.class);
 
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {

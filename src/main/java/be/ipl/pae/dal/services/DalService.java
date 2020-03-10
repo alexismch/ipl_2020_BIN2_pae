@@ -2,7 +2,7 @@ package be.ipl.pae.dal.services;
 
 import java.sql.PreparedStatement;
 
-public interface DALService {
+public interface DalService {
 
   /**
    * @param requete La chaine de charactere contenant la requete

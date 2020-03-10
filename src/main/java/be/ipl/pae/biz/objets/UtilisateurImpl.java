@@ -1,7 +1,8 @@
 package be.ipl.pae.biz.objets;
 
-import java.time.LocalDate;
 import org.mindrot.bcrypt.BCrypt;
+
+import java.time.LocalDate;
 
 class UtilisateurImpl implements Utilisateur {
 
