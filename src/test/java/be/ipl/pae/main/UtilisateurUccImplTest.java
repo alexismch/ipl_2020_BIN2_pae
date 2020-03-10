@@ -6,10 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.UtilisateurUcc;
-import config.InjectionService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import config.InjectionService;
 
 
 
@@ -36,7 +38,7 @@ public class UtilisateurUccImplTest {
   @DisplayName("Test se connecter avec bon pseudo et mdp")
   @Test
   public void testSeConnecterOk() {
-    assertNull(ucc.seConnecter("alexismch", "test"));
+    assertNotNull(ucc.seConnecter("alexismch", "test"));
   }
 
   @DisplayName("Test se connecter avec mauvais mdp")
