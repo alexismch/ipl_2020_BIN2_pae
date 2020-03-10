@@ -9,7 +9,7 @@ import config.LoadProperties;
 
 public class DalServiceImpl implements DalService {
 
-  private LoadProperties loadProperties = new LoadProperties();
+  private LoadProperties loadProperties;
   private Properties properties;
   private Connection conn = null;
   private String url;
@@ -17,6 +17,8 @@ public class DalServiceImpl implements DalService {
   private String mdp;
 
   public DalServiceImpl() {
+    this.loadProperties = new LoadProperties();
+    loadProperties.createPropertiesFile();
     loadProperties.loadProperties();
     properties = loadProperties.getProperties();
     this.url = properties.getProperty("url");
