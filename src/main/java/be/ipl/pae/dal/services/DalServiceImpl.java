@@ -12,7 +12,8 @@ public class DalServiceImpl implements DalService {
   private LoadProperties properties;
   private Connection conn = null;
   private String url =
-      "jdbc:postgresql://coursinfo.ipl.be:5432/dbalexis_michiels?user=alexis_michiels&password=KZQJKY2S";
+      "jdbc:postgresql://coursinfo.ipl.be:5432/dbalexis_michiels?user=alexis_michiels&password=KZQ"
+          + "JKY2S";
 
   public DalServiceImpl() {
 
