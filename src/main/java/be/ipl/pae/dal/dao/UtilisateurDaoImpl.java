@@ -2,10 +2,12 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.dal.services.DalService;
-import config.InjectionService;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import config.InjectionService;
 
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
@@ -32,8 +34,8 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
       utilisateurDto.setDateInscription(resultSet.getDate(8).toLocalDate());
       utilisateurDto.setId(resultSet.getInt(9));
 
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
     }
     return utilisateurDto;
   }
