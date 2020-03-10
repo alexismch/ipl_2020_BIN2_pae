@@ -17,11 +17,11 @@ public class InjectionService {
 
   static {
     String configPath = "src/main/java/config/dependance.properties";
-    Path p = FileSystems.getDefault().getPath(configPath);
-    try (InputStream in = Files.newInputStream(p)) {
+    Path path = FileSystems.getDefault().getPath(configPath);
+    try (InputStream in = Files.newInputStream(path)) {
       props.load(in);
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException ex) {
+      ex.printStackTrace();
     }
   }
 
@@ -38,13 +38,13 @@ public class InjectionService {
       return (T) mapDesDependances.get(implName);
     }
     try {
-      //System.out.println("\n"+ classe.getName());
-      //System.out.println(implName);
-      Class<?> aClass = Class.forName(implName);
-      //System.out.println(aClass.getDeclaredConstructor());
-      //System.out.println(aClass.getConstructors());
-      //System.out.println(implName);
-      Constructor<?> constructor = aClass.getDeclaredConstructor();
+      // System.out.println("\n"+ classe.getName());
+      // System.out.println(implName);
+      Class<?> classeAImplementer = Class.forName(implName);
+      // System.out.println(aClass.getDeclaredConstructor());
+      // System.out.println(aClass.getConstructors());
+      // System.out.println(implName);
+      Constructor<?> constructor = classeAImplementer.getDeclaredConstructor();
       constructor.setAccessible(true);
       Object dependency = constructor.newInstance();
       mapDesDependances.put(implName, dependency);

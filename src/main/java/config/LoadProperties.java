@@ -15,14 +15,17 @@ public class LoadProperties {
     this.properties = new Properties();
   }
 
+  /**
+   * Permet de récuperer les valeurs d'un fichier properties
+   */
   public void loadProperties() {
 
     try (FileInputStream file = new FileInputStream("./target/classes/config/" + fichier)) {
       properties.load(file);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (FileNotFoundException ex) {
+      ex.printStackTrace();
+    } catch (IOException ex) {
+      ex.printStackTrace();
     }
   }
 }
