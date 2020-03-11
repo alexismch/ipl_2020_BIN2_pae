@@ -6,11 +6,14 @@ import static be.ipl.pae.util.Util.verifNonVide;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.ucc.UtilisateurUcc;
-import config.InjectionService;
+
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import config.InjectionService;
 
 
 public class ConnexionServlet extends AbstractServlet {
@@ -39,7 +42,7 @@ public class ConnexionServlet extends AbstractServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/connexion by " + req.getRemoteAddr());
-    //System.out.println("\tParamètres reçus : " + req.getParameterMap());
+    // System.out.println("\tParamètres reçus : " + req.getParameterMap());
     String pseudo = req.getParameter("pseudo");
     String mdp = req.getParameter("mdp");
 

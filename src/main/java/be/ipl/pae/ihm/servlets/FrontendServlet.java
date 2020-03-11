@@ -21,8 +21,8 @@ public class FrontendServlet extends DefaultServlet {
 
     // La page demandée n'existe pas -> renvoi de la page index.html
     if (!file.exists()) {
-      try (InputStream inputStream
-          = this.getResource("/").getResource("index.html").getInputStream()) {
+      try (InputStream inputStream =
+          this.getResource("/").getResource("index.html").getInputStream()) {
 
         byte[] buffer = new byte[1024];
         int length;
@@ -33,7 +33,7 @@ public class FrontendServlet extends DefaultServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-      } catch (Exception e) {
+      } catch (Exception ex) {
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       }
     } else {

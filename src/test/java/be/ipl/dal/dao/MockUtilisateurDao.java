@@ -15,8 +15,9 @@ public class MockUtilisateurDao implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
-    if (!pseudo.equals("sousou"))
+    if (!pseudo.equals("sousou")) {
       return null;
+    }
 
     UtilisateurDto utilisateurDto = dtoFactory.getUtilisateur();
     utilisateurDto.setPseudo("sousou");
