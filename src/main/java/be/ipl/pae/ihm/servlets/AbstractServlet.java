@@ -47,4 +47,11 @@ public abstract class AbstractServlet extends HttpServlet {
     String json = "{\"" + "success\":true" + "}";
     envoyerMessage(rep, "application/json", 200, json);
   }
+
+  protected void envoyerSuccesAvecJson(HttpServletResponse rep, String nomJson, String json)
+      throws IOException {
+    json = "{\"" + "success\":true, "
+        + "\"" + nomJson + "\":" + json + "}";
+    envoyerMessage(rep, "application/json", 200, json);
+  }
 }

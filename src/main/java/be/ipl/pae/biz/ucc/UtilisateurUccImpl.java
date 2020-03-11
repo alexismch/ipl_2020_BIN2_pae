@@ -28,4 +28,9 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
 
     return utilisateurDto;
   }
+
+  @Override
+  public UtilisateurDto recuprer(int id) {
+    return utilisateurDao.getUser(id);
+  }
 }

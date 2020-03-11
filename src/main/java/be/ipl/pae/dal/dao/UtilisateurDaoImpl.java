@@ -38,6 +38,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
           utilisateurDto.setStatut(resultSet.getString(9));
         }
       }
+      ps.close();
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
@@ -56,7 +57,30 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUser(int idUtilisateur) {
-    // TODO Auto-generated method stub
-    return null;
+    UtilisateurDto utilisateurDto = null;
+    PreparedStatement ps;
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE id_util =?");
+    try {
+      ps.setInt(1, idUtilisateur);
+
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          utilisateurDto = utilisateurDtoFactory.getUtilisateur();
+          utilisateurDto.setId(resultSet.getInt(1));
+          utilisateurDto.setPseudo(resultSet.getString(2));
+          utilisateurDto.setMdp(resultSet.getString(3));
+          utilisateurDto.setNom(resultSet.getString(4));
+          utilisateurDto.setPrenom(resultSet.getString(5));
+          utilisateurDto.setVille(resultSet.getString(6));
+          utilisateurDto.setEmail(resultSet.getString(7));
+          utilisateurDto.setDateInscription(resultSet.getDate(8).toLocalDate());
+          utilisateurDto.setStatut(resultSet.getString(9));
+        }
+      }
+      ps.close();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+    return utilisateurDto;
   }
 }
