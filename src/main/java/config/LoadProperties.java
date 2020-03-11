@@ -29,7 +29,7 @@ public class LoadProperties {
       // save properties to project root folder
       prop.store(output, null);
 
-      System.out.println(prop);
+      //System.out.println(prop);
 
     } catch (IOException io) {
       io.printStackTrace();
