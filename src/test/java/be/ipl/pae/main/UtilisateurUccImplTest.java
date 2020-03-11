@@ -36,13 +36,13 @@ public class UtilisateurUccImplTest {
   @DisplayName("Test se connecter avec bon pseudo et mdp")
   @Test
   public void testSeConnecterOk() {
-    assertNotNull(ucc.seConnecter("alexismch", "test"));
+    assertNotNull(ucc.seConnecter("sousou", "123456"));
   }
 
   @DisplayName("Test se connecter avec mauvais mdp")
   @Test
   public void testSeConnecterko1() {
-    assertNull(ucc.seConnecter("alexismch", "blabla"));
+    assertNull(ucc.seConnecter("sousou", "blabla"));
   }
 
 
