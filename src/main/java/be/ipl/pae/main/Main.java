@@ -19,8 +19,8 @@ public class Main {
     properties = new Properties();
     try (InputStream in = new FileInputStream(PROPERTIES_FILE_NAME)) {
       properties.load(in);
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException ex) {
+      ex.printStackTrace();
     }
   }
 
@@ -30,9 +30,9 @@ public class Main {
     serveur.demarrer();
   }
 
-  private static void injecter(Object o) {
+  private static void injecter(Object ob) {
 
-    for (Field field : o.getClass().getDeclaredFields()) {
+    for (Field field : ob.getClass().getDeclaredFields()) {
       Inject inject = field.getAnnotation(Inject.class);
 
       if (inject != null) {
@@ -51,24 +51,24 @@ public class Main {
 
             try {
               injectedClass = Class.forName(properties.getProperty(dependenceName));
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ex) {
               throw new InternalError(
-                  "La valeur pour " + dependenceName + " n'est pas une classes connue !", e);
+                  "La valeur pour " + dependenceName + " n'est pas une classes connue !", ex);
             }
             try {
               injectedObject = injectedClass.getConstructors()[0].newInstance();
               injecter(injectedObject);
               injectedObjects.put(dependenceName, injectedObject);
-            } catch (InstantiationException | InvocationTargetException e) {
+            } catch (InstantiationException | InvocationTargetException ex) {
               throw new InternalError(
-                  "Impossible de créer une instance de " + injectedClass.getName() + " !", e);
+                  "Impossible de créer une instance de " + injectedClass.getName() + " !", ex);
             }
           }
 
           field.setAccessible(true);
-          field.set(o, injectedObject);
-        } catch (IllegalAccessException e) {
-          throw new InternalError(e);
+          field.set(ob, injectedObject);
+        } catch (IllegalAccessException ex) {
+          throw new InternalError(ex);
         }
       }
     }
