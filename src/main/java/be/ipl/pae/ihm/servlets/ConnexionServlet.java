@@ -1,18 +1,16 @@
 package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.creerClef;
+import static be.ipl.pae.util.Util.recuperUId;
 import static be.ipl.pae.util.Util.verifNonVide;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.ucc.UtilisateurUcc;
-
+import config.InjectionService;
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import config.InjectionService;
 
 
 public class ConnexionServlet extends AbstractServlet {
@@ -20,44 +18,44 @@ public class ConnexionServlet extends AbstractServlet {
   UtilisateurUcc ucc = InjectionService.getDependance(UtilisateurUcc.class);
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("GET /api/connexion by " + req.getRemoteAddr());
 
-    Object clef = req.getSession().getAttribute("clef");
-    boolean estConnecte = clef != null;
-    String json;
+    String clef = (String) req.getSession().getAttribute("clef");
+    System.out.println("\tClef utilisée : " + clef);
 
-    if (estConnecte) {
+    if (clef != null) {
+      int id = recuperUId(clef, req.getRemoteAddr());
+      UtilisateurDto utilisateurDto = ucc.recuprer(id);
+
       // TODO renvoyer un UtilisateurDto sérialisé au format JSON
-      json = "{\"statut\":\"ouvrier\"}";
+      String json = "{\"statut\":\"ouvrier\"}";
+      envoyerSuccesAvecJson(rep, "utilisateur", json);
     } else {
-      json = "{}";
+      envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Clef invalide");
     }
-    envoyerMessage(resp, "application/json", 200, json);
-
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/connexion by " + req.getRemoteAddr());
-    System.out.println("\tParamètres reçus : " + req.getParameterMap());
+    //System.out.println("\tParamètres reçus : " + req.getParameterMap());
     String pseudo = req.getParameter("pseudo");
     String mdp = req.getParameter("mdp");
 
     if (verifNonVide(pseudo, mdp)) {
       UtilisateurDto utilisateurDto = ucc.seConnecter(pseudo, mdp);
-
       if (utilisateurDto == null) {
         envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Pseudo ou mot de passe incorrect");
       } else {
         HttpSession session = req.getSession();
         String clef = creerClef(req.getRemoteAddr(), utilisateurDto.getId());
         session.setAttribute("clef", clef);
-        System.out.println("\nClef générée : " + clef);
+        System.out.println("\tClef générée : " + clef);
 
         // TODO renvoyer un UtilisateurDto sérialisé au format JSON
         String json = "{\"statut\":\"ouvrier\"}";
-        envoyerMessage(rep, "application/json", 200, json);
+        envoyerSuccesAvecJson(rep, "utilisateur", json);
       }
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
