@@ -1,49 +1,77 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.ihm.servlets.ConnexionServlet;
-import be.ipl.pae.ihm.servlets.DeconnexionServlet;
-import be.ipl.pae.ihm.servlets.FrontendServlet;
-
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
-
-import javax.servlet.http.HttpServlet;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class Main {
 
-  public static void main(String[] args) throws Exception {
-    Server serveur = new Server(8080);
-    ContextHandlerCollection contexte = new ContextHandlerCollection();
-    contexte.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
-    serveur.setHandler(contexte);
-    System.out.println("Démarrage du serveur...");
-    serveur.start();
-    serveur.join();
-  }
+	private final static String PROPERTIES_FILE_NAME = "dependance.properties";
+	private static Properties properties;
+	private static Map<String, Object> injectedObjects = new HashMap<>();
 
-  private static Handler createFrontendHandler() {
-    WebAppContext frontendContexte = new WebAppContext();
-    frontendContexte.setContextPath("/");
-    frontendContexte.setResourceBase("public");
-    frontendContexte.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
-    frontendContexte.addServlet(new ServletHolder(new FrontendServlet()), "/");
-    return frontendContexte;
-  }
+	static {
+		properties = new Properties();
+		try (InputStream in = new FileInputStream(PROPERTIES_FILE_NAME)) {
+			properties.load(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-  private static Handler createBackendHandler() {
-    ServletContextHandler backendContext = new ServletContextHandler(1);
-    backendContext.setContextPath("/api");
+	public static void main(String[] args) throws Exception {
+		Serveur serveur = new Serveur();
+		// injecter(serveur);
+		serveur.demarrer();
+	}
 
-    HttpServlet connexionServlet = new ConnexionServlet();
-    backendContext.addServlet(new ServletHolder(connexionServlet), "/connexion");
+	private static void injecter(Object o) {
 
-    HttpServlet deconnexionServlet = new DeconnexionServlet();
-    backendContext.addServlet(new ServletHolder(deconnexionServlet), "/deconnexion");
+		for (Field field : o.getClass().getDeclaredFields()) {
+			Inject inject = field.getAnnotation(Inject.class);
+			if (inject != null) {
+				try {
+					String dependenceName = field.getType().getName();
+					Object injectedObject = injectedObjects.get(dependenceName);
 
-    return backendContext;
-  }
+					if (injectedObject == null) {
+
+						if (!properties.containsKey(dependenceName)) {
+							throw new InternalError(
+									"Cette dependence n'existe pas dans le fichier " + PROPERTIES_FILE_NAME
+											+ " !");
+						}
+
+						Class<?> injectedClass;
+
+						try {
+							injectedClass = Class.forName(properties.getProperty(dependenceName));
+						} catch (ClassNotFoundException e) {
+							throw new InternalError(
+									"La valeur pour " + dependenceName + " n'est pas une classes connue !", e);
+						}
+						try {
+							injectedObject = injectedClass.getConstructors()[0].newInstance();
+							injecter(injectedObject);
+							injectedObjects.put(dependenceName, injectedObject);
+						} catch (InstantiationException | InvocationTargetException e) {
+							throw new InternalError(
+									"Impossible de créer une instance de " + injectedClass.getName() + " !", e);
+						}
+					}
+
+					field.setAccessible(true);
+					field.set(o, injectedObject);
+				} catch (IllegalAccessException e) {
+					throw new InternalError(e);
+				}
+			}
+		}
+	}
+
 }
