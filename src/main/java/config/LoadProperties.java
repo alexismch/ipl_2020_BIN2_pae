@@ -1,7 +1,6 @@
 package config;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,7 +17,7 @@ public class LoadProperties {
   }
 
   public void createPropertiesFile() {
-    try (OutputStream output = new FileOutputStream("./target/classes/config/" + fichier)) {
+    try (OutputStream output = new FileOutputStream(fichier)) {
 
       Properties prop = new Properties();
 
@@ -42,10 +41,8 @@ public class LoadProperties {
    */
   public void loadProperties() {
 
-    try (FileInputStream file = new FileInputStream("./target/classes/config/" + fichier)) {
+    try (FileInputStream file = new FileInputStream(fichier)) {
       properties.load(file);
-    } catch (FileNotFoundException ex) {
-      ex.printStackTrace();
     } catch (IOException ex) {
       ex.printStackTrace();
     }

@@ -2,12 +2,11 @@ package be.ipl.pae.main;
 
 import be.ipl.pae.ihm.servlets.ConnexionServlet;
 import be.ipl.pae.ihm.servlets.DeconnexionServlet;
+import be.ipl.pae.ihm.servlets.FrontendServlet;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -31,10 +30,7 @@ public class Main {
     frontendContexte.setContextPath("/");
     frontendContexte.setResourceBase("public");
     frontendContexte.setInitParameter("cacheControl", "no-store,no-cache,must-revalidate");
-    ErrorPageErrorHandler erreurHandler = new ErrorPageErrorHandler();
-    erreurHandler.addErrorPage(404, "/index.html");
-    frontendContexte.setErrorHandler(erreurHandler);
-    frontendContexte.addServlet(new ServletHolder(new DefaultServlet()), "/");
+    frontendContexte.addServlet(new ServletHolder(new FrontendServlet()), "/");
     return frontendContexte;
   }
 

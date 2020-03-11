@@ -16,7 +16,7 @@ public class InjectionService {
   private static Map<String, Object> mapDesDependances = new HashMap<>();
 
   static {
-    String configPath = "src/main/java/config/dependance.properties";
+    String configPath = "dependance.properties";
     Path path = FileSystems.getDefault().getPath(configPath);
     try (InputStream in = Files.newInputStream(path)) {
       props.load(in);

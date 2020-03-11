@@ -49,10 +49,10 @@
 </noscript>
 
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-xl navbar-light bg-light">
     <a class="navbar-brand p-0" data-navigo href="">
       <img alt="logo" class="logo-icon" src="/assets/img/logo.png">
-      <h1 class="p-0 m-0 ml-1">La Rose et Le Lias</h1>
+      <h1 class="p-0 m-0 ml-1">La Rose et Le Lilas</h1>
     </a>
     <button aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler" data-target="#navbarContent"
@@ -73,14 +73,14 @@
             <a class="dropdown-item" data-navigo href="amenagements/2">Action</a>
           </div>
         </li>
-        <li class="nav-item nav-user"><a class="nav-link" data-navigo href="connexion">Se connecter</a></li>
-        <li class="nav-item nav-user"><a class="nav-link" data-navigo href="inscription">S'inscrire</a></li>
+        <li class="nav-item d-none nav-user"><a class="nav-link" data-navigo href="connexion">Se connecter</a></li>
+        <li class="nav-item d-none nav-user"><a class="nav-link" data-navigo href="inscription">S'inscrire</a></li>
         <li class="nav-item d-none nav-client"><a class="nav-link" data-navigo href="mes-devis">Mes devis</a></li>
-        <li class="nav-item d-none"><a class="nav-link" data-navigo href="devis">Devis</a></li>
-        <li class="nav-item d-none"><a class="nav-link" data-navigo href="clients">Clients</a></li>
-        <li class="nav-item d-none"><a class="nav-link" data-navigo href="utilisateurs">Utilisateur</a></li>
-        <li class="nav-item d-none"><a class="nav-link" data-navigo href="nouveau-devis">Introduire une devis</a></li>
-        <li class="nav-item d-none nav-client"><a class="nav-link" data-navigo href="deconnexion">Se déconnecter</a></li>
+        <li class="nav-item d-none nav-ouvrier"><a class="nav-link" data-navigo href="devis">Devis</a></li>
+        <li class="nav-item d-none nav-ouvrier"><a class="nav-link" data-navigo href="clients">Clients</a></li>
+        <li class="nav-item d-none nav-ouvrier"><a class="nav-link" data-navigo href="utilisateurs">Utilisateur</a></li>
+        <li class="nav-item d-none nav-ouvrier"><a class="nav-link" data-navigo href="nouveau-devis">Introduire une devis</a></li>
+        <li class="nav-item d-none nav-client nav-ouvrier"><a class="nav-link" data-navigo href="deconnexion">Se déconnecter</a></li>
       </ul>
     </div>
   </nav>
@@ -145,9 +145,9 @@
     <h2>Connexion</h2>
     <form action="/api/connexion" class="w-100" method="post" novalidate>
       <div class="form-group">
-        <label for="template-page-connexion-pseudo">Email<span class="text-danger">*</span></label>
-        <input class="form-control" id="template-page-connexion-pseudo" name="email" required type="text"/>
-        <small class="input-error form-text text-danger">L'adresse email est requise.</small>
+        <label for="template-page-connexion-pseudo">Pseudo<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-connexion-pseudo" name="pseudo" required type="text"/>
+        <small class="input-error form-text text-danger">Le pseudo est requis.</small>
       </div>
       <div class="form-group">
         <label for="template-page-connexion-mdp">Mot de passe<span class="text-danger">*</span></label>
@@ -157,7 +157,6 @@
       <input class="btn btn-primary" type="submit" value="Se Connecter"/>
     </form>
     <p class="mt-4">Pas encore de compte ? <a data-navigo href="inscription">Créer un compte</a></p>
-    <p class="">Mot de pass oublié ? Dommage...</p>
   </div>
 </template>
 

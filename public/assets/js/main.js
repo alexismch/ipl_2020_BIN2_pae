@@ -1,11 +1,17 @@
 'use strict';
 
-import {checkInputValidity, onSubmit} from './forms.js'
-import {clearAlerts, createAlert} from './alerts.js'
+import {checkInputValidity, onSubmit} from './forms.js';
+import {clearAlerts, createAlert} from './alerts.js';
+import {ajaxGET, ajaxPOST} from './ajax.js';
 
 let router;
 
 $(() => {
+
+  ajaxGET('/api/connexion', null, (user) => {
+    console.log({user});
+    chargerHeader(user);
+  });
 
   /***********************************************************************************
    * Router
@@ -14,9 +20,7 @@ $(() => {
 
   router = new Navigo('/', false);
   router.on({
-    'deconnexion': () => {
-      console.log('deco');
-    },
+    'deconnexion': deconnexion,
     'connexion': () => {
       chargerTemplate('Page de connexion', 'page-connexion', pageConnexion);
     },
@@ -89,15 +93,28 @@ function chargerTemplate(nom, idTemplate, onLoaded) {
   }
 }
 
+function chargerHeader(user) {
+  if (user != null && user.statut === "client") {
+    $('.nav-user, .nav-ouvrier').addClass('d-none');
+    $('.nav-client').removeClass('d-none');
+  } else if (user != null && user.statut === "ouvrier") {
+    $('.nav-user, .nav-client').addClass('d-none');
+    $('.nav-ouvrier').removeClass('d-none');
+  } else {
+    $('.nav-client, .nav-ouvrier').addClass('d-none');
+    $('.nav-user').removeClass('d-none');
+  }
+}
+
 function pageAccueil() {
   console.log('des trucs page accueil');
 }
 
 function pageConnexion() {
-  onSubmit($('#content').find('form'), () => {
-    console.log('connecté');
-    $('.nav-user').addClass('d-none');
-    $('.nav-client').removeClass('d-none');
+  onSubmit($('#content').find('form'), (user) => {
+    console.log({user});
+    chargerHeader(user);
+    router.navigate('');
   }, (error) => {
     console.log(error);
     clearAlerts();
@@ -105,3 +122,9 @@ function pageConnexion() {
   });
 }
 
+function deconnexion() {
+  ajaxPOST('/api/deconnexion', null, () => {
+    chargerHeader(null);
+    router.navigate('connexion');
+  });
+}
