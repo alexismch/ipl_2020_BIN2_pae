@@ -68,6 +68,7 @@ noscript {
 
 .carousel-item img {
   object-fit: cover;
+  pointer-events: none;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
