@@ -40,6 +40,11 @@ public interface UtilisateurDto {
 
   void setStatut(String statut);
 
+  /**
+   * Renvoie l'objet courant sérialisé en json.
+   *
+   * @return le json
+   */
   default String toJson() {
     return "{"
         + "\"id\":\"" + getId() + "\", "
