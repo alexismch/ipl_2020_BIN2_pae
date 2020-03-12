@@ -21,7 +21,7 @@ public class Serveur {
   public void demarrer() throws Exception {
     Server serveur = new Server(8080);
     ContextHandlerCollection contexte = new ContextHandlerCollection();
-    contexte.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
+    contexte.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
     serveur.setHandler(contexte);
     System.out.println("Démarrage du serveur...");
     serveur.start();
