@@ -20,34 +20,43 @@ $(() => {
    ***********************************************************************************/
 
   router = new Navigo('/', false);
+  router.hooks({
+    before: function (done, params) {
+      clearAlerts();
+      done(true);
+    },
+  });
   router.on({
     'deconnexion': deconnexion,
     'connexion': () => {
-      chargerTemplate('Page de connexion', 'page-connexion', pageConnexion);
+      loadPageTemplate('Page de connexion', 'page-connexion', pageConnexion);
     },
     'inscription': () => {
-      chargerTemplate('Page d\'inscription', 'page-inscription');
+      loadPageTemplate('Page d\'inscription', 'page-inscription');
     },
     'mes-devis': () => {
-      chargerTemplate('Mes devis', 'page-mes-devis');
+      loadPageTemplate('Mes devis', 'page-mes-devis');
     },
     'amenagements/*': () => {
-      chargerTemplate('Page de l\'aménagement X', 'page-accueil');
+      loadPageTemplate('Page de l\'aménagement X', 'page-accueil');
     },
     'clients': () => {
-      chargerTemplate('Page des clients', 'page-clients');
+      loadPageTemplate('Page des clients', 'page-clients');
     },
     'utilisateurs': () => {
-      chargerTemplate('Page des utilisateurs', 'page-utilisateurs');
+      loadPageTemplate('Page des utilisateurs', 'page-utilisateurs');
+    },
+    'devis': () => {
+      loadPageTemplate('Page des devis', 'page-devis');
     },
     'nouveau-devis': () => {
-      chargerTemplate('Introduire un nouveau devis', 'page-nouveau-devis');
+      loadPageTemplate('Introduire un nouveau devis', 'page-nouveau-devis');
     },
     '*': () => {
       if (router.lastRouteResolved().url === origin) {
-        chargerTemplate('Page d\'accueil', 'page-accueil', pageAccueil);
+        loadPageTemplate('Page d\'accueil', 'page-accueil', pageAccueil);
       } else {
-        chargerTemplate('Page not found', 'page-error-404');
+        loadPageTemplate('Page not found', 'page-error-404');
       }
     }
   })
@@ -61,7 +70,7 @@ $(() => {
 
 });
 
-function chargerTemplate(nom, idTemplate, onLoaded) {
+function loadPageTemplate(nom, idTemplate, onLoaded) {
 
   console.log('Navigation vers : ' + nom);
 
@@ -95,7 +104,6 @@ function chargerTemplate(nom, idTemplate, onLoaded) {
 }
 
 function chargerHeader(user) {
-  console.log({user});
   if (user != null && user.statut === "c") {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');
