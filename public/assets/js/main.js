@@ -9,9 +9,9 @@ let router;
 $(() => {
 
   ajaxGET('/api/connexion', null, (data) => {
-    chargerHeader(data.utilisateur);
+    loadHeaderForUser(data.utilisateur);
   }, () => {
-    chargerHeader(null);
+    loadHeaderForUser(null);
   });
 
   /***********************************************************************************
@@ -103,7 +103,7 @@ function loadPageTemplate(nom, idTemplate, onLoaded) {
   }
 }
 
-function chargerHeader(user) {
+function loadHeaderForUser(user) {
   if (user != null && user.statut === "c") {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');
@@ -122,7 +122,7 @@ function pageAccueil() {
 
 function pageConnexion() {
   onSubmit($('#content').find('form'), (data) => {
-    chargerHeader(data.utilisateur);
+    loadHeaderForUser(data.utilisateur);
     router.navigate('');
   }, (error) => {
     console.log(error);
@@ -133,7 +133,7 @@ function pageConnexion() {
 
 function deconnexion() {
   ajaxPOST('/api/deconnexion', null, () => {
-    chargerHeader(null);
+    loadHeaderForUser(null);
     router.navigate('connexion');
   });
 }
