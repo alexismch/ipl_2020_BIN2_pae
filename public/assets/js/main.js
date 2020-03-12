@@ -11,6 +11,8 @@ $(() => {
   ajaxGET('/api/connexion', null, (user) => {
     console.log({user});
     chargerHeader(user);
+  }, () => {
+    chargerHeader(null);
   });
 
   /***********************************************************************************
