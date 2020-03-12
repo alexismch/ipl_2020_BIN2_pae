@@ -1,12 +1,12 @@
 package be.ipl.pae.dal.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import config.InjectionService;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
@@ -57,12 +57,13 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUser(int idUtilisateur) {
+
     UtilisateurDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE id_util =?");
+
     try {
       ps.setInt(1, idUtilisateur);
-
       try (ResultSet resultSet = ps.executeQuery()) {
         while (resultSet.next()) {
           utilisateurDto = utilisateurDtoFactory.getUtilisateur();
@@ -77,7 +78,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
           utilisateurDto.setStatut(resultSet.getString(9));
         }
       }
+
       ps.close();
+
     } catch (SQLException ex) {
       ex.printStackTrace();
     }

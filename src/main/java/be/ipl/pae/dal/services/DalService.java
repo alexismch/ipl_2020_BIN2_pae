@@ -12,4 +12,5 @@ public interface DalService {
    */
   PreparedStatement getPreparedStatement(String requete);
 
+
 }
