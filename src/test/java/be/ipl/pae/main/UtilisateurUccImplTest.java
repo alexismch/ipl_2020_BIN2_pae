@@ -23,6 +23,9 @@ public class UtilisateurUccImplTest {
   @Inject
   private UtilisateurUcc ucc;
 
+  /**
+   * Permet de faire les injections necessaires.
+   */
   @BeforeEach
   public void setUp() {
     InjectionService injectionService = new InjectionService();
