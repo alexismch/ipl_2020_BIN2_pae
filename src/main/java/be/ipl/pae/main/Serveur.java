@@ -3,13 +3,15 @@ package be.ipl.pae.main;
 import be.ipl.pae.ihm.servlets.ConnexionServlet;
 import be.ipl.pae.ihm.servlets.DeconnexionServlet;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
-import javax.servlet.http.HttpServlet;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import javax.servlet.http.HttpServlet;
 
 public class Serveur {
 
@@ -19,7 +21,7 @@ public class Serveur {
   public void demarrer() throws Exception {
     Server serveur = new Server(8080);
     ContextHandlerCollection contexte = new ContextHandlerCollection();
-    contexte.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
+    contexte.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
     serveur.setHandler(contexte);
     System.out.println("Démarrage du serveur...");
     serveur.start();
