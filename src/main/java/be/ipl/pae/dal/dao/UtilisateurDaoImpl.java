@@ -20,11 +20,15 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
+    
     UtilisateurDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE pseudo =?");
+   
     try {
+     
       ps.setString(1, pseudo);
+    
       utilisateurDto = getUserViaPs(ps);
     } catch (SQLException ex) {
       ex.printStackTrace();
