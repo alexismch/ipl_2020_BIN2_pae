@@ -11,6 +11,8 @@ $(() => {
   ajaxGET('/api/connexion', null, (user) => {
     console.log({user});
     chargerHeader(user);
+  }, () => {
+    chargerHeader(null);
   });
 
   /***********************************************************************************
@@ -94,10 +96,10 @@ function chargerTemplate(nom, idTemplate, onLoaded) {
 }
 
 function chargerHeader(user) {
-  if (user != null && user.statut === "client") {
+  if (user != null && user.statut === "c") {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');
-  } else if (user != null && user.statut === "ouvrier") {
+  } else if (user != null && user.statut === "o") {
     $('.nav-user, .nav-client').addClass('d-none');
     $('.nav-ouvrier').removeClass('d-none');
   } else {

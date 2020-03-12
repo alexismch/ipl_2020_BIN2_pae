@@ -1,5 +1,7 @@
 package config;
 
+import be.ipl.pae.main.Inject;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import be.ipl.pae.main.Inject;
 
 public class InjectionBis {
 
@@ -37,6 +38,7 @@ public class InjectionBis {
       if (inject != null) {
         try {
           String dependenceName = field.getType().getName();
+
           Object injectedObject = injectedObjects.get(dependenceName);
 
           if (injectedObject == null) {

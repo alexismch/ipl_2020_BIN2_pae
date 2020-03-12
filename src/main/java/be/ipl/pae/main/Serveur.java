@@ -41,7 +41,6 @@ public class Serveur {
     ServletContextHandler backendContext = new ServletContextHandler(1);
     backendContext.setContextPath("/api");
 
-    HttpServlet connexionServlet = new ConnexionServlet();
     backendContext.addServlet(new ServletHolder(connexionServlet), "/connexion");
 
     HttpServlet deconnexionServlet = new DeconnexionServlet();
