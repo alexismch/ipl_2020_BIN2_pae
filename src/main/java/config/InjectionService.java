@@ -17,6 +17,11 @@ public class InjectionService {
   private static Map<String, Object> injectedObjects = new HashMap<>();
 
 
+  /**
+   * Permet de charger les properties
+   * 
+   * @param nomFichier le nom du fichier properties a donner
+   */
   public void chargerProperties(String nomFichier) {
 
     properties = new Properties();
@@ -28,6 +33,11 @@ public class InjectionService {
     }
   }
 
+  /**
+   * Permet d'injecter les dependances
+   * 
+   * @param ob object à injecter
+   */
   public void injecter(Object ob) {
 
     for (Field field : ob.getClass().getDeclaredFields()) {
