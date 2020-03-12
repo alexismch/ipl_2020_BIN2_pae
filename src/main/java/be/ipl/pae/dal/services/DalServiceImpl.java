@@ -1,12 +1,12 @@
 package be.ipl.pae.dal.services;
 
-import config.LoadProperties;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import config.LoadProperties;
 
 
 public class DalServiceImpl implements DalService {
@@ -18,6 +18,9 @@ public class DalServiceImpl implements DalService {
   private String user;
   private String mdp;
 
+  /**
+   * Construit un obj de type DalService dont les propriétés sont dans prod.properties
+   */
   public DalServiceImpl() {
     this.loadProperties = new LoadProperties();
     loadProperties.loadProperties();
@@ -28,6 +31,7 @@ public class DalServiceImpl implements DalService {
     initierConnexion();
 
   }
+
 
   private void initierConnexion() {
     try {
@@ -44,6 +48,8 @@ public class DalServiceImpl implements DalService {
     }
   }
 
+
+  @Override
   public PreparedStatement getPreparedStatement(String requete) {
     PreparedStatement ps = null;
     try {
