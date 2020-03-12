@@ -38,12 +38,12 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   // pas sur si je dois utiliser ca pour l'instant
 
-  /**
-   * private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
-   * rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
-   * UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
-   * tousLesSetters.add(method); } } } catch (SQLException e) { // TODO Auto-generated catch block
-   * e.printStackTrace(); } }
+  /*
+   private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
+   rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
+   UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
+   tousLesSetters.add(method); } } } catch (SQLException e) {
+   e.printStackTrace(); } }
    */
 
   @Override
