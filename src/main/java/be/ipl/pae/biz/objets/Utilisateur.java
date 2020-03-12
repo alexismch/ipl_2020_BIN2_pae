@@ -12,5 +12,4 @@ public interface Utilisateur extends UtilisateurDto {
    * @return true si le mdp donné est le meme que celui se trouvant dans la bd, false sinon
    */
   boolean verifierMdp(String mdp);
-
 }

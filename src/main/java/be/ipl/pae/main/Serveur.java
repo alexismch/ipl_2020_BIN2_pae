@@ -21,7 +21,7 @@ public class Serveur {
   public void demarrer() throws Exception {
     Server serveur = new Server(8080);
     ContextHandlerCollection contexte = new ContextHandlerCollection();
-    contexte.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
+    contexte.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
     serveur.setHandler(contexte);
     System.out.println("Démarrage du serveur...");
     serveur.start();
@@ -41,7 +41,7 @@ public class Serveur {
     ServletContextHandler backendContext = new ServletContextHandler(1);
     backendContext.setContextPath("/api");
 
-    // HttpServlet connexionServlet = new ConnexionServlet();
+    HttpServlet connexionServlet = new ConnexionServlet();
     backendContext.addServlet(new ServletHolder(connexionServlet), "/connexion");
 
     HttpServlet deconnexionServlet = new DeconnexionServlet();
