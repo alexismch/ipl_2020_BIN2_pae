@@ -19,10 +19,9 @@ public class InjectionBis {
 
 
   public void chargerProperties(String nomFichier) {
-    if (properties != null)
-      throw new IllegalStateException("One ne doit charger qu'une seul fois le fichier!");
 
     properties = new Properties();
+    injectedObjects = new HashMap<>();
     try (InputStream in = new FileInputStream(nomFichier)) {
       properties.load(in);
     } catch (IOException ex) {
