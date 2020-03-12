@@ -6,14 +6,11 @@ import static be.ipl.pae.util.Util.verifNonVide;
 
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.ucc.UtilisateurUcc;
-
+import config.InjectionService;
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import config.InjectionService;
 
 
 public class ConnexionServlet extends AbstractServlet {
@@ -31,9 +28,7 @@ public class ConnexionServlet extends AbstractServlet {
       int id = recuperUId(clef, req.getRemoteAddr());
       UtilisateurDto utilisateurDto = ucc.recuprer(id);
 
-      // TODO renvoyer un UtilisateurDto sérialisé au format JSON
-      String json = "{\"statut\":\"ouvrier\"}";
-      envoyerSuccesAvecJson(rep, "utilisateur", json);
+      envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Clef invalide");
     }
@@ -56,9 +51,7 @@ public class ConnexionServlet extends AbstractServlet {
         session.setAttribute("clef", clef);
         System.out.println("\tClef générée : " + clef);
 
-        // TODO renvoyer un UtilisateurDto sérialisé au format JSON
-        String json = "{\"statut\":\"ouvrier\"}";
-        envoyerSuccesAvecJson(rep, "utilisateur", json);
+        envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
       }
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");

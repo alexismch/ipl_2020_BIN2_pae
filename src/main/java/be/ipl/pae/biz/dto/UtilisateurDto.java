@@ -40,4 +40,16 @@ public interface UtilisateurDto {
 
   void setStatut(String statut);
 
+  default String toJson() {
+    return "{"
+        + "\"id\":\"" + getId() + "\", "
+        + "\"pseudo\":\"" + getPseudo() + "\", "
+        + "\"nom\":\"" + getNom() + "\", "
+        + "\"prenom\":\"" + getPrenom() + "\", "
+        + "\"email\":\"" + getEmail() + "\", "
+        + "\"ville\":\"" + getVille() + "\", "
+        + "\"date_inscript\":\"" + getDateInscription() + "\", "
+        + "\"statut\":\"" + getStatut() + "\""
+        + "}";
+  }
 }
