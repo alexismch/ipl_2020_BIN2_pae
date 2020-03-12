@@ -4,6 +4,7 @@ import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.main.Inject;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,18 +18,17 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
   DtoFactory utilisateurDtoFactory;
 
 
-
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
-    
+
     UtilisateurDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE pseudo =?");
-   
+
     try {
-     
+
       ps.setString(1, pseudo);
-    
+
       utilisateurDto = getUserViaPs(ps);
     } catch (SQLException ex) {
       ex.printStackTrace();
