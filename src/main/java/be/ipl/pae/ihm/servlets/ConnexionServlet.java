@@ -3,19 +3,19 @@ package be.ipl.pae.ihm.servlets;
 import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.recuperUId;
 import static be.ipl.pae.util.Util.verifNonVide;
-
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
-import config.InjectionService;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import be.ipl.pae.main.Inject;
 
 
 public class ConnexionServlet extends AbstractServlet {
 
-  UtilisateurUcc ucc = InjectionService.getDependance(UtilisateurUcc.class);
+  @Inject
+  UtilisateurUcc ucc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {

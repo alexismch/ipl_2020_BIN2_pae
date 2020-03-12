@@ -2,15 +2,12 @@ package be.ipl.pae.main;
 
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
-
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import config.InjectionService;
+import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import config.InjectionBis;
 
 
 public class UtilisateurUccImplTest {
@@ -19,11 +16,19 @@ public class UtilisateurUccImplTest {
   private DtoFactory utilisateurDtoFactory;
   private UtilisateurUcc ucc;
 
-  @BeforeEach
+  @BeforeAll
   public void setUp() {
-    utilisateurDtoFactory = InjectionService.getDependance(DtoFactory.class);
-    ucc = InjectionService.getDependance(UtilisateurUcc.class);
+    Serveur serveur = new Serveur();
+    InjectionBis injectionService = new InjectionBis();
+    injectionService.chargerProperties("test.properties");
+    injectionService.injecter(serveur);
   }
+
+  /*
+   * @BeforeEach public void setUp() { utilisateurDtoFactory =
+   * InjectionService.getDependance(DtoFactory.class); ucc =
+   * InjectionService.getDependance(UtilisateurUcc.class); }
+   */
 
   @DisplayName("Test ucc différent de null")
   @Test
