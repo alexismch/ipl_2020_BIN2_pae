@@ -11,6 +11,7 @@ public class UtilisateurUccImpl implements UtilisateurUcc {
   @Inject
   private UtilisateurDao utilisateurDao;
 
+  @Override
   public UtilisateurDto seConnecter(String pseudo, String mdp) {
     UtilisateurDto utilisateurDto = utilisateurDao.getUtilisateurParPseudo(pseudo);
     if (utilisateurDto == null) {
