@@ -18,7 +18,7 @@ public class InjectionService {
 
 
   /**
-   * Permet de charger les properties
+   * Permet de charger les properties.
    * 
    * @param nomFichier le nom du fichier properties a donner
    */
@@ -34,7 +34,7 @@ public class InjectionService {
   }
 
   /**
-   * Permet d'injecter les dependances
+   * Permet d'injecter les dependances.
    * 
    * @param ob object à injecter
    */
