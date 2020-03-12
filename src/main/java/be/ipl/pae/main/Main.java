@@ -9,7 +9,7 @@ public class Main {
    * Point d'entrée de l'application.
    * 
    * @param args tableau vide
-   * @throws Exception
+   * @throws Exception lance une exception si il y a problème
    */
   public static void main(String[] args) throws Exception {
     Serveur serveur = new Serveur();

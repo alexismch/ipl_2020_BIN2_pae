@@ -21,7 +21,7 @@ public class Serveur {
   /**
    * Lance l'application.
    * 
-   * @throws Exception
+   * @throws Exception lance une exception si il y a problème
    */
   public void demarrer() throws Exception {
     Server serveur = new Server(8080);
