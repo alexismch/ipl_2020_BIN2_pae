@@ -1,57 +1,75 @@
 package config;
 
+import be.ipl.pae.main.Inject;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 public class InjectionService {
 
-  private static Properties props = new Properties();
-  private static Map<String, Object> mapDesDependances = new HashMap<>();
+  private static Properties properties;
+  private static Map<String, Object> injectedObjects = new HashMap<>();
 
-  static {
-    String configPath = "dependance.properties";
-    Path path = FileSystems.getDefault().getPath(configPath);
-    try (InputStream in = Files.newInputStream(path)) {
-      props.load(in);
+
+
+  public void chargerProperties(String nomFichier) {
+
+    properties = new Properties();
+    injectedObjects = new HashMap<>();
+    try (InputStream in = new FileInputStream(nomFichier)) {
+      properties.load(in);
     } catch (IOException ex) {
       ex.printStackTrace();
     }
   }
 
-  /**
-   * Methode permettant de faire une injection de dépendance.
-   *
-   * @param classe la classe dans laquelle on va faire l'injection
-   * @return une factory ou lance une exception
-   */
-  public static <T> T getDependance(Class<?> classe) {
-    String implName = props.getProperty(classe.getName());
+  public void injecter(Object ob) {
 
-    if (mapDesDependances.containsKey(implName)) {
-      return (T) mapDesDependances.get(implName);
-    }
-    try {
-      // System.out.println("\n"+ classe.getName());
-      // System.out.println(implName);
-      Class<?> classeAImplementer = Class.forName(implName);
-      // System.out.println(classeAImplementer.getDeclaredConstructor());
-      // System.out.println(classeAImplementer.getConstructors());
-      // System.out.println(implName);
-      Constructor<?> constructor = classeAImplementer.getDeclaredConstructor();
-      constructor.setAccessible(true);
-      Object dependency = constructor.newInstance();
-      mapDesDependances.put(implName, dependency);
-      return (T) dependency;
-    } catch (Throwable ex) {
-      ex.printStackTrace();
-      throw new RuntimeException(ex);
+    for (Field field : ob.getClass().getDeclaredFields()) {
+      Inject inject = field.getAnnotation(Inject.class);
+
+      if (inject != null) {
+        try {
+          String dependenceName = field.getType().getName();
+
+          Object injectedObject = injectedObjects.get(dependenceName);
+
+          if (injectedObject == null) {
+
+            if (!properties.containsKey(dependenceName)) {
+              throw new InternalError("La dependence '" + dependenceName + "' n'existe pas !");
+            }
+
+            Class<?> injectedClass;
+
+            try {
+              injectedClass = Class.forName(properties.getProperty(dependenceName));
+            } catch (ClassNotFoundException ex) {
+              throw new InternalError(
+                  "La valeur pour " + dependenceName + " n'est pas une classes connue !", ex);
+            }
+            try {
+              injectedObject = injectedClass.getConstructors()[0].newInstance();
+              injecter(injectedObject);
+              injectedObjects.put(dependenceName, injectedObject);
+            } catch (InstantiationException | InvocationTargetException ex) {
+              throw new InternalError(
+                  "Impossible de créer une instance de " + injectedClass.getName() + " !", ex);
+            }
+          }
+
+          field.setAccessible(true);
+          field.set(ob, injectedObject);
+        } catch (IllegalAccessException ex) {
+          throw new InternalError(ex);
+        }
+      }
     }
   }
 }

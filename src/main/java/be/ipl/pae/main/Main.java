@@ -1,12 +1,12 @@
 package be.ipl.pae.main;
 
-import config.InjectionBis;
+import config.InjectionService;
 
 public class Main {
 
   public static void main(String[] args) throws Exception {
     Serveur serveur = new Serveur();
-    InjectionBis injectionService = new InjectionBis();
+    InjectionService injectionService = new InjectionService();
     injectionService.chargerProperties("dependance.properties");
     injectionService.injecter(serveur);
     serveur.demarrer();

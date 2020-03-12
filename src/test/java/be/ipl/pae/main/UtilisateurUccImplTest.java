@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import config.InjectionBis;
+import config.InjectionService;
 
 
 public class UtilisateurUccImplTest {
@@ -23,16 +23,9 @@ public class UtilisateurUccImplTest {
   @Inject
   private UtilisateurUcc ucc;
 
-  /*@BeforeAll
-  public static void setUp() {
-    InjectionBis injectionService = new InjectionBis();
-    injectionService.chargerProperties("test.properties");
-    injectionService.injecter(this);
-  }*/
-
   @BeforeEach
   public void setUp() {
-    InjectionBis injectionService = new InjectionBis();
+    InjectionService injectionService = new InjectionService();
     injectionService.chargerProperties("test.properties");
     injectionService.injecter(this);
   }
