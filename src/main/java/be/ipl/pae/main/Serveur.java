@@ -1,8 +1,8 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.ihm.servlets.ConnexionServlet;
-import be.ipl.pae.ihm.servlets.DeconnexionServlet;
-import be.ipl.pae.ihm.servlets.FrontendServlet;
+import be.ipl.pae.pae.ihm.servlets.ConnexionServlet;
+import be.ipl.pae.pae.ihm.servlets.DeconnexionServlet;
+import be.ipl.pae.pae.ihm.servlets.FrontendServlet;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;

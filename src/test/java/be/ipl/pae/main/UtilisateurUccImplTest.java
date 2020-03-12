@@ -3,8 +3,8 @@ package be.ipl.pae.main;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import be.ipl.pae.pae.biz.objets.DtoFactory;
+import be.ipl.pae.pae.biz.ucc.UtilisateurUcc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
