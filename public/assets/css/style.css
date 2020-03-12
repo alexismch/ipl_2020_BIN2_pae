@@ -68,6 +68,11 @@ noscript {
 
 .carousel-item img {
   object-fit: cover;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
 .carousel-control-prev i, .carousel-control-next i {

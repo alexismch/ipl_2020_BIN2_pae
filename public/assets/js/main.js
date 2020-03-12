@@ -9,7 +9,6 @@ let router;
 $(() => {
 
   ajaxGET('/api/connexion', null, (data) => {
-    console.log({data});
     chargerHeader(data.utilisateur);
   }, () => {
     chargerHeader(null);
@@ -114,9 +113,8 @@ function pageAccueil() {
 }
 
 function pageConnexion() {
-  onSubmit($('#content').find('form'), (user) => {
-    console.log({user});
-    chargerHeader(user);
+  onSubmit($('#content').find('form'), (data) => {
+    chargerHeader(data.utilisateur);
     router.navigate('');
   }, (error) => {
     console.log(error);
