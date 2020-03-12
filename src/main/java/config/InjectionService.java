@@ -17,7 +17,6 @@ public class InjectionService {
   private static Map<String, Object> injectedObjects = new HashMap<>();
 
 
-
   public void chargerProperties(String nomFichier) {
 
     properties = new Properties();

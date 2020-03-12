@@ -4,6 +4,7 @@ import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.main.Inject;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,14 +18,17 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
   DtoFactory utilisateurDtoFactory;
 
 
-
   @Override
   public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
+
     UtilisateurDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE pseudo =?");
+
     try {
+
       ps.setString(1, pseudo);
+
       utilisateurDto = getUserViaPs(ps);
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -34,12 +38,12 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
   // pas sur si je dois utiliser ca pour l'instant
 
-  /**
-   * private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
-   * rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
-   * UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
-   * tousLesSetters.add(method); } } } catch (SQLException e) { // TODO Auto-generated catch block
-   * e.printStackTrace(); } }
+  /*
+   private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
+   rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
+   UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
+   tousLesSetters.add(method); } } } catch (SQLException e) {
+   e.printStackTrace(); } }
    */
 
   @Override
