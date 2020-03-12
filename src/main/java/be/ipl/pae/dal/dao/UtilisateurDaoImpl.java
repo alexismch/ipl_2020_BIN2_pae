@@ -4,6 +4,7 @@ import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.main.Inject;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
   DalService dalService;
   @Inject
   DtoFactory utilisateurDtoFactory;
-
 
 
   @Override
