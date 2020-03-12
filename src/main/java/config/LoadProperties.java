@@ -1,9 +1,7 @@
 package config;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Properties;
 
 public class LoadProperties {
@@ -14,26 +12,6 @@ public class LoadProperties {
 
   public LoadProperties() {
     this.properties = new Properties();
-  }
-
-  public void createPropertiesFile() {
-    try (OutputStream output = new FileOutputStream(fichier)) {
-
-      Properties prop = new Properties();
-
-      // set the properties value
-      prop.setProperty("url", "jdbc:postgresql://coursinfo.ipl.be:5432/dbalexis_michiels");
-      prop.setProperty("user", "alexis_michiels");
-      prop.setProperty("mdp", "KZQJKY2S");
-
-      // save properties to project root folder
-      prop.store(output, null);
-
-      //System.out.println(prop);
-
-    } catch (IOException io) {
-      io.printStackTrace();
-    }
   }
 
   /**
@@ -51,6 +29,4 @@ public class LoadProperties {
   public Properties getProperties() {
     return properties;
   }
-
-
 }

@@ -4,8 +4,6 @@ import config.InjectionBis;
 
 public class Main {
 
-
-
   public static void main(String[] args) throws Exception {
     Serveur serveur = new Serveur();
     InjectionBis injectionService = new InjectionBis();
@@ -13,7 +11,4 @@ public class Main {
     injectionService.injecter(serveur);
     serveur.demarrer();
   }
-
-
-
 }

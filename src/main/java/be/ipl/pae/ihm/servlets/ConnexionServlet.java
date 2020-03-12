@@ -7,9 +7,7 @@ import static be.ipl.pae.util.Util.verifNonVide;
 import be.ipl.pae.biz.dto.UtilisateurDto;
 import be.ipl.pae.biz.ucc.UtilisateurUcc;
 import be.ipl.pae.main.Inject;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,7 +43,6 @@ public class ConnexionServlet extends AbstractServlet {
     String mdp = req.getParameter("mdp");
 
     if (verifNonVide(pseudo, mdp)) {
-      System.out.println(ucc);
       UtilisateurDto utilisateurDto = ucc.seConnecter(pseudo, mdp);
       if (utilisateurDto == null) {
         envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Pseudo ou mot de passe incorrect");
