@@ -3,19 +3,19 @@ package be.ipl.pae.ihm.servlets;
 import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.recuperUId;
 import static be.ipl.pae.util.Util.verifNonVide;
-
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
-import config.InjectionService;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import be.ipl.pae.main.Inject;
 
 
 public class ConnexionServlet extends AbstractServlet {
 
-  UtilisateurUcc ucc = InjectionService.getDependance(UtilisateurUcc.class);
+  @Inject
+  UtilisateurUcc ucc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {
@@ -28,9 +28,7 @@ public class ConnexionServlet extends AbstractServlet {
       int id = recuperUId(clef, req.getRemoteAddr());
       UtilisateurDto utilisateurDto = ucc.recuprer(id);
 
-      // TODO renvoyer un UtilisateurDto sérialisé au format JSON
-      String json = "{\"statut\":\"ouvrier\"}";
-      envoyerSuccesAvecJson(rep, "utilisateur", json);
+      envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Clef invalide");
     }
@@ -39,7 +37,7 @@ public class ConnexionServlet extends AbstractServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/connexion by " + req.getRemoteAddr());
-    //System.out.println("\tParamètres reçus : " + req.getParameterMap());
+    // System.out.println("\tParamètres reçus : " + req.getParameterMap());
     String pseudo = req.getParameter("pseudo");
     String mdp = req.getParameter("mdp");
 
@@ -53,9 +51,7 @@ public class ConnexionServlet extends AbstractServlet {
         session.setAttribute("clef", clef);
         System.out.println("\tClef générée : " + clef);
 
-        // TODO renvoyer un UtilisateurDto sérialisé au format JSON
-        String json = "{\"statut\":\"ouvrier\"}";
-        envoyerSuccesAvecJson(rep, "utilisateur", json);
+        envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
       }
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");

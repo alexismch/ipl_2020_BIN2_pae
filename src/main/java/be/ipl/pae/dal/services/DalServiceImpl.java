@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
+
 import config.LoadProperties;
+
 
 public class DalServiceImpl implements DalService {
 
