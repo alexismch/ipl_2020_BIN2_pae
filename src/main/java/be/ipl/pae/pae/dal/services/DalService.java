@@ -1,4 +1,4 @@
-package be.ipl.pae.dal.services;
+package be.ipl.pae.pae.dal.services;
 
 import java.sql.PreparedStatement;
 

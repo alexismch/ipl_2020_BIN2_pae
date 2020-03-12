@@ -1,4 +1,4 @@
-package be.ipl.pae.ihm.servlets;
+package be.ipl.pae.pae.ihm.servlets;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
 
@@ -16,7 +16,6 @@ public class FrontendServlet extends DefaultServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    System.out.println(this.getResource("/").getName());
     File file = new File(this.getResource("/").getName() + request.getRequestURI());
 
     // La page demandée n'existe pas -> renvoi de la page index.html

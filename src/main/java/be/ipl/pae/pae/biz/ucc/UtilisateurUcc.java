@@ -1,6 +1,6 @@
-package be.ipl.pae.biz.ucc;
+package be.ipl.pae.pae.biz.ucc;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.pae.biz.dto.UtilisateurDto;
 
 public interface UtilisateurUcc {
 

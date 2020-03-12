@@ -1,6 +1,6 @@
-package be.ipl.pae.biz.objets;
+package be.ipl.pae.pae.biz.objets;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.pae.biz.dto.UtilisateurDto;
 
 public interface Utilisateur extends UtilisateurDto {
 

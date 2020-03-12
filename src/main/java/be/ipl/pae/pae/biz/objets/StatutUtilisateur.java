@@ -1,4 +1,4 @@
-package be.ipl.pae.biz.objets;
+package be.ipl.pae.pae.biz.objets;
 
 public enum StatutUtilisateur {
 

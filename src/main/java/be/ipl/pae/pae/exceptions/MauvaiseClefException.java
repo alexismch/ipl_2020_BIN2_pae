@@ -1,4 +1,4 @@
-package be.ipl.pae.exceptions;
+package be.ipl.pae.pae.exceptions;
 
 public class MauvaiseClefException extends RuntimeException {
 

@@ -1,8 +1,8 @@
-package be.ipl.pae.biz.ucc;
+package be.ipl.pae.pae.biz.ucc;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.objets.Utilisateur;
-import be.ipl.pae.dal.dao.UtilisateurDao;
+import be.ipl.pae.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.pae.biz.objets.Utilisateur;
+import be.ipl.pae.pae.dal.dao.UtilisateurDao;
 import be.ipl.pae.main.Inject;
 
 

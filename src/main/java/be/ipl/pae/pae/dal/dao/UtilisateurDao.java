@@ -1,6 +1,6 @@
-package be.ipl.pae.dal.dao;
+package be.ipl.pae.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.pae.biz.dto.UtilisateurDto;
 
 public interface UtilisateurDao {
 

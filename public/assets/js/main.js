@@ -8,9 +8,9 @@ let router;
 
 $(() => {
 
-  ajaxGET('/api/connexion', null, (user) => {
-    console.log({user});
-    chargerHeader(user);
+  ajaxGET('/api/connexion', null, (data) => {
+    console.log({data});
+    chargerHeader(data.utilisateur);
   }, () => {
     chargerHeader(null);
   });
@@ -96,6 +96,7 @@ function chargerTemplate(nom, idTemplate, onLoaded) {
 }
 
 function chargerHeader(user) {
+  console.log({user});
   if (user != null && user.statut === "c") {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');

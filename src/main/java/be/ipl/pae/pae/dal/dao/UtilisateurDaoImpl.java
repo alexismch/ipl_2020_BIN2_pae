@@ -1,12 +1,11 @@
-package be.ipl.pae.dal.dao;
+package be.ipl.pae.pae.dal.dao;
 
+import be.ipl.pae.pae.dal.services.DalService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.dal.services.DalService;
-import config.InjectionService;
+import be.ipl.pae.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.pae.biz.objets.DtoFactory;
 import be.ipl.pae.main.Inject;
 
 

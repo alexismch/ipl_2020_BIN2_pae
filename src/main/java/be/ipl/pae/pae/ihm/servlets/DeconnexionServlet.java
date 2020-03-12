@@ -1,4 +1,4 @@
-package be.ipl.pae.ihm.servlets;
+package be.ipl.pae.pae.ihm.servlets;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;

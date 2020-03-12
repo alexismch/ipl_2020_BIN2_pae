@@ -1,11 +1,11 @@
-package be.ipl.pae.ihm.servlets;
+package be.ipl.pae.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.creerClef;
-import static be.ipl.pae.util.Util.recuperUId;
-import static be.ipl.pae.util.Util.verifNonVide;
+import static be.ipl.pae.pae.util.Util.creerClef;
+import static be.ipl.pae.pae.util.Util.recuperUId;
+import static be.ipl.pae.pae.util.Util.verifNonVide;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import be.ipl.pae.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.pae.biz.ucc.UtilisateurUcc;
 import be.ipl.pae.main.Inject;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
