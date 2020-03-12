@@ -1,12 +1,14 @@
 package be.ipl.pae.ihm.servlets;
 
+import org.eclipse.jetty.servlet.DefaultServlet;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jetty.servlet.DefaultServlet;
 
 public class FrontendServlet extends DefaultServlet {
 

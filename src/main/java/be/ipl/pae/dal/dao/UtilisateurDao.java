@@ -8,7 +8,7 @@ public interface UtilisateurDao {
    * Recupere les données d'un utilisateur depuis la bd grace au pseudo.
    *
    * @param pseudo le pseudo de la personne
-   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoi null
+   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
    */
   UtilisateurDto getUtilisateurParPseudo(String pseudo);
 
@@ -16,7 +16,7 @@ public interface UtilisateurDao {
    * Recupere les données d'un utilisateur depuis la bd grace a son identifiant.
    *
    * @param idUtilisateur l'id de l'utilisateur
-   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoi null
+   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
    */
   UtilisateurDto getUser(int idUtilisateur);
 }
