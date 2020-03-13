@@ -23,6 +23,14 @@ noscript {
   z-index: 1000;
 }
 
+.w-min {
+  width: min-content;
+}
+
+.elevation-1 {
+  box-shadow: 0 0 2px black;
+}
+
 .centred {
   display: flex;
   flex-direction: column;
@@ -34,8 +42,8 @@ noscript {
   height: 60px;
 }
 
-.navbar {
-  box-shadow: 0 0 3px black;
+.elevation-2, .navbar {
+  box-shadow: 0 0 4px black;
 }
 
 .navbar-brand {

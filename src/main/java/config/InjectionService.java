@@ -19,10 +19,10 @@ public class InjectionService {
 
   /**
    * Permet de charger les properties.
-   * 
+   *
    * @param nomFichier le nom du fichier properties a donner
    */
-  public void chargerProperties(String nomFichier) {
+  public void loadProperties(String nomFichier) {
 
     properties = new Properties();
     injectedObjects = new HashMap<>();
@@ -35,10 +35,10 @@ public class InjectionService {
 
   /**
    * Permet d'injecter les dependances.
-   * 
+   *
    * @param ob object à injecter
    */
-  public void injecter(Object ob) {
+  public void inject(Object ob) {
 
     for (Field field : ob.getClass().getDeclaredFields()) {
       Inject inject = field.getAnnotation(Inject.class);
@@ -65,7 +65,7 @@ public class InjectionService {
             }
             try {
               injectedObject = injectedClass.getConstructors()[0].newInstance();
-              injecter(injectedObject);
+              inject(injectedObject);
               injectedObjects.put(dependenceName, injectedObject);
             } catch (InstantiationException | InvocationTargetException ex) {
               throw new InternalError(

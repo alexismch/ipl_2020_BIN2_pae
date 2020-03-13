@@ -45,7 +45,7 @@ function ajaxDELETE(url, data, onSuccess, onError) {
 function ajax(method = 'GET', url = '', data = null, onSuccess = null,
     onError = null) {
 
-  console.log({data});
+  console.log({requestData: data});
   $.ajax({
     method: method,
     url: url,

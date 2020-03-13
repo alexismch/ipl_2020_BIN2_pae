@@ -70,27 +70,29 @@ $(() => {
 
 });
 
-function loadPageTemplate(nom, idTemplate, onLoaded) {
+function loadPageTemplate(title, templateId, onLoaded) {
 
-  console.log('Navigation vers : ' + nom);
+  console.log('Navigation vers : ' + title);
 
-  $('title').text(nom + ' | La Rose et Le Lias');
+  $('title').text(title + ' | La Rose et Le Lias');
 
-  const contenu = $($(`#${idTemplate}`).html());
+  const contenu = $($(`#${templateId}`).html());
 
   contenu.add(contenu.find('*')).each((i, e) => {
+    const $e = $(e);
     for (const attr of ['id', 'for']) {
-      let attrValue = e.getAttribute(attr);
-      if (attrValue !== null) {
+      let attrValue = $e.attr(attr);
+      if (attrValue !== undefined && attrValue !== null) {
         attrValue = attrValue.replace(/^template-/, '');
-        e.setAttribute(attr, attrValue);
+        $e.attr(attr, attrValue);
       }
     }
     for (const attr of ['href', 'data-target']) {
-      let attrValue = e.getAttribute(attr);
-      if (attrValue !== null && attrValue.match(/^#template-/)) {
+      let attrValue = $e.attr(attr);
+      if (attrValue !== undefined && attrValue !== null && attrValue.match(
+          /^#template-/)) {
         attrValue = attrValue.replace(/^#template-/, '');
-        e.setAttribute(attr, `#${attrValue}`);
+        $e.attr(attr, `#${attrValue}`);
       }
     }
   });
@@ -135,5 +137,6 @@ function deconnexion() {
   ajaxPOST('/api/deconnexion', null, () => {
     loadHeaderForUser(null);
     router.navigate('connexion');
+    createAlert('success', 'Vous avez été deconnecté !');
   });
 }

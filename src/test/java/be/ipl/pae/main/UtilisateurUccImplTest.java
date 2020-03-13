@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.UtilisateurUcc;
 
-import config.InjectionService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import config.InjectionService;
 
 
 public class UtilisateurUccImplTest {
@@ -29,8 +29,8 @@ public class UtilisateurUccImplTest {
   @BeforeEach
   public void setUp() {
     InjectionService injectionService = new InjectionService();
-    injectionService.chargerProperties("test.properties");
-    injectionService.injecter(this);
+    injectionService.loadProperties("test.properties");
+    injectionService.inject(this);
   }
 
   @DisplayName("Test ucc différent de null")

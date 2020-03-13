@@ -64,15 +64,46 @@ function onSubmit($form, onSuccess, onError, onInvalid) {
       return;
     }
 
+    disableButtoms($form);
+
     const method = $form.attr('method');
     const url = $form.attr('action');
 
     const data = $form.serialize();
 
-    ajax(method, url, data, onSuccess, onError);
+    ajax(method, url, data, (data) => {
+      enableButtoms($form);
+      if (onSuccess !== undefined) {
+        onSuccess(data);
+      }
+    }, (error) => {
+      enableButtoms($form);
+      if (onError !== undefined) {
+        onError(error);
+      }
+    });
 
   });
 
+}
+
+function enableButtoms($form) {
+  $form.find('button').each((i, button) => {
+    const $button = $(button);
+    $button.attr('type', 'submit')
+    .removeClass('disabled')
+    .html($button.data('content'));
+  });
+}
+
+function disableButtoms($form) {
+  $form.find('button').each((i, button) => {
+    const $button = $(button);
+    $button.attr('type', 'button')
+    .addClass('disabled')
+    .data('content', $button.html())
+    .html('<i class="fas fa-circle-notch fa-spin"></i>');
+  });
 }
 
 export {checkFormValidity, checkInputValidity, onSubmit};

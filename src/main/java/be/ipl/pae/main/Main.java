@@ -6,16 +6,16 @@ import config.InjectionService;
 public class Main {
 
   /**
-   * Point d'entrée de l'application.
+   * Application's entry point
    *
-   * @param args tableau vide
-   * @throws Exception lance une exception si il y a problème
+   * @param args ignored
+   * @throws Exception Thrown if an error occurred during initialization or server startup
    */
   public static void main(String[] args) throws Exception {
-    Serveur serveur = new Serveur();
+    Server server = new Server();
     InjectionService injectionService = new InjectionService();
-    injectionService.chargerProperties("dev.properties");
-    injectionService.injecter(serveur);
-    serveur.demarrer();
+    injectionService.loadProperties("dev.properties");
+    injectionService.inject(server);
+    server.start();
   }
 }
