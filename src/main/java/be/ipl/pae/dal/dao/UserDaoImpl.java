@@ -3,7 +3,7 @@ package be.ipl.pae.dal.dao;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
-import be.ipl.pae.main.Inject;
+import be.ipl.pae.dependencies.Injected;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +12,9 @@ import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
 
-  @Inject
+  @Injected
   DalService dalService;
-  @Inject
+  @Injected
   DtoFactory utilisateurDtoFactory;
 
 

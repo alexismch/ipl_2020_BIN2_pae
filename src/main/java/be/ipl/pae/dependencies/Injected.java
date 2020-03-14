@@ -1,9 +1,9 @@
-package be.ipl.pae.main;
+package be.ipl.pae.dependencies;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Inject {
+public @interface Injected {
 
 }

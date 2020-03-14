@@ -6,21 +6,23 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.UserUcc;
+import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.dependencies.InjectionService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import config.InjectionService;
+import java.io.IOException;
 
 
 public class UserUccImplTest {
 
 
-  @Inject
+  @Injected
   private DtoFactory utilisateurDtoFactory;
 
-  @Inject
+  @Injected
   private UserUcc ucc;
 
   /**
@@ -29,7 +31,11 @@ public class UserUccImplTest {
   @BeforeEach
   public void setUp() {
     InjectionService injectionService = new InjectionService();
-    injectionService.loadProperties("test.properties");
+    try {
+      injectionService.loadProperties("test.properties");
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
     injectionService.inject(this);
   }
 

@@ -1,6 +1,7 @@
 package be.ipl.pae.ihm.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,7 +44,7 @@ public abstract class AbstractServlet extends HttpServlet {
    * @param rep la requête qui va recevoir le message
    * @throws IOException en cas de problème avec le writer du message
    */
-  protected void envoyerSucces(HttpServletResponse rep) throws IOException {
+  protected void sendSuccess(HttpServletResponse rep) throws IOException {
     String json = "{\"" + "success\":true" + "}";
     envoyerMessage(rep, "application/json", 200, json);
   }

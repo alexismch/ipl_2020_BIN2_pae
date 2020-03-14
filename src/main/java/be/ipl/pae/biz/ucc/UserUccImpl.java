@@ -3,12 +3,12 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.User;
 import be.ipl.pae.dal.dao.UserDao;
-import be.ipl.pae.main.Inject;
+import be.ipl.pae.dependencies.Injected;
 
 
 public class UserUccImpl implements UserUcc {
 
-  @Inject
+  @Injected
   private UserDao utilisateurDao;
 
   @Override

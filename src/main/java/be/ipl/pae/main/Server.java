@@ -1,8 +1,9 @@
 package be.ipl.pae.main;
 
-import be.ipl.pae.ihm.servlets.ConnexionServlet;
-import be.ipl.pae.ihm.servlets.DeconnexionServlet;
+import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
+import be.ipl.pae.ihm.servlets.LoginServlet;
+import be.ipl.pae.ihm.servlets.LogoutServlet;
 import be.ipl.pae.ihm.servlets.RegisterServlet;
 import be.ipl.pae.ihm.servlets.UserListServlet;
 
@@ -14,16 +15,16 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Server {
 
-  @Inject
-  private ConnexionServlet connexionServlet;
+  @Injected
+  private LoginServlet loginServlet;
 
-  @Inject
-  private DeconnexionServlet deconnexionServlet;
+  @Injected
+  private LogoutServlet logoutServlet;
 
-  @Inject
+  @Injected
   private UserListServlet userListServlet;
 
-  @Inject
+  @Injected
   private RegisterServlet registerServlet;
 
   /**
@@ -55,8 +56,8 @@ public class Server {
         new ServletContextHandler(ServletContextHandler.SESSIONS);
     backendContext.setContextPath("/api");
 
-    backendContext.addServlet(new ServletHolder(connexionServlet), "/connexion");
-    backendContext.addServlet(new ServletHolder(deconnexionServlet), "/deconnexion");
+    backendContext.addServlet(new ServletHolder(loginServlet), "/login");
+    backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
     backendContext.addServlet(new ServletHolder(userListServlet), "/user-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
 

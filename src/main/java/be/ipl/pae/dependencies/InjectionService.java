@@ -1,6 +1,4 @@
-package config;
-
-import be.ipl.pae.main.Inject;
+package be.ipl.pae.dependencies;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,37 +11,39 @@ import java.util.Properties;
 
 public class InjectionService {
 
+  private static String fileName;
   private static Properties properties;
   private static Map<String, Object> injectedObjects = new HashMap<>();
 
-
   /**
-   * Permet de charger les properties.
+   * Load the properties file used for dependencies injection.
    *
-   * @param nomFichier le nom du fichier properties a donner
+   * @param fileName The name of the file
+   * @throws IOException Exception thrown if an error occurred with the properties file
    */
-  public void loadProperties(String nomFichier) {
-
+  public void loadProperties(String fileName) throws IOException {
+    InjectionService.fileName = fileName;
     properties = new Properties();
     injectedObjects = new HashMap<>();
-    try (InputStream in = new FileInputStream(nomFichier)) {
+    try (InputStream in = new FileInputStream(fileName)) {
       properties.load(in);
     } catch (IOException ex) {
       ex.printStackTrace();
+      throw new IOException(ex);
     }
   }
 
   /**
-   * Permet d'injecter les dependances.
+   * Inject all dependencies in the object and all nested object.
    *
-   * @param ob object à injecter
+   * @param ob the object with dependencies to resolve
    */
   public void inject(Object ob) {
 
     for (Field field : ob.getClass().getDeclaredFields()) {
-      Inject inject = field.getAnnotation(Inject.class);
+      Injected injected = field.getAnnotation(Injected.class);
 
-      if (inject != null) {
+      if (injected != null) {
         try {
           String dependenceName = field.getType().getName();
 
@@ -52,7 +52,8 @@ public class InjectionService {
           if (injectedObject == null) {
 
             if (!properties.containsKey(dependenceName)) {
-              throw new InternalError("La dependence '" + dependenceName + "' n'existe pas !");
+              throw new InternalError(
+                  "Dependence '" + dependenceName + "' does not exist in " + fileName + " !");
             }
 
             Class<?> injectedClass;
@@ -60,8 +61,7 @@ public class InjectionService {
             try {
               injectedClass = Class.forName(properties.getProperty(dependenceName));
             } catch (ClassNotFoundException ex) {
-              throw new InternalError(
-                  "La valeur pour " + dependenceName + " n'est pas une classes connue !", ex);
+              throw new InternalError(dependenceName + "'s value is not a known class !", ex);
             }
             try {
               injectedObject = injectedClass.getConstructors()[0].newInstance();
@@ -69,7 +69,7 @@ public class InjectionService {
               injectedObjects.put(dependenceName, injectedObject);
             } catch (InstantiationException | InvocationTargetException ex) {
               throw new InternalError(
-                  "Impossible de créer une instance de " + injectedClass.getName() + " !", ex);
+                  "Can not create an instance of " + injectedClass.getName() + " !", ex);
             }
           }
 

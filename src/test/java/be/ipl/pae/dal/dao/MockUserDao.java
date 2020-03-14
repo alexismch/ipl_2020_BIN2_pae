@@ -2,12 +2,13 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.main.Inject;
+import be.ipl.pae.dependencies.Injected;
+
 import org.mindrot.bcrypt.BCrypt;
 
 public class MockUserDao implements UserDao {
 
-  @Inject
+  @Injected
   private DtoFactory dtoFactory;
 
 

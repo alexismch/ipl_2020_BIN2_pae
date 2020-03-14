@@ -6,7 +6,7 @@ import static be.ipl.pae.util.Util.verifNonVide;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;
-import be.ipl.pae.main.Inject;
+import be.ipl.pae.dependencies.Injected;
 
 import java.io.IOException;
 
@@ -15,14 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-public class ConnexionServlet extends AbstractServlet {
+public class LoginServlet extends AbstractServlet {
 
-  @Inject
+  @Injected
   UserUcc ucc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {
-    System.out.println("GET /api/connexion by " + req.getRemoteAddr());
+    System.out.println("GET /api/login by " + req.getRemoteAddr());
 
     String clef = (String) req.getSession().getAttribute("clef");
     System.out.println("\tClef utilisée : " + clef);
@@ -39,7 +39,7 @@ public class ConnexionServlet extends AbstractServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
-    System.out.println("POST /api/connexion by " + req.getRemoteAddr());
+    System.out.println("POST /api/login by " + req.getRemoteAddr());
     // System.out.println("\tParamètres reçus : " + req.getParameterMap());
     String pseudo = req.getParameter("pseudo");
     String mdp = req.getParameter("mdp");
