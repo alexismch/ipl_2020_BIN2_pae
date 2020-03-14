@@ -8,6 +8,8 @@ import be.ipl.pae.dependencies.Injected;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserDaoImpl implements UserDao {
@@ -15,7 +17,7 @@ public class UserDaoImpl implements UserDao {
   @Injected
   DalService dalService;
   @Injected
-  DtoFactory utilisateurDtoFactory;
+  DtoFactory userDtoFactory;
 
 
   @Override
@@ -29,7 +31,7 @@ public class UserDaoImpl implements UserDao {
 
       ps.setString(1, pseudo);
 
-      utilisateurDto = getUserViaPs(ps);
+      utilisateurDto = getUsersViaPs(ps).get(0);
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
@@ -55,38 +57,54 @@ public class UserDaoImpl implements UserDao {
 
     try {
       ps.setInt(1, idUtilisateur);
-      utilisateurDto = getUserViaPs(ps);
+      utilisateurDto = getUsersViaPs(ps).get(0);
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
     return utilisateurDto;
   }
 
+  @Override
+  public List<UserDto> getUsers() {
+
+    PreparedStatement ps;
+    ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.utilisateurs");
+
+    try {
+      return getUsersViaPs(ps);
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+    }
+    return new ArrayList<>();
+  }
+
   /**
-   * Retourne l'utilisateur depuis la requête.
+   * Return list of users created from the request. If only one user is required you can call {@link
+   * List#get} with the index 0.
    *
-   * @param ps la requête exécutée
-   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
-   * @throws SQLException en cas d'erreur de requête
+   * @param ps The request that will be executed
+   * @return A list of UserDto created form the database
+   * @throws SQLException if an SQL error occurred
    */
-  private UserDto getUserViaPs(PreparedStatement ps) throws SQLException {
-    UserDto utilisateurDto = null;
+  private List<UserDto> getUsersViaPs(PreparedStatement ps) throws SQLException {
+    List<UserDto> users = new ArrayList<>();
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
-        utilisateurDto = utilisateurDtoFactory.getUtilisateur();
-        utilisateurDto.setId(resultSet.getInt(1));
-        utilisateurDto.setPseudo(resultSet.getString(2));
-        utilisateurDto.setMdp(resultSet.getString(3));
-        utilisateurDto.setNom(resultSet.getString(4));
-        utilisateurDto.setPrenom(resultSet.getString(5));
-        utilisateurDto.setVille(resultSet.getString(6));
-        utilisateurDto.setEmail(resultSet.getString(7));
-        utilisateurDto.setDateInscription(resultSet.getDate(8).toLocalDate());
-        utilisateurDto.setStatut(resultSet.getString(9));
+        UserDto userDto = userDtoFactory.getUtilisateur();
+        userDto.setId(resultSet.getInt(1));
+        userDto.setPseudo(resultSet.getString(2));
+        userDto.setMdp(resultSet.getString(3));
+        userDto.setNom(resultSet.getString(4));
+        userDto.setPrenom(resultSet.getString(5));
+        userDto.setVille(resultSet.getString(6));
+        userDto.setEmail(resultSet.getString(7));
+        userDto.setDateInscription(resultSet.getDate(8).toLocalDate());
+        userDto.setStatut(resultSet.getString(9));
+        users.add(userDto);
       }
     }
     ps.close();
 
-    return utilisateurDto;
+    return users;
   }
 }

@@ -3,13 +3,14 @@
 import {checkInputValidity, onSubmit} from './forms.js';
 import {clearAlerts, createAlert} from './alerts.js';
 import {ajaxGET, ajaxPOST} from './ajax.js';
+import {createUsersList} from './users-list.js';
 
 let router;
 
 $(() => {
 
-  ajaxGET('/api/connexion', null, (data) => {
-    loadHeaderForUser(data.utilisateur);
+  ajaxGET('/api/login', null, (data) => {
+    loadHeaderForUser(data.user);
   }, () => {
     loadHeaderForUser(null);
   });
@@ -27,12 +28,18 @@ $(() => {
     },
   });
   router.on({
-    'deconnexion': deconnexion,
+    'deconnexion': () => {
+      ajaxPOST('/api/logout', null, () => {
+        loadHeaderForUser(null);
+        router.navigate('connexion');
+        createAlert('success', 'Vous avez été deconnecté !');
+      });
+    },
     'connexion': () => {
-      loadPageTemplate('Page de connexion', 'page-connexion', pageConnexion);
+      loadPageTemplate('Page de connexion', 'page-connexion', loadConnectionPage);
     },
     'inscription': () => {
-      loadPageTemplate('Page d\'inscription', 'page-inscription', pageInscription);
+      loadPageTemplate('Page d\'inscription', 'page-inscription', loadRegistrationPage);
     },
     'mes-devis': () => {
       loadPageTemplate('Mes devis', 'page-mes-devis');
@@ -44,7 +51,7 @@ $(() => {
       loadPageTemplate('Page des clients', 'page-clients');
     },
     'utilisateurs': () => {
-      loadPageTemplate('Page des utilisateurs', 'page-utilisateurs');
+      loadPageTemplate('Page des utilisateurs', 'page-utilisateurs', loadUsersPage);
     },
     'devis': () => {
       loadPageTemplate('Page des devis', 'page-devis');
@@ -54,7 +61,7 @@ $(() => {
     },
     '*': () => {
       if (router.lastRouteResolved().url === origin) {
-        loadPageTemplate('Page d\'accueil', 'page-accueil', pageAccueil);
+        loadPageTemplate('Page d\'accueil', 'page-accueil', loadHomePage);
       } else {
         loadPageTemplate('Page not found', 'page-error-404');
       }
@@ -70,6 +77,14 @@ $(() => {
 
 });
 
+/**
+ * Load the template into the #content element.
+ * To prevent id duplication you should prefix all ids in the template with 'template-'. This prefix is deleted in the #content section
+ *
+ * @param {string} title the name of the page
+ * @param {string} templateId the template's id that will be loaded
+ * @param {function} onLoaded Function called when the template as loaded
+ */
 function loadPageTemplate(title, templateId, onLoaded) {
 
   console.log('Navigation vers : ' + title);
@@ -106,10 +121,10 @@ function loadPageTemplate(title, templateId, onLoaded) {
 }
 
 function loadHeaderForUser(user) {
-  if (user != null && user.statut === "c") {
+  if (user != null && user.status === "c") {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');
-  } else if (user != null && user.statut === "o") {
+  } else if (user != null && user.status === "o") {
     $('.nav-user, .nav-client').addClass('d-none');
     $('.nav-ouvrier').removeClass('d-none');
   } else {
@@ -118,13 +133,13 @@ function loadHeaderForUser(user) {
   }
 }
 
-function pageAccueil() {
+function loadHomePage() {
   console.log('des trucs page accueil');
 }
 
-function pageConnexion() {
+function loadConnectionPage() {
   onSubmit($('#content').find('form'), (data) => {
-    loadHeaderForUser(data.utilisateur);
+    loadHeaderForUser(data.user);
     router.navigate('');
   }, (error) => {
     console.log(error);
@@ -133,9 +148,9 @@ function pageConnexion() {
   });
 }
 
-function pageInscription() {
+function loadRegistrationPage() {
   onSubmit($('#content').find('form'), (data) => {
-    // loadHeaderForUser(data.utilisateur);
+    // loadHeaderForUser(data.user);
     // router.navigate('');
   }, (error) => {
     console.log(error);
@@ -147,10 +162,8 @@ function pageInscription() {
   });
 }
 
-function deconnexion() {
-  ajaxPOST('/api/logout', null, () => {
-    loadHeaderForUser(null);
-    router.navigate('connexion');
-    createAlert('success', 'Vous avez été deconnecté !');
+function loadUsersPage() {
+  ajaxGET('/api/users-list', null, (data) => {
+    createUsersList(data.users);
   });
 }

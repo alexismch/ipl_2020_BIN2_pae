@@ -42,15 +42,15 @@ function ajaxDELETE(url, data, onSuccess, onError) {
  * @param {function} onSuccess Fonction appelée lorsque la requête est effectuée correctement
  * @param {function} onError Fonction appelée en cas d'echec de la requête
  */
-function ajax(method = 'GET', url = '', data = null, onSuccess = null,
+function ajax(method = 'GET', url = '', requestData = null, onSuccess = null,
     onError = null) {
 
-  console.log({requestData: data});
+  console.log({requestData});
   $.ajax({
     method: method,
     url: url,
     dataType: 'json',
-    data: data,
+    data: requestData,
     beforeSend: (jqXHR, settings) => {
       // En cas de debug
       jqXHR.url = settings.url;

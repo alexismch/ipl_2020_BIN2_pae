@@ -74,6 +74,7 @@ noscript {
   height: 100%;
 }
 
+/*noinspection CssUnknownProperty*/
 .carousel-item img {
   object-fit: cover;
   pointer-events: none;
@@ -95,4 +96,39 @@ noscript {
 
 .input-error {
   display: none;
+}
+
+.user-list {
+  display: grid;
+  grid-template-columns: repeat(4, 2fr) 1fr;
+}
+
+.user-list-item {
+  padding: .8em;
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .user-list-item {
+    display: grid;
+    grid-template-columns: repeat(4, 2fr) 1fr;
+    grid-gap: .5em;
+    align-items: center;
+  }
+}
+
+/*noinspection CssInvalidPropertyValue*/
+@supports (grid-template-columns: subgrid) {
+  /* 2020-03-14: Only supported by Firefox */
+  .user-list-item {
+    grid-template-columns: subgrid;
+  }
+}
+
+.user-list-item p {
+  margin: 0;
+}
+
+.user-list-item a {
+  justify-self: right;
 }

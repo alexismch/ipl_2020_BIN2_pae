@@ -5,15 +5,17 @@ import be.ipl.pae.biz.objets.User;
 import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dependencies.Injected;
 
+import java.util.List;
+
 
 public class UserUccImpl implements UserUcc {
 
   @Injected
-  private UserDao utilisateurDao;
+  private UserDao userDao;
 
   @Override
   public UserDto seConnecter(String pseudo, String mdp) {
-    UserDto utilisateurDto = utilisateurDao.getUtilisateurParPseudo(pseudo);
+    UserDto utilisateurDto = userDao.getUtilisateurParPseudo(pseudo);
     if (utilisateurDto == null) {
       return null;
     }
@@ -26,6 +28,11 @@ public class UserUccImpl implements UserUcc {
 
   @Override
   public UserDto recuprer(int id) {
-    return utilisateurDao.getUser(id);
+    return userDao.getUser(id);
+  }
+
+  @Override
+  public List<UserDto> getUsers() {
+    return userDao.getUsers();
   }
 }

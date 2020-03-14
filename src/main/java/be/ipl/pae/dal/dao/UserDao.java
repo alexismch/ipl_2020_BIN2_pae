@@ -2,6 +2,8 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
 
+import java.util.List;
+
 public interface UserDao {
 
   /**
@@ -19,4 +21,11 @@ public interface UserDao {
    * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
    */
   UserDto getUser(int idUtilisateur);
+
+  /**
+   * Get all the users saved in the database
+   *
+   * @return A list of all users
+   */
+  List<UserDto> getUsers();
 }

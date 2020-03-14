@@ -6,6 +6,8 @@ import be.ipl.pae.dependencies.Injected;
 
 import org.mindrot.bcrypt.BCrypt;
 
+import java.util.List;
+
 public class MockUserDao implements UserDao {
 
   @Injected
@@ -23,12 +25,17 @@ public class MockUserDao implements UserDao {
     utilisateurDto.setMdp(BCrypt.hashpw("123456", BCrypt.gensalt()));
     utilisateurDto.setId(1);
 
-
     return utilisateurDto;
   }
 
   @Override
   public UserDto getUser(int idUtilisateur) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<UserDto> getUsers() {
     // TODO Auto-generated method stub
     return null;
   }

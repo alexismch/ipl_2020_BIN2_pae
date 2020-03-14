@@ -49,12 +49,12 @@ public interface UserDto {
     return "{"
         + "\"id\":\"" + getId() + "\", "
         + "\"pseudo\":\"" + getPseudo() + "\", "
-        + "\"nom\":\"" + getNom() + "\", "
-        + "\"prenom\":\"" + getPrenom() + "\", "
+        + "\"lastName\":\"" + getNom() + "\", "
+        + "\"firstName\":\"" + getPrenom() + "\", "
         + "\"email\":\"" + getEmail() + "\", "
-        + "\"ville\":\"" + getVille() + "\", "
-        + "\"date_inscript\":\"" + getDateInscription() + "\", "
-        + "\"statut\":\"" + getStatut() + "\""
+        + "\"city\":\"" + getVille() + "\", "
+        + "\"registrationDate\":\"" + getDateInscription() + "\", "
+        + "\"status\":\"" + getStatut() + "\""
         + "}";
   }
 }

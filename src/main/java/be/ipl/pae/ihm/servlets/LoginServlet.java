@@ -31,7 +31,7 @@ public class LoginServlet extends AbstractServlet {
       int id = recuperUId(clef, req.getRemoteAddr());
       UserDto utilisateurDto = ucc.recuprer(id);
 
-      envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
+      envoyerSuccesAvecJson(rep, "user", utilisateurDto.toJson());
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Clef invalide");
     }
@@ -54,7 +54,7 @@ public class LoginServlet extends AbstractServlet {
         session.setAttribute("clef", clef);
         System.out.println("\tClef générée : " + clef);
 
-        envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
+        envoyerSuccesAvecJson(rep, "user", utilisateurDto.toJson());
       }
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");

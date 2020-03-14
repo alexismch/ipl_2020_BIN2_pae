@@ -2,6 +2,8 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
 
+import java.util.List;
+
 public interface UserUcc {
 
   /**
@@ -21,6 +23,12 @@ public interface UserUcc {
    * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
    */
   UserDto recuprer(int id);
-  
-  
+
+  /**
+   * Get all the users saved in the database
+   *
+   * @return A list of all users
+   */
+  List<UserDto> getUsers();
+
 }

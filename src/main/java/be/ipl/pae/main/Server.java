@@ -58,7 +58,7 @@ public class Server {
 
     backendContext.addServlet(new ServletHolder(loginServlet), "/login");
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
-    backendContext.addServlet(new ServletHolder(userListServlet), "/user-list");
+    backendContext.addServlet(new ServletHolder(userListServlet), "/users-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
 
     return backendContext;
