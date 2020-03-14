@@ -33,8 +33,8 @@ public class UserUccImplTest {
     InjectionService injectionService = new InjectionService();
     try {
       injectionService.loadProperties("test.properties");
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (IOException ex) {
+      ex.printStackTrace();
     }
     injectionService.inject(this);
   }

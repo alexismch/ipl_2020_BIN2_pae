@@ -34,7 +34,7 @@ public class InjectionService {
   }
 
   /**
-   * Inject all dependencies in the object and all nested object
+   * Inject all dependencies in the object and all nested object.
    *
    * @param ob the object with dependencies to resolve
    */
