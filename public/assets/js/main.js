@@ -1,6 +1,6 @@
 'use strict';
 
-import {checkInputValidity, onSubmit} from './forms.js';
+import {verifySamePassword, checkInputValidity, onSubmit} from './forms.js';
 import {clearAlerts, createAlert} from './alerts.js';
 import {ajaxGET, ajaxPOST} from './ajax.js';
 import {createUsersList} from './users-list.js';
@@ -158,7 +158,9 @@ function loadRegistrationPage() {
     createAlert('danger', error.responseJSON.error);
   }, undefined, () => {
     // TODO verifier mots de passe
-    // return verifySamePassword($input1, $input2);
+    var test = new Boolean(verifySamePassword($("#page-inscription-mdp"), $("#page-inscription-mdp2")));
+    console.log("test = " + test);
+    return test;
   });
 }
 

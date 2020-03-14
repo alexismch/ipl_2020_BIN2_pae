@@ -26,7 +26,7 @@ public class UserUccImplTest {
   private UserUcc ucc;
 
   /**
-   * Permet de faire les injections necessaires.
+   * Allows you to make the necessary injections.
    */
   @BeforeEach
   public void setUp() {

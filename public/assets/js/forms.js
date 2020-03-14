@@ -32,7 +32,7 @@ function checkFormValidity($form) {
 function checkInputValidity($element) {
 
   const errorElement = $element.next('.input-error');
-  if (element.checkValidity()) {
+  if ($element[0].checkValidity()) {
     errorElement.hide(100);
     return true;
   } else {
@@ -110,10 +110,12 @@ function disableButtoms($form) {
 
 function verifySamePassword($input1, $input2) {
   if ($input1.val() === $input2.val()) {
+    $(".notSamePassword").text("");
     return true;
   }
   // TODO si besion d'un message
+  $(".notSamePassword").text("Les mots de passes ne sont pas les mêmes!");
   return false;
 }
 
-export {checkFormValidity, checkInputValidity, onSubmit};
+export {verifySamePassword, checkFormValidity, checkInputValidity, onSubmit};
