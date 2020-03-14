@@ -23,7 +23,7 @@ public interface UserDao {
   UserDto getUser(int idUtilisateur);
 
   /**
-   * Get all the users saved in the database
+   * Get all the users saved in the database.
    *
    * @return A list of all users
    */

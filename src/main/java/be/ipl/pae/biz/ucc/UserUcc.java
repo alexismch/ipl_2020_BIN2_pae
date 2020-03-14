@@ -25,7 +25,7 @@ public interface UserUcc {
   UserDto recuprer(int id);
 
   /**
-   * Get all the users saved in the database
+   * Get all the users saved in the database.
    *
    * @return A list of all users
    */
