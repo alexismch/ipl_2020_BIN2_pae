@@ -94,7 +94,7 @@ noscript {
   text-shadow: 0 0 5px black;
 }
 
-.input-error {
+.form-group small {
   display: none;
 }
 

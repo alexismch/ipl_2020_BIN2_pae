@@ -58,8 +58,8 @@ function onSubmit($form, onSuccess, onError, onInvalid, onCheckValidity) {
   $form.on('submit', function (e) {
     e.preventDefault();
 
-    if ((onCheckValidity !== undefined && !onCheckValidity())
-        && !checkFormValidity($form)) {
+    if ((onCheckValidity === undefined || !onCheckValidity())
+        || !checkFormValidity($form)) {
       if (onInvalid !== undefined) {
         onInvalid();
       }
@@ -110,11 +110,10 @@ function disableButtoms($form) {
 
 function verifySamePassword($input1, $input2) {
   if ($input1.val() === $input2.val()) {
-    $(".notSamePassword").text("");
+    $("#content .notSamePassword").hide(100);
     return true;
   }
-  // TODO si besion d'un message
-  $(".notSamePassword").text("Les mots de passes ne sont pas les mêmes!");
+  $("#content .notSamePassword").show(100);
   return false;
 }
 
