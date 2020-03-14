@@ -1,11 +1,11 @@
 package be.ipl.pae.biz.objets;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.dto.UserDto;
 
 public class DtoFactoryImpl implements DtoFactory {
 
   @Override
-  public UtilisateurDto getUtilisateur() {
-    return new UtilisateurImpl();
+  public UserDto getUtilisateur() {
+    return new UserImpl();
   }
 }

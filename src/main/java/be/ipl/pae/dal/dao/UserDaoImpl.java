@@ -1,6 +1,6 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.main.Inject;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class UtilisateurDaoImpl implements UtilisateurDao {
+public class UserDaoImpl implements UserDao {
 
   @Inject
   DalService dalService;
@@ -19,9 +19,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
 
   @Override
-  public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
+  public UserDto getUtilisateurParPseudo(String pseudo) {
 
-    UtilisateurDto utilisateurDto = null;
+    UserDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE pseudo =?");
 
@@ -47,9 +47,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
    */
 
   @Override
-  public UtilisateurDto getUser(int idUtilisateur) {
+  public UserDto getUser(int idUtilisateur) {
 
-    UtilisateurDto utilisateurDto = null;
+    UserDto utilisateurDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE id_util =?");
 
@@ -69,8 +69,8 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
    * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
    * @throws SQLException en cas d'erreur de requête
    */
-  private UtilisateurDto getUserViaPs(PreparedStatement ps) throws SQLException {
-    UtilisateurDto utilisateurDto = null;
+  private UserDto getUserViaPs(PreparedStatement ps) throws SQLException {
+    UserDto utilisateurDto = null;
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
         utilisateurDto = utilisateurDtoFactory.getUtilisateur();

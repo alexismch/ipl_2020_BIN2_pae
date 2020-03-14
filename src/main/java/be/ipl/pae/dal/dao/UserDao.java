@@ -1,8 +1,8 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.dto.UserDto;
 
-public interface UtilisateurDao {
+public interface UserDao {
 
   /**
    * Recupere les données d'un utilisateur depuis la bd grace au pseudo.
@@ -10,7 +10,7 @@ public interface UtilisateurDao {
    * @param pseudo le pseudo de la personne
    * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
    */
-  UtilisateurDto getUtilisateurParPseudo(String pseudo);
+  UserDto getUtilisateurParPseudo(String pseudo);
 
   /**
    * Recupere les données d'un utilisateur depuis la bd grace a son identifiant.
@@ -18,5 +18,5 @@ public interface UtilisateurDao {
    * @param idUtilisateur l'id de l'utilisateur
    * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
    */
-  UtilisateurDto getUser(int idUtilisateur);
+  UserDto getUser(int idUtilisateur);
 }

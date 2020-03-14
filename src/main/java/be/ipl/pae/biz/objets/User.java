@@ -1,8 +1,8 @@
 package be.ipl.pae.biz.objets;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.dto.UserDto;
 
-public interface Utilisateur extends UtilisateurDto {
+public interface User extends UserDto {
 
   /**
    * Vérifie si le mdp introduit par l'utilisateur est le meme que celui récupéré dans la bd(celui
