@@ -106,4 +106,12 @@ function disableButtoms($form) {
   });
 }
 
+
+function verifSamePassword(form){
+  if(form.elements['mdp'].value == form.elements['mdp2'].value)
+    return;
+  let span = document.getElementById("PasswordNotSame");
+  span.innerHTML = "Les mots de passes sont différents!";
+}
+
 export {checkFormValidity, checkInputValidity, onSubmit};
