@@ -6,7 +6,7 @@ import config.InjectionService;
 public class Main {
 
   /**
-   * Application's entry point
+   * Application's entry point.
    *
    * @param args ignored
    * @throws Exception Thrown if an error occurred during initialization or server startup

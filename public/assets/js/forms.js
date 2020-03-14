@@ -5,16 +5,16 @@ import {ajax} from './ajax.js';
 /**
  * Valide le formulaire. En cas d'erreur affiche des messages d'erreur pour chaque entrée conformément à la methode {@link checkInputValidity}
  *
- * @param {HTMLFormElement} form Formulaire à valider
+ * @param {Jquery} form Formulaire à valider
  * @returns {boolean} true si le formulaire est valide
  */
-function checkFormValidity(form) {
+function checkFormValidity($form) {
 
-  if (form.checkValidity()) {
+  if ($form[0].checkValidity()) {
     return true;
   } else {
-    $(form).find('input, textarea, select').each((i, input) => {
-      checkInputValidity(input);
+    $form.find('input, textarea, select').each((i, input) => {
+      checkInputValidity($(input));
     });
     return false;
   }
@@ -26,12 +26,12 @@ function checkFormValidity(form) {
  * Si l'element à valider est directement suivit d'un element qui a comme attribut class="input-error"
  * alors cet element est affiché en cas d'erreur et caché si l'entré est valide
  *
- * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} element Input à valider
+ * @param {Jquery} element(input, textarea, select, ...) à valider
  * @returns {boolean} true si l'input est valide
  */
-function checkInputValidity(element) {
+function checkInputValidity($element) {
 
-  const errorElement = $(element).next('.input-error');
+  const errorElement = $element.next('.input-error');
   if (element.checkValidity()) {
     errorElement.hide(100);
     return true;
@@ -51,13 +51,15 @@ function checkInputValidity(element) {
  * @param {function} onSuccess Fonction appelée lorsque le formulaire est envoyé correctement
  * @param {function} onError Fonction appellé en cas d'erreur d'envoi du formulaire
  * @param {function} onInvalid Fonction appellé si de formulaire n'est pas valide
+ * @param {function} onCheckValidity Fonction appellé pour effectuer des verifiaction supplémentaire sur le formulaire doit revoyer true si le formulaire est valide
  */
-function onSubmit($form, onSuccess, onError, onInvalid) {
+function onSubmit($form, onSuccess, onError, onInvalid, onCheckValidity) {
 
   $form.on('submit', function (e) {
     e.preventDefault();
 
-    if (!checkFormValidity($form[0])) {
+    if ((onCheckValidity !== undefined && !onCheckValidity())
+        && !checkFormValidity($form)) {
       if (onInvalid !== undefined) {
         onInvalid();
       }
@@ -106,12 +108,12 @@ function disableButtoms($form) {
   });
 }
 
-
-function verifSamePassword(form){
-  if(form.elements['mdp'].value == form.elements['mdp2'].value)
-    return;
-  let span = document.getElementById("PasswordNotSame");
-  span.innerHTML = "Les mots de passes sont différents!";
+function verifySamePassword($input1, $input2) {
+  if ($input1.val() === $input2.val()) {
+    return true;
+  }
+  // TODO si besion d'un message
+  return false;
 }
 
 export {checkFormValidity, checkInputValidity, onSubmit};

@@ -32,7 +32,7 @@ $(() => {
       loadPageTemplate('Page de connexion', 'page-connexion', pageConnexion);
     },
     'inscription': () => {
-      loadPageTemplate('Page d\'inscription', 'page-inscription');
+      loadPageTemplate('Page d\'inscription', 'page-inscription', pageInscription);
     },
     'mes-devis': () => {
       loadPageTemplate('Mes devis', 'page-mes-devis');
@@ -65,7 +65,7 @@ $(() => {
   // Validation de n'importe quel element de type input, textarea, select se trouvant en #content
   // @see checkInputValidity
   $('#content').on('focusout input', 'input, textarea, select', function () {
-    checkInputValidity(this);
+    checkInputValidity($(this));
   });
 
 });
@@ -130,6 +130,20 @@ function pageConnexion() {
     console.log(error);
     clearAlerts();
     createAlert('danger', error.responseJSON.error);
+  });
+}
+
+function pageInscription() {
+  onSubmit($('#content').find('form'), (data) => {
+    // loadHeaderForUser(data.utilisateur);
+    // router.navigate('');
+  }, (error) => {
+    console.log(error);
+    clearAlerts();
+    createAlert('danger', error.responseJSON.error);
+  }, undefined, () => {
+    // TODO verifier mots de passe
+    // return verifySamePassword($input1, $input2);
   });
 }
 
