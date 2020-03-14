@@ -1,6 +1,6 @@
 package be.ipl.pae.main;
 
-import config.InjectionService;
+import be.ipl.pae.dependencies.InjectionService;
 
 
 public class Main {

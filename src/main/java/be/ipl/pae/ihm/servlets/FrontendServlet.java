@@ -18,8 +18,8 @@ public class FrontendServlet extends DefaultServlet {
 
     File file = new File(this.getResource("/").getName() + request.getRequestURI());
 
-    // La page demandée n'existe pas -> renvoi de la page index.html
     if (!file.exists()) {
+      // Requested page does not exist -> return index.html
       try (InputStream inputStream =
           this.getResource("/").getResource("index.html").getInputStream()) {
 

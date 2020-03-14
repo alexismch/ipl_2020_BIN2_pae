@@ -148,7 +148,7 @@ function pageInscription() {
 }
 
 function deconnexion() {
-  ajaxPOST('/api/deconnexion', null, () => {
+  ajaxPOST('/api/logout', null, () => {
     loadHeaderForUser(null);
     router.navigate('connexion');
     createAlert('success', 'Vous avez été deconnecté !');
