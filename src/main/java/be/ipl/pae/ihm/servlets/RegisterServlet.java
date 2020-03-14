@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class InscriptionServlet extends AbstractServlet {
+public class RegisterServlet extends AbstractServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)

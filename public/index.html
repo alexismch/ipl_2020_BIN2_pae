@@ -162,6 +162,39 @@
 <template id="page-inscription">
   <div class="container">
     <h2>Inscription</h2>
+    <form action="/api/inscription" class="w-100" method="post" novalidate>
+      <div class="form-group">
+        <label for="template-page-inscription-pseudo">Pseudo<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-inscription-pseudo" name="pseudo" required type="text"/>
+        <small class="input-error form-text text-danger">Le pseudo est requis.</small>
+      </div>
+      <div class="form-group">
+        <label for="template-page-inscription-mdp">Mot de passe<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-inscription-mdp" name="mdp" required type="password"/>
+        <small class="input-error form-text text-danger">Le mot de passe est requis.</small>
+      </div>
+      <div class="form-group">
+        <label for="template-page-inscription-mdp-confirmation">Confirmer mot de passe<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-inscription-mdp2" name="mdp2" required type="password"/>
+        <small id="PasswordNotSame" class="input-error form-text text-danger"></small>
+      </div>
+      <div class="form-group">
+        <label for="template-page-inscription-nom">Nom<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-inscription-nom" name="nom" required type="text"/>
+        <small class="input-error form-text text-danger">Le nom est requis</small>
+      </div>
+      <div class="form-group">
+        <label for="template-page-inscription-prenom">Prenom<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-inscription-prenom" name="prenom" required type="text"/>
+        <small class="input-error form-text text-danger">Le prenom est requis</small>
+      </div>
+      <div class="form-group">
+        <label for="template-page-inscription-email">Email<span class="text-danger">*</span></label>
+        <input class="form-control" id="template-page-inscription-email" name="email" required type="email"/>
+        <small class="input-error form-text text-danger">L'email est requis.</small>
+      </div>
+      <button class="btn btn-primary">S'inscrire</button>
+    </form>
   </div>
 </template>
 
