@@ -1,23 +1,23 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.main.Inject;
 import org.mindrot.bcrypt.BCrypt;
 
-public class MockUtilisateurDao implements UtilisateurDao {
+public class MockUserDao implements UserDao {
 
   @Inject
   private DtoFactory dtoFactory;
 
 
   @Override
-  public UtilisateurDto getUtilisateurParPseudo(String pseudo) {
+  public UserDto getUtilisateurParPseudo(String pseudo) {
     if (!pseudo.equals("sousou")) {
       return null;
     }
 
-    UtilisateurDto utilisateurDto = dtoFactory.getUtilisateur();
+    UserDto utilisateurDto = dtoFactory.getUtilisateur();
     utilisateurDto.setPseudo("sousou");
     utilisateurDto.setMdp(BCrypt.hashpw("123456", BCrypt.gensalt()));
     utilisateurDto.setId(1);
@@ -27,7 +27,7 @@ public class MockUtilisateurDao implements UtilisateurDao {
   }
 
   @Override
-  public UtilisateurDto getUser(int idUtilisateur) {
+  public UserDto getUser(int idUtilisateur) {
     // TODO Auto-generated method stub
     return null;
   }

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import be.ipl.pae.biz.ucc.UserUcc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
 import config.InjectionService;
 
 
-public class UtilisateurUccImplTest {
+public class UserUccImplTest {
 
 
   @Inject
   private DtoFactory utilisateurDtoFactory;
 
   @Inject
-  private UtilisateurUcc ucc;
+  private UserUcc ucc;
 
   /**
    * Permet de faire les injections necessaires.

@@ -1,8 +1,8 @@
 package be.ipl.pae.biz.ucc;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
+import be.ipl.pae.biz.dto.UserDto;
 
-public interface UtilisateurUcc {
+public interface UserUcc {
 
   /**
    * Permet à l'utilisateur de se connecter, on va vérifier si le pseudo donné par l'utilisateur
@@ -12,7 +12,7 @@ public interface UtilisateurUcc {
    * @param mdp    mot de passe de l'utilisateur
    * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
    */
-  UtilisateurDto seConnecter(String pseudo, String mdp);
+  UserDto seConnecter(String pseudo, String mdp);
 
   /**
    * Récupère l'utilisateur avec son id.
@@ -20,5 +20,7 @@ public interface UtilisateurUcc {
    * @param id l'id de l'utilisateur à récupérer
    * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
    */
-  UtilisateurDto recuprer(int id);
+  UserDto recuprer(int id);
+  
+  
 }

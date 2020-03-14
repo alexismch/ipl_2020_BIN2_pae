@@ -4,8 +4,8 @@ import static be.ipl.pae.util.Util.creerClef;
 import static be.ipl.pae.util.Util.recuperUId;
 import static be.ipl.pae.util.Util.verifNonVide;
 
-import be.ipl.pae.biz.dto.UtilisateurDto;
-import be.ipl.pae.biz.ucc.UtilisateurUcc;
+import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.main.Inject;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 public class ConnexionServlet extends AbstractServlet {
 
   @Inject
-  UtilisateurUcc ucc;
+  UserUcc ucc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {
@@ -29,7 +29,7 @@ public class ConnexionServlet extends AbstractServlet {
 
     if (clef != null) {
       int id = recuperUId(clef, req.getRemoteAddr());
-      UtilisateurDto utilisateurDto = ucc.recuprer(id);
+      UserDto utilisateurDto = ucc.recuprer(id);
 
       envoyerSuccesAvecJson(rep, "utilisateur", utilisateurDto.toJson());
     } else {
@@ -45,7 +45,7 @@ public class ConnexionServlet extends AbstractServlet {
     String mdp = req.getParameter("mdp");
 
     if (verifNonVide(pseudo, mdp)) {
-      UtilisateurDto utilisateurDto = ucc.seConnecter(pseudo, mdp);
+      UserDto utilisateurDto = ucc.seConnecter(pseudo, mdp);
       if (utilisateurDto == null) {
         envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Pseudo ou mot de passe incorrect");
       } else {
