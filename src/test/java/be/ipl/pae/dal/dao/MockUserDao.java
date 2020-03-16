@@ -22,7 +22,7 @@ public class MockUserDao implements UserDao {
 
     UserDto utilisateurDto = dtoFactory.getUtilisateur();
     utilisateurDto.setPseudo("sousou");
-    utilisateurDto.setMdp(BCrypt.hashpw("123456", BCrypt.gensalt()));
+    utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
     utilisateurDto.setId(1);
 
     return utilisateurDto;

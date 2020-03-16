@@ -1,5 +1,7 @@
 package be.ipl.pae.biz.dto;
 
+import be.ipl.pae.biz.objets.UserStatus;
+
 import java.time.LocalDate;
 
 public interface UserDto {
@@ -12,49 +14,49 @@ public interface UserDto {
 
   void setId(int id);
 
-  String getNom();
+  String getLastName();
 
-  void setNom(String nom);
+  void setLastName(String lastName);
 
-  String getPrenom();
+  String getFirstName();
 
-  void setPrenom(String prenom);
+  void setFirstName(String firstName);
 
-  String getMdp();
+  String getPassword();
 
-  void setMdp(String mdp);
+  void setPassword(String password);
 
-  String getVille();
+  String getCity();
 
-  void setVille(String ville);
+  void setCity(String city);
 
   String getEmail();
 
   void setEmail(String email);
 
-  LocalDate getDateInscription();
+  LocalDate getRegistrationDate();
 
-  void setDateInscription(LocalDate dateInscription);
+  void setRegistrationDate(LocalDate registrationDate);
 
-  String getStatut();
+  UserStatus getStatus();
 
-  void setStatut(String statut);
+  void setStatus(UserStatus status);
 
   /**
-   * Renvoie l'objet courant sérialisé en json.
+   * Return the current object serialized into json.
    *
-   * @return le json
+   * @return A json formatted string
    */
   default String toJson() {
     return "{"
         + "\"id\":\"" + getId() + "\", "
         + "\"pseudo\":\"" + getPseudo() + "\", "
-        + "\"lastName\":\"" + getNom() + "\", "
-        + "\"firstName\":\"" + getPrenom() + "\", "
+        + "\"lastName\":\"" + getLastName() + "\", "
+        + "\"firstName\":\"" + getFirstName() + "\", "
         + "\"email\":\"" + getEmail() + "\", "
-        + "\"city\":\"" + getVille() + "\", "
-        + "\"registrationDate\":\"" + getDateInscription() + "\", "
-        + "\"status\":\"" + getStatut() + "\""
+        + "\"city\":\"" + getCity() + "\", "
+        + "\"registrationDate\":\"" + getRegistrationDate() + "\", "
+        + "\"status\":\"" + getStatus() + "\""
         + "}";
   }
 }

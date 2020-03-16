@@ -13,10 +13,12 @@ public interface UserUcc {
    * gave the correct password.
    *
    * @param pseudo pseudo of the user
-   * @param pwd user's password
+   * @param pwd    user's password
    * @return null if we have an error or an UserDto object if we don't have a problem
+   * @throws BizException Thrown if pseudo or pwd is incorrect or if the user status equals to
+   *                      NOT_ACCEPTED
    */
-  UserDto logIn(String pseudo, String pwd);
+  UserDto login(String pseudo, String pwd) throws BizException;
 
   /**
    * insert an user in the database.

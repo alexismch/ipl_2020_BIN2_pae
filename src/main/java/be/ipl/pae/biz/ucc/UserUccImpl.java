@@ -2,6 +2,7 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.User;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -16,16 +17,17 @@ public class UserUccImpl implements UserUcc {
   private UserDao userDao;
 
   @Override
-  public UserDto logIn(String pseudo, String mdp) {
-    UserDto utilisateurDto = userDao.getUserByPseudo(pseudo);
-    if (utilisateurDto == null) {
-      return null;
-    }
-    if (!((User) utilisateurDto).verifierMdp(mdp)) {
-      return null;
+  public UserDto login(String pseudo, String mdp) throws BizException {
+    UserDto userDto = userDao.getUserByPseudo(pseudo);
+    if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
+      throw new BizException("Pseudo ou mot de passe incorrect !");
     }
 
-    return utilisateurDto;
+    if (UserStatus.NOT_ACCEPTED.equals(userDto.getStatus())) {
+      throw new BizException("Votre inscription est en attente de validation!");
+    }
+
+    return userDto;
   }
 
 

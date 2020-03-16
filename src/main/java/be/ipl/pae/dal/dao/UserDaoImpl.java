@@ -2,6 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
@@ -94,13 +95,13 @@ public class UserDaoImpl implements UserDao {
         UserDto userDto = userDtoFactory.getUtilisateur();
         userDto.setId(resultSet.getInt(1));
         userDto.setPseudo(resultSet.getString(2));
-        userDto.setMdp(resultSet.getString(3));
-        userDto.setNom(resultSet.getString(4));
-        userDto.setPrenom(resultSet.getString(5));
-        userDto.setVille(resultSet.getString(6));
+        userDto.setPassword(resultSet.getString(3));
+        userDto.setLastName(resultSet.getString(4));
+        userDto.setFirstName(resultSet.getString(5));
+        userDto.setCity(resultSet.getString(6));
         userDto.setEmail(resultSet.getString(7));
-        userDto.setDateInscription(resultSet.getDate(8).toLocalDate());
-        userDto.setStatut(resultSet.getString(9));
+        userDto.setRegistrationDate(resultSet.getDate(8).toLocalDate());
+        userDto.setStatus(UserStatus.getStatusByName(resultSet.getString(9)));
         users.add(userDto);
       }
     }
@@ -120,11 +121,7 @@ public class UserDaoImpl implements UserDao {
       ps.setString(1, email);
 
       try (ResultSet resultSet = ps.executeQuery()) {
-        if (resultSet.next()) {
-          return true;
-        } else {
-          return false;
-        }
+        return resultSet.next();
 
       }
     } catch (SQLException ex) {
@@ -143,11 +140,7 @@ public class UserDaoImpl implements UserDao {
       ps.setString(1, pseudo);
 
       try (ResultSet resultSet = ps.executeQuery()) {
-        if (resultSet.next()) {
-          return true;
-        } else {
-          return false;
-        }
+        return resultSet.next();
 
       }
     } catch (SQLException ex) {
@@ -164,13 +157,13 @@ public class UserDaoImpl implements UserDao {
 
     try {
       ps.setString(1, userDto.getPseudo());
-      ps.setString(2, userDto.getMdp());
-      ps.setString(3, userDto.getNom());
-      ps.setString(4, userDto.getPrenom());
-      ps.setString(5, userDto.getVille());
+      ps.setString(2, userDto.getPassword());
+      ps.setString(3, userDto.getLastName());
+      ps.setString(4, userDto.getFirstName());
+      ps.setString(5, userDto.getCity());
       ps.setString(6, userDto.getEmail());
-      ps.setDate(7, Date.valueOf(userDto.getDateInscription()));
-      ps.setString(8, userDto.getStatut());
+      ps.setDate(7, Date.valueOf(userDto.getRegistrationDate()));
+      ps.setString(8, userDto.getStatus().getName());
 
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {

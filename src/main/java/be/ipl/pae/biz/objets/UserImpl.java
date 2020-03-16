@@ -8,28 +8,29 @@ class UserImpl implements User {
 
   private String pseudo;
   private int id;
-  private String nom;
-  private String prenom;
-  private String mdp;
-  private String ville;
+  private String lastName;
+  private String firstName;
+  private String password;
+  private String city;
   private String email;
-  private LocalDate dateInscription;
-  private String statut;
+  private LocalDate registrationDate;
+  private UserStatus status;
 
   public UserImpl() {
     super();
   }
 
-  public UserImpl(String pseudo, String nom, String prenom, String mdp, String ville, String email,
-      String statut) {
+  public UserImpl(String pseudo, String lastName, String firstName, String password, String city,
+      String email,
+      UserStatus status) {
     this.pseudo = pseudo;
-    this.nom = nom;
-    this.prenom = prenom;
-    this.mdp = mdp;
-    this.ville = ville;
+    this.lastName = lastName;
+    this.firstName = firstName;
+    this.password = password;
+    this.city = city;
     this.email = email;
-    this.dateInscription = LocalDate.now();
-    this.statut = statut;
+    this.registrationDate = LocalDate.now();
+    this.status = status;
   }
 
   public String getPseudo() {
@@ -48,36 +49,36 @@ class UserImpl implements User {
     this.id = id;
   }
 
-  public String getNom() {
-    return nom;
+  public String getLastName() {
+    return lastName;
   }
 
-  public void setNom(String nom) {
-    this.nom = nom;
+  public void setLastName(String nom) {
+    this.lastName = nom;
   }
 
-  public String getPrenom() {
-    return prenom;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setPrenom(String prenom) {
-    this.prenom = prenom;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
-  public String getMdp() {
-    return mdp;
+  public String getPassword() {
+    return password;
   }
 
-  public void setMdp(String mdp) {
-    this.mdp = mdp;
+  public void setPassword(String mdp) {
+    this.password = mdp;
   }
 
-  public String getVille() {
-    return ville;
+  public String getCity() {
+    return city;
   }
 
-  public void setVille(String ville) {
-    this.ville = ville;
+  public void setCity(String ville) {
+    this.city = ville;
   }
 
   public String getEmail() {
@@ -88,24 +89,24 @@ class UserImpl implements User {
     this.email = email;
   }
 
-  public LocalDate getDateInscription() {
-    return dateInscription;
+  public LocalDate getRegistrationDate() {
+    return registrationDate;
   }
 
-  public void setDateInscription(LocalDate dateInscription) {
-    this.dateInscription = dateInscription;
+  public void setRegistrationDate(LocalDate registrationDate) {
+    this.registrationDate = registrationDate;
   }
 
-  public String getStatut() {
-    return statut;
+  public UserStatus getStatus() {
+    return status;
   }
 
-  public void setStatut(String statut) {
-    this.statut = statut;
+  public void setStatus(UserStatus status) {
+    this.status = status;
   }
 
   @Override
   public boolean verifierMdp(String mdp) {
-    return BCrypt.checkpw(mdp, this.mdp);
+    return BCrypt.checkpw(mdp, this.password);
   }
 }
