@@ -178,7 +178,7 @@ public class UserDaoImpl implements UserDao {
         rs.close();
         return userDto;
       } else {
-        return null;
+        throw new Exception();
       }
 
     } catch (Exception ex) {

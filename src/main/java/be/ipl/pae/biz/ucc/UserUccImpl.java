@@ -4,7 +4,7 @@ import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.User;
 import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.InsertException;
+import be.ipl.pae.exceptions.BizException;
 
 import java.util.List;
 
@@ -29,13 +29,13 @@ public class UserUccImpl implements UserUcc {
 
 
   @Override
-  public UserDto register(UserDto userDto) throws InsertException {
+  public UserDto register(UserDto userDto) throws BizException {
 
 
     if (userDao.checkPseudoInDb(userDto.getPseudo()))
-      throw new InsertException("Pseudo already used!");
+      throw new BizException("Pseudo already used!");
     if (userDao.checkEmailInDb(userDto.getEmail()))
-      throw new InsertException("Email already used!");
+      throw new BizException("Email already used!");
 
     return userDao.insertUser(userDto);
 

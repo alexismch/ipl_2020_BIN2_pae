@@ -1,6 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public interface UserDao {
    * 
    * @param email
    * @return true if the email is already in the database otherwise false
+   * @throws FatalException
    */
   boolean checkEmailInDb(String email);
 
@@ -42,6 +44,7 @@ public interface UserDao {
    * 
    * @param pseudo
    * @return true if the pseudo is already in the database otherwise false
+   * @throws FatalException
    */
   boolean checkPseudoInDb(String pseudo);
 
@@ -50,6 +53,7 @@ public interface UserDao {
    * 
    * @param userDto the user that you need to insert
    * @return an userDto if he is insert or null if he's not
+   * @throws FatalException
    */
   UserDto insertUser(UserDto userDto);
 }

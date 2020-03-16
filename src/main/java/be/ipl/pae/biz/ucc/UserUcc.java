@@ -1,7 +1,8 @@
 package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
-import be.ipl.pae.exceptions.InsertException;
+import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.BizException;
 
 import java.util.List;
 
@@ -22,9 +23,10 @@ public interface UserUcc {
    * 
    * @param userDto the user that we need to insert in the db
    * @return
-   * @throws InsertException
+   * @throws BizException
+   * @throws FatalException
    */
-  UserDto register(UserDto userDto) throws InsertException;
+  UserDto register(UserDto userDto) throws BizException, FatalException;
 
   /**
    * Récupère l'utilisateur avec son id.
