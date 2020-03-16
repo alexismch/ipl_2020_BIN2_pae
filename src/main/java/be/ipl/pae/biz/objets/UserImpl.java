@@ -6,8 +6,6 @@ import java.time.LocalDate;
 
 class UserImpl implements User {
 
-  // Je pense que tu as oublie le pseudo, je l'ai change et aussi adapte le
-  // reste(interface,getter,sett,constructeur,...) //Ahmed
   private String pseudo;
   private int id;
   private String nom;
@@ -22,8 +20,8 @@ class UserImpl implements User {
     super();
   }
 
-  public UserImpl(String pseudo, String nom, String prenom, String mdp, String ville,
-      String email, String statut) {
+  public UserImpl(String pseudo, String nom, String prenom, String mdp, String ville, String email,
+      String statut) {
     this.pseudo = pseudo;
     this.nom = nom;
     this.prenom = prenom;

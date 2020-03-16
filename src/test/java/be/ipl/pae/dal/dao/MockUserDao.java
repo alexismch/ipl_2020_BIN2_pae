@@ -15,7 +15,7 @@ public class MockUserDao implements UserDao {
 
 
   @Override
-  public UserDto getUtilisateurParPseudo(String pseudo) {
+  public UserDto getUserByPseudo(String pseudo) {
     if (!pseudo.equals("sousou")) {
       return null;
     }
@@ -36,6 +36,24 @@ public class MockUserDao implements UserDao {
 
   @Override
   public List<UserDto> getUsers() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public boolean checkEmailInDb(String email) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean checkPseudoInDb(String pseudo) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public UserDto insertUser(UserDto userDto) {
     // TODO Auto-generated method stub
     return null;
   }

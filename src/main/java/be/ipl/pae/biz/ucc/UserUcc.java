@@ -1,20 +1,30 @@
 package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.exceptions.InsertException;
 
 import java.util.List;
 
 public interface UserUcc {
 
   /**
-   * Permet à l'utilisateur de se connecter, on va vérifier si le pseudo donné par l'utilisateur
-   * existe et si le mdp qu'il a donné est le bon.
+   * Allows the user to connect, we will check if the usersname giver by the user exists and if he
+   * gave the correct password
    *
-   * @param pseudo pseudo de l'utilisateur
-   * @param mdp    mot de passe de l'utilisateur
-   * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
+   * @param pseudo pseudo of the user
+   * @param pwd user's password
+   * @return null if we have an error or an UserDto object if we don't have a problem
    */
-  UserDto seConnecter(String pseudo, String mdp);
+  UserDto logIn(String pseudo, String pwd);
+
+  /**
+   * insert an user in the database
+   * 
+   * @param userDto the user that we need to insert in the db
+   * @return
+   * @throws InsertException
+   */
+  UserDto register(UserDto userDto) throws InsertException;
 
   /**
    * Récupère l'utilisateur avec son id.

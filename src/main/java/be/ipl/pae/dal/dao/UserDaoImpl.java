@@ -4,7 +4,9 @@ import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.FatalException;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public UserDto getUtilisateurParPseudo(String pseudo) {
+  public UserDto getUserByPseudo(String pseudo) {
 
     UserDto utilisateurDto = null;
     PreparedStatement ps;
@@ -41,11 +43,10 @@ public class UserDaoImpl implements UserDao {
   // pas sur si je dois utiliser ca pour l'instant
 
   /*
-   private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
-   rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
-   UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
-   tousLesSetters.add(method); } } } catch (SQLException e) {
-   e.printStackTrace(); } }
+   * private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
+   * rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
+   * UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
+   * tousLesSetters.add(method); } } } catch (SQLException e) { e.printStackTrace(); } }
    */
 
   @Override
@@ -79,8 +80,8 @@ public class UserDaoImpl implements UserDao {
   }
 
   /**
-   * Return list of users created from the request. If only one user is required you can call {@link
-   * List#get} with the index 0.
+   * Return list of users created from the request. If only one user is required you can call
+   * {@link List#get} with the index 0.
    *
    * @param ps The request that will be executed
    * @return A list of UserDto created form the database
@@ -106,5 +107,83 @@ public class UserDaoImpl implements UserDao {
     ps.close();
 
     return users;
+  }
+
+  @Override
+  public boolean checkEmailInDb(String email) {
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("Select * FROM mystherbe.utilisateurs util WHERE util.email =?");
+
+    try {
+
+      ps.setString(1, email);
+
+      try (ResultSet resultSet = ps.executeQuery()) {
+        if (resultSet.next()) {
+          return true;
+        } else {
+          return false;
+        }
+
+      }
+    } catch (SQLException ex) {
+      throw new FatalException("error with the db");
+    }
+  }
+
+  @Override
+  public boolean checkPseudoInDb(String pseudo) {
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("Select * FROM mystherbe.utilisateurs util WHERE util.pseudo =?");
+
+    try {
+
+      ps.setString(1, pseudo);
+
+      try (ResultSet resultSet = ps.executeQuery()) {
+        if (resultSet.next()) {
+          return true;
+        } else {
+          return false;
+        }
+
+      }
+    } catch (SQLException ex) {
+      throw new FatalException("error with the db");
+    }
+  }
+
+  @Override
+  public UserDto insertUser(UserDto userDto) {
+    PreparedStatement ps;
+    String INSERT_USER = "INSERT INTO mystherbe.utilisateurs "
+        + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) " + "RETURNING id_util;";
+    ps = dalService.getPreparedStatement(INSERT_USER);
+
+    try {
+      ps.setString(1, userDto.getPseudo());
+      ps.setString(2, userDto.getMdp());
+      ps.setString(3, userDto.getNom());
+      ps.setString(4, userDto.getPrenom());
+      ps.setString(5, userDto.getVille());
+      ps.setString(6, userDto.getEmail());
+      ps.setDate(7, Date.valueOf(userDto.getDateInscription()));
+      ps.setString(8, userDto.getStatut());
+
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        userDto.setId(rs.getInt(1));
+        rs.close();
+        return userDto;
+      } else {
+        return null;
+      }
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
   }
 }

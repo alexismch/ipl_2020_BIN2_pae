@@ -7,12 +7,12 @@ import java.util.List;
 public interface UserDao {
 
   /**
-   * Recupere les données d'un utilisateur depuis la bd grace au pseudo.
+   * Return an userDto from the database.
    *
    * @param pseudo le pseudo de la personne
-   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
+   * @return An object UserDto with the information from the db or return null
    */
-  UserDto getUtilisateurParPseudo(String pseudo);
+  UserDto getUserByPseudo(String pseudo);
 
   /**
    * Recupere les données d'un utilisateur depuis la bd grace a son identifiant.
@@ -28,4 +28,28 @@ public interface UserDao {
    * @return A list of all users
    */
   List<UserDto> getUsers();
+
+  /**
+   * check if an email is already used.
+   * 
+   * @param email
+   * @return true if the email is already in the database otherwise false
+   */
+  boolean checkEmailInDb(String email);
+
+  /**
+   * check if an pseudo is already used.
+   * 
+   * @param pseudo
+   * @return true if the pseudo is already in the database otherwise false
+   */
+  boolean checkPseudoInDb(String pseudo);
+
+  /**
+   * insert a new user in the database.
+   * 
+   * @param userDto the user that you need to insert
+   * @return an userDto if he is insert or null if he's not
+   */
+  UserDto insertUser(UserDto userDto);
 }

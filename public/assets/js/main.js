@@ -150,16 +150,14 @@ function loadConnectionPage() {
 
 function loadRegistrationPage() {
   onSubmit($('#content').find('form'), (data) => {
-    // loadHeaderForUser(data.user);
-    // router.navigate('');
+     loadHeaderForUser(data.user);
+     router.navigate('');
   }, (error) => {
     console.log(error);
     clearAlerts();
     createAlert('danger', error.responseJSON.error);
-  }, undefined, () => {
-    const test = verifySamePassword($('#page-inscription-mdp'), $('#page-inscription-mdp2'));
-    console.log("test = " + test);
-    return test;
+  }, undefined, () => { 
+    return verifySamePassword($('#page-inscription-mdp'), $('#page-inscription-mdp2'));
   });
 }
 

@@ -6,6 +6,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import org.mindrot.bcrypt.BCrypt;
+
 public class Util {
 
   private static final String JWTSECRET = "mystherbePAE";
@@ -44,10 +46,7 @@ public class Util {
    * @return la clef de session
    */
   public static String creerClef(String ip, int id) {
-    return JWT.create()
-        .withIssuer("auth0")
-        .withClaim("ip", ip)
-        .withClaim("uId", id)
+    return JWT.create().withIssuer("auth0").withClaim("ip", ip).withClaim("uId", id)
         .sign(JWTALGORITHM);
   }
 
@@ -58,17 +57,14 @@ public class Util {
    * @return la clé décodée
    */
   public static DecodedJWT decoderClef(String clef) {
-    return JWT.require(JWTALGORITHM)
-        .withIssuer("auth0")
-        .build()
-        .verify(clef);
+    return JWT.require(JWTALGORITHM).withIssuer("auth0").build().verify(clef);
   }
 
   /**
    * Vérifie la clef décodée avec l'ip, et renvoie l'id de l'utilisateur.
    *
    * @param clefDecodee la clef décodée
-   * @param ip          l'ip à vérifier
+   * @param ip l'ip à vérifier
    * @return l'id de l'utilisateur
    */
   public static int recupererUId(DecodedJWT clefDecodee, String ip) {
@@ -82,10 +78,45 @@ public class Util {
    * Décode la clef, vérifie la clef avec l'ip, et renvoie l'id de l'utilisateur.
    *
    * @param clef clef à décoder
-   * @param ip   l'ip à vérifier
+   * @param ip l'ip à vérifier
    * @return l'id de l'utilisateur
    */
   public static int recuperUId(String clef, String ip) {
     return recupererUId(decoderClef(clef), ip);
+  }
+
+  /**
+   * 
+   * @param word the word that you need to check
+   * @param maxSize the size that you don't want to surpass
+   * @param regex the regex that word need to match
+   * @return
+   */
+  public static boolean checkFormat(String word, int maxSize, String regex) {
+    if (!verifNonVide(word))
+      return false;
+    if (word.length() > maxSize)
+      return false;
+    if (!word.matches(regex))
+      return false;
+    return true;
+  }
+
+  /**
+   * 
+   * @param word the word that you need to check
+   * @param maxSize the size that you don't want to surpass
+   * @return
+   */
+  public static boolean checkFormat(String word, int maxSize) {
+    if (!verifNonVide(word))
+      return false;
+    if (word.length() > maxSize)
+      return false;
+    return true;
+  }
+
+  public static String cryptPwd(String pwd) {
+    return BCrypt.hashpw(pwd, BCrypt.gensalt());
   }
 }

@@ -39,32 +39,32 @@ public class UserUccImplTest {
     injectionService.inject(this);
   }
 
-  @DisplayName("Test ucc différent de null")
+  @DisplayName("ucc test different from null")
   @Test
   public void testUcc() {
     assertNotNull(ucc);
   }
 
 
-  @DisplayName("Test se connecter avec bon pseudo et mdp")
+  @DisplayName("login test when we give a good pseudo and pwd")
 
   @Test
   public void testSeConnecterOk() {
-    assertNotNull(ucc.seConnecter("sousou", "123456"));
+    assertNotNull(ucc.logIn("sousou", "123456"));
   }
 
-  @DisplayName("Test se connecter avec mauvais mdp")
+  @DisplayName("login test when we give a good pseudo and a wrong pwd")
 
   @Test
   public void testSeConnecterko1() {
-    assertNull(ucc.seConnecter("sousou", "blabla"));
+    assertNull(ucc.logIn("sousou", "blabla"));
   }
 
-  @DisplayName("Test se connecter avec mauvais pseudo")
+  @DisplayName("login test when we give a wrong pseudo")
 
   @Test
   public void testSeConnecterko2() {
-    assertNull(ucc.seConnecter("blabla", "test"));
+    assertNull(ucc.logIn("blabla", "test"));
   }
 
 }

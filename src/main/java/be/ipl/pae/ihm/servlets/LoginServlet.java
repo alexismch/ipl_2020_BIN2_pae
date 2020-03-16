@@ -45,7 +45,7 @@ public class LoginServlet extends AbstractServlet {
     String mdp = req.getParameter("mdp");
 
     if (verifNonVide(pseudo, mdp)) {
-      UserDto utilisateurDto = ucc.seConnecter(pseudo, mdp);
+      UserDto utilisateurDto = ucc.logIn(pseudo, mdp);
       if (utilisateurDto == null) {
         envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Pseudo ou mot de passe incorrect");
       } else {
