@@ -58,8 +58,7 @@ function onSubmit($form, onSuccess, onError, onInvalid, onCheckValidity) {
   $form.on('submit', function (e) {
     e.preventDefault();
 
-    if ((onCheckValidity === undefined || !onCheckValidity())
-        || !checkFormValidity($form)) {
+    if (!checkFormValidity($form) || (onCheckValidity !== undefined && !onCheckValidity())) {
       if (onInvalid !== undefined) {
         onInvalid();
       }
