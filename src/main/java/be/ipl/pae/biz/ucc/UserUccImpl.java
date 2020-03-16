@@ -37,9 +37,9 @@ public class UserUccImpl implements UserUcc {
 
 
     if (userDao.checkPseudoInDb(userDto.getPseudo()))
-      throw new BizException("Pseudo already used!");
+      throw new BizException("Pseudo déjà utilisé!");
     if (userDao.checkEmailInDb(userDto.getEmail()))
-      throw new BizException("Email already used!");
+      throw new BizException("Email déjà utilisé!");
 
     return userDao.insertUser(userDto);
 

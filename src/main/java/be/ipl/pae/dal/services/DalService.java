@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 public interface DalService {
 
   /**
-   * Recupère un prepare statement en fonction de la requete qu'on lui donne.
+   * Get a prepareStatement depending on the request we give him.
    *
-   * @param requete La chaine de charactere contenant la requete
-   * @return Un objet Prepare Statement a partir de la requete en parametre
+   * @param request the request
+   * @return An PrepareStatement object
    */
-  PreparedStatement getPreparedStatement(String requete);
+  PreparedStatement getPreparedStatement(String request);
 
 
 }

@@ -32,10 +32,10 @@ public interface UserUcc {
   UserDto register(UserDto userDto) throws BizException, FatalException;
 
   /**
-   * Récupère l'utilisateur avec son id.
+   * Get the user with his id.
    *
-   * @param id l'id de l'utilisateur à récupérer
-   * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
+   * @param id the id of the user that you need to get
+   * @return null if you had an error or an object of type UserDto
    */
   UserDto recuprer(int id);
 

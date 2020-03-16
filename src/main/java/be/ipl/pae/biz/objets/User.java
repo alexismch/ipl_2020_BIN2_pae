@@ -5,11 +5,10 @@ import be.ipl.pae.biz.dto.UserDto;
 public interface User extends UserDto {
 
   /**
-   * Vérifie si le mdp introduit par l'utilisateur est le meme que celui récupéré dans la bd(celui
-   * se trouvant dans la bd est hashé).
+   * Check if the pwd is the same as the one in the database.
    *
-   * @param mdp mot de passe de l'utilisateur
-   * @return true si le mdp donné est le meme que celui se trouvant dans la bd, false sinon
+   * @param pwd password of the user
+   * @return true if the pwd is the same as the one in the db, otherwise false
    */
-  boolean verifierMdp(String mdp);
+  boolean verifierMdp(String pwd);
 }

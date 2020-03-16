@@ -17,12 +17,12 @@ public interface UserDao {
   UserDto getUserByPseudo(String pseudo);
 
   /**
-   * Recupere les données d'un utilisateur depuis la bd grace a son identifiant.
+   * Get the data of an user thanks to his id.
    *
-   * @param idUtilisateur l'id de l'utilisateur
-   * @return Un objet UtilisateurDto avec les informations de la db, sinon renvoie null
+   * @param userId id of the user
+   * @return An userDto object with all the informations that the db gave you or null
    */
-  UserDto getUser(int idUtilisateur);
+  UserDto getUser(int userId);
 
   /**
    * Get all the users saved in the database.
