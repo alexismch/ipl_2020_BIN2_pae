@@ -12,7 +12,6 @@ import be.ipl.pae.util.Util;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,14 +27,14 @@ public class RegisterServlet extends AbstractServlet {
   final static String REGEX_MAIL = "^.+\\@.+\\..+";
   final static int MAX_SIZE_MAIL = 50;
   final static int MAX_SIZE_PSEUDO = 25;
-  final static int MAX_SIZE_LASTNAME = 25;
-  final static int MAX_SIZE_FIRSTNAME = 25;
+  final static int MAX_SIZE_LAST_NAME = 25;
+  final static int MAX_SIZE_FIRST_NAME = 25;
   final static int MAX_SIZE_PWD = 255;
   final static int MAX_SIZE_CITY = 25;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+      throws IOException {
     System.out.println("POST /api/register by " + req.getRemoteAddr());
 
     String pseudo = req.getParameter("pseudo");
@@ -46,22 +45,19 @@ public class RegisterServlet extends AbstractServlet {
     String city = req.getParameter("ville");
 
     if (checkFormat(email, MAX_SIZE_MAIL, REGEX_MAIL) && checkFormat(pseudo, MAX_SIZE_PSEUDO)
-        && checkFormat(pwd, MAX_SIZE_PWD) && checkFormat(lastName, MAX_SIZE_LASTNAME)
-        && checkFormat(firstName, MAX_SIZE_FIRSTNAME) && checkFormat(city, MAX_SIZE_CITY)) {
+        && checkFormat(pwd, MAX_SIZE_PWD) && checkFormat(lastName, MAX_SIZE_LAST_NAME)
+        && checkFormat(firstName, MAX_SIZE_FIRST_NAME) && checkFormat(city, MAX_SIZE_CITY)) {
 
       UserDto userDtoToInsert = dtoFactory.getUtilisateur();
 
-
       userDtoToInsert.setPseudo(pseudo);
-      userDtoToInsert.setMdp(Util.cryptPwd(pwd));
-      userDtoToInsert.setNom(lastName);
-      userDtoToInsert.setPrenom(firstName);
+      userDtoToInsert.setPassword(Util.cryptPwd(pwd));
+      userDtoToInsert.setLastName(lastName);
+      userDtoToInsert.setFirstName(firstName);
       userDtoToInsert.setEmail(email);
-      userDtoToInsert.setVille(city);
-      userDtoToInsert.setDateInscription(LocalDate.now());
-      userDtoToInsert.setStatut(UserStatus.NON_VALIDE.getStatus());
-
-
+      userDtoToInsert.setCity(city);
+      userDtoToInsert.setRegistrationDate(LocalDate.now());
+      userDtoToInsert.setStatus(UserStatus.NOT_ACCEPTED);
 
       UserDto userDb;
       try {

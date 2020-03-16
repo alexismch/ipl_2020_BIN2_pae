@@ -7,6 +7,7 @@ import static be.ipl.pae.util.Util.verifNonVide;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
 
 import java.io.IOException;
 
@@ -45,16 +46,17 @@ public class LoginServlet extends AbstractServlet {
     String mdp = req.getParameter("mdp");
 
     if (verifNonVide(pseudo, mdp)) {
-      UserDto utilisateurDto = ucc.logIn(pseudo, mdp);
-      if (utilisateurDto == null) {
-        envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Pseudo ou mot de passe incorrect");
-      } else {
+      try {
+        UserDto userDto = ucc.login(pseudo, mdp);
+
         HttpSession session = req.getSession();
-        String clef = creerClef(req.getRemoteAddr(), utilisateurDto.getId());
+        String clef = creerClef(req.getRemoteAddr(), userDto.getId());
         session.setAttribute("clef", clef);
         System.out.println("\tClef générée : " + clef);
 
-        envoyerSuccesAvecJson(rep, "user", utilisateurDto.toJson());
+        envoyerSuccesAvecJson(rep, "user", userDto.toJson());
+      } catch (BizException e) {
+        envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
       }
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
