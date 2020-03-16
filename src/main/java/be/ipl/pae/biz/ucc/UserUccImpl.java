@@ -5,6 +5,7 @@ import be.ipl.pae.biz.objets.User;
 import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UserUccImpl implements UserUcc {
 
 
   @Override
-  public UserDto register(UserDto userDto) throws BizException {
+  public UserDto register(UserDto userDto) throws BizException, FatalException {
 
 
     if (userDao.checkPseudoInDb(userDto.getPseudo()))

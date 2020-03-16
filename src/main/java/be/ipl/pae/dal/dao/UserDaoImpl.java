@@ -110,7 +110,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public boolean checkEmailInDb(String email) {
+  public boolean checkEmailInDb(String email) throws FatalException {
     PreparedStatement ps;
     ps = dalService
         .getPreparedStatement("Select * FROM mystherbe.utilisateurs util WHERE util.email =?");
@@ -133,7 +133,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public boolean checkPseudoInDb(String pseudo) {
+  public boolean checkPseudoInDb(String pseudo) throws FatalException {
     PreparedStatement ps;
     ps = dalService
         .getPreparedStatement("Select * FROM mystherbe.utilisateurs util WHERE util.pseudo =?");
@@ -156,7 +156,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto insertUser(UserDto userDto) {
+  public UserDto insertUser(UserDto userDto) throws FatalException {
     PreparedStatement ps;
     String INSERT_USER = "INSERT INTO mystherbe.utilisateurs "
         + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) " + "RETURNING id_util;";

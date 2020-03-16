@@ -37,7 +37,7 @@ public interface UserDao {
    * @return true if the email is already in the database otherwise false
    * @throws FatalException
    */
-  boolean checkEmailInDb(String email);
+  boolean checkEmailInDb(String email) throws FatalException;
 
   /**
    * check if an pseudo is already used.
@@ -46,7 +46,7 @@ public interface UserDao {
    * @return true if the pseudo is already in the database otherwise false
    * @throws FatalException
    */
-  boolean checkPseudoInDb(String pseudo);
+  boolean checkPseudoInDb(String pseudo) throws FatalException;
 
   /**
    * insert a new user in the database.
@@ -55,5 +55,5 @@ public interface UserDao {
    * @return an userDto if he is insert or null if he's not
    * @throws FatalException
    */
-  UserDto insertUser(UserDto userDto);
+  UserDto insertUser(UserDto userDto) throws FatalException;
 }
