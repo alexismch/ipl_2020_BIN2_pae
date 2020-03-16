@@ -31,6 +31,10 @@ noscript {
   box-shadow: 0 0 2px black;
 }
 
+.font-size-100 {
+  font-size: 100% !important;
+}
+
 .centred {
   display: flex;
   flex-direction: column;

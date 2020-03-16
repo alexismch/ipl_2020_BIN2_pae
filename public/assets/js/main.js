@@ -1,6 +1,6 @@
 'use strict';
 
-import {checkInputValidity, onSubmit, verifySamePassword} from './forms.js';
+import {checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation, verifySamePassword} from './forms.js';
 import {clearAlerts, createAlert} from './alerts.js';
 import {ajaxGET, ajaxPOST} from './ajax.js';
 import {createUsersList} from './users-list.js';
@@ -22,9 +22,9 @@ $(() => {
 
   router = new Navigo('/', false);
   router.hooks({
-    before: function (done, params) {
+    before: function (done) {
       clearAlerts();
-      done(true);
+      done();
     },
   });
   router.on({
@@ -50,8 +50,10 @@ $(() => {
     'clients': () => {
       loadPageTemplate('Page des clients', 'page-clients');
     },
-    'utilisateurs': () => {
-      loadPageTemplate('Page des utilisateurs', 'page-utilisateurs', loadUsersPage);
+    'utilisateurs': (params, query) => {
+      loadPageTemplate('Page des utilisateurs', 'page-utilisateurs', () => {
+        loadUsersPage(query)
+      });
     },
     'devis': () => {
       loadPageTemplate('Page des devis', 'page-devis');
@@ -138,31 +140,100 @@ function loadHomePage() {
 }
 
 function loadConnectionPage() {
-  onSubmit($('#content').find('form'), (data) => {
+  onSubmitWithAjax($('#content form'), (data) => {
     loadHeaderForUser(data.user);
     router.navigate('');
   }, (error) => {
-    console.log(error);
     clearAlerts();
     createAlert('danger', error.responseJSON.error);
   });
 }
 
 function loadRegistrationPage() {
-  onSubmit($('#content').find('form'), (data) => {
-     loadHeaderForUser(data.user);
-     router.navigate('');
+  onSubmitWithAjax($('#content form'), (data) => {
+    loadHeaderForUser(data.user);
+    router.navigate('');
   }, (error) => {
-    console.log(error);
     clearAlerts();
     createAlert('danger', error.responseJSON.error);
-  }, undefined, () => { 
+  }, undefined, () => {
     return verifySamePassword($('#page-inscription-mdp'), $('#page-inscription-mdp2'));
   });
 }
 
-function loadUsersPage() {
-  ajaxGET('/api/users-list', null, (data) => {
+function loadUsersPage(query) {
+  onSubmitWithNavigation($('#content form'), (url, data) => {
+    if (data !== query) {
+      router.navigate(url + '?' + data);
+    }
+  });
+  ajaxGET('/api/users-list', query, (data) => {
+    if (query !== undefined && query !== null && query !== '') {
+      let shouldHide = true;
+      let researchMsg = 'Résultats de la recherche: ';
+      const fields = query.split('&');
+      for (const field of fields) {
+        const entry = field.split('=');
+        if (entry[1] !== '' && entry[1] !== undefined) {
+          researchMsg += '<span class="badge badge-primary mr-1 font-size-100">';
+          switch (entry[0]) {
+            case 'name':
+              researchMsg += 'Nom: ';
+              break;
+            case 'city':
+              researchMsg += 'Ville: ';
+              break;
+          }
+          researchMsg += entry[1] + '</span>';
+          shouldHide = false;
+        }
+      }
+      if (!shouldHide) {
+        $('.user-list-search-msg').html(researchMsg).removeClass('d-none');
+        $('#content form').deserialize(query);
+      } else {
+        $('.user-list-search-msg').addClass('d-none');
+      }
+    } else {
+      $('.user-list-search-msg').addClass('d-none');
+    }
     createUsersList(data.users);
   });
 }
+
+/**
+ * @see https://stackoverflow.com/questions/6992585/jquery-deserialize-form
+ */
+jQuery.fn.deserialize = function (data) {
+  var f = this,
+      map = {},
+      find = function (selector) {
+        return f.is("form") ? f.find(selector) : f.filter(selector);
+      };
+  //Get map of values
+  jQuery.each(data.split("&"), function () {
+    var nv = this.split("="),
+        n = decodeURIComponent(nv[0]),
+        v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
+    if (!(n in map)) {
+      map[n] = [];
+    }
+    map[n].push(v);
+  })
+  //Set values for all form elements in the data
+  jQuery.each(map, function (n, v) {
+    find("[name='" + n + "']").val(v);
+  })
+  //Clear all form elements not in form data
+  find("input:text,select,textarea").each(function () {
+    if (!(jQuery(this).attr("name") in map)) {
+      jQuery(this).val("");
+    }
+  })
+  find("input:checkbox:checked,input:radio:checked").each(function () {
+    if (!(jQuery(this).attr("name") in map)) {
+      this.checked = false;
+    }
+  })
+  return this;
+};

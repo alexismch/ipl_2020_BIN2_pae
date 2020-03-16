@@ -1,10 +1,17 @@
 package be.ipl.pae.ihm.servlets;
 
-import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.biz.dto.UsersFilterDto;
+import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.util.Util;
+
+import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,18 +25,33 @@ public class UserListServlet extends AbstractServlet {
   @Injected
   private UserUcc userUcc;
 
+  @Injected
+  DtoFactory dtoFactory;
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
 
-    StringBuilder sb = new StringBuilder();
-    sb.append('[');
-    for (UserDto userDto : userUcc.getUsers()) {
-      sb.append(userDto.toJson()).append(',');
-    }
-    sb.delete(sb.length() - 1, sb.length()).append(']');
+    String name = req.getParameter("name");
+    String city = req.getParameter("city");
 
-    envoyerSuccesAvecJson(resp, "users", sb.toString());
+    UsersFilterDto usersFilterDto = dtoFactory.getUsersFilterDto();
+    usersFilterDto.setName(name);
+    usersFilterDto.setCity(city);
+
+    GensonBuilder gensonBuilder = new GensonBuilder()
+        .exclude("password")
+        .useMethods(true)
+        .acceptSingleValueAsList(true);
+
+    Util.addSerializer(gensonBuilder, LocalDate.class,
+        (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
+
+    Util.addSerializer(gensonBuilder, UserStatus.class,
+        (value, writer, ctx) -> writer.writeString(value.getName()));
+
+    envoyerSuccesAvecJson(resp, "users",
+        gensonBuilder.create().serialize(userUcc.getUsers(usersFilterDto)));
 
   }
 }

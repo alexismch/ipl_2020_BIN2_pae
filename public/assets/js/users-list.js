@@ -1,6 +1,6 @@
 function createUsersList(users) {
+  $('#content .user-list').empty();
   for (const user of users) {
-    console.log(user);
     createUserListItem(user);
   }
 }

@@ -1,6 +1,7 @@
 package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.User;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dal.dao.UserDao;
@@ -50,8 +51,8 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public List<UserDto> getUsers() {
-    return userDao.getUsers();
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
+    return userDao.getUsers(usersFilterDto);
   }
 
 }

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterServlet extends AbstractServlet {
 
   @Injected
-  UserUcc ucc;
+  UserUcc userUcc;
 
   @Injected
   DtoFactory dtoFactory;
@@ -61,7 +61,7 @@ public class RegisterServlet extends AbstractServlet {
 
       UserDto userDb;
       try {
-        userDb = ucc.register(userDtoToInsert);
+        userDb = userUcc.register(userDtoToInsert);
         envoyerSuccesAvecJson(resp, "user", userDb.toJson());
       } catch (Exception e) {
         envoyerErreur(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());

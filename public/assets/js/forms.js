@@ -53,7 +53,7 @@ function checkInputValidity($element) {
  * @param {function} onInvalid Fonction appellé si de formulaire n'est pas valide
  * @param {function} onCheckValidity Fonction appellé pour effectuer des verifiaction supplémentaire sur le formulaire doit revoyer true si le formulaire est valide
  */
-function onSubmit($form, onSuccess, onError, onInvalid, onCheckValidity) {
+function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity) {
 
   $form.on('submit', function (e) {
     e.preventDefault();
@@ -88,6 +88,42 @@ function onSubmit($form, onSuccess, onError, onInvalid, onCheckValidity) {
 
 }
 
+/**
+ * Ajoute un écouteur d'événement quand le formulaire est soumis.
+ * Cet écouteur d'événement se chargera de valider le fumulaire avec la methode {@link checkFormValidity}
+ * Il enverra ensuite le formulaire via une requête ajax en traduisant les parametres method et action
+ *
+ * @param {Jquery} $form Formulaire è envoyé
+ * @param {function} onInvalid Fonction appellé si de formulaire n'est pas valide
+ * @param {function} onCheckValidity Fonction appellé pour effectuer des verifiaction supplémentaire sur le formulaire doit revoyer true si le formulaire est valide
+ */
+function onSubmitWithNavigation($form, navigation, onInvalid, onCheckValidity) {
+
+  $form.on('submit', function (e) {
+    e.preventDefault();
+
+    if (!checkFormValidity($form) || (onCheckValidity !== undefined && !onCheckValidity())) {
+      if (onInvalid !== undefined) {
+        onInvalid();
+      }
+      return;
+    }
+
+    disableButtoms($form);
+
+    const url = $form.attr('action');
+    const data = $form.serialize();
+
+    if (navigation !== undefined) {
+      navigation(url, data);
+    }
+
+    enableButtoms($form);
+
+  });
+
+}
+
 function enableButtoms($form) {
   $form.find('button').each((i, button) => {
     const $button = $(button);
@@ -116,4 +152,4 @@ function verifySamePassword($input1, $input2) {
   return false;
 }
 
-export {verifySamePassword, checkFormValidity, checkInputValidity, onSubmit};
+export {verifySamePassword, checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation};

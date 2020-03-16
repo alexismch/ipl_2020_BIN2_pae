@@ -1,6 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
@@ -26,9 +27,10 @@ public interface UserDao {
   /**
    * Get all the users saved in the database.
    *
+   * @param usersFilterDto a filter applied to the results or null if no filter should be applied
    * @return A list of all users
    */
-  List<UserDto> getUsers();
+  List<UserDto> getUsers(UsersFilterDto usersFilterDto);
 
   /**
    * check if an email is already used.

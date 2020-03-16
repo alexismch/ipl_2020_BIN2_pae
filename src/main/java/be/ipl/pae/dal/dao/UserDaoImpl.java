@@ -1,8 +1,10 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
+import be.ipl.pae.dal.DalUtils;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
@@ -67,12 +69,29 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public List<UserDto> getUsers() {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
+
+    String query;
+
+    if (usersFilterDto != null) {
+      query = "SELECT * FROM mystherbe.utilisateurs WHERE (? IS NULL OR nom LIKE ?) AND (? IS NULL OR ville LIKE ?)";
+    } else {
+      query = "SELECT * FROM mystherbe.utilisateurs";
+    }
 
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.utilisateurs");
+    ps = dalService.getPreparedStatement(query);
 
     try {
+      if (usersFilterDto != null) {
+        String name = DalUtils.changeSpecialLikeChar(usersFilterDto.getName());
+        ps.setString(1, name);
+        ps.setString(2, name + "%");
+        String city = DalUtils.changeSpecialLikeChar(usersFilterDto.getCity());
+        ps.setString(3, city);
+        ps.setString(4, city + "%");
+      }
+
       return getUsersViaPs(ps);
     } catch (SQLException ex) {
       ex.printStackTrace();

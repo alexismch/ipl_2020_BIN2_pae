@@ -1,6 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
+import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
 
@@ -35,7 +36,7 @@ public class MockUserDao implements UserDao {
   }
 
   @Override
-  public List<UserDto> getUsers() {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
     // TODO Auto-generated method stub
     return null;
   }

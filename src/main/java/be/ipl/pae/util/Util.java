@@ -5,6 +5,10 @@ import be.ipl.pae.exceptions.MauvaiseClefException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.owlike.genson.Context;
+import com.owlike.genson.Converter;
+import com.owlike.genson.GensonBuilder;
+import com.owlike.genson.stream.ObjectReader;
 
 import org.mindrot.bcrypt.BCrypt;
 
@@ -97,9 +101,7 @@ public class Util {
       return false;
     if (word.length() > maxSize)
       return false;
-    if (!word.matches(regex))
-      return false;
-    return true;
+    return word.matches(regex);
   }
 
   /**
@@ -109,14 +111,29 @@ public class Util {
    * @return
    */
   public static boolean checkFormat(String word, int maxSize) {
-    if (!verifNonVide(word))
+    if (!verifNonVide(word)) {
       return false;
-    if (word.length() > maxSize)
-      return false;
-    return true;
+    }
+    return word.length() <= maxSize;
   }
 
   public static String cryptPwd(String pwd) {
     return BCrypt.hashpw(pwd, BCrypt.gensalt());
   }
+
+  public static <T> void addSerializer(GensonBuilder builder, Class<T> type,
+      OneWayConverter<T> converter) {
+    builder.withConverter(converter, type);
+  }
+
+  @FunctionalInterface
+  public interface OneWayConverter<T> extends Converter<T> {
+
+    @Override
+    default T deserialize(ObjectReader reader, Context ctx) throws Exception {
+      return null;
+    }
+
+  }
+
 }

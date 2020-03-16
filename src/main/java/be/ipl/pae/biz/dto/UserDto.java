@@ -56,7 +56,7 @@ public interface UserDto {
         + "\"email\":\"" + getEmail() + "\", "
         + "\"city\":\"" + getCity() + "\", "
         + "\"registrationDate\":\"" + getRegistrationDate() + "\", "
-        + "\"status\":\"" + getStatus() + "\""
+        + "\"status\":\"" + getStatus().getName() + "\""
         + "}";
   }
 }
