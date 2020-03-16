@@ -1,8 +1,8 @@
 package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
-import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface UserUcc {
 
   /**
    * Allows the user to connect, we will check if the usersname giver by the user exists and if he
-   * gave the correct password
+   * gave the correct password.
    *
    * @param pseudo pseudo of the user
    * @param pwd user's password
@@ -19,7 +19,7 @@ public interface UserUcc {
   UserDto logIn(String pseudo, String pwd);
 
   /**
-   * insert an user in the database
+   * insert an user in the database.
    * 
    * @param userDto the user that we need to insert in the db
    * @return
@@ -29,10 +29,10 @@ public interface UserUcc {
   UserDto register(UserDto userDto) throws BizException, FatalException;
 
   /**
-   * Récupère l'utilisateur avec son id.
+   * Get the user with his id.
    *
-   * @param id l'id de l'utilisateur à récupérer
-   * @return null si il y a eu une erreur ou bien un objet de type UtilisateurDTO si tout est bon
+   * @param id the id of the user that you need to get
+   * @return null if you had an error or an object of type UserDto
    */
   UserDto recuprer(int id);
 

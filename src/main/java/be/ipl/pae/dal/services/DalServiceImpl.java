@@ -1,12 +1,12 @@
 package be.ipl.pae.dal.services;
 
-import config.LoadProperties;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import config.LoadProperties;
 
 
 public class DalServiceImpl implements DalService {
@@ -19,7 +19,7 @@ public class DalServiceImpl implements DalService {
   private String mdp;
 
   /**
-   * Construit un obj de type DalService dont les propriétés sont dans prod.properties
+   * Builds an obj of type DalService whose properties are in prod.properties
    */
   public DalServiceImpl() {
     this.loadProperties = new LoadProperties();

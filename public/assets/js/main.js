@@ -152,6 +152,8 @@ function loadRegistrationPage() {
   onSubmit($('#content').find('form'), (data) => {
      loadHeaderForUser(data.user);
      router.navigate('');
+     clearAlerts();
+     createAlert('primary', "Votre demande d'inscription a été faite, vous ne pourrez pas vous connecter tant que votre inscription n'a pas été accepté.");
   }, (error) => {
     console.log(error);
     clearAlerts();

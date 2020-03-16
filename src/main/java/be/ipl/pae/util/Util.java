@@ -14,24 +14,24 @@ public class Util {
   private static final Algorithm JWTALGORITHM = Algorithm.HMAC256(JWTSECRET);
 
   /**
-   * Vérifie si la chaine n'est pas vide.
+   * Check if the string is not empty.
    *
-   * @param chaine la chaine à vérifier
-   * @return true si la chaine n'est pas vide, false si oui
+   * @param string the string that you need to check
+   * @return true if the string is not empty, otherwise false
    */
-  public static boolean verifNonVide(String chaine) {
-    return chaine != null && !"".equals(chaine);
+  public static boolean verifNonVide(String string) {
+    return string != null && !"".equals(string);
   }
 
   /**
-   * Vérifie si toutes les chaines ne sont pas vides.
+   * Check if the strings are not empty.
    *
-   * @param chaines les chaines à vérifier
-   * @return true si toutes les chaines ne sont pas vides, false si oui
+   * @param strings the strings that you need to check
+   * @return true if all the strings are not empty, false otherwise
    */
-  public static boolean verifNonVide(String... chaines) {
-    for (String chaine : chaines) {
-      if (!verifNonVide(chaine)) {
+  public static boolean verifNonVide(String... strings) {
+    for (String string : strings) {
+      if (!verifNonVide(string)) {
         return false;
       }
     }
@@ -39,11 +39,11 @@ public class Util {
   }
 
   /**
-   * Crée une clef de session.
+   * Create a session key.
    *
-   * @param ip l'ip de la requête
-   * @param id l'id de l'utilisateur
-   * @return la clef de session
+   * @param ip ip of the request
+   * @param id id of the user
+   * @return the session key
    */
   public static String creerClef(String ip, int id) {
     return JWT.create().withIssuer("auth0").withClaim("ip", ip).withClaim("uId", id)
@@ -51,38 +51,38 @@ public class Util {
   }
 
   /**
-   * Décode la clef.
+   * Decode the key.
    *
-   * @param clef la clef à décoder
-   * @return la clé décodée
+   * @param key the key that you need to decode
+   * @return the decoded key
    */
-  public static DecodedJWT decoderClef(String clef) {
-    return JWT.require(JWTALGORITHM).withIssuer("auth0").build().verify(clef);
+  public static DecodedJWT decoderClef(String key) {
+    return JWT.require(JWTALGORITHM).withIssuer("auth0").build().verify(key);
   }
 
   /**
-   * Vérifie la clef décodée avec l'ip, et renvoie l'id de l'utilisateur.
+   * Check the decoded key with the ip and send the id of the user.
    *
-   * @param clefDecodee la clef décodée
-   * @param ip l'ip à vérifier
-   * @return l'id de l'utilisateur
+   * @param decodedKey the decoded key
+   * @param ip the ip that you need to check
+   * @return the user's id
    */
-  public static int recupererUId(DecodedJWT clefDecodee, String ip) {
-    if (!ip.equals(clefDecodee.getClaim("ip").asString())) {
+  public static int recupererUId(DecodedJWT decodedKey, String ip) {
+    if (!ip.equals(decodedKey.getClaim("ip").asString())) {
       throw new MauvaiseClefException("Mauvaise adresse IP");
     }
-    return clefDecodee.getClaim("uId").asInt();
+    return decodedKey.getClaim("uId").asInt();
   }
 
   /**
-   * Décode la clef, vérifie la clef avec l'ip, et renvoie l'id de l'utilisateur.
+   * Decode the key, check the key with the ip, and send the user's id.
    *
-   * @param clef clef à décoder
-   * @param ip l'ip à vérifier
-   * @return l'id de l'utilisateur
+   * @param key the key that you need to decode
+   * @param ip the ip that you need to check
+   * @return the user's id
    */
-  public static int recuperUId(String clef, String ip) {
-    return recupererUId(decoderClef(clef), ip);
+  public static int recuperUId(String key, String ip) {
+    return recupererUId(decoderClef(key), ip);
   }
 
   /**
