@@ -90,7 +90,7 @@ public class Util {
   }
 
   /**
-   * check if the word that you give has the format that you want
+   * check if the word that you give has the format that you want.
    * 
    * @param word the word that you need to check
    * @param maxSize the size that you don't want to surpass
@@ -108,7 +108,7 @@ public class Util {
   }
 
   /**
-   * check if the word that you give has the format that you want
+   * check if the word that you give has the format that you want.
    * 
    * @param word the word that you need to check
    * @param maxSize the size that you don't want to surpass
