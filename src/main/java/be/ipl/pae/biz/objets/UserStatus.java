@@ -2,9 +2,7 @@ package be.ipl.pae.biz.objets;
 
 public enum UserStatus {
 
-  NOT_ACCEPTED("nv"),
-  CUSTOMER("c"),
-  WORKER("o");
+  NOT_ACCEPTED("nv"), CUSTOMER("c"), WORKER("o");
 
   private String name;
 
@@ -12,6 +10,12 @@ public enum UserStatus {
     this.name = name;
   }
 
+  /**
+   * get an UserStatus object when you give him the name of the status.
+   * 
+   * @param status
+   * @return an UserStatus object
+   */
   public static UserStatus getStatusByName(String status) {
     for (UserStatus userStatus : UserStatus.values()) {
       if (userStatus.getName().equals(status)) {

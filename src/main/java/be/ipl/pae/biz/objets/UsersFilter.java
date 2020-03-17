@@ -29,9 +29,6 @@ public class UsersFilter implements UsersFilterDto {
 
   @Override
   public String toString() {
-    return "UsersFilter{" +
-        "name='" + name + '\'' +
-        ", city='" + city + '\'' +
-        '}';
+    return "UsersFilter{" + "name='" + name + '\'' + ", city='" + city + '\'' + '}';
   }
 }

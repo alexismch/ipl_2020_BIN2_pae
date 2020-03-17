@@ -35,11 +35,12 @@ public class UserUccImpl implements UserUcc {
   @Override
   public UserDto register(UserDto userDto) throws BizException, FatalException {
 
-
-    if (userDao.checkPseudoInDb(userDto.getPseudo()))
+    if (userDao.checkPseudoInDb(userDto.getPseudo())) {
       throw new BizException("Pseudo déjà utilisé!");
-    if (userDao.checkEmailInDb(userDto.getEmail()))
+    }
+    if (userDao.checkEmailInDb(userDto.getEmail())) {
       throw new BizException("Email déjà utilisé!");
+    }
 
     return userDao.insertUser(userDto);
 
