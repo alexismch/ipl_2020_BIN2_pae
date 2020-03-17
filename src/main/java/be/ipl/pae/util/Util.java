@@ -68,7 +68,7 @@ public class Util {
    * Check the decoded key with the ip and send the id of the user.
    *
    * @param decodedKey the decoded key
-   * @param ip         the ip that you need to check
+   * @param ip the ip that you need to check
    * @return the user's id
    */
   public static int getUId(DecodedJWT decodedKey, String ip) {
@@ -82,7 +82,7 @@ public class Util {
    * Decode the key, check the key with the ip, and send the user's id.
    *
    * @param key the key that you need to decode
-   * @param ip  the ip that you need to check
+   * @param ip the ip that you need to check
    * @return the user's id
    */
   public static int getUId(String key, String ip) {
@@ -90,10 +90,12 @@ public class Util {
   }
 
   /**
-   * @param word    the word that you need to check
+   * check if the word that you give has the format that you want
+   * 
+   * @param word the word that you need to check
    * @param maxSize the size that you don't want to surpass
-   * @param regex   the regex that word need to match
-   * @return
+   * @param regex the regex that word need to match
+   * @return true if the word has a good format otherwise false
    */
   public static boolean checkFormat(String word, int maxSize, String regex) {
     if (!verifyNotEmpty(word)) {
@@ -106,9 +108,11 @@ public class Util {
   }
 
   /**
-   * @param word    the word that you need to check
+   * check if the word that you give has the format that you want
+   * 
+   * @param word the word that you need to check
    * @param maxSize the size that you don't want to surpass
-   * @return
+   * @return true if the word has a good format otherwise false
    */
   public static boolean checkFormat(String word, int maxSize) {
     if (!verifyNotEmpty(word)) {

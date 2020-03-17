@@ -169,9 +169,9 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto insertUser(UserDto userDto) throws FatalException {
     PreparedStatement ps;
-    String query_insert_user = "INSERT INTO mystherbe.users "
-        + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) " + "RETURNING id_user;";
-    ps = dalService.getPreparedStatement(query_insert_user);
+    String query = "INSERT INTO mystherbe.users " + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) "
+        + "RETURNING id_user;";
+    ps = dalService.getPreparedStatement(query);
 
     try {
       ps.setString(1, userDto.getPseudo());

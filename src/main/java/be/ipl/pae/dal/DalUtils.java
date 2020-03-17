@@ -2,14 +2,18 @@ package be.ipl.pae.dal;
 
 public class DalUtils {
 
-  public static String changeSpecialLikeChar(String s) {
+  /**
+   * 
+   * @param s
+   * @return
+   */
+  public static String changeSpecialLikeChar(String string) {
 
-    if (s == null) {
+    if (string == null) {
       return null;
     }
 
-    return s.replace("_", "\\_")
-        .replace("%", "\\%");
+    return string.replace("_", "\\_").replace("%", "\\%");
 
   }
 

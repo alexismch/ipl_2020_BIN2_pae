@@ -13,7 +13,7 @@ public enum UserStatus {
   /**
    * get an UserStatus object when you give him the name of the status.
    * 
-   * @param status
+   * @param status the string that describe the status
    * @return an UserStatus object
    */
   public static UserStatus getStatusByName(String status) {
