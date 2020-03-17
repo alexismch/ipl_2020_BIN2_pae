@@ -7,6 +7,8 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import java.io.IOException;
@@ -62,8 +64,10 @@ public class RegisterServlet extends AbstractServlet {
       try {
         userDb = userUcc.register(userDtoToInsert);
         envoyerSuccesAvecJson(resp, "user", userDb.toJson());
-      } catch (Exception ex) {
-        envoyerErreur(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException be) {
+        envoyerErreur(resp, HttpServletResponse.SC_CONFLICT, be.getMessage());
+      } catch (FatalException fe) {
+        envoyerErreur(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fe.getMessage());
       }
 
     } else {
