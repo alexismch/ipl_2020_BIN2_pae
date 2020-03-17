@@ -42,7 +42,7 @@ public class LoginServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/login by " + req.getRemoteAddr());
     String pseudo = req.getParameter("pseudo");
-    String passwd = req.getParameter("mdp"); //TODO: traduire
+    String passwd = req.getParameter("mdp"); // TODO: traduire
 
     if (verifyNotEmpty(pseudo, passwd)) {
       try {
@@ -54,8 +54,8 @@ public class LoginServlet extends AbstractServlet {
         System.out.println("\tGenerated token : " + token);
 
         envoyerSuccesAvecJson(rep, "user", userDto.toJson());
-      } catch (BizException e) {
-        envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+      } catch (BizException ex) {
+        envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
       }
     } else {
       envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");

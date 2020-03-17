@@ -11,7 +11,7 @@ public interface UserDao {
   /**
    * Return an userDto from the database.
    *
-   * @param pseudo le pseudo de la personne
+   * @param pseudo the pseudo of the user
    * @return An object UserDto with the information from the db or return null
    */
   UserDto getUserByPseudo(String pseudo);
@@ -35,18 +35,18 @@ public interface UserDao {
   /**
    * check if an email is already used.
    * 
-   * @param email
+   * @param email email that you need to check
    * @return true if the email is already in the database otherwise false
-   * @throws FatalException
+   * @throws FatalException if you have an error with the db
    */
   boolean checkEmailInDb(String email) throws FatalException;
 
   /**
    * check if an pseudo is already used.
    * 
-   * @param pseudo
+   * @param pseudo pseudo that you need to check
    * @return true if the pseudo is already in the database otherwise false
-   * @throws FatalException
+   * @throws FatalException if you have an error with the db
    */
   boolean checkPseudoInDb(String pseudo) throws FatalException;
 
@@ -55,7 +55,7 @@ public interface UserDao {
    * 
    * @param userDto the user that you need to insert
    * @return an userDto if he is insert or null if he's not
-   * @throws FatalException
+   * @throws FatalException if you have an error with the db
    */
   UserDto insertUser(UserDto userDto) throws FatalException;
 }

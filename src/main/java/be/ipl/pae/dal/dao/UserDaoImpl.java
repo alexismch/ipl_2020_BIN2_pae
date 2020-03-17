@@ -74,7 +74,8 @@ public class UserDaoImpl implements UserDao {
     String query;
 
     if (usersFilterDto != null) {
-      query = "SELECT * FROM mystherbe.users WHERE (? IS NULL OR lastname LIKE ?) AND (? IS NULL OR city LIKE ?)";
+      query = "SELECT * FROM mystherbe.users WHERE (? IS NULL OR lastname LIKE ?)"
+          + " AND (? IS NULL OR city LIKE ?)";
     } else {
       query = "SELECT * FROM mystherbe.users";
     }
@@ -132,8 +133,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean checkEmailInDb(String email) throws FatalException {
     PreparedStatement ps;
-    ps = dalService
-        .getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.email =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.email =?");
 
     try {
 
@@ -151,8 +151,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean checkPseudoInDb(String pseudo) throws FatalException {
     PreparedStatement ps;
-    ps = dalService
-        .getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.pseudo =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.pseudo =?");
 
     try {
 
@@ -170,9 +169,9 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto insertUser(UserDto userDto) throws FatalException {
     PreparedStatement ps;
-    String INSERT_USER = "INSERT INTO mystherbe.users "
+    String query_insert_user = "INSERT INTO mystherbe.users "
         + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) " + "RETURNING id_user;";
-    ps = dalService.getPreparedStatement(INSERT_USER);
+    ps = dalService.getPreparedStatement(query_insert_user);
 
     try {
       ps.setString(1, userDto.getPseudo());

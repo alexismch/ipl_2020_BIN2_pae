@@ -62,8 +62,8 @@ public class RegisterServlet extends AbstractServlet {
       try {
         userDb = userUcc.register(userDtoToInsert);
         envoyerSuccesAvecJson(resp, "user", userDb.toJson());
-      } catch (Exception e) {
-        envoyerErreur(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+      } catch (Exception ex) {
+        envoyerErreur(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       }
 
     } else {
