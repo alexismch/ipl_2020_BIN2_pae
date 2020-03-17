@@ -21,7 +21,7 @@ public class MockUserDao implements UserDao {
       return null;
     }
 
-    UserDto utilisateurDto = dtoFactory.getUtilisateur();
+    UserDto utilisateurDto = dtoFactory.getUser();
     utilisateurDto.setPseudo("sousou");
     utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
     utilisateurDto.setId(1);
@@ -43,20 +43,17 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean checkEmailInDb(String email) {
-    // TODO Auto-generated method stub
-    return false;
+    return email.equals("badmail@badmail.badmail");
   }
 
   @Override
   public boolean checkPseudoInDb(String pseudo) {
-    // TODO Auto-generated method stub
-    return false;
+    return pseudo.equals("badpseudo");
   }
 
   @Override
   public UserDto insertUser(UserDto userDto) {
-    // TODO Auto-generated method stub
-    return null;
+    return userDto;
   }
 
 }

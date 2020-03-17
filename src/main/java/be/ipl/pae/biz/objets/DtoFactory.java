@@ -5,7 +5,7 @@ import be.ipl.pae.biz.dto.UsersFilterDto;
 
 public interface DtoFactory {
 
-  UserDto getUtilisateur();
+  UserDto getUser();
 
   UsersFilterDto getUsersFilterDto();
 

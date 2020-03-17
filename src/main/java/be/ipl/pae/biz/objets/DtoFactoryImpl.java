@@ -6,7 +6,7 @@ import be.ipl.pae.biz.dto.UsersFilterDto;
 public class DtoFactoryImpl implements DtoFactory {
 
   @Override
-  public UserDto getUtilisateur() {
+  public UserDto getUser() {
     return new UserImpl();
   }
 

@@ -49,7 +49,7 @@ public class RegisterServlet extends AbstractServlet {
         && checkFormat(pwd, MAX_SIZE_PWD) && checkFormat(lastName, MAX_SIZE_LAST_NAME)
         && checkFormat(firstName, MAX_SIZE_FIRST_NAME) && checkFormat(city, MAX_SIZE_CITY)) {
 
-      UserDto userDtoToInsert = dtoFactory.getUtilisateur();
+      UserDto userDtoToInsert = dtoFactory.getUser();
 
       userDtoToInsert.setPseudo(pseudo);
       userDtoToInsert.setPassword(Util.cryptPwd(pwd));

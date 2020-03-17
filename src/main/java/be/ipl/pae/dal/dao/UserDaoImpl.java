@@ -123,7 +123,7 @@ public class UserDaoImpl implements UserDao {
     List<UserDto> users = new ArrayList<>();
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
-        UserDto userDto = userDtoFactory.getUtilisateur();
+        UserDto userDto = userDtoFactory.getUser();
         userDto.setId(resultSet.getInt(1));
         userDto.setPseudo(resultSet.getString(2));
         userDto.setPassword(resultSet.getString(3));
