@@ -1,8 +1,8 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.creerClef;
-import static be.ipl.pae.util.Util.recuperUId;
-import static be.ipl.pae.util.Util.verifNonVide;
+import static be.ipl.pae.util.Util.createToken;
+import static be.ipl.pae.util.Util.getUId;
+import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;
@@ -25,34 +25,33 @@ public class LoginServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("GET /api/login by " + req.getRemoteAddr());
 
-    String clef = (String) req.getSession().getAttribute("clef");
-    System.out.println("\tClef utilisée : " + clef);
+    String token = (String) req.getSession().getAttribute("token");
+    System.out.println("\tUsed token : " + token);
 
-    if (clef != null) {
-      int id = recuperUId(clef, req.getRemoteAddr());
+    if (token != null) {
+      int id = getUId(token, req.getRemoteAddr());
       UserDto utilisateurDto = ucc.recuprer(id);
 
       envoyerSuccesAvecJson(rep, "user", utilisateurDto.toJson());
     } else {
-      envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Clef invalide");
+      envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
     }
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/login by " + req.getRemoteAddr());
-    // System.out.println("\tParamètres reçus : " + req.getParameterMap());
     String pseudo = req.getParameter("pseudo");
-    String mdp = req.getParameter("mdp");
+    String passwd = req.getParameter("mdp"); //TODO: traduire
 
-    if (verifNonVide(pseudo, mdp)) {
+    if (verifyNotEmpty(pseudo, passwd)) {
       try {
-        UserDto userDto = ucc.login(pseudo, mdp);
+        UserDto userDto = ucc.login(pseudo, passwd);
 
         HttpSession session = req.getSession();
-        String clef = creerClef(req.getRemoteAddr(), userDto.getId());
-        session.setAttribute("clef", clef);
-        System.out.println("\tClef générée : " + clef);
+        String token = createToken(req.getRemoteAddr(), userDto.getId());
+        session.setAttribute("token", token);
+        System.out.println("\tGenerated token : " + token);
 
         envoyerSuccesAvecJson(rep, "user", userDto.toJson());
       } catch (BizException e) {

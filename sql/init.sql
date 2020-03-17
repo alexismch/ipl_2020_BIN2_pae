@@ -1,121 +1,121 @@
 DROP SCHEMA IF EXISTS mystherbe CASCADE;
 CREATE SCHEMA mystherbe;
 
-CREATE TABLE mystherbe.utilisateurs
+CREATE TABLE mystherbe.users
 (
-    id_util       SERIAL
+    id_user       SERIAL
         PRIMARY KEY,
     pseudo        VARCHAR(25)
         NOT NULL,
-    mdp           VARCHAR(255)
+    passwd        VARCHAR(255)
         NOT NULL,
-    nom           VARCHAR(25)
+    lastname      VARCHAR(25)
         NOT NULL,
-    prenom        VARCHAR(25)
+    firstname     VARCHAR(25)
         NOT NULL,
-    ville         VARCHAR(25)
+    city          VARCHAR(25)
         NOT NULL,
     email         VARCHAR(50)
         NOT NULL,
-    date_inscript DATE
+    register_date DATE
         NOT NULL,
-    statut        VARCHAR(50)
+    status        VARCHAR(50)
         NOT NULL
 );
 
-CREATE TABLE mystherbe.clients
+CREATE TABLE mystherbe.customers
 (
-    id_client   SERIAL
+    id_customer SERIAL
         PRIMARY KEY,
-    nom         VARCHAR(25)
+    lastname    VARCHAR(25)
         NOT NULL,
-    prenom      VARCHAR(25)
+    firstname   VARCHAR(25)
         NOT NULL,
-    adresse     VARCHAR(100)
+    address     VARCHAR(100)
         NOT NULL,
-    code_postal INT
+    postal_code INT
         NOT NULL,
-    ville       VARCHAR(25)
+    city        VARCHAR(25)
         NOT NULL,
     email       VARCHAR(50)
         NOT NULL,
-    no_tel      VARCHAR(14)
+    tel_nbr     VARCHAR(14)
         NOT NULL,
-    id_util     INT
-        REFERENCES mystherbe.utilisateurs (id_util)
+    id_user     INT
+        REFERENCES mystherbe.users (id_user)
         NULL
 );
 
-CREATE TABLE mystherbe.etats
+CREATE TABLE mystherbe.states
 (
-    id_etat SERIAL
+    id_state SERIAL
         PRIMARY KEY,
-    titre   VARCHAR(25)
+    title    VARCHAR(25)
         NOT NULL
 );
 
-CREATE TABLE mystherbe.devis
+CREATE TABLE mystherbe.quotes
 (
-    id_devis      VARCHAR(25)
+    id_quote      VARCHAR(25)
         PRIMARY KEY,
-    id_client     INT
-        REFERENCES mystherbe.clients (id_client)
+    id_customer   INT
+        REFERENCES mystherbe.customers (id_customer)
         NOT NULL,
-    date_devis    DATE
+    quote_date    DATE
         NOT NULL,
-    montant_total MONEY
+    total_amount  MONEY
         NOT NULL,
-    duree_travaux INT
+    work_duration INT
         NOT NULL,
-    id_etat       INT
-        REFERENCES mystherbe.etats (id_etat)
+    id_state      INT
+        REFERENCES mystherbe.states (id_state)
         NOT NULL,
-    date_debut    DATE
+    start_date    DATE
         NULL
 );
 
-CREATE TABLE mystherbe.types_amenagement
+CREATE TABLE mystherbe.development_types
 (
     id_type SERIAL
         PRIMARY KEY,
-    titre   VARCHAR(25)
+    title   VARCHAR(25)
         NOT NULL
 );
 
 CREATE TABLE mystherbe.photos
 (
-    id_photo      SERIAL
+    id_photo    SERIAL
         PRIMARY KEY,
-    titre         VARCHAR(25)
+    title       VARCHAR(25)
         NOT NULL,
-    lien          VARCHAR(50)
+    link        VARCHAR(50)
         NOT NULL,
-    id_devis      VARCHAR(25)
-        REFERENCES mystherbe.devis (id_devis)
+    id_quote    VARCHAR(25)
+        REFERENCES mystherbe.quotes (id_quote)
         NOT NULL,
-    est_visible   BOOLEAN
+    is_visible  BOOLEAN
         NOT NULL
         DEFAULT FALSE,
-    id_type       INT
-        REFERENCES mystherbe.types_amenagement (id_type)
+    id_type     INT
+        REFERENCES mystherbe.development_types (id_type)
         NOT NULL,
-    avant_travaux BOOLEAN
+    before_work BOOLEAN
         NOT NULL
         DEFAULT TRUE
 );
 
-CREATE TABLE mystherbe.types_devis
+CREATE TABLE mystherbe.quote_types
 (
-    id_devis VARCHAR(25)
-        REFERENCES mystherbe.devis (id_devis)
+    id_quote VARCHAR(25)
+        REFERENCES mystherbe.quotes (id_quote)
         NOT NULL,
     id_type  INT
-        REFERENCES mystherbe.types_amenagement (id_type)
+        REFERENCES mystherbe.development_types (id_type)
         NOT NULL,
-    CONSTRAINT pk_types_devis PRIMARY KEY (id_devis, id_type)
+    CONSTRAINT pk_quote_types PRIMARY KEY (id_quote, id_type)
 );
 
-ALTER TABLE mystherbe.devis
+ALTER TABLE mystherbe.quotes
     ADD COLUMN
         id_photo INT
             REFERENCES mystherbe.photos (id_photo)

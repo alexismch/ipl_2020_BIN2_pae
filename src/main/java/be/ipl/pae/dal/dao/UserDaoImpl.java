@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 
     UserDto utilisateurDto = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE pseudo =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE pseudo =?");
 
     try {
 
@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
 
     UserDto utilisateurDto = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.utilisateurs WHERE id_util =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE id_user =?");
 
     try {
       ps.setInt(1, idUtilisateur);
@@ -74,9 +74,9 @@ public class UserDaoImpl implements UserDao {
     String query;
 
     if (usersFilterDto != null) {
-      query = "SELECT * FROM mystherbe.utilisateurs WHERE (? IS NULL OR nom LIKE ?) AND (? IS NULL OR ville LIKE ?)";
+      query = "SELECT * FROM mystherbe.users WHERE (? IS NULL OR lastname LIKE ?) AND (? IS NULL OR city LIKE ?)";
     } else {
-      query = "SELECT * FROM mystherbe.utilisateurs";
+      query = "SELECT * FROM mystherbe.users";
     }
 
     PreparedStatement ps;
@@ -133,7 +133,7 @@ public class UserDaoImpl implements UserDao {
   public boolean checkEmailInDb(String email) throws FatalException {
     PreparedStatement ps;
     ps = dalService
-        .getPreparedStatement("Select * FROM mystherbe.utilisateurs util WHERE util.email =?");
+        .getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.email =?");
 
     try {
 
@@ -152,7 +152,7 @@ public class UserDaoImpl implements UserDao {
   public boolean checkPseudoInDb(String pseudo) throws FatalException {
     PreparedStatement ps;
     ps = dalService
-        .getPreparedStatement("Select * FROM mystherbe.utilisateurs util WHERE util.pseudo =?");
+        .getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.pseudo =?");
 
     try {
 
@@ -170,8 +170,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto insertUser(UserDto userDto) throws FatalException {
     PreparedStatement ps;
-    String INSERT_USER = "INSERT INTO mystherbe.utilisateurs "
-        + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) " + "RETURNING id_util;";
+    String INSERT_USER = "INSERT INTO mystherbe.users "
+        + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) " + "RETURNING id_user;";
     ps = dalService.getPreparedStatement(INSERT_USER);
 
     try {
