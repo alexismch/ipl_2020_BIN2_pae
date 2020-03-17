@@ -79,7 +79,7 @@ public class UserUccImplTest {
     assertNotNull(ucc.register(userDto));
   }
 
-  @DisplayName("register test when you give a good pseudo and a bad mail")
+  @DisplayName("register test when you give a good pseudo and a mail already used")
   @Test
   public void testregisterko1() throws BizException, FatalException {
     UserDto userDto = userDtoFactory.getUser();
@@ -88,7 +88,7 @@ public class UserUccImplTest {
     assertThrows(BizException.class, () -> ucc.register(userDto));
   }
 
-  @DisplayName("register test when you give a bad pseudo and a good mail")
+  @DisplayName("register test when you give a pseudo already used and a good mail")
   @Test
   public void testregisterko2() throws BizException, FatalException {
     UserDto userDto = userDtoFactory.getUser();
