@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto getUserByPseudo(String pseudo) {
 
-    UserDto utilisateurDto = null;
+    UserDto userDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE pseudo =?");
 
@@ -36,11 +36,16 @@ public class UserDaoImpl implements UserDao {
 
       ps.setString(1, pseudo);
 
-      utilisateurDto = getUsersViaPs(ps).get(0);
+      List<UserDto> users = getUsersViaPs(ps);
+      if (users.isEmpty()) {
+        return null;
+      }
+
+      userDto = users.get(0);
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
-    return utilisateurDto;
+    return userDto;
   }
 
   // pas sur si je dois utiliser ca pour l'instant
@@ -55,17 +60,23 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto getUser(int idUtilisateur) {
 
-    UserDto utilisateurDto = null;
+    UserDto userDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE id_user =?");
 
     try {
       ps.setInt(1, idUtilisateur);
-      utilisateurDto = getUsersViaPs(ps).get(0);
+
+      List<UserDto> users = getUsersViaPs(ps);
+      if (users.isEmpty()) {
+        return null;
+      }
+
+      userDto = users.get(0);
     } catch (SQLException ex) {
       ex.printStackTrace();
     }
-    return utilisateurDto;
+    return userDto;
   }
 
   @Override
