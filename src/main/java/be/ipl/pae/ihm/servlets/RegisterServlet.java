@@ -24,17 +24,16 @@ public class RegisterServlet extends AbstractServlet {
   DtoFactory dtoFactory;
 
 
-  final static String REGEX_MAIL = "^.+\\@.+\\..+";
-  final static int MAX_SIZE_MAIL = 50;
-  final static int MAX_SIZE_PSEUDO = 25;
-  final static int MAX_SIZE_LAST_NAME = 25;
-  final static int MAX_SIZE_FIRST_NAME = 25;
-  final static int MAX_SIZE_PWD = 255;
-  final static int MAX_SIZE_CITY = 25;
+  static final String REGEX_MAIL = "^.+\\@.+\\..+";
+  static final int MAX_SIZE_MAIL = 50;
+  static final int MAX_SIZE_PSEUDO = 25;
+  static final int MAX_SIZE_LAST_NAME = 25;
+  static final int MAX_SIZE_FIRST_NAME = 25;
+  static final int MAX_SIZE_PWD = 255;
+  static final int MAX_SIZE_CITY = 25;
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/register by " + req.getRemoteAddr());
 
     String pseudo = req.getParameter("pseudo");
