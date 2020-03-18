@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.objets;
 
+import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 
@@ -13,5 +14,11 @@ public class DtoFactoryImpl implements DtoFactory {
   @Override
   public UsersFilterDto getUsersFilterDto() {
     return new UsersFilter();
+  }
+
+  @Override
+  public QuoteDto getQuote() {
+    // TODO Auto-generated method stub
+    return new QuoteImpl();
   }
 }
