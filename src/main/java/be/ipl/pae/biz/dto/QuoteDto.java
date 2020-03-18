@@ -1,48 +1,53 @@
 package be.ipl.pae.biz.dto;
 
 
+import be.ipl.pae.biz.objets.State;
+
 import java.util.Date;
 
 public interface QuoteDto {
 
-  public String getIdQuote();
+  String getIdQuote();
 
 
-  public void setIdQuote(String idQuote) ;
+  void setIdQuote(String idQuote);
 
 
-  public String getIdCustomer();
+  int getIdCustomer();
 
 
-  public void setIdCustomer(String idCustomer) ;
+  void setIdCustomer(int idCustomer);
 
 
-  public Date getQuoteDate();
+  Date getQuoteDate();
 
 
-  public void setQuoteDate(Date quoteDate);
+  void setQuoteDate(Date quoteDate);
 
 
-  public double getTotalAmount() ;
+  double getTotalAmount();
 
 
-  public void setTotalAmount(double totalAmount) ;
+  void setTotalAmount(double totalAmount);
 
 
-  public int getWorkDuration();
+  int getWorkDuration();
 
 
-  public void setWorkDuration(int workDuration) ;
+  void setWorkDuration(int workDuration);
 
 
-  public String getIdState() ;
+  State getState();
 
 
-  public void setIdState(String idState) ;
+  void setState(State state);
 
 
-  public Date getStartDate() ;
+  void setState(String state);
 
 
-  public void setStartDate(Date startDate) ;
+  Date getStartDate();
+
+
+  void setStartDate(Date startDate);
 }

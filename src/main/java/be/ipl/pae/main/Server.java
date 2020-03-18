@@ -4,6 +4,7 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
+import be.ipl.pae.ihm.servlets.QuoteServlet;
 import be.ipl.pae.ihm.servlets.RegisterServlet;
 import be.ipl.pae.ihm.servlets.UserListServlet;
 
@@ -27,6 +28,9 @@ public class Server {
   @Injected
   private RegisterServlet registerServlet;
 
+  @Injected
+  QuoteServlet quoteServlet;
+
   /**
    * Start the server.
    *
@@ -35,7 +39,7 @@ public class Server {
   public void start() throws Exception {
     org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(8080);
     ContextHandlerCollection context = new ContextHandlerCollection();
-    context.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
+    context.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
     server.setHandler(context);
     System.out.println("Server starting...");
     server.start();
@@ -60,6 +64,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
     backendContext.addServlet(new ServletHolder(userListServlet), "/users-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
+    backendContext.addServlet(new ServletHolder(quoteServlet), "/insert-quote");
 
     return backendContext;
   }

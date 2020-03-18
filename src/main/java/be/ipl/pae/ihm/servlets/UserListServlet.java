@@ -50,7 +50,7 @@ public class UserListServlet extends AbstractServlet {
     Util.addSerializer(gensonBuilder, UserStatus.class,
         (value, writer, ctx) -> writer.writeString(value.getName()));
 
-    envoyerSuccesAvecJson(resp, "users",
+    sendSuccessWithJson(resp, "users",
         gensonBuilder.create().serialize(userUcc.getUsers(usersFilterDto)));
 
   }

@@ -6,23 +6,23 @@ import java.util.Date;
 public class QuoteImpl implements Quote {
 
   String idQuote;
-  String idCustomer;
+  int idCustomer;
   Date quoteDate;
   double totalAmount;
   int workDuration;
-  String idState;
+  State state;
   Date startDate;
-  
-  
-  public QuoteImpl(String idquote, String idcustomer, Date quotedate, double totalamount,
-      int workduration, String idstate, Date startdate) {
+
+
+  public QuoteImpl(String idquote, int idcustomer, Date quotedate, double totalamount,
+      int workduration, State state, Date startdate) {
     super();
     this.idQuote = idquote;
     this.idCustomer = idcustomer;
     this.quoteDate = quotedate;
     this.totalAmount = totalamount;
     this.workDuration = workduration;
-    this.idState = idstate;
+    this.state = state;
     this.startDate = startdate;
   }
 
@@ -42,12 +42,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public String getIdCustomer() {
+  public int getIdCustomer() {
     return idCustomer;
   }
 
 
-  public void setIdCustomer(String idCustomer) {
+  public void setIdCustomer(int idCustomer) {
     this.idCustomer = idCustomer;
   }
 
@@ -82,13 +82,18 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public String getIdState() {
-    return idState;
+  public State getState() {
+    return state;
   }
 
 
-  public void setIdState(String idState) {
-    this.idState = idState;
+  public void setState(State state) {
+    this.state = state;
+  }
+
+
+  public void setState(String state) {
+    this.state = State.valueOf(state);
   }
 
 

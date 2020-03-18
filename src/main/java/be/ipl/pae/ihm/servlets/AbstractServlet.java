@@ -8,51 +8,59 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class AbstractServlet extends HttpServlet {
 
   /**
-   * Renvoie un message à la requête.
+   * Return a message to the request.
    *
-   * @param rep         la requête qui va recevoir le message
-   * @param messageType le type de message à renvoyer
-   * @param statut      le statut de la requête en retour
-   * @param msg         le message à renvoyer
-   * @throws IOException en cas de problème avec le writer du message
+   * @param rep         the request that gonna recieve the message
+   * @param messageType returned message type
+   * @param status      returned request status
+   * @param msg         returned message
+   * @throws IOException in case of problem with request writer
    */
-  protected void envoyerMessage(HttpServletResponse rep, String messageType, int statut, String msg)
+  protected void sendMessage(HttpServletResponse rep, String messageType, int status, String msg)
       throws IOException {
     rep.setContentType(messageType);
     rep.setCharacterEncoding("UTF-8");
-    rep.setStatus(statut);
+    rep.setStatus(status);
     rep.getWriter().write(msg);
     System.out.println("\tRéponse : " + msg + "\n");
   }
 
   /**
-   * Renvoie un message d'erreur à la requête.
+   * Return an error message to the request.
    *
-   * @param rep    la requête qui va recevoir le message
-   * @param statut le statut de la requête en retour
-   * @param msg    le message à renvoyer
-   * @throws IOException en cas de problème avec le writer du message
+   * @param rep    the request that gonna recieve the message
+   * @param status returned request status
+   * @param msg    returned message
+   * @throws IOException in case of problem with request writer
    */
-  protected void envoyerErreur(HttpServletResponse rep, int statut, String msg) throws IOException {
+  protected void sendError(HttpServletResponse rep, int status, String msg) throws IOException {
     String json = "{\"" + "success\":false, " + "\"error\":\"" + msg + "\"}";
-    envoyerMessage(rep, "application/json", statut, json);
+    sendMessage(rep, "application/json", status, json);
   }
 
   /**
-   * Renvoie une réponse de succès à la requête.
+   * Return a success message to the request.
    *
-   * @param rep la requête qui va recevoir le message
-   * @throws IOException en cas de problème avec le writer du message
+   * @param rep the request that gonna recieve the message
+   * @throws IOException in case of problem with request writer
    */
   protected void sendSuccess(HttpServletResponse rep) throws IOException {
     String json = "{\"" + "success\":true" + "}";
-    envoyerMessage(rep, "application/json", 200, json);
+    sendMessage(rep, "application/json", 200, json);
   }
 
-  protected void envoyerSuccesAvecJson(HttpServletResponse rep, String nomJson, String json)
+  /**
+   * Return a success message to the request with a specific json.
+   *
+   * @param rep      the request that gonna recieve the message
+   * @param jsonName the name of the additional json
+   * @param json     the json that is returned with the success
+   * @throws IOException in case of problem with request writer
+   */
+  protected void sendSuccessWithJson(HttpServletResponse rep, String jsonName, String json)
       throws IOException {
     json = "{\"" + "success\":true, "
-        + "\"" + nomJson + "\":" + json + "}";
-    envoyerMessage(rep, "application/json", 200, json);
+        + "\"" + jsonName + "\":" + json + "}";
+    sendMessage(rep, "application/json", 200, json);
   }
 }
