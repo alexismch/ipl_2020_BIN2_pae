@@ -2,6 +2,9 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.QuoteDto;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public interface QuoteUcc {
 
   /**
@@ -12,4 +15,5 @@ public interface QuoteUcc {
    */
   QuoteDto insert(QuoteDto quoteDto);
 
+  ArrayList<QuoteDto> getQuotes() throws SQLException;
 }
