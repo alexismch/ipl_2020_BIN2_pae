@@ -32,9 +32,9 @@ public class LoginServlet extends AbstractServlet {
       int id = getUId(token, req.getRemoteAddr());
       UserDto utilisateurDto = ucc.recuprer(id);
 
-      envoyerSuccesAvecJson(rep, "user", utilisateurDto.toJson());
+      sendSuccessWithJson(rep, "user", utilisateurDto.toJson());
     } else {
-      envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
+      sendError(rep, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
     }
   }
 
@@ -53,12 +53,12 @@ public class LoginServlet extends AbstractServlet {
         session.setAttribute("token", token);
         System.out.println("\tGenerated token : " + token);
 
-        envoyerSuccesAvecJson(rep, "user", userDto.toJson());
+        sendSuccessWithJson(rep, "user", userDto.toJson());
       } catch (BizException ex) {
-        envoyerErreur(rep, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+        sendError(rep, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
       }
     } else {
-      envoyerErreur(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+      sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
 }

@@ -12,6 +12,8 @@ import com.owlike.genson.stream.ObjectReader;
 
 import org.mindrot.bcrypt.BCrypt;
 
+import java.util.Map;
+
 public class Util {
 
   private static final String JWTSECRET = "mystherbePAE";
@@ -43,6 +45,23 @@ public class Util {
   }
 
   /**
+   * Verify if all map elements are an object of cl Class.
+   *
+   * @param map the map contening elements
+   * @param cl  the required Class
+   * @return true if all elements is a cl Class object
+   */
+  public static boolean verifyMapTypes(Map map, Class cl) {
+    final boolean[] isOk = {true};
+    map.forEach((k, v) -> {
+      if (!v.getClass().equals(cl)) {
+        isOk[0] = false;
+      }
+    });
+    return isOk[0];
+  }
+
+  /**
    * Create a session key.
    *
    * @param ip ip of the request
@@ -68,7 +87,7 @@ public class Util {
    * Check the decoded key with the ip and send the id of the user.
    *
    * @param decodedKey the decoded key
-   * @param ip the ip that you need to check
+   * @param ip         the ip that you need to check
    * @return the user's id
    */
   public static int getUId(DecodedJWT decodedKey, String ip) {
@@ -82,7 +101,7 @@ public class Util {
    * Decode the key, check the key with the ip, and send the user's id.
    *
    * @param key the key that you need to decode
-   * @param ip the ip that you need to check
+   * @param ip  the ip that you need to check
    * @return the user's id
    */
   public static int getUId(String key, String ip) {
@@ -91,10 +110,10 @@ public class Util {
 
   /**
    * check if the word that you give has the format that you want.
-   * 
-   * @param word the word that you need to check
+   *
+   * @param word    the word that you need to check
    * @param maxSize the size that you don't want to surpass
-   * @param regex the regex that word need to match
+   * @param regex   the regex that word need to match
    * @return true if the word has a good format otherwise false
    */
   public static boolean checkFormat(String word, int maxSize, String regex) {
@@ -109,8 +128,8 @@ public class Util {
 
   /**
    * check if the word that you give has the format that you want.
-   * 
-   * @param word the word that you need to check
+   *
+   * @param word    the word that you need to check
    * @param maxSize the size that you don't want to surpass
    * @return true if the word has a good format otherwise false
    */
@@ -134,7 +153,7 @@ public class Util {
   public interface OneWayConverter<T> extends Converter<T> {
 
     @Override
-    default T deserialize(ObjectReader reader, Context ctx) throws Exception {
+    default T deserialize(ObjectReader reader, Context ctx) {
       return null;
     }
 

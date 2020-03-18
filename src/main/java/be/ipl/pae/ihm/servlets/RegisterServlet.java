@@ -63,15 +63,15 @@ public class RegisterServlet extends AbstractServlet {
       UserDto userDb;
       try {
         userDb = userUcc.register(userDtoToInsert);
-        envoyerSuccesAvecJson(resp, "user", userDb.toJson());
+        sendSuccessWithJson(resp, "user", userDb.toJson());
       } catch (BizException be) {
-        envoyerErreur(resp, HttpServletResponse.SC_CONFLICT, be.getMessage());
+        sendError(resp, HttpServletResponse.SC_CONFLICT, be.getMessage());
       } catch (FatalException fe) {
-        envoyerErreur(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fe.getMessage());
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fe.getMessage());
       }
 
     } else {
-      envoyerErreur(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
 }
