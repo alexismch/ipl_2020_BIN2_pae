@@ -14,16 +14,16 @@ public class QuoteImpl implements Quote {
   Date startDate;
   
   
-  public QuoteImpl(String id_quote, String id_customer, Date quote_date, double total_amount,
-      int work_duration, String id_state, Date start_date) {
+  public QuoteImpl(String idquote, String idcustomer, Date quotedate, double totalamount,
+      int workduration, String idstate, Date startdate) {
     super();
-    this.idQuote = id_quote;
-    this.idCustomer = id_customer;
-    this.quoteDate = quote_date;
-    this.totalAmount = total_amount;
-    this.workDuration = work_duration;
-    this.idState = id_state;
-    this.startDate = start_date;
+    this.idQuote = idquote;
+    this.idCustomer = idcustomer;
+    this.quoteDate = quotedate;
+    this.totalAmount = totalamount;
+    this.workDuration = workduration;
+    this.idState = idstate;
+    this.startDate = startdate;
   }
 
 
