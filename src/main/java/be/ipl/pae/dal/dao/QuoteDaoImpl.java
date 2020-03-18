@@ -19,14 +19,14 @@ public class QuoteDaoImpl implements QuoteDao{
   @Injected
   DtoFactory quoteDto;
   
-  public List<QuoteDto> getAllQuote() throws SQLException {
-    List<QuoteDto> users = new ArrayList<QuoteDto>();
+  public ArrayList<QuoteDto> getAllQuote() throws SQLException {
+    ArrayList<QuoteDto> quotes = new ArrayList<QuoteDto>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
     ResultSet res = ps.executeQuery();
     while (res.next()) {
-      users.add(createQuoteDto(res));
+      quotes.add(createQuoteDto(res));
     }
-    return users;
+    return quotes;
   }
 
   public QuoteDto createQuoteDto(ResultSet res) throws SQLException {
