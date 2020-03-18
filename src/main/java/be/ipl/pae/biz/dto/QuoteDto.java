@@ -1,6 +1,7 @@
 package be.ipl.pae.biz.dto;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public interface QuoteDto {
 
@@ -16,10 +17,10 @@ public interface QuoteDto {
   public void setIdCustomer(String idCustomer) ;
 
 
-  public LocalDate getQuoteDate();
+  public Date getQuoteDate();
 
 
-  public void setQuoteDate(LocalDate quoteDate);
+  public void setQuoteDate(Date quoteDate);
 
 
   public double getTotalAmount() ;
@@ -40,8 +41,8 @@ public interface QuoteDto {
   public void setIdState(String idState) ;
 
 
-  public LocalDate getStartDate() ;
+  public Date getStartDate() ;
 
 
-  public void setStartDate(LocalDate startDate) ;
+  public void setStartDate(Date startDate) ;
 }

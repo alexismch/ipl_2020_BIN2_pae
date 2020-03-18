@@ -1,20 +1,21 @@
 package be.ipl.pae.biz.objets;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class QuoteImpl implements Quote {
 
   String idQuote;
   String idCustomer;
-  LocalDate quoteDate;
+  Date quoteDate;
   double totalAmount;
   int workDuration;
   String idState;
-  LocalDate startDate;
+  Date startDate;
   
   
-  public QuoteImpl(String id_quote, String id_customer, LocalDate quote_date, double total_amount,
-      int work_duration, String id_state, LocalDate start_date) {
+  public QuoteImpl(String id_quote, String id_customer, Date quote_date, double total_amount,
+      int work_duration, String id_state, Date start_date) {
     super();
     this.idQuote = id_quote;
     this.idCustomer = id_customer;
@@ -23,6 +24,11 @@ public class QuoteImpl implements Quote {
     this.workDuration = work_duration;
     this.idState = id_state;
     this.startDate = start_date;
+  }
+
+
+  public QuoteImpl() {
+    super();
   }
 
 
@@ -46,12 +52,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public LocalDate getQuoteDate() {
+  public Date getQuoteDate() {
     return quoteDate;
   }
 
 
-  public void setQuoteDate(LocalDate quoteDate) {
+  public void setQuoteDate(Date quoteDate) {
     this.quoteDate = quoteDate;
   }
 
@@ -86,12 +92,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public LocalDate getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
 
-  public void setStartDate(LocalDate startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 
