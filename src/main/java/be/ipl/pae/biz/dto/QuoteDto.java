@@ -4,44 +4,44 @@ import java.time.LocalDate;
 
 public interface QuoteDto {
 
-  
-  public String getId_quote();
+  public String getIdQuote();
 
 
-  public void setId_quote(String id_quote) ;
+  public void setIdQuote(String idQuote) ;
 
 
-  public String getId_customer() ;
-
-  public void setId_customer(String id_customer) ;
+  public String getIdCustomer();
 
 
-  public LocalDate getQuote_date() ;
+  public void setIdCustomer(String idCustomer) ;
 
 
-  public void setQuote_date(LocalDate quote_date);
+  public LocalDate getQuoteDate();
 
 
-  public double getTotal_amount() ;
+  public void setQuoteDate(LocalDate quoteDate);
 
 
-  public void setTotal_amount(double total_amount) ;
+  public double getTotalAmount() ;
 
 
-  public int getWork_duration() ;
+  public void setTotalAmount(double totalAmount) ;
 
 
-  public void setWork_duration(int work_duration) ;
+  public int getWorkDuration();
 
 
-  public String getId_state() ;
+  public void setWorkDuration(int workDuration) ;
 
 
-  public void setId_state(String id_state) ;
+  public String getIdState() ;
 
 
-  public LocalDate getStart_date() ;
+  public void setIdState(String idState) ;
 
 
-  public void setStart_date(LocalDate start_date);
+  public LocalDate getStartDate() ;
+
+
+  public void setStartDate(LocalDate startDate) ;
 }
