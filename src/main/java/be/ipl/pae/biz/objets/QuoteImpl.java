@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.objets;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 
 public class QuoteImpl implements Quote {

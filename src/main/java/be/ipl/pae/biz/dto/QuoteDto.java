@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.dto;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 
 public interface QuoteDto {
