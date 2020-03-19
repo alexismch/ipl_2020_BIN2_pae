@@ -2,34 +2,34 @@ package be.ipl.pae.biz.objets;
 
 public class QuoteTypeImpl implements QuoteType {
 
- private String idquote;
- 
-private int idtype;
+  private String idQuote;
+
+  private int idType;
 
 
-public QuoteTypeImpl() {
-  super();
-}
+  public QuoteTypeImpl() {
+    super();
+  }
 
-public QuoteTypeImpl(String idquote, int idtype) {
-  super();
-  this.idquote = idquote;
-  this.idtype = idtype;
-}
+  public QuoteTypeImpl(String idQuote, int idType) {
+    super();
+    this.idQuote = idQuote;
+    this.idType = idType;
+  }
 
-public String getIdquote() {
-  return idquote;
-}
+  public String getIdQuote() {
+    return idQuote;
+  }
 
-public void setIdquote(String idquote) {
-  this.idquote = idquote;
-}
+  public void setIdQuote(String idQuote) {
+    this.idQuote = idQuote;
+  }
 
-public int getIdtype() {
-  return idtype;
-}
+  public int getIdType() {
+    return idType;
+  }
 
-public void setIdtype(int idtype) {
-  this.idtype = idtype;
-}
+  public void setIdType(int idtype) {
+    this.idType = idtype;
+  }
 }

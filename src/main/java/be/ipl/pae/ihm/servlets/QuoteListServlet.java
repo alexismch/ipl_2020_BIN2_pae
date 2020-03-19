@@ -1,15 +1,14 @@
 package be.ipl.pae.ihm.servlets;
 
-import be.ipl.pae.biz.dto.QuoteDto;
+
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
-import com.owlike.genson.Genson;
+
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

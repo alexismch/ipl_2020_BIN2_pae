@@ -16,5 +16,5 @@ public interface QuoteDao {
 
   QuoteDto createQuoteDto(ResultSet res) throws SQLException;
 
-  boolean checkQuoteIdInDb(String qId) throws FatalException;
+  boolean checkQuoteIdInDb(String quoteId) throws FatalException;
 }
