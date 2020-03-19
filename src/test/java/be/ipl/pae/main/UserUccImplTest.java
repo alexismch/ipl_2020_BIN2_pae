@@ -35,7 +35,7 @@ public class UserUccImplTest {
   public void setUp() {
     InjectionService injectionService = new InjectionService();
     try {
-      injectionService.loadProperties("test.properties");
+      injectionService.loadProperties("props/test.properties");
     } catch (IOException ex) {
       ex.printStackTrace();
     }
