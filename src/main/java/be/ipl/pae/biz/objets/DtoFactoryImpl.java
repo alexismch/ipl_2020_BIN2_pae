@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.objets;
 
+import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.UserDto;
@@ -33,5 +34,9 @@ public class DtoFactoryImpl implements DtoFactory {
   public DevelopmentType getDevelopmentType() {
     // TODO Auto-generated method stub
     return new DevelopmentTypeImpl();
+  }
+  
+  public CustomerDto getCustomer() {
+    return new CustomerImpl();
   }
 }
