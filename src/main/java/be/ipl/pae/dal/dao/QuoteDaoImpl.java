@@ -27,9 +27,11 @@ public class QuoteDaoImpl implements QuoteDao {
       quotes.add(createQuoteDto(res));
     }
     return quotes;
+    
   }
 
   public QuoteDto createQuoteDto(ResultSet res) throws SQLException {
+   
     QuoteDto quote = quoteDto.getQuote();
     quote.setIdQuote(res.getNString(1));
     quote.setIdCustomer(res.getInt(2));

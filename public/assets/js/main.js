@@ -56,7 +56,9 @@ $(() => {
       });
     },
     'devis': () => {
-      loadPageTemplate('Page des devis', 'page-devis');
+     loadPageTemplate('Page des devis', 'page-devis', () => {
+       //listQuote()
+      });
     },
     'nouveau-devis': () => {
       loadPageTemplate('Introduire un nouveau devis', 'page-nouveau-devis');
@@ -202,6 +204,34 @@ function loadUsersPage(query) {
     createUsersList(data.users);
   });
 }
+
+
+function listQuote(){
+	$.ajax({
+        url:'/quotes-list',
+        type:'get',
+        success:function(response){
+          alert(response);
+            var json = JSON.parse(response);
+			fillTable(json);
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            console.log('jqXHR : ' + jqXHR + '\ntextStatus : ' + textStatus + '\nerrorThrown');
+        }
+    });
+}
+
+
+function fillTable(table){
+	for(var i = 0 ; i < table.length ; i++){
+		$('#tableListQuotes tr:last').after('<tr> <td>'+ table[i].idQuote + '</td>'+ '<td>' +
+		 table[i].idCustomer + '</td>'+ '<td>' + table[i].quoteDate + '</td>'+ '<td>' + table[i].totalAmount + '</td>'+'</tr>');
+	}
+}
+
+
+
+
 
 /**
  * @see https://stackoverflow.com/questions/6992585/jquery-deserialize-form
