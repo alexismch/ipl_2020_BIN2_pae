@@ -8,7 +8,7 @@ public class LoadProperties {
 
   private Properties properties;
 
-  private String fichier = "props/prod.properties";
+  private String fichier = "prod.properties";
 
   public LoadProperties() {
     this.properties = new Properties();
