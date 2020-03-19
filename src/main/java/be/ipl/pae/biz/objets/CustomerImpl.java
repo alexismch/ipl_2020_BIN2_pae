@@ -2,15 +2,15 @@ package be.ipl.pae.biz.objets;
 
 public class CustomerImpl implements Customer {
 
- private String id_customer;
+ private String idCustomer;
  private String lastname;    
  private String firstname;
  private String address;   
- private int postal_code;
+ private int postalCode;
  private String city;       
- private String email;      
- private String tel_nbr;  
- private int id_user;
+ private String email ;      
+ private String telNbr;  
+ private int iduser;
  
  
  
@@ -18,24 +18,24 @@ public class CustomerImpl implements Customer {
 public CustomerImpl() {
   super();
 }
-public CustomerImpl(String id_customer, String lastname, String firstname, String address,
-    int postal_code, String city, String email, String tel_nbr, int id_user) {
+public CustomerImpl(String idcustomer, String lastname, String firstname, String address,
+    int postalcode, String city, String email, String telnbr, int iduser) {
   super();
-  this.id_customer = id_customer;
+  this.idCustomer = idcustomer;
   this.lastname = lastname;
   this.firstname = firstname;
   this.address = address;
-  this.postal_code = postal_code;
+  this.postalCode = postalcode;
   this.city = city;
   this.email = email;
-  this.tel_nbr = tel_nbr;
-  this.id_user = id_user;
+  this.telNbr = telnbr;
+  this.iduser = iduser;
 }
-public String getId_customer() {
-  return id_customer;
+public String getIdcustomer() {
+  return idCustomer;
 }
-public void setId_customer(String id_customer) {
-  this.id_customer = id_customer;
+public void setIdcustomer(String idcustomer) {
+  this.idCustomer = idcustomer;
 }
 public String getLastname() {
   return lastname;
@@ -55,11 +55,11 @@ public String getAddress() {
 public void setAddress(String address) {
   this.address = address;
 }
-public int getPostal_code() {
-  return postal_code;
+public int getPostalcode() {
+  return postalCode;
 }
-public void setPostal_code(int postal_code) {
-  this.postal_code = postal_code;
+public void setPostalcode(int postalcode) {
+  this.postalCode = postalcode;
 }
 public String getCity() {
   return city;
@@ -73,16 +73,16 @@ public String getEmail() {
 public void setEmail(String email) {
   this.email = email;
 }
-public String getTel_nbr() {
-  return tel_nbr;
+public String getTelnbr() {
+  return telNbr;
 }
-public void setTel_nbr(String tel_nbr) {
-  this.tel_nbr = tel_nbr;
+public void setTelnbr(String telnbr) {
+  this.telNbr = telnbr;
 }
-public int getId_user() {
-  return id_user;
+public int getIduser() {
+  return iduser;
 }
-public void setId_user(int id_user) {
-  this.id_user = id_user;
+public void setIduser(int id_user) {
+  this.iduser = id_user;
 }     
 }
