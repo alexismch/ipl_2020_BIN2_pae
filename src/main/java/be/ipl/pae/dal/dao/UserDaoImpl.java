@@ -4,8 +4,8 @@ import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
-import be.ipl.pae.dal.DalUtils;
 import be.ipl.pae.dal.services.DalService;
+import be.ipl.pae.dal.util.DalUtils;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
 

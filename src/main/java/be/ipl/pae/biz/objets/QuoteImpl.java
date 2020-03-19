@@ -1,20 +1,21 @@
 package be.ipl.pae.biz.objets;
 
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 public class QuoteImpl implements Quote {
 
   String idQuote;
   int idCustomer;
   Date quoteDate;
-  double totalAmount;
+  BigDecimal totalAmount;
   int workDuration;
   State state;
   Date startDate;
 
 
-  public QuoteImpl(String idquote, int idcustomer, Date quotedate, double totalamount,
+  public QuoteImpl(String idquote, int idcustomer, Date quotedate, BigDecimal totalamount,
       int workduration, State state, Date startdate) {
     super();
     this.idQuote = idquote;
@@ -62,12 +63,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public double getTotalAmount() {
+  public BigDecimal getTotalAmount() {
     return totalAmount;
   }
 
 
-  public void setTotalAmount(double totalAmount) {
+  public void setTotalAmount(BigDecimal totalAmount) {
     this.totalAmount = totalAmount;
   }
 

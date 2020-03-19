@@ -8,13 +8,14 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.State;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 
 import com.owlike.genson.Genson;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +43,10 @@ public class QuoteServlet extends AbstractServlet {
     if (verifyNotEmpty(qId, cIdString, dateString, amountString, durationString, typesJson)) {
       try {
         int cId = Integer.parseInt(cIdString);
-        double amount = Double.parseDouble(amountString);
+        BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
         int duration = Integer.parseInt(durationString);
 
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+        Date date = Date.valueOf(dateString);
 
         Genson genson = new Genson();
         Map types = genson.deserialize(typesJson, Map.class);
@@ -67,9 +68,10 @@ public class QuoteServlet extends AbstractServlet {
           sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED,
               "Types d'aménagements invalides");
         }
-      } catch (ParseException e) {
-        e.printStackTrace();
-        sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Mauvaise date");
+      } catch (FatalException e) {
+        sendError(rep, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+      } catch (BizException e) {
+        sendError(rep, HttpServletResponse.SC_CONFLICT, e.getMessage());
       }
     } else {
       sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");

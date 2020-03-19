@@ -3,6 +3,8 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,8 +15,11 @@ public class QuoteUccImpl implements QuoteUcc {
   private QuoteDao quoteDao;
 
   @Override
-  public QuoteDto insert(QuoteDto quoteDto) {
-    return null;
+  public QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException {
+    if (quoteDao.checkQuoteIdInDb(quoteDto.getIdQuote())) {
+      throw new BizException("Id de devis déjà utilisé!");
+    }
+    return quoteDao.insertQuote(quoteDto);
   }
 
   public ArrayList<QuoteDto> getQuotes() throws SQLException {
