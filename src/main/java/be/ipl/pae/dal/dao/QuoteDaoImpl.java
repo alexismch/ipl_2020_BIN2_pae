@@ -5,7 +5,6 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,16 +22,15 @@ public class QuoteDaoImpl implements QuoteDao {
 
   public List<QuoteDto> getAllQuote() throws SQLException {
     List<QuoteDto> quotes = new ArrayList<QuoteDto>();
-
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
-   try(ResultSet res = ps.executeQuery()) {
-     while(res.next()) {
-       quotes.add(createQuoteDto(res));
-     }
-   }catch(SQLException e) {
-     e.printStackTrace();
-   }
-   
+    try (ResultSet res = ps.executeQuery()) {
+      while (res.next()) {
+        quotes.add(createQuoteDto(res));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
     return quotes;
 
   }
@@ -42,21 +40,20 @@ public class QuoteDaoImpl implements QuoteDao {
     QuoteDto quote = quoteDto.getQuote();
     quote.setIdQuote(res.getString(1));
     quote.setIdCustomer(res.getInt(2));
-    //quote.setQuoteDate(res.getDate(3));
-    //quote.setTotalAmount(res.getBigDecimal(4));
+    // quote.setQuoteDate(res.getDate(3));
+    // quote.setTotalAmount(res.getBigDecimal(4));
     quote.setWorkDuration(res.getInt(5));
-    //quote.setStartDate(res.getDate(6));
-    //quote.setState(res.getString(7));
+    // quote.setStartDate(res.getDate(6));
+    // quote.setState(res.getString(7));
     return quote;
   }
 
   @Override
   public QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "INSERT INTO mystherbe.quotes "
-            + "(id_quote, id_customer, quote_date, total_amount, work_duration, id_state)"
-            + " VALUES (?, ?, ?::DATE, ?::MONEY, ?, "
-            + "(SELECT id_state FROM mystherbe.states WHERE title = ?))");
+    PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.quotes "
+        + "(id_quote, id_customer, quote_date, total_amount, work_duration, id_state)"
+        + " VALUES (?, ?, ?::DATE, ?::MONEY, ?, "
+        + "(SELECT id_state FROM mystherbe.states WHERE title = ?))");
     try {
       ps.setString(1, quoteDto.getIdQuote());
       ps.setInt(2, quoteDto.getIdCustomer());
@@ -78,14 +75,14 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
-    PreparedStatement ps = dalService
-        .getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?");
+    PreparedStatement ps =
+        dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?");
     try {
       ps.setString(1, quoteId);
       try (ResultSet resultSet = ps.executeQuery()) {
         return resultSet.next();
       }
-    } catch  (SQLException ex) {
+    } catch (SQLException ex) {
       throw new FatalException("error with the db");
     }
   }
