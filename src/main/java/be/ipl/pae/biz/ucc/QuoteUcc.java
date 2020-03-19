@@ -6,6 +6,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface QuoteUcc {
 
@@ -17,5 +18,5 @@ public interface QuoteUcc {
    */
   QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException;
 
-  ArrayList<QuoteDto> getQuotes() throws SQLException;
+  List<QuoteDto> getQuotes() throws SQLException;
 }

@@ -5,6 +5,7 @@ import {clearAlerts, createAlert} from './alerts.js';
 import {ajaxGET, ajaxPOST} from './ajax.js';
 import {createUsersList} from './users-list.js';
 import {createDevelopmentTypesList} from './developmentTypes-list.js';
+import {createQuotesList} from './quotes-list.js';
 
 let router;
 
@@ -60,9 +61,9 @@ $(() => {
         loadUsersPage(query)
       });
     },
-    'devis': () => {
+    'devis': (params,query) => {
      loadPageTemplate('Page des devis', 'page-devis', () => {
-       //listQuote()
+       loadQuotesList(query)
       });
     },
     'nouveau-devis': () => {
@@ -217,6 +218,12 @@ function loadDevelopmentTypes(query){
 
 }
 
+function loadQuotesList(query){
+  ajaxGET('/api/quotes-list',query,(data) => {
+    createQuotesList(data.quotesList);
+  });
+
+}
 
 function listQuote(){
 	$.ajax({

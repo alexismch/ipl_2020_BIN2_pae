@@ -1,4 +1,4 @@
-function listQuote(){
+/*function listQuote(){
 	$.ajax({
         url:'/quotes-list',
         type:'get',
@@ -21,3 +21,19 @@ function fillTable(table){
 		 table[i].idCustomer + '</td>'+ '<td>' + table[i].quoteDate + '</td>'+ '<td>' + table[i].totalAmount + '</td>'+'</tr>');
 	}
 }
+*/
+
+
+
+function createQuotesList(quotesList) {
+    $('#content').empty();
+    for (const quote of quotesList) {
+        const quoteListItem =`<li class="page-devis-item border rounded mb-2">
+        <p>${quote.idQuote}</p>
+        <a class="btn btn-primary w-min" href="plusTard">Sélectionner</a>
+        </li>`;
+        $('#content').append(quoteListItem);
+    }
+  }
+  
+  export {createQuotesList};

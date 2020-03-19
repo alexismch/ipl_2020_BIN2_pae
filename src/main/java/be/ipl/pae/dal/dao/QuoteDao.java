@@ -6,10 +6,11 @@ import be.ipl.pae.exceptions.FatalException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface QuoteDao {
 
-  ArrayList<QuoteDto> getAllQuote() throws SQLException;
+  List<QuoteDto> getAllQuote() throws SQLException;
 
   QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException;
 

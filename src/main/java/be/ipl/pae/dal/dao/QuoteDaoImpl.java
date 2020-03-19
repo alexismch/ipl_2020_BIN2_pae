@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuoteDaoImpl implements QuoteDao {
 
@@ -19,13 +20,17 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   DtoFactory quoteDto;
 
-  public ArrayList<QuoteDto> getAllQuote() throws SQLException {
-    ArrayList<QuoteDto> quotes = new ArrayList<QuoteDto>();
+  public List<QuoteDto> getAllQuote() throws SQLException {
+    List<QuoteDto> quotes = new ArrayList<QuoteDto>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
-    ResultSet res = ps.executeQuery();
-    while (res.next()) {
-      quotes.add(createQuoteDto(res));
-    }
+   try( ResultSet res = ps.executeQuery()){
+     while (res.next()) {
+       quotes.add(createQuoteDto(res));
+     }
+   }catch (SQLException e) {
+     e.printStackTrace();
+   }
+   
     return quotes;
 
   }
@@ -33,13 +38,13 @@ public class QuoteDaoImpl implements QuoteDao {
   public QuoteDto createQuoteDto(ResultSet res) throws SQLException {
 
     QuoteDto quote = quoteDto.getQuote();
-    quote.setIdQuote(res.getNString(1));
+    quote.setIdQuote(res.getString(1));
     quote.setIdCustomer(res.getInt(2));
-    quote.setQuoteDate(res.getDate(3));
-    quote.setTotalAmount(res.getBigDecimal(4));
+    //quote.setQuoteDate(res.getDate(3));
+    //quote.setTotalAmount(res.getBigDecimal(4));
     quote.setWorkDuration(res.getInt(5));
-    quote.setStartDate(res.getDate(6));
-    quote.setState(res.getString(7));
+    //quote.setStartDate(res.getDate(6));
+    //quote.setState(res.getString(7));
     return quote;
   }
 

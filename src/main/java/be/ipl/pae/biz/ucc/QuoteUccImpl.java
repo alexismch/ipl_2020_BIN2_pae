@@ -8,6 +8,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuoteUccImpl implements QuoteUcc {
 
@@ -22,7 +23,7 @@ public class QuoteUccImpl implements QuoteUcc {
     return quoteDao.insertQuote(quoteDto);
   }
 
-  public ArrayList<QuoteDto> getQuotes() throws SQLException {
+  public List<QuoteDto> getQuotes() throws SQLException {
     return quoteDao.getAllQuote();
   }
 }

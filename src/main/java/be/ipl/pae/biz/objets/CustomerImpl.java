@@ -8,9 +8,9 @@ public class CustomerImpl implements Customer {
  private String address;   
  private int postalCode;
  private String city;       
- private String email ;      
+ private String email;      
  private String telNbr;  
- private int iduser;
+ private int iduser; 
  
  
  
