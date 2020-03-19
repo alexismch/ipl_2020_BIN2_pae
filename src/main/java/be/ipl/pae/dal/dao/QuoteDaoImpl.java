@@ -20,7 +20,7 @@ public class QuoteDaoImpl implements QuoteDao {
   DtoFactory quoteDto;
 
   public ArrayList<QuoteDto> getAllQuote() throws SQLException {
-    ArrayList<QuoteDto> quotes = new ArrayList<QuoteDto>();
+    ArrayList<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
     ResultSet res = ps.executeQuery();
     while (res.next()) {
@@ -60,19 +60,19 @@ public class QuoteDaoImpl implements QuoteDao {
         throw new FatalException("error with the db!");
       }
       ps.close();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException sqlE) {
+      sqlE.printStackTrace();
       throw new FatalException("error with the db!");
     }
 
     return quoteDto;
   }
 
-  public boolean checkQuoteIdInDb(String qId) throws FatalException {
+  public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
     PreparedStatement ps = dalService
         .getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?");
     try {
-      ps.setString(1, qId);
+      ps.setString(1, quoteId);
       try (ResultSet resultSet = ps.executeQuery()) {
         return resultSet.next();
       }

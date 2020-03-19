@@ -3,11 +3,11 @@ package be.ipl.pae.biz.dto;
 public interface QuoteTypeDto {
 
 
-  String getIdquote();
+  String getIdQuote();
 
-  void setIdquote(String idquote);
+  void setIdQuote(String idQuote);
 
-  int getIdtype();
+  int getIdType();
 
-  void setIdtype(int id_type);
+  void setIdType(int idType);
 }

@@ -30,8 +30,8 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
         developmentType.setTitle(rs.getString(2));
         list.add(developmentType);
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException sqlE) {
+      sqlE.printStackTrace();
     }
     return list;
   }

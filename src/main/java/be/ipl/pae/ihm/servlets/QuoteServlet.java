@@ -68,10 +68,10 @@ public class QuoteServlet extends AbstractServlet {
           sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED,
               "Types d'aménagements invalides");
         }
-      } catch (FatalException e) {
-        sendError(rep, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-      } catch (BizException e) {
-        sendError(rep, HttpServletResponse.SC_CONFLICT, e.getMessage());
+      } catch (FatalException fatalE) {
+        sendError(rep, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
+      } catch (BizException bizE) {
+        sendError(rep, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       }
     } else {
       sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");

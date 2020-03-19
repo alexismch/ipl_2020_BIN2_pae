@@ -24,8 +24,8 @@ public class QuoteListServlet extends AbstractServlet {
       Genson genson = new Genson();
       resp.setContentType("application/json");
       resp.getOutputStream().print(genson.serialize(listQuotes));
-    } catch (SQLException | IOException e) {
-      e.printStackTrace();
+    } catch (SQLException | IOException ex) {
+      ex.printStackTrace();
     }
 
   }

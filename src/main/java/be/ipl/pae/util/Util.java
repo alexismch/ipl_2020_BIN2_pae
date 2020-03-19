@@ -53,8 +53,8 @@ public class Util {
    */
   public static boolean verifyMapTypes(Map map, Class cl) {
     final boolean[] isOk = {true};
-    map.forEach((k, v) -> {
-      if (!v.getClass().equals(cl)) {
+    map.forEach((key, value) -> {
+      if (!value.getClass().equals(cl)) {
         isOk[0] = false;
       }
     });
