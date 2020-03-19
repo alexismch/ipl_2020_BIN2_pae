@@ -17,18 +17,22 @@ public class QuoteTypeImpl implements QuoteType {
     this.idType = idType;
   }
 
+  @Override
   public String getIdQuote() {
     return idQuote;
   }
 
+  @Override
   public void setIdQuote(String idQuote) {
     this.idQuote = idQuote;
   }
 
+  @Override
   public int getIdType() {
     return idType;
   }
 
+  @Override
   public void setIdType(int idtype) {
     this.idType = idtype;
   }

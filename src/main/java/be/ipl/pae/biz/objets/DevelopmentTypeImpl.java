@@ -15,21 +15,23 @@ public class DevelopmentTypeImpl implements DevelopmentType {
     this.title = title;
   }
 
+  @Override
   public int getIdType() {
     return idType;
   }
 
+  @Override
   public void setIdType(int idType) {
     this.idType = idType;
   }
 
+  @Override
   public String getTitle() {
     return title;
   }
 
+  @Override
   public void setTitle(String title) {
     this.title = title;
   }
-
-
 }

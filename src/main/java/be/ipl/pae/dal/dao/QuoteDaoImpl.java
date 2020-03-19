@@ -19,6 +19,7 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   DtoFactory quoteDto;
 
+  @Override
   public ArrayList<QuoteDto> getAllQuote() throws SQLException {
     ArrayList<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
@@ -30,8 +31,8 @@ public class QuoteDaoImpl implements QuoteDao {
 
   }
 
+  @Override
   public QuoteDto createQuoteDto(ResultSet res) throws SQLException {
-
     QuoteDto quote = quoteDto.getQuote();
     quote.setIdQuote(res.getNString(1));
     quote.setIdCustomer(res.getInt(2));
@@ -43,6 +44,7 @@ public class QuoteDaoImpl implements QuoteDao {
     return quote;
   }
 
+  @Override
   public QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "INSERT INTO mystherbe.quotes "
@@ -68,6 +70,7 @@ public class QuoteDaoImpl implements QuoteDao {
     return quoteDto;
   }
 
+  @Override
   public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
     PreparedStatement ps = dalService
         .getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?");
