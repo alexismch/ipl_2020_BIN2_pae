@@ -28,9 +28,14 @@ function fillTable(table){
 function createQuotesList(quotesList) {
     $('#content').empty();
     for (const quote of quotesList) {
-        const quoteListItem =`<li class="page-devis-item border rounded mb-2">
+        const quoteListItem =`<li class="user-list-item border rounded mb-2">
         <p>${quote.idQuote}</p>
-        <a class="btn btn-primary w-min" href="plusTard">Sélectionner</a>
+        <p>${quote.idCustomer}</p>
+        <p>${quote.workDuration}</p>
+        <p>${quote.state}</p>
+        <p>${quote.idQuote}</p>
+        <p>${quote.idQuote}</p>
+        <a class="btn btn-primary w-min" href="test">Ajouter photo</a>
         </li>`;
         $('#content').append(quoteListItem);
     }
