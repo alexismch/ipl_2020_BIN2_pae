@@ -3,9 +3,9 @@ package be.ipl.pae.biz.dto;
 public interface QuoteTypeDto {
 
   
-  public String getId_quote() ;
-  public void setId_quote(String id_quote);
+  public String getIdquote() ;
+  public void setIdquote(String idquote);
 
-  public int getId_type();
-  public void setId_type(int id_type) ;
+  public int getIdtype();
+  public void setIdtype(int id_type) ;
 }
