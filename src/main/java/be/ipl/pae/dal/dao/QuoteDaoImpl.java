@@ -85,7 +85,7 @@ public class QuoteDaoImpl implements QuoteDao {
       try (ResultSet resultSet = ps.executeQuery()) {
         return resultSet.next();
       }
-    } catch (SQLException ex) {
+    } catch  (SQLException ex) {
       throw new FatalException("error with the db");
     }
   }
