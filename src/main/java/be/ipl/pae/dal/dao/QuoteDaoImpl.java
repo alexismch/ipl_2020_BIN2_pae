@@ -20,15 +20,10 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   DtoFactory quoteDto;
 
-<<<<<<< HEAD
+
   public List<QuoteDto> getAllQuote() throws SQLException {
     List<QuoteDto> quotes = new ArrayList<QuoteDto>();
 
-=======
-  @Override
-  public ArrayList<QuoteDto> getAllQuote() throws SQLException {
-    ArrayList<QuoteDto> quotes = new ArrayList<>();
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
    try( ResultSet res = ps.executeQuery()){
      while (res.next()) {
