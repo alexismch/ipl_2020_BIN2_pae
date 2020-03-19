@@ -28,8 +28,8 @@ public class QuoteDaoImpl implements QuoteDao {
       while (res.next()) {
         quotes.add(createQuoteDto(res));
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException sqlE) {
+      sqlE.printStackTrace();
     }
 
     return quotes;

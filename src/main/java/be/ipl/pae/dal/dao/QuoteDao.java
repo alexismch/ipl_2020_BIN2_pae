@@ -5,7 +5,6 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface QuoteDao {

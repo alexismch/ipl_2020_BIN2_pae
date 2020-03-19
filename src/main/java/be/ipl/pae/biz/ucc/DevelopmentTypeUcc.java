@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface DevelopmentTypeUcc {
 
-  /**Get all the development types 
-   * 
+  /**
+   * Get all the development types.
+   *
    * @return a list of DevelopmentTypeDto
    */
   List<DevelopmentTypeDto> getDevelopmentTypes();

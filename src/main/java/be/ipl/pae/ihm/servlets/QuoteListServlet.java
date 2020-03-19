@@ -9,7 +9,6 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,9 +28,9 @@ public class QuoteListServlet extends AbstractServlet  {
     try {
       sendSuccessWithJson(resp, "quotesList",
           gensonBuilder.create().serialize(quoteUcc.getQuotes()));
-    } catch (SQLException e) {
-    
-      e.printStackTrace();
+    } catch (SQLException sqlE) {
+
+      sqlE.printStackTrace();
     }
   }
 }

@@ -7,7 +7,6 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuoteUccImpl implements QuoteUcc {
