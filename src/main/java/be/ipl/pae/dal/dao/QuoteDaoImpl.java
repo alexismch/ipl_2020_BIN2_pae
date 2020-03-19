@@ -20,9 +20,15 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   DtoFactory quoteDto;
 
+<<<<<<< HEAD
   public List<QuoteDto> getAllQuote() throws SQLException {
     List<QuoteDto> quotes = new ArrayList<QuoteDto>();
 
+=======
+  @Override
+  public ArrayList<QuoteDto> getAllQuote() throws SQLException {
+    ArrayList<QuoteDto> quotes = new ArrayList<>();
+>>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
    try( ResultSet res = ps.executeQuery()){
      while (res.next()) {
@@ -36,8 +42,8 @@ public class QuoteDaoImpl implements QuoteDao {
 
   }
 
+  @Override
   public QuoteDto createQuoteDto(ResultSet res) throws SQLException {
-
     QuoteDto quote = quoteDto.getQuote();
     quote.setIdQuote(res.getString(1));
     quote.setIdCustomer(res.getInt(2));
@@ -49,6 +55,7 @@ public class QuoteDaoImpl implements QuoteDao {
     return quote;
   }
 
+  @Override
   public QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "INSERT INTO mystherbe.quotes "
@@ -74,6 +81,7 @@ public class QuoteDaoImpl implements QuoteDao {
     return quoteDto;
   }
 
+  @Override
   public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
     PreparedStatement ps = dalService
         .getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?");

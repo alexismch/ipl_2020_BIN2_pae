@@ -29,6 +29,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#getBase64()
    */
+  @Override
   public String getBase64() {
     return base64;
   }
@@ -36,6 +37,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setBase64(java.lang.String)
    */
+  @Override
   public void setBase64(String base64) {
     this.base64 = base64;
   }
@@ -43,6 +45,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#getId()
    */
+  @Override
   public int getId() {
     return id;
   }
@@ -50,6 +53,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setId(int)
    */
+  @Override
   public void setId(int id) {
     this.id = id;
   }
@@ -57,6 +61,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#getTitle()
    */
+  @Override
   public int getTitle() {
     return title;
   }
@@ -64,6 +69,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setTitle(int)
    */
+  @Override
   public void setTitle(int title) {
     this.title = title;
   }
@@ -71,6 +77,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#getIdQuote()
    */
+  @Override
   public String getIdQuote() {
     return idQuote;
   }
@@ -78,6 +85,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setIdQuote(java.lang.String)
    */
+  @Override
   public void setIdQuote(String idQuote) {
     this.idQuote = idQuote;
   }
@@ -92,6 +100,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setVisible(boolean)
    */
+  @Override
   public void setVisible(boolean isVisible) {
     this.isVisible = isVisible;
   }
@@ -99,6 +108,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#getIdType()
    */
+  @Override
   public int getIdType() {
     return idType;
   }
@@ -106,6 +116,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setIdType(int)
    */
+  @Override
   public void setIdType(int idType) {
     this.idType = idType;
   }
@@ -113,6 +124,7 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#isBeforeWork()
    */
+  @Override
   public boolean isBeforeWork() {
     return beforeWork;
   }
@@ -120,10 +132,8 @@ public class PhotoImpl implements Photo {
   /* (non-Javadoc)
    * @see be.ipl.pae.biz.objets.PhotoTest#setBeforeWork(boolean)
    */
+  @Override
   public void setBeforeWork(boolean beforeWork) {
     this.beforeWork = beforeWork;
   }
-  
-  
-  
 }

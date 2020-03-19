@@ -33,74 +33,92 @@ class UserImpl implements User {
     this.status = status;
   }
 
+  @Override
   public String getPseudo() {
     return this.pseudo;
   }
 
+  @Override
   public void setPseudo(String pseudo) {
     this.pseudo = pseudo;
   }
 
+  @Override
   public int getId() {
     return id;
   }
 
+  @Override
   public void setId(int id) {
     this.id = id;
   }
 
+  @Override
   public String getLastName() {
     return lastName;
   }
 
+  @Override
   public void setLastName(String nom) {
     this.lastName = nom;
   }
 
+  @Override
   public String getFirstName() {
     return firstName;
   }
 
+  @Override
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
+  @Override
   public String getPassword() {
     return password;
   }
 
+  @Override
   public void setPassword(String mdp) {
     this.password = mdp;
   }
 
+  @Override
   public String getCity() {
     return city;
   }
 
+  @Override
   public void setCity(String ville) {
     this.city = ville;
   }
 
+  @Override
   public String getEmail() {
     return email;
   }
 
+  @Override
   public void setEmail(String email) {
     this.email = email;
   }
 
+  @Override
   public LocalDate getRegistrationDate() {
     return registrationDate;
   }
 
+  @Override
   public void setRegistrationDate(LocalDate registrationDate) {
     this.registrationDate = registrationDate;
   }
 
+  @Override
   public UserStatus getStatus() {
     return status;
   }
 
+  @Override
   public void setStatus(UserStatus status) {
     this.status = status;
   }
