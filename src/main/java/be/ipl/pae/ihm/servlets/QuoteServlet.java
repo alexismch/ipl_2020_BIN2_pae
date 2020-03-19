@@ -33,16 +33,17 @@ public class QuoteServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
-    String qId = req.getParameter("qId");
-    String cIdString = req.getParameter("cId");
+    String quoteId = req.getParameter("quoteId");
+    String customerIdString = req.getParameter("customerId");
     String dateString = req.getParameter("date");
     String amountString = req.getParameter("amount");
     String durationString = req.getParameter("duration");
     String typesJson = req.getParameter("types");
 
-    if (verifyNotEmpty(qId, cIdString, dateString, amountString, durationString, typesJson)) {
+    if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString,
+        typesJson)) {
       try {
-        int cId = Integer.parseInt(cIdString);
+        int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
         int duration = Integer.parseInt(durationString);
 
@@ -54,8 +55,8 @@ public class QuoteServlet extends AbstractServlet {
         if (verifyMapTypes(types, Long.class)) {
           QuoteDto quoteToInsert = dtoFactory.getQuote();
 
-          quoteToInsert.setIdQuote(qId);
-          quoteToInsert.setIdCustomer(cId);
+          quoteToInsert.setIdQuote(quoteId);
+          quoteToInsert.setIdCustomer(customerId);
           quoteToInsert.setQuoteDate(date);
           quoteToInsert.setTotalAmount(amount);
           quoteToInsert.setWorkDuration(duration);
