@@ -1,4 +1,4 @@
-package be.ipl.pae.dal;
+package be.ipl.pae.dal.util;
 
 public class DalUtils {
 
