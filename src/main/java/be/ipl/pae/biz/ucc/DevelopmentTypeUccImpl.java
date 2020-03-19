@@ -7,12 +7,12 @@ import be.ipl.pae.dependencies.Injected;
 import java.util.List;
 
 public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
-  
+
   @Injected
   private DevelopmentTypeDao developmentTypeDao;
 
-  public List<DevelopmentTypeDto> getDevelopmentTypes(){
-    
+  public List<DevelopmentTypeDto> getDevelopmentTypes() {
+
     return developmentTypeDao.getAllDevelopmentType();
   }
 }

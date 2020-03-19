@@ -10,17 +10,17 @@ import be.ipl.pae.biz.dto.UsersFilterDto;
 public interface DtoFactory {
 
   DevelopmentType getDevelopmentType();
-  
+
   PhotoDto getPhoto();
-  
+
   UserDto getUser();
-  
+
   QuoteDto getQuote();
 
   UsersFilterDto getUsersFilterDto();
-   
+
   QuoteTypeDto getQuoteType();
-  
+
   CustomerDto getCustomer();
 
 }

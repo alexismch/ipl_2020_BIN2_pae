@@ -13,15 +13,15 @@ public class PhotoDaoImpl implements PhotoDao {
   DalService dalService;
   @Injected
   DtoFactory photoDtoFactory;
-  
+
   public PhotoDto getPhotoPerDevelopmentType() {
     //autre uce case, pour plus tard
-    PhotoDto photoDto= null;
+    PhotoDto photoDto = null;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM  mystherbe.users WHERE  ");
-    
+
     return null;
-    
+
   }
-  
+
 }

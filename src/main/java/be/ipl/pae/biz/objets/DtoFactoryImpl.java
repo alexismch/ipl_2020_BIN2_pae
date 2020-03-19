@@ -24,6 +24,7 @@ public class DtoFactoryImpl implements DtoFactory {
     // TODO Auto-generated method stub
     return new QuoteImpl();
   }
+
   public QuoteTypeDto getQuoteType() {
     // TODO Auto-generated method stub
     return new QuoteTypeImpl();
@@ -40,7 +41,7 @@ public class DtoFactoryImpl implements DtoFactory {
     // TODO Auto-generated method stub
     return new DevelopmentTypeImpl();
   }
-  
+
   public CustomerDto getCustomer() {
     return new CustomerImpl();
   }
