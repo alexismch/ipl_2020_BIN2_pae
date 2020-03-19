@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
@@ -35,6 +36,9 @@ public class Server {
 
   @Injected
   QuoteServlet quoteServlet;
+  
+  @Injected
+  private DevelopmentTypeServlet developmentTypeServlet;
 
   /**
    * Start the server.
@@ -64,13 +68,15 @@ public class Server {
     ServletContextHandler backendContext =
         new ServletContextHandler(ServletContextHandler.SESSIONS);
     backendContext.setContextPath("/api");
-
+    
     backendContext.addServlet(new ServletHolder(loginServlet), "/login");
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
     backendContext.addServlet(new ServletHolder(userListServlet), "/users-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
     backendContext.addServlet(new ServletHolder(quoteServlet), "/insert-quote");
     backendContext.addServlet(new ServletHolder(quoteListServlet), "/quotes-list");
+    backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
+
 
     return backendContext;
   }

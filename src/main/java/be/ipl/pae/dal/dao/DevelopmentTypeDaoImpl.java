@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DevelopmentTypeImpl {
+public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
 
   @Injected
   DalService dalService;

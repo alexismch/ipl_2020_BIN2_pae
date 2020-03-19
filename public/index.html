@@ -67,11 +67,12 @@
              href="#" id="template-type_amenagements" role="button">
             Type d'aménagements
           </a>
-          <div aria-labelledby="template-type_amenagements" class="dropdown-menu">
+          <div aria-labelledby="template-type_amenagements" class="dropdown-menu" id="development-types-menu">
             <a class="dropdown-item" data-navigo href="amenagements/1">Action</a>
             <a class="dropdown-item" data-navigo href="amenagements/2">Action</a>
           </div>
         </li>
+        <li class="nav-item"><a class="nav-link" data-navigo href="page-amenagements">Types d'aménagements</a></li>
         <li class="nav-item d-none nav-user"><a class="nav-link" data-navigo href="connexion">Se connecter</a></li>
         <li class="nav-item d-none nav-user"><a class="nav-link" data-navigo href="inscription">S'inscrire</a></li>
         <li class="nav-item d-none nav-client"><a class="nav-link" data-navigo href="mes-devis">Mes devis</a></li>
@@ -209,7 +210,7 @@
 </template>
 
 <template id="page-amenagements">
-
+  <ul class="page-amenagements m-2 p-0"></ul>
 </template>
 
 <template id="page-clients">

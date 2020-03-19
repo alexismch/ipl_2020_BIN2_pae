@@ -4,6 +4,7 @@ import {checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation, verifySame
 import {clearAlerts, createAlert} from './alerts.js';
 import {ajaxGET, ajaxPOST} from './ajax.js';
 import {createUsersList} from './users-list.js';
+import {createDevelopmentTypesList} from './developmentTypes-list.js';
 
 let router;
 
@@ -46,6 +47,10 @@ $(() => {
     },
     'amenagements/*': () => {
       loadPageTemplate('Page de l\'aménagement X', 'page-accueil');
+    },
+    'amenagements': (params,query) => {
+      loadPageTemplate('Page d\'aménagement', 'page-amenagements');
+      loadDevelopmentTypes(query);
     },
     'clients': () => {
       loadPageTemplate('Page des clients', 'page-clients');
@@ -203,6 +208,13 @@ function loadUsersPage(query) {
     }
     createUsersList(data.users);
   });
+}
+
+function loadDevelopmentTypes(query){
+  ajaxGET('/api/developmentType-list',query,(data) => {
+    createDevelopmentTypesList(data.developementTypesList);
+  });
+
 }
 
 
