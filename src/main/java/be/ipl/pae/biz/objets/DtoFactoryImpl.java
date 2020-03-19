@@ -28,4 +28,10 @@ public class DtoFactoryImpl implements DtoFactory {
     // TODO Auto-generated method stub
     return new PhotoImpl();
   }
+
+  @Override
+  public DevelopmentType getDevelopmentType() {
+    // TODO Auto-generated method stub
+    return new DevelopmentTypeImpl();
+  }
 }

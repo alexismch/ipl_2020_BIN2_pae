@@ -4,6 +4,11 @@ public class DevelopmentTypeImpl implements DevelopmentType {
   
   private int idType;
   private String title;
+  
+  public DevelopmentTypeImpl() {
+    super();
+  }
+  
   public DevelopmentTypeImpl(int idType, String title) {
     super();
     this.idType = idType;

@@ -7,6 +7,8 @@ import be.ipl.pae.biz.dto.UsersFilterDto;
 
 public interface DtoFactory {
 
+  DevelopmentType getDevelopmentType();
+  
   PhotoDto getPhoto();
   
   UserDto getUser();
