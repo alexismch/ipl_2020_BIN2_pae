@@ -26,7 +26,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
    try(ResultSet res = ps.executeQuery()) {
-     while (res.next()) {
+     while(res.next()) {
        quotes.add(createQuoteDto(res));
      }
    }catch(SQLException e) {

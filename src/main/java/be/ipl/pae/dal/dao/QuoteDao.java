@@ -10,8 +10,21 @@ import java.util.List;
 
 public interface QuoteDao {
 
+  /**
+   * collect all quotes from the database.
+   *
+   * @return the quote list collected
+   * @throws FatalException if a problem occurred with the db
+   */
   List<QuoteDto> getAllQuote() throws SQLException;
 
+  /**
+   * Create a new Quote with all the informations collected in the db.
+   *
+   * @param res the result from the query
+   * @return the quote collected as a dto object
+   * @throws FatalException if a problem occurred with the db
+   */
   QuoteDto createQuoteDto(ResultSet res) throws SQLException;
 
   /**
