@@ -13,7 +13,7 @@ public interface QuoteUcc {
    * Insert a new quote into the database.
    *
    * @param quoteDto the quote to insert
-   * @return a QuoteDto object that represent the quote
+   * @return a QuoteDto object that represents the quote
    */
   QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException;
 

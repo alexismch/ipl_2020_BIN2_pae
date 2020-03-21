@@ -22,7 +22,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
 
   public List<QuoteDto> getAllQuote() throws SQLException {
-    List<QuoteDto> quotes = new ArrayList<QuoteDto>();
+    List<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
     try (ResultSet res = ps.executeQuery()) {
       while (res.next()) {
@@ -62,13 +62,12 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setBigDecimal(4, quoteDto.getTotalAmount());
       ps.setInt(5, quoteDto.getWorkDuration());
       ps.setString(6, quoteDto.getState().getTitle());
-      if (!ps.execute()) {
-        throw new FatalException("error with the db!");
-      }
+
+      ps.execute();
       ps.close();
     } catch (SQLException sqlE) {
       sqlE.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new FatalException("Db error!");
     }
 
     return quoteDto;

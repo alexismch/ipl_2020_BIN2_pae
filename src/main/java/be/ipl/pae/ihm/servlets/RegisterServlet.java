@@ -19,13 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterServlet extends AbstractServlet {
 
-  @Injected
-  UserUcc userUcc;
-
-  @Injected
-  DtoFactory dtoFactory;
-
-
   static final String REGEX_MAIL = "^.+\\@.+\\..+";
   static final int MAX_SIZE_MAIL = 50;
   static final int MAX_SIZE_PSEUDO = 25;
@@ -33,6 +26,10 @@ public class RegisterServlet extends AbstractServlet {
   static final int MAX_SIZE_FIRST_NAME = 25;
   static final int MAX_SIZE_PWD = 255;
   static final int MAX_SIZE_CITY = 25;
+  @Injected
+  UserUcc userUcc;
+  @Injected
+  DtoFactory dtoFactory;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

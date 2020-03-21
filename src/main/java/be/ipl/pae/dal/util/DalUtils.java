@@ -3,7 +3,6 @@ package be.ipl.pae.dal.util;
 public class DalUtils {
 
   /**
-   * 
    * @param s
    * @return
    */

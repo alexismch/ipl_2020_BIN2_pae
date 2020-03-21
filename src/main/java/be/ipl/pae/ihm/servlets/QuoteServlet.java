@@ -30,7 +30,7 @@ public class QuoteServlet extends AbstractServlet {
   DtoFactory dtoFactory;
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
     String quoteId = req.getParameter("quoteId");
@@ -64,18 +64,23 @@ public class QuoteServlet extends AbstractServlet {
 
           quoteUcc.insert(quoteToInsert);
 
-          sendSuccess(rep);
+          //TODO: types
+          sendSuccess(resp);
         } else {
-          sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED,
+          sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED,
               "Types d'aménagements invalides");
         }
       } catch (FatalException fatalE) {
-        sendError(rep, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
+        fatalE.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       } catch (BizException bizE) {
-        sendError(rep, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
+        bizE.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
+      } catch (Exception ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       }
     } else {
-      sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
 }

@@ -1,7 +1,7 @@
 package be.ipl.pae.biz.dto;
 
 public interface PhotoDto {
-  
+
   String getBase64();
 
   void setBase64(String base64);

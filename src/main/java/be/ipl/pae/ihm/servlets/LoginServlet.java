@@ -22,7 +22,7 @@ public class LoginServlet extends AbstractServlet {
   UserUcc ucc;
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse rep) throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/login by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
@@ -32,17 +32,17 @@ public class LoginServlet extends AbstractServlet {
       int id = getUId(token, req.getRemoteAddr());
       UserDto utilisateurDto = ucc.recuprer(id);
 
-      sendSuccessWithJson(rep, "user", utilisateurDto.toJson());
+      sendSuccessWithJson(resp, "user", utilisateurDto.toJson());
     } else {
-      sendError(rep, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
     }
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse rep) throws IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/login by " + req.getRemoteAddr());
     String pseudo = req.getParameter("pseudo");
-    String passwd = req.getParameter("mdp"); // TODO: traduire
+    String passwd = req.getParameter("mdp");
 
     if (verifyNotEmpty(pseudo, passwd)) {
       try {
@@ -53,12 +53,12 @@ public class LoginServlet extends AbstractServlet {
         session.setAttribute("token", token);
         System.out.println("\tGenerated token : " + token);
 
-        sendSuccessWithJson(rep, "user", userDto.toJson());
+        sendSuccessWithJson(resp, "user", userDto.toJson());
       } catch (BizException ex) {
-        sendError(rep, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+        sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
       }
     } else {
-      sendError(rep, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
 }

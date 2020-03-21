@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 public class FrontendServlet extends DefaultServlet {
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    File file = new File(this.getResource("/").getName() + request.getRequestURI());
+    File file = new File(this.getResource("/").getName() + req.getRequestURI());
 
     if (!file.exists()) {
       // Requested page does not exist -> return index.html
@@ -27,24 +27,24 @@ public class FrontendServlet extends DefaultServlet {
         int length;
 
         while ((length = inputStream.read(buffer)) > 0) {
-          response.getOutputStream().write(buffer, 0, length);
+          resp.getOutputStream().write(buffer, 0, length);
         }
-        response.setContentType("text/html");
-        response.setCharacterEncoding("utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType("text/html");
+        resp.setCharacterEncoding("utf-8");
+        resp.setStatus(HttpServletResponse.SC_OK);
       } catch (Exception ex) {
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       }
     } else {
-      super.doGet(request, response);
+      super.doGet(req, resp);
     }
 
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+    resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
   }
 
   @Override

@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
@@ -20,18 +21,27 @@ public class Server {
 
   @Injected
   QuoteServlet quoteServlet;
+
   @Injected
   private QuoteListServlet quoteListServlet;
+
   @Injected
   private LoginServlet loginServlet;
+
   @Injected
   private LogoutServlet logoutServlet;
+
   @Injected
   private UserListServlet userListServlet;
+
   @Injected
   private RegisterServlet registerServlet;
+
   @Injected
   private DevelopmentTypeServlet developmentTypeServlet;
+
+  @Injected
+  private CustomerServlet customerServlet;
 
   /**
    * Start the server.
@@ -66,9 +76,10 @@ public class Server {
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
     backendContext.addServlet(new ServletHolder(userListServlet), "/users-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
-    backendContext.addServlet(new ServletHolder(quoteServlet), "/insert-quote");
+    backendContext.addServlet(new ServletHolder(quoteServlet), "/quote");
     backendContext.addServlet(new ServletHolder(quoteListServlet), "/quotes-list");
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
+    backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
 
     return backendContext;
   }

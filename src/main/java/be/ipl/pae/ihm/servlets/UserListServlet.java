@@ -23,10 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 public class UserListServlet extends AbstractServlet {
 
   @Injected
-  private UserUcc userUcc;
-
-  @Injected
   DtoFactory dtoFactory;
+  @Injected
+  private UserUcc userUcc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)

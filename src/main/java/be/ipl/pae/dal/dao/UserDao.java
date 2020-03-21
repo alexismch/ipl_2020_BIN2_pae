@@ -34,7 +34,7 @@ public interface UserDao {
 
   /**
    * check if an email is already used.
-   * 
+   *
    * @param email email that you need to check
    * @return true if the email is already in the database otherwise false
    * @throws FatalException if you have an error with the db
@@ -43,7 +43,7 @@ public interface UserDao {
 
   /**
    * check if an pseudo is already used.
-   * 
+   *
    * @param pseudo pseudo that you need to check
    * @return true if the pseudo is already in the database otherwise false
    * @throws FatalException if you have an error with the db
@@ -52,7 +52,7 @@ public interface UserDao {
 
   /**
    * insert a new user in the database.
-   * 
+   *
    * @param userDto the user that you need to insert
    * @return an userDto if he is insert or null if he's not
    * @throws FatalException if you have an error with the db

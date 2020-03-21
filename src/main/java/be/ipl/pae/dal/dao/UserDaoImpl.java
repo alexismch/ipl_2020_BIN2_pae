@@ -112,8 +112,8 @@ public class UserDaoImpl implements UserDao {
   }
 
   /**
-   * Return list of users created from the request. If only one user is required you can call
-   * {@link List#get} with the index 0.
+   * Return list of users created from the request. If only one user is required you can call {@link
+   * List#get} with the index 0.
    *
    * @param ps The request that will be executed
    * @return A list of UserDto created form the database

@@ -1,7 +1,7 @@
 package be.ipl.pae.biz.objets;
 
 public class PhotoImpl implements Photo {
-  
+
   private String base64;
   private int id;
   private int title;
@@ -9,11 +9,11 @@ public class PhotoImpl implements Photo {
   private boolean isVisible;
   private int idType;
   private boolean beforeWork;
-  
+
   public PhotoImpl() {
     super();
   }
-  
+
   public PhotoImpl(String base64, int id, int title, String idQuote, boolean isVisible, int idType,
       boolean beforeWork) {
     super();

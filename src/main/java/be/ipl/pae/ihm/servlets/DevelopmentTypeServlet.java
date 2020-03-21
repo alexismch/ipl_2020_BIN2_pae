@@ -13,25 +13,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DevelopmentTypeServlet extends AbstractServlet {
-  
+
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
-  
+
   @Injected
   private DtoFactory dtoFactory;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    
+
     GensonBuilder gensonBuilder = new GensonBuilder()
         .acceptSingleValueAsList(true)
         .useMethods(true);
-    
+
     sendSuccessWithJson(resp, "developementTypesList",
         gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));
 
   }
-  
-  
+
+
 }
