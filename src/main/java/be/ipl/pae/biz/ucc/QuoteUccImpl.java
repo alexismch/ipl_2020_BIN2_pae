@@ -18,11 +18,24 @@ public class QuoteUccImpl implements QuoteUcc {
   private DalServiceTransaction dalService;
 
   @Override
-  public QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException {
-    if (quoteDao.checkQuoteIdInDb(quoteDto.getIdQuote())) {
-      throw new BizException("Id de devis déjà utilisé!");
+  public QuoteDto insert(QuoteDto quoteDto) throws BizException {
+    try {
+      try {
+        dalService.startTransaction();
+        if (quoteDao.checkQuoteIdInDb(quoteDto.getIdQuote())) {
+          throw new BizException("Id de devis déjà utilisé!");
+        }
+        return quoteDao.insertQuote(quoteDto);
+      } catch (FatalException ex) {
+        dalService.rollbackTransaction();
+        throw new BizException(ex);
+      } finally {
+        dalService.commitTransaction();
+      }
+    } catch (FatalException ex) {
+      throw new BizException(ex);
     }
-    return quoteDao.insertQuote(quoteDto);
+
   }
 
   public List<QuoteDto> getQuotes() throws BizException {
