@@ -57,8 +57,8 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       url = propertiesLoader.getProperty("url");
       user = propertiesLoader.getProperty("user");
       pwd = propertiesLoader.getProperty("password");
-    } catch (PropertiesLoaderException e) {
-      e.printStackTrace();
+    } catch (PropertiesLoaderException ex) {
+      ex.printStackTrace();
     }
 
     //

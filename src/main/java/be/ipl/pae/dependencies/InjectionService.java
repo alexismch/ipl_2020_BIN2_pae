@@ -42,8 +42,8 @@ public class InjectionService {
               injectedClass = Class.forName(properties.getProperty(dependenceName));
             } catch (ClassNotFoundException ex) {
               throw new InternalError(dependenceName + "'s value is not a known class !", ex);
-            } catch (PropertiesLoaderException e) {
-              throw new InternalError(e.getMessage());
+            } catch (PropertiesLoaderException ex) {
+              throw new InternalError(ex.getMessage());
             }
             try {
               injectedObject = injectedClass.getConstructors()[0].newInstance();

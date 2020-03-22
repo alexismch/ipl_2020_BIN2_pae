@@ -46,7 +46,7 @@ public class PropertiesLoader {
     return properties.getProperty(name);
   }
 
-  public static class PropertiesLoaderException extends java.lang.Exception {
+  public static class PropertiesLoaderException extends Exception {
 
     public PropertiesLoaderException(String message) {
       super(message);
