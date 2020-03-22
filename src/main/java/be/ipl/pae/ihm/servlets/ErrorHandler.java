@@ -70,16 +70,16 @@ public class ErrorHandler extends ErrorPageErrorHandler {
       }
 
       writer.write('}');
-    } catch (Exception e) {
-      // Log if needed
+    } catch (Exception ex) {
+      ex.printStackTrace();
     }
   }
 
-  private String serializeForJson(String s) {
-    if (s == null) {
+  private String serializeForJson(String string) {
+    if (string == null) {
       return "";
     }
-    return s.replace("\b", "\\b")
+    return string.replace("\b", "\\b")
         .replace("\f", "\\f")
         .replace("\n", "\\n")
         .replace("\r", "\\r")
