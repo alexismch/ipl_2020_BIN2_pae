@@ -1,5 +1,7 @@
 package be.ipl.pae.dal.services;
 
+import be.ipl.pae.exceptions.FatalException;
+
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
@@ -22,7 +24,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
   private LoadProperties loadProperties;
   private Properties properties;
-  private Connection conn = null;
   private String url;
   private String user;
   private String pwd;
@@ -43,10 +44,10 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
 
   @Override
-  public PreparedStatement getPreparedStatement(String requete) {
+  public PreparedStatement getPreparedStatement(String request) {
     PreparedStatement ps = null;
     try {
-      ps = threadLocal.get().prepareStatement(requete);
+      ps = threadLocal.get().prepareStatement(request);
     } catch (SQLException ex) {
       System.out.println("probleme prepareStatement");
       ex.printStackTrace();
@@ -92,45 +93,34 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     // Set the factory's pool property to the owning pool
     poolableConnectionFactory.setPool(connectionPool);
 
-    //
-    // Finally, we create the PoolingDriver itself,
-    // passing in the object pool we created.
-    //
-    PoolingDataSource<PoolableConnection> dataSourceToReturn =
-        new PoolingDataSource<>(connectionPool);
-
-    return dataSourceToReturn;
+    return new PoolingDataSource<>(connectionPool);
   }
 
-  private void getConnexion() {
-    synchronized (dataSource) {
-      if (dataSource == null) {
-        dataSource = setUpDataSource();
-      }
+  private void getConnexion() throws FatalException {
+    if (dataSource == null) {
+      dataSource = setUpDataSource();
     }
 
     if (threadLocal.get() == null) {
       try {
         threadLocal.set(dataSource.getConnection());
       } catch (SQLException ex) {
-        // throw new FatalException(message);
         ex.printStackTrace();
+        throw new FatalException(ex);
       }
     }
   }
 
-  private void closeConnection() {
-
+  private void closeConnection() throws FatalException {
     try {
       threadLocal.get().setAutoCommit(true);
     } catch (SQLException se) {
-      se.printStackTrace();
+      throw new FatalException(se);
     } finally {
       try {
         threadLocal.get().close();
       } catch (SQLException ex) {
-        // TODO Auto-generated catch block
-        ex.printStackTrace();
+        throw new FatalException(ex);
       } finally {
         threadLocal.remove();
       }
@@ -139,7 +129,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
 
   @Override
-  public void startTransaction() {
+  public void startTransaction() throws FatalException {
     getConnexion();
     try {
       threadLocal.get().setAutoCommit(false);
@@ -152,13 +142,12 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
 
   @Override
-  public void commitTransaction() {
+  public void commitTransaction() throws FatalException {
     try {
       threadLocal.get().commit();
     } catch (SQLException ex) {
-      // TODO Auto-generated catch block
       rollbackTransaction();
-      ex.printStackTrace();
+      throw new FatalException(ex);
     } finally {
       closeConnection();
     }
@@ -167,14 +156,12 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
 
   @Override
-  public void rollbackTransaction() {
-    // TODO Auto-generated method stub
+  public void rollbackTransaction() throws FatalException {
     try {
       threadLocal.get().rollback();
     } catch (SQLException ex) {
-      // TODO Auto-generated catch block
       closeConnection();
-      ex.printStackTrace();
+      throw new FatalException(ex);
     }
   }
 

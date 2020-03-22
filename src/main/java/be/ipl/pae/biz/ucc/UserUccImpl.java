@@ -25,40 +25,49 @@ public class UserUccImpl implements UserUcc {
 
   @Override
   public UserDto login(String pseudo, String mdp) throws BizException {
-    UserDto userDto = null;
     try {
-      dalService.startTransaction();
-      userDto = userDao.getUserByPseudo(pseudo);
-    } catch (Exception ex) {
-      dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      UserDto userDto = null;
+      try {
+        dalService.startTransaction();
+        userDto = userDao.getUserByPseudo(pseudo);
+      } catch (Exception ex) {
+        dalService.rollbackTransaction();
+      } finally {
+        dalService.commitTransaction();
+      }
+
+      if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
+        throw new BizException("Pseudo ou mot de passe incorrect !");
+      }
+
+      if (UserStatus.NOT_ACCEPTED.equals(userDto.getStatus())) {
+        throw new BizException("Votre inscription est en attente de validation!");
+      }
+
+      return userDto;
+
+    } catch (FatalException ex) {
+      throw new BizException(ex);
     }
 
-    if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
-      throw new BizException("Pseudo ou mot de passe incorrect !");
-    }
-
-    if (UserStatus.NOT_ACCEPTED.equals(userDto.getStatus())) {
-      throw new BizException("Votre inscription est en attente de validation!");
-    }
-
-    return userDto;
   }
 
 
   @Override
-  public UserDto register(UserDto userDto) throws BizException, FatalException {
+  public UserDto register(UserDto userDto) throws BizException {
+    try {
+      if (userDao.checkPseudoInDb(userDto.getPseudo())) {
+        throw new BizException("Pseudo déjà utilisé!");
+      }
+      if (userDao.checkEmailInDb(userDto.getEmail())) {
+        throw new BizException("Email déjà utilisé!");
+      }
 
-    if (userDao.checkPseudoInDb(userDto.getPseudo())) {
-      throw new BizException("Pseudo déjà utilisé!");
+      return userDao.insertUser(userDto);
+
+    } catch (FatalException ex) {
+      throw new BizException(ex);
     }
-    if (userDao.checkEmailInDb(userDto.getEmail())) {
-      throw new BizException("Email déjà utilisé!");
-    }
-
-    return userDao.insertUser(userDto);
-
   }
 
   @Override
