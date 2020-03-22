@@ -32,6 +32,7 @@ public class UserUccImpl implements UserUcc {
         userDto = userDao.getUserByPseudo(pseudo);
       } catch (Exception ex) {
         dalService.rollbackTransaction();
+        throw new BizException(ex);
       } finally {
         dalService.commitTransaction();
       }
@@ -56,15 +57,24 @@ public class UserUccImpl implements UserUcc {
   @Override
   public UserDto register(UserDto userDto) throws BizException {
     try {
-      if (userDao.checkPseudoInDb(userDto.getPseudo())) {
-        throw new BizException("Pseudo déjà utilisé!");
-      }
-      if (userDao.checkEmailInDb(userDto.getEmail())) {
-        throw new BizException("Email déjà utilisé!");
-      }
+      try {
 
-      return userDao.insertUser(userDto);
+        if (userDao.checkPseudoInDb(userDto.getPseudo())) {
+          throw new BizException("Pseudo déjà utilisé!");
+        }
+        if (userDao.checkEmailInDb(userDto.getEmail())) {
+          throw new BizException("Email déjà utilisé!");
+        }
 
+        dalService.startTransaction();
+        return userDao.insertUser(userDto);
+
+      } catch (FatalException fx) {
+        dalService.rollbackTransaction();
+        throw new BizException(fx);
+      } finally {
+        dalService.commitTransaction();
+      }
     } catch (FatalException ex) {
       throw new BizException(ex);
     }
