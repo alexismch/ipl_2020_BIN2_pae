@@ -3,6 +3,7 @@ package be.ipl.pae.ihm.servlets;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -24,12 +25,15 @@ public class DevelopmentTypeServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    GensonBuilder gensonBuilder = new GensonBuilder()
-        .acceptSingleValueAsList(true)
-        .useMethods(true);
+    GensonBuilder gensonBuilder =
+        new GensonBuilder().acceptSingleValueAsList(true).useMethods(true);
 
-    sendSuccessWithJson(resp, "developementTypesList",
-        gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));
+    try {
+      sendSuccessWithJson(resp, "developementTypesList",
+          gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));
+    } catch (BizException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
 
   }
 
