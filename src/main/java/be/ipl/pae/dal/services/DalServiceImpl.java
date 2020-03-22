@@ -26,7 +26,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   private String url;
   private String user;
   private String pwd;
-  private static DataSource dataSource;
+  private static volatile DataSource dataSource;
   private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
   /**
@@ -103,9 +103,12 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   }
 
   private void getConnexion() {
-    synchronized (dataSource) {
-      if (dataSource == null) {
-        dataSource = setUpDataSource();
+
+    if (dataSource == null) {
+      synchronized (DalServiceImpl.class) {
+        if (dataSource == null) {
+          dataSource = setUpDataSource();
+        }
       }
     }
 
