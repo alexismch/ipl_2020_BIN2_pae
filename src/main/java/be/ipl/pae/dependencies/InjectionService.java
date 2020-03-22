@@ -1,36 +1,21 @@
 package be.ipl.pae.dependencies;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import be.ipl.pae.util.PropertiesLoader;
+import be.ipl.pae.util.PropertiesLoader.PropertiesLoaderException;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class InjectionService {
 
-  private static String fileName;
-  private static Properties properties;
-  private static Map<String, Object> injectedObjects = new HashMap<>();
+  private PropertiesLoader properties;
+  private Map<String, Object> injectedObjects = new HashMap<>();
 
-  /**
-   * Load the properties file used for dependencies injection.
-   *
-   * @param fileName The name of the file
-   * @throws IOException Exception thrown if an error occurred with the properties file
-   */
-  public void loadProperties(String fileName) throws IOException {
-    InjectionService.fileName = fileName;
-    properties = new Properties();
-    injectedObjects = new HashMap<>();
-    try (InputStream in = new FileInputStream(fileName)) {
-      properties.load(in);
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      throw new IOException(ex);
-    }
+  public InjectionService(PropertiesLoader propertiesLoader) {
+    this.properties = propertiesLoader;
+    this.injectedObjects.put(propertiesLoader.getClass().getName(), propertiesLoader);
   }
 
   /**
@@ -51,17 +36,14 @@ public class InjectionService {
 
           if (injectedObject == null) {
 
-            if (!properties.containsKey(dependenceName)) {
-              throw new InternalError(
-                  "Dependence '" + dependenceName + "' does not exist in " + fileName + " !");
-            }
-
             Class<?> injectedClass;
 
             try {
               injectedClass = Class.forName(properties.getProperty(dependenceName));
             } catch (ClassNotFoundException ex) {
               throw new InternalError(dependenceName + "'s value is not a known class !", ex);
+            } catch (PropertiesLoaderException ex) {
+              throw new InternalError(ex.getMessage());
             }
             try {
               injectedObject = injectedClass.getConstructors()[0].newInstance();

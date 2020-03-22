@@ -11,6 +11,7 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.util.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,12 +34,13 @@ public class UserUccImplTest {
    */
   @BeforeEach
   public void setUp() {
-    InjectionService injectionService = new InjectionService();
+    PropertiesLoader propertiesLoader = new PropertiesLoader();
     try {
-      injectionService.loadProperties("props/test.properties");
-    } catch (IOException ex) {
-      ex.printStackTrace();
+      propertiesLoader.loadProperties("props/test.properties");
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    InjectionService injectionService = new InjectionService(propertiesLoader);
     injectionService.inject(this);
   }
 

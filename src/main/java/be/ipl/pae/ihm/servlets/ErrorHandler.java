@@ -79,13 +79,14 @@ public class ErrorHandler extends ErrorPageErrorHandler {
     if (string == null) {
       return "";
     }
-    return string.replace("\b", "\\b")
+    return string
+        .replace("\\", "\\\\")
+        .replace("\b", "\\b")
         .replace("\f", "\\f")
         .replace("\n", "\\n")
         .replace("\r", "\\r")
         .replace("\t", "\\t")
-        .replace("\"", "\\\"")
-        .replace("\\", "\\\\");
+        .replace("\"", "\\\"");
   }
 
 }
