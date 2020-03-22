@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Fait une requête ajax de type GET.
+ * Do a GET ajax request.
  * @see ajax
  */
 function ajaxGET(url, data, onSuccess, onError) {
@@ -9,7 +9,7 @@ function ajaxGET(url, data, onSuccess, onError) {
 }
 
 /**
- * Fait une requête ajax de type POST.
+ * Do a POST ajax request.
  * @see ajax
  */
 function ajaxPOST(url, data, onSuccess, onError) {
@@ -17,7 +17,7 @@ function ajaxPOST(url, data, onSuccess, onError) {
 }
 
 /**
- * Fait une requête ajax de type PUT.
+ * Do a PUT ajax request.
  * @see ajax
  */
 function ajaxPUT(url, data, onSuccess, onError) {
@@ -25,7 +25,7 @@ function ajaxPUT(url, data, onSuccess, onError) {
 }
 
 /**
- * Fait une requête ajax de type DELETE.
+ * Do a DELETE ajax request.
  * @see ajax
  */
 function ajaxDELETE(url, data, onSuccess, onError) {
@@ -33,14 +33,14 @@ function ajaxDELETE(url, data, onSuccess, onError) {
 }
 
 /**
- * Fait une requête ajax.
- * Les données renvoyées par la requête devraient être de type json.
+ * Do an ajax request
+ * This function required the response to be json formatted
  *
- * @param {String} method Methode HTTP utilisée
- * @param {String} url Url vers laquelle la requete est effectuée
- * @param {String} data Les différentes données passées par methode
- * @param {function} onSuccess Fonction appelée lorsque la requête est effectuée correctement
- * @param {function} onError Fonction appelée en cas d'echec de la requête
+ * @param {String} method Method HTTP used
+ * @param {String} url The requested URL
+ * @param {String} data The data contained in the request
+ * @param {function} onSuccess A function called when the request is successful
+ * @param {function} onError A function called when an error happened during the request or an status code is in the 4xx or 5xx range
  */
 function ajax(method = 'GET', url = '', requestData = null, onSuccess = null,
     onError = null) {

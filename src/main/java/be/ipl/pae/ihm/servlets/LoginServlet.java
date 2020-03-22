@@ -32,7 +32,7 @@ public class LoginServlet extends AbstractServlet {
       int id = getUId(token, req.getRemoteAddr());
       UserDto utilisateurDto = ucc.recuprer(id);
 
-      sendSuccessWithJson(resp, "user", utilisateurDto.toJson());
+      sendSuccessWithJson(resp, "user", utilisateurDto.toJson()); // TODO use Genson
     } else {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
     }
@@ -42,7 +42,7 @@ public class LoginServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/login by " + req.getRemoteAddr());
     String pseudo = req.getParameter("pseudo");
-    String passwd = req.getParameter("mdp");
+    String passwd = req.getParameter("password");
 
     if (verifyNotEmpty(pseudo, passwd)) {
       try {
@@ -53,7 +53,7 @@ public class LoginServlet extends AbstractServlet {
         session.setAttribute("token", token);
         System.out.println("\tGenerated token : " + token);
 
-        sendSuccessWithJson(resp, "user", userDto.toJson());
+        sendSuccessWithJson(resp, "user", userDto.toJson()); // TODO use Genson
       } catch (BizException ex) {
         sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
       }

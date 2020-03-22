@@ -60,7 +60,7 @@ public class RegisterServlet extends AbstractServlet {
       UserDto userDb;
       try {
         userDb = userUcc.register(userDtoToInsert);
-        sendSuccessWithJson(resp, "user", userDb.toJson());
+        sendSuccessWithJson(resp, "user", userDb.toJson()); // TODO use Genson (or remove ?)
       } catch (BizException be) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, be.getMessage());
       } catch (FatalException fe) {

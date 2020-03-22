@@ -3,10 +3,10 @@
 import {ajax} from './ajax.js';
 
 /**
- * Valide le formulaire. En cas d'erreur affiche des messages d'erreur pour chaque entrée conformément à la methode {@link checkInputValidity}
+ * Check if the form is valid. If he is not, error message can be displayed for each field according to the method {@link checkInputValidity}
  *
- * @param {Jquery} form Formulaire à valider
- * @returns {boolean} true si le formulaire est valide
+ * @param {Jquery} $form The form to check
+ * @returns {boolean} true If the form is valid
  */
 function checkFormValidity($form) {
 
@@ -22,12 +22,12 @@ function checkFormValidity($form) {
 }
 
 /**
- * Valide un element de type input, textarea, select
- * Si l'element à valider est directement suivit d'un element qui a comme attribut class="input-error"
- * alors cet element est affiché en cas d'erreur et caché si l'entré est valide
+ * Check if a field (input, textarea, select, ...) is valid.
+ * If the element is directly followed by an element with the class 'input-error'
+ * this error element will be displayed if the field is invalid.
  *
- * @param {Jquery} element(input, textarea, select, ...) à valider
- * @returns {boolean} true si l'input est valide
+ * @param {Jquery} Element (input, textarea, select, ...) to validate
+ * @returns {boolean} true if the input is valid
  */
 function checkInputValidity($element) {
 
@@ -43,15 +43,16 @@ function checkInputValidity($element) {
 }
 
 /**
- * Ajoute un écouteur d'événement quand le formulaire est soumis.
- * Cet écouteur d'événement se chargera de valider le fumulaire avec la methode {@link checkFormValidity}
- * Il enverra ensuite le formulaire via une requête ajax en traduisant les parametres method et action
+ * Add a submit event listener to the form.
+ * This listener will validate the form with the function {@link checkFormValidity}.
+ * Then the listener will send the form through an ajax request.
  *
- * @param {Jquery} $form Formulaire è envoyé
- * @param {function} onSuccess Fonction appelée lorsque le formulaire est envoyé correctement
- * @param {function} onError Fonction appellé en cas d'erreur d'envoi du formulaire
- * @param {function} onInvalid Fonction appellé si de formulaire n'est pas valide
- * @param {function} onCheckValidity Fonction appellé pour effectuer des verifiaction supplémentaire sur le formulaire doit revoyer true si le formulaire est valide
+ * @param {Jquery} $form The form to which the event listener must be added
+ * @param {function} onSuccess A function called when the form is correctly send
+ * @param {function} onError A function called if an error occured
+ * @param {function} onInvalid A function called if the form is invalid
+ * @param {function} onCheckValidity A function used to make an extra validity check.
+ *                                   This function should return true is form is valid and false otherwise
  */
 function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity) {
 
@@ -89,13 +90,14 @@ function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity)
 }
 
 /**
- * Ajoute un écouteur d'événement quand le formulaire est soumis.
- * Cet écouteur d'événement se chargera de valider le fumulaire avec la methode {@link checkFormValidity}
- * Il enverra ensuite le formulaire via une requête ajax en traduisant les parametres method et action
+ * Add a submit event listener to the form.
+ * This listener will validate the form with the function {@link checkFormValidity}.
+ * Then the listener will serialize the form to navigate to a URL with GET parameters
  *
- * @param {Jquery} $form Formulaire è envoyé
- * @param {function} onInvalid Fonction appellé si de formulaire n'est pas valide
- * @param {function} onCheckValidity Fonction appellé pour effectuer des verifiaction supplémentaire sur le formulaire doit revoyer true si le formulaire est valide
+ * @param {Jquery} $form The form to which the event listener must be added
+ * @param {function} onInvalid A function called if the form is invalid
+ * @param {function} onCheckValidity A function used to make an extra validity check.
+ *                                   This function should return true is form is valid and false otherwise
  */
 function onSubmitWithNavigation($form, navigation, onInvalid, onCheckValidity) {
 
@@ -112,7 +114,9 @@ function onSubmitWithNavigation($form, navigation, onInvalid, onCheckValidity) {
     disableButtoms($form);
 
     const url = $form.attr('action');
-    const data = $form.serialize();
+    const data = $form.find(':input').filter(function (index, element) {
+      return $(element).val() != '';
+    }).serialize();
 
     if (navigation !== undefined) {
       navigation(url, data);

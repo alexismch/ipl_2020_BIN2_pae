@@ -102,18 +102,18 @@ noscript {
   display: none;
 }
 
-.user-list {
+.users-list {
   display: grid;
   grid-template-columns: repeat(4, 2fr) 1fr;
 }
 
-.user-list-item {
+.users-list-item {
   padding: .8em;
   grid-column: 1 / -1;
 }
 
 @media (min-width: 768px) {
-  .user-list-item {
+  .users-list-item {
     display: grid;
     grid-template-columns: repeat(4, 2fr) 1fr;
     grid-gap: .5em;
@@ -124,15 +124,32 @@ noscript {
 /*noinspection CssInvalidPropertyValue*/
 @supports (grid-template-columns: subgrid) {
   /* 2020-03-14: Only supported by Firefox */
-  .user-list-item {
+  .users-list-item {
     grid-template-columns: subgrid;
   }
 }
 
-.user-list-item p {
+.users-list-item p {
   margin: 0;
 }
 
-.user-list-item a {
+.users-list-item a {
   justify-self: right;
+}
+
+.amenagements-list {
+  display: grid;
+  grid-gap: .5em;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 1fr
+}
+
+.amenagements-list .card {
+  height: 100%;
+}
+
+.amenagements-list .card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
