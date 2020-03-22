@@ -26,8 +26,8 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   private String url;
   private String user;
   private String pwd;
-  private DataSource dataSource;
-  private ThreadLocal<Connection> threadLocal;
+  private static DataSource dataSource;
+  private static ThreadLocal<Connection> threadLocal;
 
   /**
    * Builds an obj of type DalService whose properties are in prod.properties
@@ -116,7 +116,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     return dataSourceToReturn;
   }
 
-  private void getAConnexion() {
+  private void getConnexion() {
     if (dataSource == null) {
       dataSource = setUpDataSource();
     }
@@ -128,20 +128,47 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
         ex.printStackTrace();
       }
     }
+  }
 
+  private void closeConnection() {
+    try {
+      if (!threadLocal.get().isClosed()) {
+        threadLocal.get().setAutoCommit(true);
+        threadLocal.get().close();
+      }
+    } catch (SQLException ex) {
+      // TODO Auto-generated catch block
+      ex.printStackTrace();
+    } finally {
+      threadLocal.remove();
+    }
   }
 
 
   @Override
   public void startTransaction() {
-
+    getConnexion();
+    try {
+      threadLocal.get().setAutoCommit(false);
+    } catch (SQLException ex) {
+      closeConnection();
+      ex.printStackTrace();
+    }
 
   }
 
 
   @Override
   public void commitTransaction() {
-    // TODO Auto-generated method stub
+    try {
+      threadLocal.get().commit();
+    } catch (SQLException ex) {
+      // TODO Auto-generated catch block
+      rollbackTransaction();
+      ex.printStackTrace();
+    } finally {
+      closeConnection();
+    }
 
   }
 
@@ -149,7 +176,13 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   @Override
   public void rollbackTransaction() {
     // TODO Auto-generated method stub
-
+    try {
+      threadLocal.get().rollback();
+    } catch (SQLException ex) {
+      // TODO Auto-generated catch block
+      closeConnection();
+      ex.printStackTrace();
+    }
   }
 
 
