@@ -1,5 +1,9 @@
 package be.ipl.pae.dal.services;
 
+import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.util.PropertiesLoader;
+import be.ipl.pae.util.PropertiesLoader.PropertiesLoaderException;
+
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
@@ -11,36 +15,17 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import javax.sql.DataSource;
-
-import config.LoadProperties;
 
 
 public class DalServiceImpl implements DalService, DalServiceTransaction {
 
-  private LoadProperties loadProperties;
-  private Properties properties;
-  private Connection conn = null;
-  private String url;
-  private String user;
-  private String pwd;
+  private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
+
   private static volatile DataSource dataSource;
-  private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
-
-  /**
-   * Builds an obj of type DalService whose properties are in prod.properties
-   */
-  public DalServiceImpl() {
-    this.loadProperties = new LoadProperties();
-    loadProperties.loadProperties();
-    properties = loadProperties.getProperties();
-    this.url = properties.getProperty("url");
-    this.user = properties.getProperty("user");
-    this.pwd = properties.getProperty("mdp");
-  }
-
+  @Injected
+  private PropertiesLoader propertiesLoader;
 
   @Override
   public PreparedStatement getPreparedStatement(String requete) {
@@ -56,7 +41,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
   }
 
-
   private DataSource setUpDataSource() {
     try {
       Class.forName("org.postgresql.Driver");
@@ -64,6 +48,18 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       System.out.println("Driver PostgreSQL manquant !");
       System.exit(1);
     }
+
+    String url = null;
+    String user = null;
+    String pwd = null;
+    try {
+      url = propertiesLoader.getProperty("url");
+      user = propertiesLoader.getProperty("user");
+      pwd = propertiesLoader.getProperty("password");
+    } catch (PropertiesLoaderException e) {
+      e.printStackTrace();
+    }
+
     //
     // First, we'll create a ConnectionFactory that the
     // pool will use to create Connections.

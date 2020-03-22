@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.InjectionService;
+import be.ipl.pae.util.PropertiesLoader;
 
 
 public class Main {
@@ -13,8 +14,9 @@ public class Main {
    */
   public static void main(String[] args) throws Exception {
     Server server = new Server();
-    InjectionService injectionService = new InjectionService();
-    injectionService.loadProperties("props/dev.properties");
+    PropertiesLoader propertiesLoader = new PropertiesLoader();
+    propertiesLoader.loadProperties("props/dev.properties");
+    InjectionService injectionService = new InjectionService(propertiesLoader);
     injectionService.inject(server);
     server.start();
   }
