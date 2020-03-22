@@ -96,10 +96,10 @@ public class UserDaoImpl implements UserDao {
 
     try {
       if (usersFilterDto != null) {
-        String name = DalUtils.changeSpecialLikeChar(usersFilterDto.getName());
+        String name = DalUtils.escapeSpecialLikeChar(usersFilterDto.getName());
         ps.setString(1, name);
         ps.setString(2, name + "%");
-        String city = DalUtils.changeSpecialLikeChar(usersFilterDto.getCity());
+        String city = DalUtils.escapeSpecialLikeChar(usersFilterDto.getCity());
         ps.setString(3, city);
         ps.setString(4, city + "%");
       }

@@ -18,7 +18,7 @@ public class FrontendServlet extends DefaultServlet {
 
     File file = new File(this.getResource("/").getName() + req.getRequestURI());
 
-    if (!file.exists()) {
+    if (!file.exists() || file.isDirectory()) {
       // Requested page does not exist -> return index.html
       try (InputStream inputStream =
           this.getResource("/").getResource("index.html").getInputStream()) {

@@ -3,6 +3,7 @@ package be.ipl.pae.main;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
+import be.ipl.pae.ihm.servlets.ErrorHandler;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
@@ -71,6 +72,7 @@ public class Server {
     ServletContextHandler backendContext =
         new ServletContextHandler(ServletContextHandler.SESSIONS);
     backendContext.setContextPath("/api");
+    backendContext.setErrorHandler(new ErrorHandler());
 
     backendContext.addServlet(new ServletHolder(loginServlet), "/login");
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");

@@ -3,10 +3,12 @@ package be.ipl.pae.dal.util;
 public class DalUtils {
 
   /**
-   * @param s
-   * @return
+   * Escape '_' and '%' to prevent their usage in SQL LIKE cause.
+   *
+   * @param string The string with chars to escape
+   * @return A string with '_' and '%' escaped
    */
-  public static String changeSpecialLikeChar(String string) {
+  public static String escapeSpecialLikeChar(String string) {
 
     if (string == null) {
       return null;
