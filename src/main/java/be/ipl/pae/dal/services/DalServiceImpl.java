@@ -27,7 +27,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   private String user;
   private String pwd;
   private static DataSource dataSource;
-  private static ThreadLocal<Connection> threadLocal;
+  private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
   /**
    * Builds an obj of type DalService whose properties are in prod.properties
@@ -39,25 +39,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     this.url = properties.getProperty("url");
     this.user = properties.getProperty("user");
     this.pwd = properties.getProperty("mdp");
-    // initierConnexion();
-    dataSource = null;
-    threadLocal = new ThreadLocal<Connection>();
-  }
-
-
-  private void initierConnexion() {
-    try {
-      Class.forName("org.postgresql.Driver");
-    } catch (ClassNotFoundException ex) {
-      System.out.println("Driver PostgreSQL manquant !");
-      System.exit(1);
-    }
-    // try {
-    // this.conn = DriverManager.getConnection(url, user, pwd);
-    // } catch (SQLException ex) {
-    // System.out.println("Impossible de joindre le server !");
-    // System.exit(1);
-    // }
   }
 
 
@@ -65,7 +46,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   public PreparedStatement getPreparedStatement(String requete) {
     PreparedStatement ps = null;
     try {
-      ps = conn.prepareStatement(requete);
+      ps = threadLocal.get().prepareStatement(requete);
     } catch (SQLException ex) {
       System.out.println("probleme prepareStatement");
       ex.printStackTrace();
@@ -77,7 +58,12 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
 
   private DataSource setUpDataSource() {
-    initierConnexion();
+    try {
+      Class.forName("org.postgresql.Driver");
+    } catch (ClassNotFoundException ex) {
+      System.out.println("Driver PostgreSQL manquant !");
+      System.exit(1);
+    }
     //
     // First, we'll create a ConnectionFactory that the
     // pool will use to create Connections.
@@ -117,9 +103,12 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   }
 
   private void getConnexion() {
-    if (dataSource == null) {
-      dataSource = setUpDataSource();
+    synchronized (dataSource) {
+      if (dataSource == null) {
+        dataSource = setUpDataSource();
+      }
     }
+
     if (threadLocal.get() == null) {
       try {
         threadLocal.set(dataSource.getConnection());
@@ -131,16 +120,20 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   }
 
   private void closeConnection() {
+
     try {
-      if (!threadLocal.get().isClosed()) {
-        threadLocal.get().setAutoCommit(true);
-        threadLocal.get().close();
-      }
-    } catch (SQLException ex) {
-      // TODO Auto-generated catch block
-      ex.printStackTrace();
+      threadLocal.get().setAutoCommit(true);
+    } catch (SQLException se) {
+      se.printStackTrace();
     } finally {
-      threadLocal.remove();
+      try {
+        threadLocal.get().close();
+      } catch (SQLException ex) {
+        // TODO Auto-generated catch block
+        ex.printStackTrace();
+      } finally {
+        threadLocal.remove();
+      }
     }
   }
 
