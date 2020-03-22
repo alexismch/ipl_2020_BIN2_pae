@@ -5,6 +5,7 @@ import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.User;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dal.dao.UserDao;
+import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
@@ -17,9 +18,23 @@ public class UserUccImpl implements UserUcc {
   @Injected
   private UserDao userDao;
 
+  @Injected
+  private DalServiceTransaction dalService;
+
+
+
   @Override
   public UserDto login(String pseudo, String mdp) throws BizException {
-    UserDto userDto = userDao.getUserByPseudo(pseudo);
+    UserDto userDto = null;
+    try {
+      dalService.startTransaction();
+      userDto = userDao.getUserByPseudo(pseudo);
+    } catch (Exception ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+
     if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
       throw new BizException("Pseudo ou mot de passe incorrect !");
     }
