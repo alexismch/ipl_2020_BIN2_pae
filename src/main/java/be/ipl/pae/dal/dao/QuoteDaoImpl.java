@@ -21,7 +21,7 @@ public class QuoteDaoImpl implements QuoteDao {
   DtoFactory quoteDto;
 
 
-  public List<QuoteDto> getAllQuote() throws SQLException {
+  public List<QuoteDto> getAllQuote() throws FatalException {
     List<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");
     try (ResultSet res = ps.executeQuery()) {
@@ -37,15 +37,22 @@ public class QuoteDaoImpl implements QuoteDao {
   }
 
   @Override
-  public QuoteDto createQuoteDto(ResultSet res) throws SQLException {
-    QuoteDto quote = quoteDto.getQuote();
-    quote.setIdQuote(res.getString(1));
-    quote.setIdCustomer(res.getInt(2));
-    // quote.setQuoteDate(res.getDate(3));
-    // quote.setTotalAmount(res.getBigDecimal(4));
-    quote.setWorkDuration(res.getInt(5));
-    // quote.setStartDate(res.getDate(6));
-    // quote.setState(res.getString(7));
+  public QuoteDto createQuoteDto(ResultSet res) throws FatalException {
+    QuoteDto quote = null;
+    try {
+      quote = quoteDto.getQuote();
+      quote.setIdQuote(res.getString(1));
+      quote.setIdCustomer(res.getInt(2));
+      // quote.setQuoteDate(res.getDate(3));
+      // quote.setTotalAmount(res.getBigDecimal(4));
+      quote.setWorkDuration(res.getInt(5));
+      // quote.setStartDate(res.getDate(6));
+      // quote.setState(res.getString(7));
+
+    } catch (SQLException ex) {
+      throw new FatalException(ex);
+    }
+
     return quote;
   }
 

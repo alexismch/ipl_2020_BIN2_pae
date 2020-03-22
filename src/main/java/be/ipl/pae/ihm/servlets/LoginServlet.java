@@ -30,9 +30,13 @@ public class LoginServlet extends AbstractServlet {
 
     if (token != null) {
       int id = getUId(token, req.getRemoteAddr());
-      UserDto utilisateurDto = ucc.recuprer(id);
-
-      sendSuccessWithJson(resp, "user", utilisateurDto.toJson()); // TODO use Genson
+      UserDto utilisateurDto = null;
+      try {
+        utilisateurDto = ucc.recuprer(id);
+        sendSuccessWithJson(resp, "user", utilisateurDto.toJson()); // TODO use Genson
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      }
     } else {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
     }

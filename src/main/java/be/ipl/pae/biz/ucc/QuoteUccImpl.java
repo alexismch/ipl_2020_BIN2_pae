@@ -2,17 +2,20 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.dal.dao.QuoteDao;
+import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class QuoteUccImpl implements QuoteUcc {
 
   @Injected
   private QuoteDao quoteDao;
+
+  @Injected
+  private DalServiceTransaction dalService;
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException {
@@ -22,7 +25,19 @@ public class QuoteUccImpl implements QuoteUcc {
     return quoteDao.insertQuote(quoteDto);
   }
 
-  public List<QuoteDto> getQuotes() throws SQLException {
-    return quoteDao.getAllQuote();
+  public List<QuoteDto> getQuotes() throws BizException {
+    try {
+      try {
+        dalService.startTransaction();
+        return quoteDao.getAllQuote();
+      } catch (FatalException ex) {
+        dalService.rollbackTransaction();
+        throw new BizException(ex);
+      } finally {
+        dalService.commitTransaction();
+      }
+    } catch (FatalException ex) {
+      throw new BizException(ex);
+    }
   }
 }

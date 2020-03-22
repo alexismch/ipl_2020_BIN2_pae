@@ -3,11 +3,11 @@ package be.ipl.pae.ihm.servlets;
 
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
 
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,16 +21,14 @@ public class QuoteListServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    GensonBuilder gensonBuilder = new GensonBuilder()
-        .acceptSingleValueAsList(true)
-        .useMethods(true);
+    GensonBuilder gensonBuilder =
+        new GensonBuilder().acceptSingleValueAsList(true).useMethods(true);
 
     try {
       sendSuccessWithJson(resp, "quotesList",
           gensonBuilder.create().serialize(quoteUcc.getQuotes()));
-    } catch (SQLException sqlE) {
-
-      sqlE.printStackTrace();
+    } catch (BizException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
   }
 }
