@@ -1,5 +1,7 @@
 package be.ipl.pae.dal.services;
 
+import config.LoadProperties;
+
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
@@ -15,19 +17,17 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import config.LoadProperties;
-
 
 public class DalServiceImpl implements DalService, DalServiceTransaction {
 
+  private static volatile DataSource dataSource;
+  private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
   private LoadProperties loadProperties;
   private Properties properties;
   private Connection conn = null;
   private String url;
   private String user;
   private String pwd;
-  private static volatile DataSource dataSource;
-  private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
   /**
    * Builds an obj of type DalService whose properties are in prod.properties
