@@ -24,6 +24,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
   private static volatile DataSource dataSource;
+
   @Injected
   private PropertiesLoader propertiesLoader;
 
