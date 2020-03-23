@@ -1,10 +1,11 @@
 package be.ipl.pae.biz.dto;
 
 
-import be.ipl.pae.biz.objets.State;
+import be.ipl.pae.biz.objets.QuoteState;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 public interface QuoteDto {
 
@@ -20,10 +21,10 @@ public interface QuoteDto {
   void setIdCustomer(int idCustomer);
 
 
-  Date getQuoteDate();
+  LocalDate getQuoteDate();
 
 
-  void setQuoteDate(Date quoteDate);
+  void setQuoteDate(LocalDate quoteDate);
 
 
   BigDecimal getTotalAmount();
@@ -38,17 +39,48 @@ public interface QuoteDto {
   void setWorkDuration(int workDuration);
 
 
-  State getState();
+  QuoteState getState();
 
 
-  void setState(State state);
+  void setState(QuoteState state);
 
 
   void setState(String state);
 
 
-  Date getStartDate();
+  LocalDate getStartDate();
 
 
-  void setStartDate(Date startDate);
+  void setStartDate(LocalDate startDate);
+
+
+  List<PhotoDto> getListPhotoBefore();
+
+
+  void addToListPhotoBefore(PhotoDto photoDto);
+
+
+  List<PhotoDto> getListPhotoAfter();
+
+
+  void addToListPhotoAfter(PhotoDto photoDto);
+
+
+  CustomerDto getCustomer();
+
+
+  void setCustomer(CustomerDto customer);
+
+
+  QuoteState getQuoteState();
+
+
+  void setQuoteState(QuoteState quoteState);
+
+
+  List<DevelopmentTypeDto> getListDevelopmentType();
+
+
+  void addListDevelopmentType(DevelopmentTypeDto developmentType);
+
 }

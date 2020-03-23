@@ -4,19 +4,25 @@ import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.objets.State;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.util.Util;
+
+import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,24 +57,23 @@ public class QuoteServlet extends AbstractServlet {
 
         Date date = Date.valueOf(dateString);
 
-        List<Long> typesList = Stream.of(types)
-            .map(Long::valueOf)
-            .collect(Collectors.toList());
+        List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
 
         QuoteDto quoteToInsert = dtoFactory.getQuote();
 
         quoteToInsert.setIdQuote(quoteId);
         quoteToInsert.setIdCustomer(customerId);
-        quoteToInsert.setQuoteDate(date);
+        quoteToInsert.setQuoteDate(date.toLocalDate());
         quoteToInsert.setTotalAmount(amount);
         quoteToInsert.setWorkDuration(duration);
-        quoteToInsert.setState(State.DEVIS_INTRODUIT);
+        quoteToInsert.setState(QuoteState.QUOTE_ENTERED);
+
+
 
         quoteUcc.insert(quoteToInsert);
 
-        //TODO: typesList
+        // TODO: typesList
         sendSuccess(resp);
-
       } catch (FatalException fatalE) {
         fatalE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
@@ -83,4 +88,27 @@ public class QuoteServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
+
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    System.out.println("GET /api/quote by " + req.getRemoteAddr());
+
+    GensonBuilder genson = new GensonBuilder().useMethods(true);
+
+    Util.addSerializer(genson, LocalDate.class,
+        (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
+
+    String quoteId = req.getParameter("quoteId");
+    try {
+      QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
+      sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteDto));
+    } catch (FatalException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+  }
+
+
+
 }

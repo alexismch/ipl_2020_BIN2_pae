@@ -8,8 +8,8 @@ import be.ipl.pae.ihm.servlets.ErrorHandler;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
-import be.ipl.pae.ihm.servlets.QuoteListServlet;
 import be.ipl.pae.ihm.servlets.QuoteServlet;
+import be.ipl.pae.ihm.servlets.QuotesListServlet;
 import be.ipl.pae.ihm.servlets.RegisterServlet;
 import be.ipl.pae.ihm.servlets.UsersListServlet;
 
@@ -25,7 +25,7 @@ public class Server {
   QuoteServlet quoteServlet;
 
   @Injected
-  private QuoteListServlet quoteListServlet;
+  private QuotesListServlet quotesListServlet;
 
   @Injected
   private LoginServlet loginServlet;
@@ -83,7 +83,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(usersListServlet), "/users-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
     backendContext.addServlet(new ServletHolder(quoteServlet), "/quote");
-    backendContext.addServlet(new ServletHolder(quoteListServlet), "/quotes-list");
+    backendContext.addServlet(new ServletHolder(quotesListServlet), "/quotes-list");
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");

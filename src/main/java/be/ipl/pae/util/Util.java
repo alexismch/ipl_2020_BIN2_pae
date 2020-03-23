@@ -1,5 +1,7 @@
 package be.ipl.pae.util;
 
+import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.exceptions.WrongTokenException;
 
 import com.auth0.jwt.JWT;
@@ -13,6 +15,8 @@ import com.owlike.genson.stream.ObjectWriter;
 
 import org.mindrot.bcrypt.BCrypt;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class Util {
@@ -143,6 +147,30 @@ public class Util {
 
   public static String cryptPwd(String pwd) {
     return BCrypt.hashpw(pwd, BCrypt.gensalt());
+  }
+
+  public static GensonBuilder createGensonBuilder() {
+    GensonBuilder gensonBuilder = new GensonBuilder().exclude("password").useMethods(true);
+    Util.addSerializer(gensonBuilder, LocalDate.class,
+        (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
+
+    Util.addSerializer(gensonBuilder, UserStatus.class,
+        (value, writer, ctx) -> {
+          writer.writeName("status").beginObject()
+              .writeString("id", value.toString())
+              .writeString("name", value.getName())
+              .endObject();
+        });
+
+    Util.addSerializer(gensonBuilder, QuoteState.class,
+        (value, writer, ctx) -> {
+          writer.writeName("state").beginObject()
+              .writeString("id", value.toString())
+              .writeString("title", value.getTitle())
+              .endObject();
+        });
+
+    return gensonBuilder;
   }
 
   public static <T> void addSerializer(GensonBuilder builder, Class<T> type,

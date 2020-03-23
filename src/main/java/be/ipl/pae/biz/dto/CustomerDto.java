@@ -2,9 +2,9 @@ package be.ipl.pae.biz.dto;
 
 public interface CustomerDto {
 
-  String getIdcustomer();
+  int getIdcustomer();
 
-  void setIdcustomer(String idcustomer);
+  void setIdcustomer(int idcustomer);
 
   String getLastname();
 

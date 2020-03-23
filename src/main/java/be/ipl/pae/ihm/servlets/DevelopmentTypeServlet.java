@@ -4,12 +4,12 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,10 +23,9 @@ public class DevelopmentTypeServlet extends AbstractServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+      throws IOException {
 
-    GensonBuilder gensonBuilder =
-        new GensonBuilder().acceptSingleValueAsList(true).useMethods(true);
+    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
 
     try {
       sendSuccessWithJson(resp, "developementTypesList",
