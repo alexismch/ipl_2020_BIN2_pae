@@ -9,6 +9,7 @@ import com.owlike.genson.Context;
 import com.owlike.genson.Converter;
 import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.stream.ObjectReader;
+import com.owlike.genson.stream.ObjectWriter;
 
 import org.mindrot.bcrypt.BCrypt;
 
@@ -145,16 +146,30 @@ public class Util {
   }
 
   public static <T> void addSerializer(GensonBuilder builder, Class<T> type,
-      OneWayConverter<T> converter) {
+      SerializerConverter<T> converter) {
+    builder.withConverter(converter, type);
+  }
+
+  public static <T> void addDeserializer(GensonBuilder builder, Class<T> type,
+      DeserializerConverter<T> converter) {
     builder.withConverter(converter, type);
   }
 
   @FunctionalInterface
-  public interface OneWayConverter<T> extends Converter<T> {
+  public interface SerializerConverter<T> extends Converter<T> {
 
     @Override
     default T deserialize(ObjectReader reader, Context ctx) {
       return null;
+    }
+
+  }
+
+  @FunctionalInterface
+  public interface DeserializerConverter<T> extends Converter<T> {
+
+    @Override
+    default void serialize(T object, ObjectWriter writer, Context ctx) {
     }
 
   }
