@@ -24,7 +24,6 @@ function createView() {
   const $page = $(getTemplate());
 
   ajaxGET('/api/developmentType-list', null, (data) => {
-    console.log(data.developementTypesList);
     createDevelopmentTypesList($page, data.developementTypesList);
   });
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import {router} from '../main.js';
+import {ajaxGET} from '../utils/ajax.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 
 function getTemplate() {
@@ -43,12 +45,6 @@ function getTemplate() {
         <label for="page-add-devis-types">Type d'aménagement(s)<span class="text-danger">*</span></label>
         <select id="page-add-devis-types" name="types" class="form-control" data-placeholder="Choisissez au moins un type d'aménagement" multiple>
           <option value=""></option>
-          <option value="a">AM1</option>
-          <option value="2">AM2</option>
-          <option value="3">AM3</option>
-          <option value="4">AM4</option>
-          <option value="5">AM5</option>
-          <option value="6">AM6</option>
         </select>
         <small class="input-error form-text text-danger">Au moins un type d'aménagement dois être selectionné.</small>
       </div>
@@ -114,8 +110,13 @@ function createView() {
     allow_single_deselect: true
   });
 
-  $selectTypes.append($('<option value="1">TEST</option>'));
-  $selectTypes.trigger('chosen:updated');
+  ajaxGET('/api/developmentType-list', null, (data) => {
+    for (const developementType of data.developementTypesList) {
+      console.log(developementType);
+      $(`<option value="${developementType.idType}">${developementType.title}</option>`).appendTo($selectTypes);
+    }
+    $selectTypes.trigger('chosen:updated');
+  });
 
   $selectTypes.data('validator', () => {
     const errorElement = $selectTypes.next().next('.input-error');

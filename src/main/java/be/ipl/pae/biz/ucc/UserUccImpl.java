@@ -98,19 +98,15 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws BizException {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException {
     try {
-      try {
-        dalService.startTransaction();
-        return userDao.getUsers(usersFilterDto);
-      } catch (FatalException ex) {
-        dalService.rollbackTransaction();
-        throw new BizException(ex);
-      } finally {
-        dalService.commitTransaction();
-      }
+      dalService.startTransaction();
+      return userDao.getUsers(usersFilterDto);
     } catch (FatalException ex) {
-      throw new BizException(ex);
+      dalService.rollbackTransaction();
+      throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
   }

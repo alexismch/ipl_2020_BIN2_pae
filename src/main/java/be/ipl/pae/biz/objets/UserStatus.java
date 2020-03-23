@@ -2,31 +2,38 @@ package be.ipl.pae.biz.objets;
 
 public enum UserStatus {
 
-  NOT_ACCEPTED("nv"), CUSTOMER("c"), WORKER("o");
+  NOT_ACCEPTED("n", "Non-accepté"),
+  CUSTOMER("c", "Client"),
+  WORKER("o", "Ouvrier");
 
+  private String code;
   private String name;
 
-  UserStatus(String name) {
+  UserStatus(String code, String name) {
+    this.code = code;
     this.name = name;
   }
 
   /**
-   * get an UserStatus object when you give him the name of the status.
+   * get an UserStatus for the corresponding code.
    *
-   * @param status the string that describe the status
+   * @param code the string that that should match a UserStatus code
    * @return an UserStatus object
    */
-  public static UserStatus getStatusByName(String status) {
+  public static UserStatus getStatusByCode(String code) {
     for (UserStatus userStatus : UserStatus.values()) {
-      if (userStatus.getName().equals(status)) {
+      if (userStatus.getCode().equals(code)) {
         return userStatus;
       }
     }
     throw new IllegalArgumentException("This status does not exist !");
   }
 
-  public String getName() {
-    return this.name;
+  public String getCode() {
+    return this.code;
   }
 
+  public String getName() {
+    return name;
+  }
 }

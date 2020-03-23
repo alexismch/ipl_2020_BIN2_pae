@@ -25,11 +25,25 @@ function createUsersList($page, users) {
 }
 
 function createUsersListItem($usersList, user) {
+
+  let badgeColorUserStatus;
+  switch (user.status.id) {
+    case 'WORKER':
+      badgeColorUserStatus = 'info';
+      break;
+    case 'CUSTOMER':
+      badgeColorUserStatus = 'success';
+      break;
+    case 'NOT_ACCEPTED':
+      badgeColorUserStatus = 'secondary';
+      break;
+  }
+
   const userListItem = `<li class="users-list-item border rounded mb-2">
       <p>${user.lastName} ${user.firstName}</p>
       <p>${user.email}</p>
       <p>${user.registrationDate}</p>
-      <p>${user.status}</p>
+      <p><span class="badge badge-${badgeColorUserStatus} font-size-100">${user.status.name}</span></p>
       <a class="btn btn-primary w-min" href="test">Détails</a>
     </li>`;
   $usersList.append(userListItem);
