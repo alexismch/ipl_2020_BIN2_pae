@@ -137,7 +137,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       threadLocal.get().setAutoCommit(false);
     } catch (SQLException ex) {
       closeConnection();
-      ex.printStackTrace();
+      throw new FatalException(ex);
     }
 
   }
