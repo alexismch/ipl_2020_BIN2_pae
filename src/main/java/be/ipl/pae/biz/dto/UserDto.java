@@ -43,10 +43,10 @@ public interface UserDto {
   void setStatus(UserStatus status);
 
   /**
+   * Return the current object serialized into json.
+   *
    * @return A json formatted string
    * @deprecated use Genson instead
-   * <p>
-   * Return the current object serialized into json.
    */
   @Deprecated
   default String toJson() {
