@@ -1,6 +1,5 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.verifyMapTypes;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.QuoteDto;
@@ -12,7 +11,6 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
-import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
@@ -20,7 +18,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,10 +43,13 @@ public class QuoteServlet extends AbstractServlet {
     String dateString = req.getParameter("date");
     String amountString = req.getParameter("amount");
     String durationString = req.getParameter("duration");
-    String typesJson = req.getParameter("types");
+    String[] types = req.getParameterValues("types"); // only one
+    if (types == null) {
+      types = req.getParameterValues("types[]"); // multiple
+    }
 
-    if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString,
-        typesJson)) {
+    if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
+        && types.length > 0) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
@@ -54,27 +57,23 @@ public class QuoteServlet extends AbstractServlet {
 
         Date date = Date.valueOf(dateString);
 
-        Genson genson = new Genson();
-        Map types = genson.deserialize(typesJson, Map.class);
+        List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
 
-        if (verifyMapTypes(types, Long.class)) {
-          QuoteDto quoteToInsert = dtoFactory.getQuote();
+        QuoteDto quoteToInsert = dtoFactory.getQuote();
 
-          quoteToInsert.setIdQuote(quoteId);
-          quoteToInsert.setIdCustomer(customerId);
-          quoteToInsert.setQuoteDate(date.toLocalDate());
-          quoteToInsert.setTotalAmount(amount);
-          quoteToInsert.setWorkDuration(duration);
-          quoteToInsert.setState(StateQuote.QUOTE_ENTERED);
+        quoteToInsert.setIdQuote(quoteId);
+        quoteToInsert.setIdCustomer(customerId);
+        quoteToInsert.setQuoteDate(date.toLocalDate());
+        quoteToInsert.setTotalAmount(amount);
+        quoteToInsert.setWorkDuration(duration);
+        quoteToInsert.setState(StateQuote.QUOTE_ENTERED);
 
-          quoteUcc.insert(quoteToInsert);
 
-          // TODO: types
-          sendSuccess(resp);
-        } else {
-          sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED,
-              "Types d'aménagements invalides");
-        }
+
+        quoteUcc.insert(quoteToInsert);
+
+        // TODO: typesList
+        sendSuccess(resp);
       } catch (FatalException fatalE) {
         fatalE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
@@ -82,6 +81,7 @@ public class QuoteServlet extends AbstractServlet {
         bizE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (Exception ex) {
+        ex.printStackTrace();
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       }
     } else {

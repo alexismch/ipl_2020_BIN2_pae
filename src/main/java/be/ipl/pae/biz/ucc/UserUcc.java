@@ -45,8 +45,8 @@ public interface UserUcc {
    *
    * @param usersFilterDto a filter applied to the results or null if no filter should be applied
    * @return A list of all users
-   * @throws BizException
+   * @throws FatalException Thrown if a fatal error happened during the data retrieving
    */
-  List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws BizException;
+  List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException;
 
 }

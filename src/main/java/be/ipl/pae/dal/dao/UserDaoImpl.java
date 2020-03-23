@@ -85,8 +85,7 @@ public class UserDaoImpl implements UserDao {
     String query;
 
     if (usersFilterDto != null) {
-      query = "SELECT * FROM mystherbe.users WHERE (? IS NULL OR lastname LIKE ?)"
-          + " AND (? IS NULL OR city LIKE ?)";
+      query = "SELECT * FROM mystherbe.users WHERE lastname LIKE ? AND city LIKE ?";
     } else {
       query = "SELECT * FROM mystherbe.users";
     }
@@ -97,11 +96,9 @@ public class UserDaoImpl implements UserDao {
     try {
       if (usersFilterDto != null) {
         String name = DalUtils.escapeSpecialLikeChar(usersFilterDto.getName());
-        ps.setString(1, name);
-        ps.setString(2, name + "%");
+        ps.setString(1, name + "%");
         String city = DalUtils.escapeSpecialLikeChar(usersFilterDto.getCity());
-        ps.setString(3, city);
-        ps.setString(4, city + "%");
+        ps.setString(2, city + "%");
       }
 
       return getUsersViaPs(ps);
@@ -132,7 +129,7 @@ public class UserDaoImpl implements UserDao {
         userDto.setCity(resultSet.getString(6));
         userDto.setEmail(resultSet.getString(7));
         userDto.setRegistrationDate(resultSet.getDate(8).toLocalDate());
-        userDto.setStatus(UserStatus.getStatusByName(resultSet.getString(9)));
+        userDto.setStatus(UserStatus.getStatusByCode(resultSet.getString(9)));
         users.add(userDto);
       }
     }
@@ -192,7 +189,7 @@ public class UserDaoImpl implements UserDao {
       ps.setString(5, userDto.getCity());
       ps.setString(6, userDto.getEmail());
       ps.setDate(7, Date.valueOf(userDto.getRegistrationDate()));
-      ps.setString(8, userDto.getStatus().getName());
+      ps.setString(8, userDto.getStatus().getCode());
 
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {

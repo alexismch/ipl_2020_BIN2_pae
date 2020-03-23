@@ -80,7 +80,7 @@ function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity)
     const method = $form.attr('method');
     const url = $form.attr('action');
 
-    const data = $form.serialize();
+    const data = serializeFormToJson($form);
 
     ajax(method, url, data, (data) => {
       enableButtoms($form);
@@ -154,6 +154,29 @@ function disableButtoms($form) {
     .data('content', $button.html())
     .html('<i class="fas fa-circle-notch fa-spin"></i>');
   });
+}
+
+function serializeFormToJson($form) {
+  var unindexedArray = $form.serializeArray();
+  var indexedArray = {};
+
+  $.map(unindexedArray, function (n, i) {
+    if (indexedArray[n['name']] === undefined) {
+      if (n['name'].match(/.*[dD]ate/)) {
+        indexedArray[n['name']] = convertDate(n['value']);
+      } else {
+        indexedArray[n['name']] = n['value'];
+      }
+    } else {
+      indexedArray[n['name']] = [...indexedArray[n['name']], n['value']];
+    }
+  });
+
+  return indexedArray;
+}
+
+function convertDate(date) {
+  return moment(date, 'L').format('YYYY-MM-DD');
 }
 
 function verifySamePassword($input1, $input2) {

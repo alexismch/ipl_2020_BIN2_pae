@@ -5,7 +5,7 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * UserListServlet is the interface for everything that deals with a list of users. This class does
+ * UsersListServlet is the interface for everything that deals with a list of users. This class does
  * nothing to add a new user or update a user profile.
  */
-public class UserListServlet extends AbstractServlet {
+public class UsersListServlet extends AbstractServlet {
 
   @Injected
   DtoFactory dtoFactory;
@@ -45,12 +45,17 @@ public class UserListServlet extends AbstractServlet {
         (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
 
     Util.addSerializer(gensonBuilder, UserStatus.class,
-        (value, writer, ctx) -> writer.writeString(value.getName()));
+        (value, writer, ctx) -> {
+          writer.writeName("status").beginObject()
+              .writeString("id", value.toString())
+              .writeString("name", value.getName())
+              .endObject();
+        });
 
     try {
       sendSuccessWithJson(resp, "users",
           gensonBuilder.create().serialize(userUcc.getUsers(usersFilterDto)));
-    } catch (BizException ex) {
+    } catch (FatalException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
