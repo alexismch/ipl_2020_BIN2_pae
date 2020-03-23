@@ -1,32 +1,46 @@
 package be.ipl.pae.biz.objets;
 
 
+import be.ipl.pae.biz.dto.CustomerDto;
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
+import be.ipl.pae.biz.dto.PhotoDto;
+
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuoteImpl implements Quote {
 
-  String idQuote;
-  int idCustomer;
-  Date quoteDate;
-  BigDecimal totalAmount;
-  int workDuration;
-  State state;
-  Date startDate;
+  private String idQuote;
+  private int idCustomer;
+  private LocalDate quoteDate;
+  private BigDecimal totalAmount;
+  private int workDuration;
+  private StateQuote state;
+  private LocalDate startDate;
+  private List<PhotoDto> listPhotoBefore = new ArrayList<PhotoDto>();
+  private List<PhotoDto> listPhotoAfter = new ArrayList<PhotoDto>();
+  private CustomerDto customer;
+  private StateQuote stateQuote;
+  private List<DevelopmentTypeDto> listDevelopmentType = new ArrayList<DevelopmentTypeDto>();
 
   /**
    * Create a QuoteImpl object.
    *
-   * @param iqQuote      the id of the quote
-   * @param idCustomer   the id of the customer that asked for the quote
-   * @param quoteDate    the date when the quote was created
-   * @param totalAmount  the total amount of the quote
+   * @param iqQuote the id of the quote
+   * @param idCustomer the id of the customer that asked for the quote
+   * @param quoteDate the date when the quote was created
+   * @param totalAmount the total amount of the quote
    * @param workDuration the work duration
-   * @param state        the state of the quote
-   * @param startDate    the start date of work
+   * @param state the state of the quote
+   * @param startDate the start date of work
+   * @param customer the customer that has asked a quote
+   * @param stateQuote the state of the quote
    */
-  public QuoteImpl(String iqQuote, int idCustomer, Date quoteDate, BigDecimal totalAmount,
-      int workDuration, State state, Date startDate) {
+  public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, BigDecimal totalAmount,
+      int workDuration, StateQuote state, LocalDate startDate, CustomerDto customer,
+      StateQuote stateQuote) {
     super();
     this.idQuote = iqQuote;
     this.idCustomer = idCustomer;
@@ -35,6 +49,8 @@ public class QuoteImpl implements Quote {
     this.workDuration = workDuration;
     this.state = state;
     this.startDate = startDate;
+    this.customer = customer;
+    this.stateQuote = stateQuote;
   }
 
 
@@ -63,12 +79,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public Date getQuoteDate() {
+  public LocalDate getQuoteDate() {
     return quoteDate;
   }
 
 
-  public void setQuoteDate(Date quoteDate) {
+  public void setQuoteDate(LocalDate quoteDate) {
     this.quoteDate = quoteDate;
   }
 
@@ -93,29 +109,80 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public State getState() {
+  public StateQuote getState() {
     return state;
   }
 
 
-  public void setState(State state) {
+  public void setState(StateQuote state) {
     this.state = state;
   }
 
 
   public void setState(String state) {
-    this.state = State.valueOf(state);
+    this.state = StateQuote.valueOf(state);
   }
 
 
-  public Date getStartDate() {
+  public LocalDate getStartDate() {
     return startDate;
   }
 
 
-  public void setStartDate(Date startDate) {
+  public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
+
+
+  public List<PhotoDto> getListPhotoBefore() {
+    return listPhotoBefore;
+  }
+
+
+  public void addToListPhotoBefore(PhotoDto photoDto) {
+    this.listPhotoBefore.add(photoDto);
+  }
+
+
+  public List<PhotoDto> getListPhotoAfter() {
+    return listPhotoAfter;
+  }
+
+
+  public void addToListPhotoAfter(PhotoDto photoDto) {
+    this.listPhotoAfter.add(photoDto);
+  }
+
+
+  public CustomerDto getCustomer() {
+    return customer;
+  }
+
+
+  public void setCustomer(CustomerDto customer) {
+    this.customer = customer;
+  }
+
+
+  public StateQuote getStateQuote() {
+    return stateQuote;
+  }
+
+
+  public void setStateQuote(StateQuote stateQuote) {
+    this.stateQuote = stateQuote;
+  }
+
+
+  public List<DevelopmentTypeDto> getListDevelopmentType() {
+    return listDevelopmentType;
+  }
+
+
+  public void addListDevelopmentType(DevelopmentTypeDto developmentType) {
+    this.listDevelopmentType.add(developmentType);
+  }
+
 
 
 }

@@ -42,4 +42,13 @@ public interface QuoteDao {
    * @throws FatalException if a problem occurred with the db
    */
   boolean checkQuoteIdInDb(String quoteId) throws FatalException;
+
+  /**
+   * Get an idQuote object.
+   * 
+   * @param idQuote id of the quote
+   * @return an idQuote object
+   * @throws FatalException if you had a problem with the db
+   */
+  QuoteDto getQuote(String idQuote) throws FatalException;
 }

@@ -53,4 +53,17 @@ public class QuoteUccImpl implements QuoteUcc {
       throw new BizException(ex);
     }
   }
+
+  @Override
+  public QuoteDto getQuote(String idQuote) throws FatalException {
+    try {
+      dalService.startTransaction();
+      return quoteDao.getQuote(idQuote);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+    return null;
+  }
 }
