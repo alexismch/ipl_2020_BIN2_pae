@@ -6,6 +6,8 @@ import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuoteTypeDto;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
+import be.ipl.pae.biz.dto.CustomersFilterDto;
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 
 public class DtoFactoryImpl implements DtoFactory {
 
@@ -37,12 +39,18 @@ public class DtoFactoryImpl implements DtoFactory {
   }
 
   @Override
-  public DevelopmentType getDevelopmentType() {
+  public DevelopmentTypeDto getDevelopmentType() {
     // TODO Auto-generated method stub
     return new DevelopmentTypeImpl();
   }
 
   public CustomerDto getCustomer() {
     return new CustomerImpl();
+  }
+
+  @Override
+  public CustomersFilterDto getCustomersFilter() {
+    // TODO Auto-generated method stub
+    return new CustomersFilterImpl();
   }
 }
