@@ -36,7 +36,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
-        customer.setIdcustomer(rs.getString(1));
+        customer.setIdcustomer(rs.getInt(1));
         rs.close();
         return customer;
       } else {

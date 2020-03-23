@@ -2,7 +2,7 @@ package be.ipl.pae.biz.objets;
 
 public class CustomerImpl implements Customer {
 
-  private String idCustomer;
+  private int idCustomer;
   private String lastname;
   private String firstname;
   private String address;
@@ -17,7 +17,7 @@ public class CustomerImpl implements Customer {
     super();
   }
 
-  public CustomerImpl(String idcustomer, String lastname, String firstname, String address,
+  public CustomerImpl(int idcustomer, String lastname, String firstname, String address,
       int postalcode, String city, String email, String telnbr, int idUser) {
     super();
     this.idCustomer = idcustomer;
@@ -32,12 +32,12 @@ public class CustomerImpl implements Customer {
   }
 
   @Override
-  public String getIdcustomer() {
+  public int getIdcustomer() {
     return idCustomer;
   }
 
   @Override
-  public void setIdcustomer(String idcustomer) {
+  public void setIdcustomer(int idcustomer) {
     this.idCustomer = idcustomer;
   }
 
