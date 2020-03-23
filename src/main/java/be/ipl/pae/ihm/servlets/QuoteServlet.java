@@ -16,8 +16,6 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -94,10 +92,7 @@ public class QuoteServlet extends AbstractServlet {
       throws ServletException, IOException {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
-    GensonBuilder genson = new GensonBuilder().useMethods(true);
-
-    Util.addSerializer(genson, LocalDate.class,
-        (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
+    GensonBuilder genson = Util.createGensonBuilder();
 
     String quoteId = req.getParameter("quoteId");
     try {
