@@ -44,7 +44,7 @@ function createUsersListItem($usersList, user) {
       <p>${user.email}</p>
       <p>${user.registrationDate}</p>
       <p><span class="badge badge-${badgeColorUserStatus} font-size-100">${user.status.name}</span></p>
-      <a class="btn btn-primary w-min" href="test">Détails</a>
+      <a class="btn btn-primary w-min" href="utilisateurs/${user.id}">Détails</a>
     </li>`;
   $usersList.append(userListItem);
 }

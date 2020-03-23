@@ -11,7 +11,7 @@ public class DalUtils {
   public static String escapeSpecialLikeChar(String string) {
 
     if (string == null) {
-      return null;
+      return "";
     }
 
     return string.replace("_", "\\_").replace("%", "\\%");
