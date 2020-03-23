@@ -2,6 +2,7 @@ package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
+import be.ipl.pae.ihm.servlets.CustomersListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.ErrorHandler;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
@@ -43,6 +44,9 @@ public class Server {
 
   @Injected
   private CustomerServlet customerServlet;
+  
+  @Injected 
+  private CustomersListServlet customersListServlet;
 
   /**
    * Start the server.
@@ -82,6 +86,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(quoteListServlet), "/quotes-list");
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
+    backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
 
     return backendContext;
   }
