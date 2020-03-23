@@ -45,7 +45,12 @@ public class UserListServlet extends AbstractServlet {
         (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
 
     Util.addSerializer(gensonBuilder, UserStatus.class,
-        (value, writer, ctx) -> writer.writeString(value.getName()));
+        (value, writer, ctx) -> {
+          writer.writeName("status").beginObject()
+              .writeString("id", value.toString())
+              .writeString("name", value.getName())
+              .endObject();
+        });
 
     try {
       sendSuccessWithJson(resp, "users",
