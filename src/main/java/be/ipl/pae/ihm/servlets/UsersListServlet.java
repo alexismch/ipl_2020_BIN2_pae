@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * UserListServlet is the interface for everything that deals with a list of users. This class does
+ * UsersListServlet is the interface for everything that deals with a list of users. This class does
  * nothing to add a new user or update a user profile.
  */
-public class UserListServlet extends AbstractServlet {
+public class UsersListServlet extends AbstractServlet {
 
   @Injected
   DtoFactory dtoFactory;

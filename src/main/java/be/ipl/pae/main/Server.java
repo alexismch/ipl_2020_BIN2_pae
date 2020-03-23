@@ -10,7 +10,7 @@ import be.ipl.pae.ihm.servlets.LogoutServlet;
 import be.ipl.pae.ihm.servlets.QuoteListServlet;
 import be.ipl.pae.ihm.servlets.QuoteServlet;
 import be.ipl.pae.ihm.servlets.RegisterServlet;
-import be.ipl.pae.ihm.servlets.UserListServlet;
+import be.ipl.pae.ihm.servlets.UsersListServlet;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -33,7 +33,7 @@ public class Server {
   private LogoutServlet logoutServlet;
 
   @Injected
-  private UserListServlet userListServlet;
+  private UsersListServlet usersListServlet;
 
   @Injected
   private RegisterServlet registerServlet;
@@ -76,7 +76,7 @@ public class Server {
 
     backendContext.addServlet(new ServletHolder(loginServlet), "/login");
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
-    backendContext.addServlet(new ServletHolder(userListServlet), "/users-list");
+    backendContext.addServlet(new ServletHolder(usersListServlet), "/users-list");
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
     backendContext.addServlet(new ServletHolder(quoteServlet), "/quote");
     backendContext.addServlet(new ServletHolder(quoteListServlet), "/quotes-list");
