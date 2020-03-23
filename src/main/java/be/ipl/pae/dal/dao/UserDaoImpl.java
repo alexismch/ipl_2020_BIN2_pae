@@ -85,8 +85,7 @@ public class UserDaoImpl implements UserDao {
     String query;
 
     if (usersFilterDto != null) {
-      query = "SELECT * FROM mystherbe.users WHERE (? IS NULL OR lastname LIKE ?)"
-          + " AND (? IS NULL OR city LIKE ?)";
+      query = "SELECT * FROM mystherbe.users WHERE lastname LIKE ? AND city LIKE ?";
     } else {
       query = "SELECT * FROM mystherbe.users";
     }
@@ -97,11 +96,9 @@ public class UserDaoImpl implements UserDao {
     try {
       if (usersFilterDto != null) {
         String name = DalUtils.escapeSpecialLikeChar(usersFilterDto.getName());
-        ps.setString(1, name);
-        ps.setString(2, name + "%");
+        ps.setString(1, name + "%");
         String city = DalUtils.escapeSpecialLikeChar(usersFilterDto.getCity());
-        ps.setString(3, city);
-        ps.setString(4, city + "%");
+        ps.setString(2, city + "%");
       }
 
       return getUsersViaPs(ps);
