@@ -40,8 +40,14 @@ public class CustomerServlet extends AbstractServlet {
 
         CustomerDto customerToInsert = dtoFactory.getCustomer();
 
+        customerToInsert.setFirstname(firstname);
+        customerToInsert.setLastname(lastname);
+        customerToInsert.setAddress(address);
+        customerToInsert.setPostalcode(postalCode);
+        customerToInsert.setCity(city);
+        customerToInsert.setEmail(email);
+        customerToInsert.setTelnbr(phoneNumber);
         customerUcc.insert(customerToInsert);
-
         sendSuccess(resp);
       } catch (FatalException fatalE) {
         fatalE.printStackTrace();
