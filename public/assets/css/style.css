@@ -29,6 +29,7 @@ noscript {
 
 .elevation-1 {
   box-shadow: 0 0 2px black;
+  z-index: 100;
 }
 
 .font-size-100 {
@@ -48,6 +49,11 @@ noscript {
 
 .elevation-2, .navbar {
   box-shadow: 0 0 4px black;
+  z-index: 200;
+}
+
+.navbar {
+  padding: .2rem 1rem;
 }
 
 .navbar-brand {

@@ -3,7 +3,7 @@
 import {checkInputValidity} from './utils/forms.js';
 import {ajaxGET, ajaxPOST} from './utils/ajax.js';
 import {clearAlerts, createAlert} from './components/alerts.js';
-import {changeMenuForUser} from './components/menu.js';
+import {changeMenuForUser, isClient, isOuvrier} from './userUtils.js';
 import {getUsersListPage} from './components/users-list.js';
 import {getLoginPage} from './components/login.js';
 import {getRegisterPage} from './components/register.js';
@@ -11,6 +11,7 @@ import {getHomePage} from './components/home.js';
 import {getErrorPage} from './components/error.js';
 import {getDeveloppementTypePage} from './components/developmentTypes-list.js';
 import {getQuotesPage} from './components/quotes-list.js';
+import {getAddDevisPage} from './components/add-devis.js';
 
 let router;
 
@@ -18,10 +19,21 @@ $(() => {
 
   ajaxGET('/api/login', null, (data) => {
     changeMenuForUser(data.user);
+    initRouter();
   }, () => {
     changeMenuForUser(null);
+    initRouter();
   });
 
+  // Validation de n'importe quel element de type input, textarea, select se trouvant dans #content
+  // @see checkInputValidity
+  $('#content').on('focusout input', 'input, textarea, select', function () {
+    checkInputValidity($(this));
+  });
+
+});
+
+function initRouter() {
   /***********************************************************************************
    * Router used to navigate bewteen pages
    * @see https://github.com/krasimir/navigo
@@ -34,62 +46,100 @@ $(() => {
       done();
     },
   });
-  router.on({
-    'deconnexion': () => {
-      ajaxPOST('/api/logout', null, () => {
-        changeMenuForUser(null);
-        router.navigate('connexion');
-        createAlert('success', 'Vous avez été deconnecté !');
-      });
-    },
-    'connexion': () => {
-      loadPage(getLoginPage());
-    },
-    'inscription': () => {
-      loadPage(getRegisterPage());
-    },
-    'mes-devis': () => {
-      // TODO
-      loadPage(getErrorPage(404, 'Page introuvable'));
-    },
-    'amenagements': () => {
-      loadPage(getDeveloppementTypePage());
-    },
-    'amenagements/*': () => {
-      // TODO
-      loadPage(getErrorPage(404, 'Page introuvable'));
-    },
-    'clients': () => {
-      // TODO
-      loadPage(getErrorPage(404, 'Page introuvable'));
-    },
-    'utilisateurs': (params, query) => {
-      loadPage(getUsersListPage(query));
-    },
-    'nouveau-devis': () => {
-      // TODO
-      loadPage(getErrorPage(404, 'Page introuvable'));
-    },
-    'devis': (params, query) => {
-      loadPage(getQuotesPage(query));
-    },
-    '*': () => {
-      if (router.lastRouteResolved().url === origin) {
-        loadPage(getHomePage());
-      } else {
+  router.on('deconnexion', () => {
+    ajaxPOST('/api/logout', null, () => {
+      changeMenuForUser(null);
+      router.navigate('connexion');
+      createAlert('success', 'Vous avez été deconnecté !');
+    });
+  })
+  .on('connexion', () => {
+        loadPage(getLoginPage());
+      },
+      {
+        before: checkNoUser
+      })
+  .on('inscription', () => {
+        loadPage(getRegisterPage());
+      },
+      {
+        before: checkNoUser
+      })
+  .on('mes-devis', () => {
+        // TODO
+        loadPage(get);
+      },
+      {
+        before: checkClient
+      })
+  .on('amenagements', () => {
+    loadPage(getDeveloppementTypePage());
+  })
+  .on('amenagements/*', () => {
+    // TODO
+    loadPage(getErrorPage(404, 'Page introuvable'));
+  })
+  .on('clients', () => {
+        // TODO
         loadPage(getErrorPage(404, 'Page introuvable'));
-      }
+      },
+      {
+        before: checkOuvrier
+      })
+  .on('utilisateurs', (params, query) => {
+        loadPage(getUsersListPage(query));
+      },
+      {
+        before: checkOuvrier
+      })
+  .on('nouveau-devis', () => {
+        loadPage(getAddDevisPage());
+      },
+      {
+        before: checkOuvrier
+      })
+  .on('devis', (params, query) => {
+        loadPage(getQuotesPage(query));
+      },
+      {
+        before: checkOuvrier
+      })
+  .on('*', () => {
+    if (router.lastRouteResolved().url === origin) {
+      loadPage(getHomePage());
+    } else {
+      loadPage(getErrorPage(404, 'Page introuvable'));
     }
   })
   .resolve();
+}
 
-  // Validation de n'importe quel element de type input, textarea, select se trouvant dans #content
-  // @see checkInputValidity
-  $('#content').on('focusout input', 'input, textarea, select', function () {
-    checkInputValidity($(this));
-  });
+function checkNoUser(done) {
+  if (isClient() || isOuvrier()) {
+    done(false);
+    router.navigate('');
+    return;
+  }
+  done();
+}
 
-});
+function checkClient(done) {
+  if (!isClient()) {
+    done(false);
+    router.navigate('');
+    return;
+  }
+  done();
+}
+
+function checkOuvrier(done) {
+  if (!isOuvrier()) {
+    done(false);
+    router.navigate('');
+    return;
+  }
+  done();
+}
 
 /**
  * Load a page into the #content element
@@ -103,42 +153,5 @@ function loadPage(page) {
   $('#content').html(page.getView());
   router.updatePageLinks();
 }
-
-/**
- * @see https://stackoverflow.com/questions/6992585/jquery-deserialize-form
- */
-jQuery.fn.deserialize = function (data) {
-  var f = this,
-      map = {},
-      find = function (selector) {
-        return f.is("form") ? f.find(selector) : f.filter(selector);
-      };
-  //Get map of values
-  jQuery.each(data.split("&"), function () {
-    var nv = this.split("="),
-        n = decodeURIComponent(nv[0]),
-        v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
-    if (!(n in map)) {
-      map[n] = [];
-    }
-    map[n].push(v);
-  })
-  //Set values for all form elements in the data
-  jQuery.each(map, function (n, v) {
-    find("[name='" + n + "']").val(v);
-  })
-  //Clear all form elements not in form data
-  find("input:text,select,textarea").each(function () {
-    if (!(jQuery(this).attr("name") in map)) {
-      jQuery(this).val("");
-    }
-  })
-  find("input:checkbox:checked,input:radio:checked").each(function () {
-    if (!(jQuery(this).attr("name") in map)) {
-      this.checked = false;
-    }
-  })
-  return this;
-};
 
 export {router};

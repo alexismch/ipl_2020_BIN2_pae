@@ -14,13 +14,13 @@ function getTemplate() {
         <small class="input-error form-text text-danger">Le pseudo est requis.</small>
       </div>
       <div class="form-group">
-        <label for="page-inscription-mdp">Mot de passe<span class="text-danger">*</span></label>
-        <input class="form-control" id="page-inscription-mdp" name="mdp" required type="password"/>
+        <label for="page-inscription-pwd">Mot de passe<span class="text-danger">*</span></label>
+        <input class="form-control" id="page-inscription-pwd" name="mdp" required type="password"/>
         <small class="input-error form-text text-danger">Le mot de passe est requis.</small>
       </div>
       <div class="form-group">
-        <label for="page-inscription-mdp2">Confirmer mot de passe<span class="text-danger">*</span></label>
-        <input class="form-control" id="page-inscription-mdp2" name="mdp2" required type="password"/>
+        <label for="page-inscription-pwd2">Confirmer mot de passe<span class="text-danger">*</span></label>
+        <input class="form-control" id="page-inscription-pwd2" name="mdp2" required type="password"/>
         <small class="input-error form-text text-danger">La confirmation du mot de passe est requise.</small>
         <small class="form-text text-danger notSamePassword">Vous n'avez pas écrit deux fois le même mot de passe!</small>
       </div>
@@ -52,6 +52,12 @@ function getTemplate() {
 function createView() {
   const $page = $(getTemplate());
 
+  const $passwordsInputs = $page.find('#page-inscription-pwd, #page-inscription-pwd2');
+
+  $passwordsInputs.data('validator', () => {
+    return verifySamePassword($passwordsInputs.filter('#page-inscription-pwd'), $passwordsInputs.filter('#page-inscription-pwd2'));
+  });
+
   onSubmitWithAjax($page.find('form'), (data) => {
     router.navigate('');
     clearAlerts();
@@ -60,8 +66,6 @@ function createView() {
   }, (error) => {
     clearAlerts();
     createAlert('danger', error.responseJSON.error);
-  }, undefined, () => {
-    return verifySamePassword($('#page-inscription-mdp'), $('#page-inscription-mdp2'));
   });
 
   return $page;

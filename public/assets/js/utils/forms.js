@@ -31,12 +31,21 @@ function checkFormValidity($form) {
  */
 function checkInputValidity($element) {
 
-  const errorElement = $element.next('.input-error');
+  const validator = $element.data('validator');
+  const $errorElement = $element.next('.input-error');
+  let isValid = true;
+
+  if (typeof validator === "function") {
+    isValid = validator();
+  }
+
   if ($element[0].checkValidity()) {
-    errorElement.hide(100);
-    return true;
+    $errorElement.hide(100);
+    return isValid;
   } else {
-    errorElement.show(100);
+    if (isValid) {
+      $errorElement.show(100);
+    }
     return false;
   }
 
@@ -149,10 +158,11 @@ function disableButtoms($form) {
 
 function verifySamePassword($input1, $input2) {
   if ($input1.val() === $input2.val()) {
-    $("#content .notSamePassword").hide(100);
+    $input2.next().next('.notSamePassword').hide(100);
     return true;
   }
-  $("#content .notSamePassword").show(100);
+  $input2.next('.input-error').hide();
+  $input2.next().next('.notSamePassword').show(100);
   return false;
 }
 

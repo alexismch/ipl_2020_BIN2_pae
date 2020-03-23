@@ -3,7 +3,7 @@
 import {router} from '../main.js';
 import {clearAlerts, createAlert} from './alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
-import {changeMenuForUser} from './menu.js';
+import {changeMenuForUser} from '../userUtils.js';
 
 function getTemplate() {
   return `<div class="container">

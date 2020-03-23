@@ -31,6 +31,11 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
   @Override
   public PreparedStatement getPreparedStatement(String request) {
+    if (threadLocal.get() == null) {
+      throw new IllegalStateException(
+          "You must call startTransaction() before calling getPreparedStatement()");
+    }
+
     PreparedStatement ps = null;
     try {
       ps = threadLocal.get().prepareStatement(request);
@@ -95,6 +100,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   }
 
   private void getConnexion() throws FatalException {
+    System.out.println(threadLocal.get());
     if (dataSource == null) {
       synchronized (DalServiceImpl.class) {
         if (dataSource == null) {
