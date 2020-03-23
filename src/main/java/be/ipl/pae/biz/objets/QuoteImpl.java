@@ -17,12 +17,12 @@ public class QuoteImpl implements Quote {
   private LocalDate quoteDate;
   private BigDecimal totalAmount;
   private int workDuration;
-  private StateQuote state;
+  private QuoteState state;
   private LocalDate startDate;
   private List<PhotoDto> listPhotoBefore = new ArrayList<PhotoDto>();
   private List<PhotoDto> listPhotoAfter = new ArrayList<PhotoDto>();
   private CustomerDto customer;
-  private StateQuote stateQuote;
+  private QuoteState quoteState;
   private List<DevelopmentTypeDto> listDevelopmentType = new ArrayList<DevelopmentTypeDto>();
 
   /**
@@ -36,11 +36,11 @@ public class QuoteImpl implements Quote {
    * @param state the state of the quote
    * @param startDate the start date of work
    * @param customer the customer that has asked a quote
-   * @param stateQuote the state of the quote
+   * @param quoteState the state of the quote
    */
   public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, BigDecimal totalAmount,
-      int workDuration, StateQuote state, LocalDate startDate, CustomerDto customer,
-      StateQuote stateQuote) {
+      int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer,
+      QuoteState quoteState) {
     super();
     this.idQuote = iqQuote;
     this.idCustomer = idCustomer;
@@ -50,7 +50,7 @@ public class QuoteImpl implements Quote {
     this.state = state;
     this.startDate = startDate;
     this.customer = customer;
-    this.stateQuote = stateQuote;
+    this.quoteState = quoteState;
   }
 
 
@@ -109,18 +109,18 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public StateQuote getState() {
+  public QuoteState getState() {
     return state;
   }
 
 
-  public void setState(StateQuote state) {
+  public void setState(QuoteState state) {
     this.state = state;
   }
 
 
   public void setState(String state) {
-    this.state = StateQuote.valueOf(state);
+    this.state = QuoteState.valueOf(state);
   }
 
 
@@ -164,13 +164,13 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public StateQuote getStateQuote() {
-    return stateQuote;
+  public QuoteState getQuoteState() {
+    return quoteState;
   }
 
 
-  public void setStateQuote(StateQuote stateQuote) {
-    this.stateQuote = stateQuote;
+  public void setQuoteState(QuoteState quoteState) {
+    this.quoteState = quoteState;
   }
 
 

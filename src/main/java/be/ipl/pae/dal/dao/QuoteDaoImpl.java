@@ -2,7 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.objets.StateQuote;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
@@ -130,22 +130,22 @@ public class QuoteDaoImpl implements QuoteDao {
     return quoteDtoToReturn;
   }
 
-  private StateQuote getStateById(int idState) throws FatalException {
+  private QuoteState getStateById(int idState) throws FatalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.states WHERE id_state =? ");
-    StateQuote stateQuote = null;
+    QuoteState quoteState = null;
 
     try {
       ps.setInt(1, idState);
       try (ResultSet resultSet = ps.executeQuery()) {
         while (resultSet.next()) {
-          stateQuote = StateQuote.getStateByName(resultSet.getString(2));
+          quoteState = QuoteState.getStateByName(resultSet.getString(2));
         }
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
       throw new FatalException("error with the db!");
     }
-    return stateQuote;
+    return quoteState;
   }
 }

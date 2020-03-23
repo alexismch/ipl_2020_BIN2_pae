@@ -4,7 +4,7 @@ import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.objets.StateQuote;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -66,7 +66,7 @@ public class QuoteServlet extends AbstractServlet {
         quoteToInsert.setQuoteDate(date.toLocalDate());
         quoteToInsert.setTotalAmount(amount);
         quoteToInsert.setWorkDuration(duration);
-        quoteToInsert.setState(StateQuote.QUOTE_ENTERED);
+        quoteToInsert.setState(QuoteState.QUOTE_ENTERED);
 
 
 

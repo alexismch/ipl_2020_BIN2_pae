@@ -1,7 +1,7 @@
 package be.ipl.pae.biz.dto;
 
 
-import be.ipl.pae.biz.objets.StateQuote;
+import be.ipl.pae.biz.objets.QuoteState;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,10 +39,10 @@ public interface QuoteDto {
   void setWorkDuration(int workDuration);
 
 
-  StateQuote getState();
+  QuoteState getState();
 
 
-  void setState(StateQuote state);
+  void setState(QuoteState state);
 
 
   void setState(String state);
@@ -72,10 +72,10 @@ public interface QuoteDto {
   void setCustomer(CustomerDto customer);
 
 
-  StateQuote getStateQuote();
+  QuoteState getQuoteState();
 
 
-  void setStateQuote(StateQuote stateQuote);
+  void setQuoteState(QuoteState quoteState);
 
 
   List<DevelopmentTypeDto> getListDevelopmentType();
