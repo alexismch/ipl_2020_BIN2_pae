@@ -5,7 +5,7 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
@@ -55,7 +55,7 @@ public class UserListServlet extends AbstractServlet {
     try {
       sendSuccessWithJson(resp, "users",
           gensonBuilder.create().serialize(userUcc.getUsers(usersFilterDto)));
-    } catch (BizException ex) {
+    } catch (FatalException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 

@@ -1,5 +1,6 @@
 'use strict';
 
+import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 

@@ -45,7 +45,6 @@ function ajaxDELETE(url, data, onSuccess, onError) {
 function ajax(method = 'GET', url = '', requestData = null, onSuccess = null,
     onError = null) {
 
-  console.log({requestData});
   $.ajax({
     method: method,
     url: url,
@@ -53,6 +52,7 @@ function ajax(method = 'GET', url = '', requestData = null, onSuccess = null,
     data: requestData,
     beforeSend: (jqXHR, settings) => {
       // En cas de debug
+      console.log({requestData: settings.data});
       jqXHR.url = settings.url;
     },
     success: (data, statut) => {
