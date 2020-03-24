@@ -100,4 +100,10 @@ public class MockUserDao implements UserDao {
     return userDto;
   }
 
+  @Override
+  public boolean isLinked(int userId) {
+    //TODO: oui
+    return false;
+  }
+
 }

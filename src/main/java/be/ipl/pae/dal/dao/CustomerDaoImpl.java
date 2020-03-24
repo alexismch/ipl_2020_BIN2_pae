@@ -96,4 +96,29 @@ public class CustomerDaoImpl implements CustomerDao {
       throw new FatalException("error with the db!");
     }
   }
+
+  @Override
+  public boolean exists(int customerId) throws FatalException {
+    PreparedStatement ps = dalService
+        .getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_customer = ?");
+
+    try {
+      ps.setInt(1, customerId);
+      return ps.executeQuery().next();
+    } catch (SQLException e) {
+      throw new FatalException("error with the db!");
+    }
+  }
+
+  @Override
+  public boolean isLinked(int customerId) throws FatalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT * FROM mystherbe.customers WHERE id_customer = ? AND id_user IS NOT NULL");
+    try {
+      ps.setInt(1, customerId);
+      return ps.executeQuery().next();
+    } catch (SQLException e) {
+      throw new FatalException("error with the db!");
+    }
+  }
 }

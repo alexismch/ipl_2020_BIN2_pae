@@ -21,6 +21,7 @@ public class UserDaoImpl implements UserDao {
 
   @Injected
   DalService dalService;
+
   @Injected
   DtoFactory userDtoFactory;
 
@@ -202,6 +203,18 @@ public class UserDaoImpl implements UserDao {
 
     } catch (Exception ex) {
       ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+  }
+
+  @Override
+  public boolean isLinked(int userId) throws FatalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT * FROM mystherbe.customers WHERE id_user = ?");
+    try {
+      ps.setInt(1, userId);
+      return ps.executeQuery().next();
+    } catch (SQLException e) {
       throw new FatalException("error with the db!");
     }
   }

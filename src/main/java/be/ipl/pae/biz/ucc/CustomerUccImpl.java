@@ -11,11 +11,12 @@ public class CustomerUccImpl implements CustomerUcc {
 
   @Injected
   private CustomerDao customerDao;
+
   @Injected
   private DalServiceTransaction dalService;
 
   @Override
-  public CustomerDto insert(CustomerDto customerDto) throws FatalException, BizException {
+  public CustomerDto insert(CustomerDto customerDto) throws BizException {
     try {
       try {
         dalService.startTransaction();

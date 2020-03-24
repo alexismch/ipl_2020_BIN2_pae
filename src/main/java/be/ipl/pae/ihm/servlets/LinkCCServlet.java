@@ -1,0 +1,47 @@
+package be.ipl.pae.ihm.servlets;
+
+import static be.ipl.pae.util.Util.verifyNotEmpty;
+
+import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.ucc.LinkCCUcc;
+import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class LinkCCServlet extends AbstractServlet {
+
+  @Injected
+  private LinkCCUcc linkCCUcc;
+
+  @Injected
+  private DtoFactory dtoFactory;
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    System.out.println("POST /api/link-cc by " + req.getRemoteAddr());
+
+    String userIdString = req.getParameter("userId");
+    String customerIdString = req.getParameter("customerId");
+
+    if (verifyNotEmpty(userIdString, customerIdString)) {
+      try {
+        int userId = Integer.parseInt(userIdString);
+        int customerId = Integer.parseInt(customerIdString);
+
+        linkCCUcc.link(customerId, userId);
+
+        sendSuccess(resp);
+      } catch (NumberFormatException nbE) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+      } catch (BizException bizE) {
+        sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+  }
+}
