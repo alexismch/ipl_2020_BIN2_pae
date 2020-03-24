@@ -139,9 +139,6 @@ public class QuoteDaoImpl implements QuoteDao {
       ex.printStackTrace();
       throw new FatalException("error in the db!");
     }
-
-    System.out.println(quoteDtoToReturn.getQuoteDate());
-
     return quoteDtoToReturn;
   }
 
