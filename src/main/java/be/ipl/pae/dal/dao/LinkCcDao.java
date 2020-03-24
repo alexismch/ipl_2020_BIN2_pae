@@ -2,7 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.exceptions.FatalException;
 
-public interface LinkCCDao {
+public interface LinkCcDao {
 
   /**
    * Link a customer to a client into the db.

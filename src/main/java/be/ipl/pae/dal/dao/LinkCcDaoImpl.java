@@ -7,7 +7,7 @@ import be.ipl.pae.exceptions.FatalException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class LinkCCDaoImpl implements LinkCCDao {
+public class LinkCcDaoImpl implements LinkCcDao {
 
   @Injected
   DalService dalService;
@@ -21,7 +21,7 @@ public class LinkCCDaoImpl implements LinkCCDao {
       ps.setInt(1, userId);
       ps.setInt(2, customerId);
       ps.execute();
-    } catch (SQLException e) {
+    } catch (SQLException ex) {
       throw new FatalException("error with the db!");
     }
   }

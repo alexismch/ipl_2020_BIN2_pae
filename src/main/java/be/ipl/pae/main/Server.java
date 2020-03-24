@@ -6,7 +6,7 @@ import be.ipl.pae.ihm.servlets.CustomersListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.ErrorHandler;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
-import be.ipl.pae.ihm.servlets.LinkCCServlet;
+import be.ipl.pae.ihm.servlets.LinkCcServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
 import be.ipl.pae.ihm.servlets.QuoteServlet;
@@ -50,7 +50,7 @@ public class Server {
   private CustomersListServlet customersListServlet;
 
   @Injected
-  private LinkCCServlet linkCCServlet;
+  private LinkCcServlet linkCcServlet;
 
   /**
    * Start the server.
@@ -91,7 +91,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
-    backendContext.addServlet(new ServletHolder(linkCCServlet), "/link-cc");
+    backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
     return backendContext;
   }
 }

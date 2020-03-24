@@ -214,7 +214,7 @@ public class UserDaoImpl implements UserDao {
     try {
       ps.setInt(1, userId);
       return ps.executeQuery().next();
-    } catch (SQLException e) {
+    } catch (SQLException ex) {
       throw new FatalException("error with the db!");
     }
   }

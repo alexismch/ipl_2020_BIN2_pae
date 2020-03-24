@@ -2,7 +2,7 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.exceptions.BizException;
 
-public interface LinkCCUcc {
+public interface LinkCcUcc {
 
   /**
    * Link a customer to a client into the db.

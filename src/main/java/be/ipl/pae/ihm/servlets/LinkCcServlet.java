@@ -3,7 +3,7 @@ package be.ipl.pae.ihm.servlets;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.ucc.LinkCCUcc;
+import be.ipl.pae.biz.ucc.LinkCcUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 
@@ -12,10 +12,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LinkCCServlet extends AbstractServlet {
+public class LinkCcServlet extends AbstractServlet {
 
   @Injected
-  private LinkCCUcc linkCCUcc;
+  private LinkCcUcc linkCcUcc;
 
   @Injected
   private DtoFactory dtoFactory;
@@ -32,7 +32,7 @@ public class LinkCCServlet extends AbstractServlet {
         int userId = Integer.parseInt(userIdString);
         int customerId = Integer.parseInt(customerIdString);
 
-        linkCCUcc.link(customerId, userId);
+        linkCcUcc.link(customerId, userId);
 
         sendSuccess(resp);
       } catch (NumberFormatException nbE) {

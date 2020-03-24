@@ -1,14 +1,14 @@
 package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.dal.dao.CustomerDao;
-import be.ipl.pae.dal.dao.LinkCCDao;
+import be.ipl.pae.dal.dao.LinkCcDao;
 import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 
-public class LinkCCUccImpl implements LinkCCUcc {
+public class LinkCcUccImpl implements LinkCcUcc {
 
   @Injected
   private UserDao userDao;
@@ -17,7 +17,7 @@ public class LinkCCUccImpl implements LinkCCUcc {
   private CustomerDao customerDao;
 
   @Injected
-  private LinkCCDao linkCCDao;
+  private LinkCcDao linkCcDao;
 
   @Injected
   private DalServiceTransaction dalService;
@@ -41,7 +41,7 @@ public class LinkCCUccImpl implements LinkCCUcc {
           throw new BizException("L'utilisateur est déjà lié à un client.");
         }
 
-        linkCCDao.link(customerId, userId);
+        linkCcDao.link(customerId, userId);
       } catch (FatalException fx) {
         dalService.rollbackTransaction();
         throw new BizException(fx);
