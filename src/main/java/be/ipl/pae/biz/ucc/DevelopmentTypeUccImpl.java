@@ -17,12 +17,13 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   @Injected
   private DalServiceTransaction dalService;
 
+  @Override
   public List<DevelopmentTypeDto> getDevelopmentTypes() throws BizException {
     try {
       List<DevelopmentTypeDto> listToReturn = null;
       try {
         dalService.startTransaction();
-        listToReturn = developmentTypeDao.getAllDevelopmentType();
+        listToReturn = developmentTypeDao.getdevelopmentTypes();
       } catch (Exception ex) {
         dalService.rollbackTransaction();
       } finally {

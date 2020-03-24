@@ -22,7 +22,7 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   DtoFactory quoteDtoFactory;
 
-
+  @Override
   public List<QuoteDto> getAllQuote() throws FatalException {
     List<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps = dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes");

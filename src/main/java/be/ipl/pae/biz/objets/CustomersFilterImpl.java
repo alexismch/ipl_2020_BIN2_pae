@@ -10,6 +10,13 @@ public class CustomersFilterImpl implements CustomersFilter {
     super();
   }
 
+  /**
+   * Create a CustomersFilterImpl object.
+   *
+   * @param name       the name of the customer
+   * @param postalCode the postal code of the customer
+   * @param city       the city of the customer
+   */
   public CustomersFilterImpl(String name, int postalCode, String city) {
     super();
     this.name = name;

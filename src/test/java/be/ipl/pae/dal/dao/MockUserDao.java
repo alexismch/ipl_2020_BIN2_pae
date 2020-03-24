@@ -42,36 +42,36 @@ public class MockUserDao implements UserDao {
     List<UserDto> usersList = new ArrayList<>();
 
     UserDto userDto1 = dtoFactory.getUser();
+    usersList.add(userDto1);
     userDto1.setId(1);
     userDto1.setPseudo("OK1");
     userDto1.setCity("1");
     userDto1.setFirstName("az");
     userDto1.setLastName("AZ");
-    usersList.add(userDto1);
 
     UserDto userDto2 = dtoFactory.getUser();
+    usersList.add(userDto2);
     userDto2.setId(2);
     userDto2.setPseudo("OK2");
     userDto2.setCity("2skyCity");
     userDto2.setFirstName("bz");
     userDto2.setLastName("BZ");
-    usersList.add(userDto2);
 
     UserDto userDto3 = dtoFactory.getUser();
+    usersList.add(userDto3);
     userDto3.setId(3);
     userDto3.setPseudo("OK3");
     userDto3.setCity("2");
     userDto3.setFirstName("ac");
     userDto3.setLastName("Ac");
-    usersList.add(userDto3);
 
     UserDto userDto4 = dtoFactory.getUser();
+    usersList.add(userDto4);
     userDto4.setId(4);
     userDto4.setPseudo("OK4");
     userDto4.setCity("1");
     userDto4.setFirstName("a");
     userDto4.setLastName("A");
-    usersList.add(userDto4);
 
     if (usersFilterDto == null) {
       return usersList;

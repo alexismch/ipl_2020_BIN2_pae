@@ -10,6 +10,12 @@ public class DevelopmentTypeImpl implements DevelopmentType {
     super();
   }
 
+  /**
+   * Create a DevelopmentTypeImpl object.
+   *
+   * @param idType the development type id
+   * @param title  the development type title
+   */
   public DevelopmentTypeImpl(int idType, String title) {
     super();
     this.idType = idType;

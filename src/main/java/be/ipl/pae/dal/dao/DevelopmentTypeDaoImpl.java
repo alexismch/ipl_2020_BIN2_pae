@@ -20,7 +20,8 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   @Injected
   DtoFactory developmentTypeDtoFactory;
 
-  public List<DevelopmentTypeDto> getAllDevelopmentType() {
+  @Override
+  public List<DevelopmentTypeDto> getdevelopmentTypes() {
     List<DevelopmentTypeDto> list = new ArrayList<>();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.development_types");

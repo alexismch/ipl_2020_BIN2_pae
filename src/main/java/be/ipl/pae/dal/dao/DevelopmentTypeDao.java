@@ -8,7 +8,12 @@ import java.util.List;
 
 public interface DevelopmentTypeDao {
 
-  List<DevelopmentTypeDto> getAllDevelopmentType();
+  /**
+   * Get the entire list of development types.
+   *
+   * @return the list of development types.
+   */
+  List<DevelopmentTypeDto> getdevelopmentTypes();
 
   /**
    * Get the development type with his id.

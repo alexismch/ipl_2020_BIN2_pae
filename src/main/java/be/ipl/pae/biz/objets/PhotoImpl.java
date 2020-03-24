@@ -14,6 +14,17 @@ public class PhotoImpl implements Photo {
     super();
   }
 
+  /**
+   * Create a PhotoImpl object.
+   *
+   * @param base64     the base64 infos
+   * @param id         the photo id
+   * @param title      the photo title
+   * @param idQuote    the quote id which is linked with the photo
+   * @param isVisible  the visibility of the photo
+   * @param idType     the development type on the photo
+   * @param beforeWork the moment when the photo was taken
+   */
   public PhotoImpl(String base64, int id, int title, String idQuote, boolean isVisible, int idType,
       boolean beforeWork) {
     super();

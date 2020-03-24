@@ -36,6 +36,7 @@ public class CustomerUccImpl implements CustomerUcc {
     }
   }
 
+  @Override
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto)
       throws FatalException {
     try {

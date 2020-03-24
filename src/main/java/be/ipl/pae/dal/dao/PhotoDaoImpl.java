@@ -5,8 +5,6 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
 
-import java.sql.PreparedStatement;
-
 public class PhotoDaoImpl implements PhotoDao {
 
   @Injected
@@ -14,12 +12,13 @@ public class PhotoDaoImpl implements PhotoDao {
   @Injected
   DtoFactory photoDtoFactory;
 
+  @Override
   public PhotoDto getPhotoPerDevelopmentType() {
     //autre uce case, pour plus tard
-    PhotoDto photoDto;
-    PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM  mystherbe.users WHERE  ");
-
+    //PhotoDto photoDto;
+    //PreparedStatement ps;
+    //ps = dalService.getPreparedStatement("Select * FROM  mystherbe.users WHERE  ");
+    //TODO: méthode + javadoc
     return null;
 
   }
