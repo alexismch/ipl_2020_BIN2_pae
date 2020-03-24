@@ -37,6 +37,7 @@ public class CustomerUccImpl implements CustomerUcc {
 
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto)
       throws FatalException {
+    System.out.println("here getCustomer ucc");
     try {
 
       dalService.startTransaction();

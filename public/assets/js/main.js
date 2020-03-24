@@ -13,6 +13,7 @@ import {getErrorPage} from './components/error.js';
 import {getDeveloppementTypePage} from './components/developmentTypes-list.js';
 import {getQuotesPage} from './components/quotes-list.js';
 import {getAddDevisPage} from './components/add-devis.js';
+import { getCustomersListPage } from './components/customers-list.js';
 
 let router;
 
@@ -80,9 +81,8 @@ function initRouter() {
     // TODO
     loadPage(getErrorPage(404, 'Page introuvable'));
   })
-  .on('clients', () => {
-        // TODO
-        loadPage(getErrorPage(404, 'Page introuvable'));
+  .on('clients', (params,query) => {
+        loadPage(getCustomersListPage(query));
       },
       {
         before: checkOuvrier

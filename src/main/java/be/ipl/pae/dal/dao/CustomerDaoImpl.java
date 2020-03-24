@@ -24,31 +24,40 @@ public class CustomerDaoImpl implements CustomerDao {
   @Override
 
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
+    System.out.println("here getCustomers");
 
     String query;
 
     if (customersFilterDto == null) {
       query = "SELECT * FROM mystherbe.customers";
     } else {
-      query =
-          "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ? AND postal_code LIKE ?";
+      if (customersFilterDto.getPostalCode() == 0) {
+        query = "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ?";
+      } else {
+        query =
+            "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ? AND postalCode = ?";
+      }
+
     }
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
     try {
 
       if (customersFilterDto != null) {
+        System.out.println("here getCustomers condition 1");
         String name = DalUtils.escapeSpecialLikeChar(customersFilterDto.getName());
         String city = DalUtils.escapeSpecialLikeChar(customersFilterDto.getCity());
         int postalCode = customersFilterDto.getPostalCode();
         ps.setString(1, name + "%");
         ps.setString(2, city + "%");
-        ps.setInt(3, postalCode);
+        if (postalCode != 0) {
+          ps.setInt(3, postalCode);
+        }
       }
-
+      System.out.println("here getCustomers condition 222");
       return getCustomersViaPs(ps);
     } catch (SQLException ex) {
-
+      ex.printStackTrace();
     }
 
     return new ArrayList<>();
@@ -63,6 +72,8 @@ public class CustomerDaoImpl implements CustomerDao {
    * @throws SQLException if an SQL error occurred
    */
   private List<CustomerDto> getCustomersViaPs(PreparedStatement ps) throws SQLException {
+    System.out.println("here getCustomers condition 5555");
+
     List<CustomerDto> customers = new ArrayList<>();
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
@@ -77,6 +88,7 @@ public class CustomerDaoImpl implements CustomerDao {
         customerDto.setTelnbr(resultSet.getString(8));
         customerDto.setIdUser(resultSet.getInt(9));
         customers.add(customerDto);
+        System.out.println("here getCustomerViaPs");
       }
     }
     ps.close();
