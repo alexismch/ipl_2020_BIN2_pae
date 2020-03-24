@@ -2,6 +2,7 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
+import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
@@ -93,6 +94,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
     GensonBuilder genson = Util.createGensonBuilder();
+    genson.exclude("idQuote", PhotoDto.class);
 
     String quoteId = req.getParameter("quoteId");
     try {
