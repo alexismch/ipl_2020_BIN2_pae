@@ -47,6 +47,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setBoolean(6, photoDto.isBeforeWork());
       ps.execute();
     } catch (SQLException ex) {
+      ex.printStackTrace();
       throw new FatalException("error with the db");
     }
   }

@@ -41,9 +41,11 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
     // For testing with JSON object
-    System.out.println(Util.convertInputStreamToString(req.getInputStream()));
+    //System.out.println(Util.convertInputStreamToString(req.getInputStream()));
     // QuoteDto quote = dtoFactory.getQuote();
     // Util.createGensonBuilder().create().deserializeInto(req.getInputStream(), quote);
+
+    //System.out.println(req.getParameterMap());
 
     String quoteId = req.getParameter("quoteId");
     String customerIdString = req.getParameter("customerId");
