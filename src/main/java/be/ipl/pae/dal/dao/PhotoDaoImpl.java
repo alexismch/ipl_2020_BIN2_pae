@@ -52,8 +52,7 @@ public class PhotoDaoImpl implements PhotoDao {
    *
    * @param ps The request that will be executed
    * @return A list of PhotoDto created form the database
-   * @throws FatalException
-   * @throws SQLException if an SQL error occurred
+   * @throws FatalException if an SQL error occurred
    */
   private List<PhotoDto> getPhotosViaPs(PreparedStatement ps) throws FatalException {
 

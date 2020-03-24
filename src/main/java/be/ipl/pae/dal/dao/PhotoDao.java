@@ -18,11 +18,11 @@ public interface PhotoDao {
   /**
    * get a list of photos.
    * 
-   * @param id_quote the id of the quote
+   * @param idQquote the id of the quote
    * @param isBefore if it's true it means that that you will get a list of photos before the
    *        development otherwise you will get the photos after the development
    * @return list of photos
    * @throws FatalException if you had a problem with the db
    */
-  List<PhotoDto> getPhotos(String id_quote, Boolean isBefore) throws FatalException;
+  List<PhotoDto> getPhotos(String idQquote, Boolean isBefore) throws FatalException;
 }
