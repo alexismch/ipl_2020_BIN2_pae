@@ -15,6 +15,10 @@ import com.owlike.genson.stream.ObjectWriter;
 
 import org.mindrot.bcrypt.BCrypt;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -148,6 +152,28 @@ public class Util {
   public static String cryptPwd(String pwd) {
     return BCrypt.hashpw(pwd, BCrypt.gensalt());
   }
+
+  /**
+   * For debug purpose: return a string form an InputStream
+   *
+   * @param inputStream InputStream that will be converted to string
+   * @return String UTF-8 with the inputStream content
+   * @throws IOException If error with inputStream
+   */
+  public static String convertInputStreamToString(InputStream inputStream)
+      throws IOException {
+
+    ByteArrayOutputStream result = new ByteArrayOutputStream();
+    byte[] buffer = new byte[1024];
+    int length;
+    while ((length = inputStream.read(buffer)) != -1) {
+      result.write(buffer, 0, length);
+    }
+
+    return result.toString(StandardCharsets.UTF_8.name());
+
+  }
+
 
   /**
    * Create a Genson Builder.

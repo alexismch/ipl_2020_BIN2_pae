@@ -40,6 +40,11 @@ public class QuoteServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
+    // For testing with JSON object
+    System.out.println(Util.convertInputStreamToString(req.getInputStream()));
+    // QuoteDto quote = dtoFactory.getQuote();
+    // Util.createGensonBuilder().create().deserializeInto(req.getInputStream(), quote);
+
     String quoteId = req.getParameter("quoteId");
     String customerIdString = req.getParameter("customerId");
     String dateString = req.getParameter("date");
