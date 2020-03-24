@@ -100,7 +100,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   }
 
   private void getConnexion() throws FatalException {
-    System.out.println(threadLocal.get());
     if (dataSource == null) {
       synchronized (DalServiceImpl.class) {
         if (dataSource == null) {

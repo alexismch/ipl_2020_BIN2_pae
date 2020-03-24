@@ -1,7 +1,5 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.CustomerDto;
-import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.exceptions.FatalException;
