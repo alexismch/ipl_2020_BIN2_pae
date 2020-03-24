@@ -82,11 +82,15 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       quoteDto = quoteDao.getQuote(idQuote);
-      if (quoteDto.getIdQuote() == null)
+
+      if (quoteDto.getIdQuote() == null) {
         throw new BizException("Devis non existant!");
+      }
+
       quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
       quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
       quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
+
       for (PhotoDto photo : quoteDto.getListPhotoBefore()) {
         DevelopmentTypeDto developmentTypeDto =
             developmentTypeDao.getDevelopmentType(photo.getIdType());
@@ -98,6 +102,7 @@ public class QuoteUccImpl implements QuoteUcc {
             developmentTypeDao.getDevelopmentType(photo.getIdType());
         quoteDto.addDevelopmentTypesSet(developmentTypeDto);
       }
+
       return quoteDto;
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
