@@ -4,15 +4,15 @@ public interface CustomerDto {
 
   int getIdCustomer();
 
-  void setIdCustomer(int idcustomer);
+  void setIdCustomer(int idCustomer);
 
   String getLastName();
 
-  void setLastName(String lastname);
+  void setLastName(String lastName);
 
   String getFirstName();
 
-  void setFirstName(String firstname);
+  void setFirstName(String firstName);
 
   String getAddress();
 
@@ -20,7 +20,7 @@ public interface CustomerDto {
 
   int getPostalCode();
 
-  void setPostalCode(int postalcode);
+  void setPostalCode(int postalCode);
 
   String getCity();
 
@@ -32,7 +32,7 @@ public interface CustomerDto {
 
   String getPhoneNumber();
 
-  void setPhoneNumber(String telnbr);
+  void setPhoneNumber(String phoneNumber);
 
   int getIdUser();
 
