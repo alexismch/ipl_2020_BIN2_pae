@@ -97,8 +97,6 @@ public class QuoteServlet extends AbstractServlet {
     String quoteId = req.getParameter("quoteId");
     try {
       QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
-      System.out.println("city = " + quoteDto.getCustomer().getCity());
-      System.out.println("lastname = " + quoteDto.getCustomer().getLastName());
       sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteDto));
     } catch (FatalException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());

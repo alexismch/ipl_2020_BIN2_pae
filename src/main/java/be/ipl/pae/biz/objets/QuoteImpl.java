@@ -8,7 +8,9 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class QuoteImpl implements Quote {
 
@@ -23,6 +25,8 @@ public class QuoteImpl implements Quote {
   private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
   private List<DevelopmentTypeDto> getDevelopmentTypes = new ArrayList<>();
+  private Set<DevelopmentTypeDto> setDevelopmentTypes = new HashSet<DevelopmentTypeDto>();
+
 
   /**
    * Create a QuoteImpl object.
