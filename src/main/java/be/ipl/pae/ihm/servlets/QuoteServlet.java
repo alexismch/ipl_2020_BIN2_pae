@@ -58,8 +58,6 @@ public class QuoteServlet extends AbstractServlet {
 
         Date date = Date.valueOf(dateString);
 
-        List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
-
         QuoteDto quoteToInsert = dtoFactory.getQuote();
 
         quoteToInsert.setIdQuote(quoteId);
@@ -69,6 +67,7 @@ public class QuoteServlet extends AbstractServlet {
         quoteToInsert.setWorkDuration(duration);
         quoteToInsert.setState(QuoteState.QUOTE_ENTERED);
 
+        List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
         for (Long typeId : typesList) {
           quoteToInsert.addDevelopmentType(developmentTypeUcc.getDevelopmentType(
               Math.toIntExact(typeId)));

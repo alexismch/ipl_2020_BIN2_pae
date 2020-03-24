@@ -79,7 +79,7 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto recuprer(int id) throws BizException {
+  public UserDto getUser(int id) throws BizException {
     try {
       try {
         dalService.startTransaction();

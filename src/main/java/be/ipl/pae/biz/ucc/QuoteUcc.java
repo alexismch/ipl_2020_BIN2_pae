@@ -16,11 +16,17 @@ public interface QuoteUcc {
    */
   QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException;
 
+  /**
+   * Get all quotes.
+   *
+   * @return the quotes list.
+   * @throws FatalException if you have a problem with the db
+   */
   List<QuoteDto> getQuotes() throws BizException;
 
   /**
    * Get a quote from the database thanks to its id.
-   * 
+   *
    * @param idQuote id of the quote
    * @return an object quoteDto
    * @throws FatalException if you have a problem with the db
