@@ -31,10 +31,10 @@ public class CustomerDaoImpl implements CustomerDao {
       query = "SELECT * FROM mystherbe.customers";
     } else {
       if (customersFilterDto.getPostalCode() == 0) {
-        query = "SELECT * FROM mystherbe.customers"
+        query = "SELECT * FROM mystherbe.customers "
             + "WHERE lower(lastname) LIKE lower(?) AND lower(city) LIKE lower(?)";
       } else {
-        query = "SELECT * FROM mystherbe.customers"
+        query = "SELECT * FROM mystherbe.customers "
             + "WHERE lower(lastname) LIKE lower(?) AND lower(city) LIKE lower(?) "
             + "AND postal_code = ?";
       }
