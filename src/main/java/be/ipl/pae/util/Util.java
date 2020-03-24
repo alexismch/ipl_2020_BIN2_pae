@@ -57,7 +57,7 @@ public class Util {
    * Verify if all map elements are an object of cl Class.
    *
    * @param map the map contening elements
-   * @param cl  the required Class
+   * @param cl the required Class
    * @return true if all elements is a cl Class object
    */
   public static boolean verifyMapTypes(Map map, Class cl) {
@@ -96,7 +96,7 @@ public class Util {
    * Check the decoded key with the ip and send the id of the user.
    *
    * @param decodedKey the decoded key
-   * @param ip         the ip that you need to check
+   * @param ip the ip that you need to check
    * @return the user's id
    */
   public static int getUId(DecodedJWT decodedKey, String ip) {
@@ -110,7 +110,7 @@ public class Util {
    * Decode the key, check the key with the ip, and send the user's id.
    *
    * @param key the key that you need to decode
-   * @param ip  the ip that you need to check
+   * @param ip the ip that you need to check
    * @return the user's id
    */
   public static int getUId(String key, String ip) {
@@ -120,9 +120,9 @@ public class Util {
   /**
    * check if the word that you give has the format that you want.
    *
-   * @param word    the word that you need to check
+   * @param word the word that you need to check
    * @param maxSize the size that you don't want to surpass
-   * @param regex   the regex that word need to match
+   * @param regex the regex that word need to match
    * @return true if the word has a good format otherwise false
    */
   public static boolean checkFormat(String word, int maxSize, String regex) {
@@ -138,7 +138,7 @@ public class Util {
   /**
    * check if the word that you give has the format that you want.
    *
-   * @param word    the word that you need to check
+   * @param word the word that you need to check
    * @param maxSize the size that you don't want to surpass
    * @return true if the word has a good format otherwise false
    */
@@ -154,14 +154,13 @@ public class Util {
   }
 
   /**
-   * For debug purpose: return a string form an InputStream
+   * For debug purpose: return a string form an InputStream.
    *
    * @param inputStream InputStream that will be converted to string
    * @return String UTF-8 with the inputStream content
    * @throws IOException If error with inputStream
    */
-  public static String convertInputStreamToString(InputStream inputStream)
-      throws IOException {
+  public static String convertInputStreamToString(InputStream inputStream) throws IOException {
 
     ByteArrayOutputStream result = new ByteArrayOutputStream();
     byte[] buffer = new byte[1024];
@@ -181,24 +180,19 @@ public class Util {
    * @return the Genson Builder
    */
   public static GensonBuilder createGensonBuilder() {
-    GensonBuilder gensonBuilder = new GensonBuilder()
-        .exclude("password")
-        .useMethods(true)
-        .useRuntimeType(true);
+    GensonBuilder gensonBuilder =
+        new GensonBuilder().exclude("password").useMethods(true).useRuntimeType(true);
 
     Util.addSerializer(gensonBuilder, LocalDate.class,
         (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
 
     Util.addSerializer(gensonBuilder, UserStatus.class,
         (value, writer, ctx) -> writer.writeName("status").beginObject()
-            .writeString("id", value.toString())
-            .writeString("name", value.getName())
-            .endObject());
+            .writeString("id", value.toString()).writeString("name", value.getName()).endObject());
 
     Util.addSerializer(gensonBuilder, QuoteState.class,
         (value, writer, ctx) -> writer.writeName("state").beginObject()
-            .writeString("id", value.toString())
-            .writeString("title", value.getTitle())
+            .writeString("id", value.toString()).writeString("title", value.getTitle())
             .endObject());
 
     return gensonBuilder;
@@ -228,8 +222,7 @@ public class Util {
   public interface DeserializerConverter<T> extends Converter<T> {
 
     @Override
-    default void serialize(T object, ObjectWriter writer, Context ctx) {
-    }
+    default void serialize(T object, ObjectWriter writer, Context ctx) {}
 
   }
 
