@@ -69,8 +69,8 @@ public class QuoteServlet extends AbstractServlet {
 
         List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
         for (Long typeId : typesList) {
-          quoteToInsert.addDevelopmentType(developmentTypeUcc.getDevelopmentType(
-              Math.toIntExact(typeId)));
+          quoteToInsert
+              .addDevelopmentType(developmentTypeUcc.getDevelopmentType(Math.toIntExact(typeId)));
         }
 
         quoteUcc.insert(quoteToInsert);
@@ -89,8 +89,7 @@ public class QuoteServlet extends AbstractServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
     GensonBuilder genson = Util.createGensonBuilder();
@@ -98,6 +97,8 @@ public class QuoteServlet extends AbstractServlet {
     String quoteId = req.getParameter("quoteId");
     try {
       QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
+      System.out.println("city = " + quoteDto.getCustomer().getCity());
+      System.out.println("lastname = " + quoteDto.getCustomer().getLastname());
       sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteDto));
     } catch (FatalException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());

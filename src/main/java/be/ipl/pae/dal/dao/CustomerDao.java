@@ -12,7 +12,7 @@ public interface CustomerDao {
    * Get all the customers saved in the database according to the chosen filters.
    *
    * @param customersFilterDto a filter applied to the results or null if no filter should be
-   *                           applied
+   *        applied
    * @return a list of all customers
    */
   List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto);
@@ -36,4 +36,13 @@ public interface CustomerDao {
    * @throws FatalException if you have an error with the db
    */
   boolean isLinked(int customerId) throws FatalException;
+
+  /**
+   * get a customer thanks to his id.
+   * 
+   * @param idCustomer
+   * @return an customeDto object
+   * @throws FatalException if you had a problem with the db
+   */
+  CustomerDto getCustomer(int idCustomer) throws FatalException;
 }

@@ -147,4 +147,32 @@ public class CustomerDaoImpl implements CustomerDao {
       throw new FatalException("error with the db!");
     }
   }
+
+  @Override
+  public CustomerDto getCustomer(int idCustomer) throws FatalException {
+    PreparedStatement ps;
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_customer =? ");
+    CustomerDto customerDto = customerDtoFactory.getCustomer();
+
+    try {
+      ps.setInt(1, idCustomer);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          customerDto.setIdcustomer(resultSet.getInt(1));
+          customerDto.setLastname(resultSet.getString(2));
+          customerDto.setFirstname(resultSet.getString(3));
+          customerDto.setAddress(resultSet.getString(4));
+          customerDto.setPostalcode(resultSet.getInt(5));
+          customerDto.setCity(resultSet.getString(6));
+          customerDto.setEmail(resultSet.getString(7));
+          customerDto.setTelnbr(resultSet.getString(8));
+          customerDto.setIdUser(resultSet.getInt(9));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+    return customerDto;
+  }
 }

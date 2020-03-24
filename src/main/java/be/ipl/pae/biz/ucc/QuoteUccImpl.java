@@ -2,6 +2,7 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
@@ -14,6 +15,9 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Injected
   private QuoteDao quoteDao;
+
+  @Injected
+  private CustomerDao customerDao;
 
   @Injected
   private DalServiceTransaction dalService;
@@ -62,9 +66,13 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto getQuote(String idQuote) throws FatalException {
+    QuoteDto quoteDto = null;
     try {
       dalService.startTransaction();
-      return quoteDao.getQuote(idQuote);
+      quoteDto = quoteDao.getQuote(idQuote);
+      quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
+
+      return quoteDto;
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
     } finally {

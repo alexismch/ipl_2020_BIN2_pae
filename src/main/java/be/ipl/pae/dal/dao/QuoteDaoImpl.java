@@ -145,6 +145,7 @@ public class QuoteDaoImpl implements QuoteDao {
     return quoteDtoToReturn;
   }
 
+
   private QuoteState getStateById(int idState) throws FatalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.states WHERE id_state =? ");
