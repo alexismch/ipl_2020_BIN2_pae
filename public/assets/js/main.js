@@ -7,6 +7,7 @@ import {changeMenuForUser, isClient, isOuvrier} from './userUtils.js';
 import {getUsersListPage} from './components/users-list.js';
 import {getLoginPage} from './components/login.js';
 import {getRegisterPage} from './components/register.js';
+import {getCreateCustommerPage} from './components/createCustommer.js';
 import {getHomePage} from './components/home.js';
 import {getErrorPage} from './components/error.js';
 import {getDeveloppementTypePage} from './components/developmentTypes-list.js';
@@ -94,6 +95,12 @@ function initRouter() {
       })
   .on('nouveau-devis', () => {
         loadPage(getAddDevisPage());
+      },
+      {
+        before: checkOuvrier
+      })
+  .on('creerClient', () => {
+        loadPage(getCreateCustommerPage());
       },
       {
         before: checkOuvrier

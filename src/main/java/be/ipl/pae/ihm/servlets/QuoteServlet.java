@@ -47,7 +47,7 @@ public class QuoteServlet extends AbstractServlet {
     }
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
-        && types.length > 0) {
+        && types != null && types.length > 0) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
@@ -72,6 +72,7 @@ public class QuoteServlet extends AbstractServlet {
 
         // TODO: typesList
         sendSuccess(resp);
+
       } catch (FatalException fatalE) {
         fatalE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
