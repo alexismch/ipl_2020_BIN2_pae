@@ -35,7 +35,6 @@ public class QuoteImpl implements Quote {
    * @param state the state of the quote
    * @param startDate the start date of work
    * @param customer the customer that has asked a quote
-   * @param quoteState the state of the quote
    */
   public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, BigDecimal totalAmount,
       int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer) {
