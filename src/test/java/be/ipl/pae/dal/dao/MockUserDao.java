@@ -94,7 +94,7 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean checkPseudoInDb(String pseudo) {
-    return pseudo.equals("badpseudo");
+    return pseudo.replaceAll("\\s", "").equalsIgnoreCase("badpseudo");
   }
 
   @Override

@@ -125,6 +125,22 @@ public class UserUccImplTest {
 
   }
 
+  @DisplayName("users list with filter on name case insensitive")
+  @Test
+  public void usersListFilterNameIgnoreCase() throws FatalException {
+    UsersFilterDto usersFilterDto = dtoFactory.getUsersFilterDto();
+
+    usersFilterDto.setName("a");
+    List<UserDto> users = ucc.getUsers(usersFilterDto);
+
+    assertEquals(3, users.size());
+
+    for (UserDto userDto : users) {
+      assertTrue(userDto.getLastName().startsWith("A"));
+    }
+
+  }
+
   @DisplayName("users list with filter on city")
   @Test
   public void usersListFilterCity() throws FatalException {
