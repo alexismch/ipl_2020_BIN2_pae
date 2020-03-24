@@ -5,6 +5,7 @@ import static be.ipl.pae.util.Util.verifyNotEmpty;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -20,7 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,6 +31,9 @@ public class QuoteServlet extends AbstractServlet {
 
   @Injected
   DtoFactory dtoFactory;
+
+  @Injected
+  DevelopmentTypeUcc developmentTypeUcc;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -66,21 +69,19 @@ public class QuoteServlet extends AbstractServlet {
         quoteToInsert.setWorkDuration(duration);
         quoteToInsert.setState(QuoteState.QUOTE_ENTERED);
 
-
+        for (Long typeId : typesList) {
+          quoteToInsert.addDevelopmentType(developmentTypeUcc.getDevelopmentType(
+              Math.toIntExact(typeId)));
+        }
 
         quoteUcc.insert(quoteToInsert);
 
-        // TODO: typesList
         sendSuccess(resp);
-
       } catch (FatalException fatalE) {
-        fatalE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       } catch (BizException bizE) {
-        bizE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (Exception ex) {
-        ex.printStackTrace();
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       }
     } else {
@@ -90,7 +91,7 @@ public class QuoteServlet extends AbstractServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+      throws IOException {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
     GensonBuilder genson = Util.createGensonBuilder();
@@ -104,7 +105,6 @@ public class QuoteServlet extends AbstractServlet {
     }
 
   }
-
 
 
 }

@@ -35,4 +35,25 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
       throw new BizException(ex);
     }
   }
+
+  @Override
+  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      try {
+        DevelopmentTypeDto developmentType = developmentTypeDao.getDevelopmentType(typeId);
+        if (developmentType == null) {
+          throw new BizException("Type d'améngament inexistant.");
+        }
+        return developmentType;
+      } catch (FatalException ex) {
+        throw new BizException(ex);
+      }
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+    return null;
+  }
 }

@@ -20,7 +20,7 @@ public class QuoteDaoImpl implements QuoteDao {
   DalService dalService;
 
   @Injected
-  DtoFactory quoteDto;
+  DtoFactory quoteDtoFactory;
 
 
   public List<QuoteDto> getAllQuote() throws FatalException {
@@ -40,9 +40,9 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public QuoteDto createQuoteDto(ResultSet res) throws FatalException {
-    QuoteDto quote = null;
+    QuoteDto quote;
     try {
-      quote = quoteDto.getQuote();
+      quote = quoteDtoFactory.getQuote();
       quote.setIdQuote(res.getString(1));
       quote.setIdCustomer(res.getInt(2));
       // quote.setQuoteDate(res.getDate(3));
@@ -57,6 +57,20 @@ public class QuoteDaoImpl implements QuoteDao {
     }
 
     return quote;
+  }
+
+  @Override
+  public void linkToType(String quoteId, int typeId) throws FatalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "INSERT INTO mystherbe.quote_types (id_quote, id_type) VALUES (?, ?)");
+
+    try {
+      ps.setString(1, quoteId);
+      ps.setInt(2, typeId);
+      ps.execute();
+    } catch (SQLException ex) {
+      throw new FatalException("error with the db");
+    }
   }
 
   @Override
@@ -99,7 +113,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public QuoteDto getQuote(String idQuote) throws FatalException {
-    QuoteDto quoteDtoToReturn = quoteDto.getQuote();
+    QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select id_quote, id_customer, quote_date, "
         + "total_amount::decimal, work_duration, id_state, start_date "

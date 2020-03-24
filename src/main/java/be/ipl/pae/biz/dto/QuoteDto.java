@@ -78,9 +78,13 @@ public interface QuoteDto {
   void setQuoteState(QuoteState quoteState);
 
 
-  List<DevelopmentTypeDto> getListDevelopmentType();
+  List<DevelopmentTypeDto> getDevelopmentTypes();
 
-
-  void addListDevelopmentType(DevelopmentTypeDto developmentType);
+  /**
+   * Add a development type to the list.
+   *
+   * @param developmentType the type to add
+   */
+  void addDevelopmentType(DevelopmentTypeDto developmentType);
 
 }

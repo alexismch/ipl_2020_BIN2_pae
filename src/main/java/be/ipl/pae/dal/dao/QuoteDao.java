@@ -35,6 +35,15 @@ public interface QuoteDao {
   QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException;
 
   /**
+   * Link the quote to a development type.
+   *
+   * @param quoteId the quote id
+   * @param typeId  the development type id
+   * @throws FatalException if a problem occurred with the db
+   */
+  void linkToType(String quoteId, int typeId) throws FatalException;
+
+  /**
    * Verify if the quote with the quoteId exists in the db.
    *
    * @param quoteId the quoteId to verify
