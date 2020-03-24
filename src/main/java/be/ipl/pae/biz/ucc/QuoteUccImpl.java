@@ -3,6 +3,7 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.dal.dao.CustomerDao;
+import be.ipl.pae.dal.dao.PhotoDao;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
@@ -18,6 +19,9 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Injected
   private CustomerDao customerDao;
+
+  @Injected
+  private PhotoDao photoDao;
 
   @Injected
   private DalServiceTransaction dalService;
@@ -71,7 +75,8 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.startTransaction();
       quoteDto = quoteDao.getQuote(idQuote);
       quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
-
+      quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
+      quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
       return quoteDto;
     } catch (FatalException ex) {
       dalService.rollbackTransaction();

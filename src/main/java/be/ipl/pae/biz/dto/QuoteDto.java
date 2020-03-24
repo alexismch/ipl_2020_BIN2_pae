@@ -81,4 +81,8 @@ public interface QuoteDto {
    */
   void addDevelopmentType(DevelopmentTypeDto developmentType);
 
+  void setListPhotoBefore(List<PhotoDto> listPhotoBefore);
+
+  void setListPhotoAfter(List<PhotoDto> listPhotoAfter);
+
 }

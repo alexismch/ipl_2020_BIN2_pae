@@ -4,7 +4,7 @@ public class PhotoImpl implements Photo {
 
   private String base64;
   private int id;
-  private int title;
+  private String title;
   private String idQuote;
   private boolean isVisible;
   private int idType;
@@ -17,16 +17,16 @@ public class PhotoImpl implements Photo {
   /**
    * Create a PhotoImpl object.
    *
-   * @param base64     the base64 infos
-   * @param id         the photo id
-   * @param title      the photo title
-   * @param idQuote    the quote id which is linked with the photo
-   * @param isVisible  the visibility of the photo
-   * @param idType     the development type on the photo
+   * @param base64 the base64 infos
+   * @param id the photo id
+   * @param title the photo title
+   * @param idQuote the quote id which is linked with the photo
+   * @param isVisible the visibility of the photo
+   * @param idType the development type on the photo
    * @param beforeWork the moment when the photo was taken
    */
-  public PhotoImpl(String base64, int id, int title, String idQuote, boolean isVisible, int idType,
-      boolean beforeWork) {
+  public PhotoImpl(String base64, int id, String title, String idQuote, boolean isVisible,
+      int idType, boolean beforeWork) {
     super();
     this.base64 = base64;
     this.id = id;
@@ -37,7 +37,9 @@ public class PhotoImpl implements Photo {
     this.beforeWork = beforeWork;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#getBase64()
    */
   @Override
@@ -45,7 +47,9 @@ public class PhotoImpl implements Photo {
     return base64;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setBase64(java.lang.String)
    */
   @Override
@@ -53,7 +57,9 @@ public class PhotoImpl implements Photo {
     this.base64 = base64;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#getId()
    */
   @Override
@@ -61,7 +67,9 @@ public class PhotoImpl implements Photo {
     return id;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setId(int)
    */
   @Override
@@ -69,23 +77,29 @@ public class PhotoImpl implements Photo {
     this.id = id;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#getTitle()
    */
   @Override
-  public int getTitle() {
+  public String getTitle() {
     return title;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setTitle(int)
    */
   @Override
-  public void setTitle(int title) {
+  public void setTitle(String title) {
     this.title = title;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#getIdQuote()
    */
   @Override
@@ -93,7 +107,9 @@ public class PhotoImpl implements Photo {
     return idQuote;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setIdQuote(java.lang.String)
    */
   @Override
@@ -101,14 +117,18 @@ public class PhotoImpl implements Photo {
     this.idQuote = idQuote;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#isVisible()
    */
   public boolean isVisible() {
     return isVisible;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setVisible(boolean)
    */
   @Override
@@ -116,7 +136,9 @@ public class PhotoImpl implements Photo {
     this.isVisible = isVisible;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#getIdType()
    */
   @Override
@@ -124,7 +146,9 @@ public class PhotoImpl implements Photo {
     return idType;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setIdType(int)
    */
   @Override
@@ -132,7 +156,9 @@ public class PhotoImpl implements Photo {
     this.idType = idType;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#isBeforeWork()
    */
   @Override
@@ -140,7 +166,9 @@ public class PhotoImpl implements Photo {
     return beforeWork;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see be.ipl.pae.biz.objets.PhotoTest#setBeforeWork(boolean)
    */
   @Override

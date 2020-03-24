@@ -168,4 +168,16 @@ public class QuoteImpl implements Quote {
   public void addDevelopmentType(DevelopmentTypeDto developmentType) {
     this.getDevelopmentTypes.add(developmentType);
   }
+
+
+  public void setListPhotoBefore(List<PhotoDto> listPhotoBefore) {
+    this.listPhotoBefore = listPhotoBefore;
+  }
+
+
+  public void setListPhotoAfter(List<PhotoDto> listPhotoAfter) {
+    this.listPhotoAfter = listPhotoAfter;
+  }
+
+
 }
