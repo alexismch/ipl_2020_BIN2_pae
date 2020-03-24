@@ -28,11 +28,11 @@ function createCustomersList($page, customers) {
 function createCustomersListItem($customersList, customer) {
 
   const customerListItem = `<li class="customers-list-item border rounded mb-2">
-        <p>${customer.lastname} ${customer.firstname}</p>
+        <p>${customer.lastName} ${customer.firstName}</p>
         <p>${customer.email}</p>
-        <p>${customer.postalcode}</p>
+        <p>${customer.postalCode}</p>
         <p>${customer.city}</p>
-        <p>${customer.telnbr}</p>
+        <p>${customer.phoneNumber}</p>
         <a class="btn btn-primary w-min" href="clients/${customer.idcustomer}">Détails</a>
       </li>`;
   $customersList.append(customerListItem);
