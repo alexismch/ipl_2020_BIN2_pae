@@ -24,25 +24,34 @@ public class CustomerDaoImpl implements CustomerDao {
   @Override
 
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
-    // TODO Auto-generated method stub
 
     String query;
 
     if (customersFilterDto == null) {
       query = "SELECT * FROM mystherbe.customers";
     } else {
-      query = "SELECT * FROM mystherbe.users "
-          + "WHERE lastname LIKE ? AND city LIKE ? AND postal_code LIKE ?";
+      query =
+          "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ? AND postal_code LIKE ?";
     }
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
-    if (customersFilterDto != null) {
-      String name = DalUtils.escapeSpecialLikeChar(customersFilterDto.getName());
-      String city = DalUtils.escapeSpecialLikeChar(customersFilterDto.getCity());
-      int postalCode = customersFilterDto.getPostalCode();
+    try {
+
+      if (customersFilterDto != null) {
+        String name = DalUtils.escapeSpecialLikeChar(customersFilterDto.getName());
+        String city = DalUtils.escapeSpecialLikeChar(customersFilterDto.getCity());
+        int postalCode = customersFilterDto.getPostalCode();
+        ps.setString(1, name + "%");
+        ps.setString(2, city + "%");
+        ps.setInt(3, postalCode);
+      }
+
+      return getCustomersViaPs(ps);
+    } catch (SQLException ex) {
+
     }
 
-    return null;
+    return new ArrayList<>();
   }
 
   /**
@@ -53,11 +62,20 @@ public class CustomerDaoImpl implements CustomerDao {
    * @return A list of CustomerDto created form the database
    * @throws SQLException if an SQL error occurred
    */
-  private List<CustomerDto> getUsersViaPs(PreparedStatement ps) throws SQLException {
+  private List<CustomerDto> getCustomersViaPs(PreparedStatement ps) throws SQLException {
     List<CustomerDto> customers = new ArrayList<>();
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
         CustomerDto customerDto = customerDtoFactory.getCustomer();
+        customerDto.setIdcustomer(resultSet.getInt(1));
+        customerDto.setLastname(resultSet.getString(2));
+        customerDto.setFirstname(resultSet.getString(3));
+        customerDto.setAddress(resultSet.getString(4));
+        customerDto.setPostalcode(resultSet.getInt(5));
+        customerDto.setCity(resultSet.getString(6));
+        customerDto.setEmail(resultSet.getString(7));
+        customerDto.setTelnbr(resultSet.getString(8));
+        customerDto.setIdUser(resultSet.getInt(9));
         customers.add(customerDto);
       }
     }
