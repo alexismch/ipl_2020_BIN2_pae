@@ -46,10 +46,11 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setInt(5, photoDto.getIdType());
       ps.setBoolean(6, photoDto.isBeforeWork());
       ps.execute();
-    } catch (SQLException e) {
+    } catch (SQLException ex) {
       throw new FatalException("error with the db");
     }
   }
+
   @Override
   public List<PhotoDto> getPhotos(String idQuote, Boolean isBefore) throws FatalException {
     PreparedStatement ps;
