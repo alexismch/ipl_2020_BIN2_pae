@@ -46,9 +46,10 @@ public class QuoteDaoImpl implements QuoteDao {
       quote.setIdQuote(res.getString(1));
       quote.setIdCustomer(res.getInt(2));
       // quote.setQuoteDate(res.getDate(3));
+      // quote.setQuoteDate((res.getDate(3).toLocalDate()));
       // quote.setTotalAmount(res.getBigDecimal(4));
       quote.setWorkDuration(res.getInt(5));
-      // quote.setStartDate(res.getDate(6));
+      // quote.setStartDate(res.getDate(6).toLocalDate());
       // quote.setState(res.getString(7));
 
     } catch (SQLException ex) {

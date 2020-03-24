@@ -14,8 +14,8 @@ function createQuotesList($page, quotesList) {
         <p>${quote.idQuote}</p>
         <p>${quote.idCustomer}</p>
         <p>${quote.workDuration}</p>
-        <p>${quote.state}</p>
-        <p>${quote.idQuote}</p>
+     
+        <p>${quote.startDate}</p>
         <p>${quote.idQuote}</p>
         <a class="btn btn-primary w-min" href="test">Ajouter photo</a>
         </li>`;
