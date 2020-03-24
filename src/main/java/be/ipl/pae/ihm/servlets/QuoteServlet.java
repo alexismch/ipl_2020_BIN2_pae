@@ -93,8 +93,8 @@ public class QuoteServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
-    GensonBuilder genson = Util.createGensonBuilder();
-    genson.exclude("idQuote", PhotoDto.class);
+    GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class)
+        .exclude("developmentTypes", QuoteDto.class);
 
     String quoteId = req.getParameter("quoteId");
     try {

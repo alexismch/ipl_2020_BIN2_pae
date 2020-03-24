@@ -25,7 +25,7 @@ public class QuoteImpl implements Quote {
   private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
   private List<DevelopmentTypeDto> getDevelopmentTypes = new ArrayList<>();
-  private Set<DevelopmentTypeDto> setDevelopmentTypes = new HashSet<DevelopmentTypeDto>();
+  private Set<DevelopmentTypeDto> developmentTypesSet = new HashSet<DevelopmentTypeDto>();
 
 
   /**
@@ -183,5 +183,14 @@ public class QuoteImpl implements Quote {
     this.listPhotoAfter = listPhotoAfter;
   }
 
+  @Override
+  public void addDevelopmentTypesSet(DevelopmentTypeDto developmentTypes) {
+    this.developmentTypesSet.add(developmentTypes);
+  }
+
+
+  public Set<DevelopmentTypeDto> getDevelopmentTypesSet() {
+    return developmentTypesSet;
+  }
 
 }
