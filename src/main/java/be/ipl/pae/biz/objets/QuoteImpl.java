@@ -22,7 +22,7 @@ public class QuoteImpl implements Quote {
   private List<PhotoDto> listPhotoBefore = new ArrayList<>();
   private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
-  private List<DevelopmentTypeDto> getDevelopmentTypes = new ArrayList<>();
+  private List<DevelopmentTypeDto> developmentType = new ArrayList<>();
 
   /**
    * Create a QuoteImpl object.
@@ -161,11 +161,11 @@ public class QuoteImpl implements Quote {
 
 
   public List<DevelopmentTypeDto> getDevelopmentTypes() {
-    return getDevelopmentTypes;
+    return developmentType;
   }
 
 
   public void addDevelopmentType(DevelopmentTypeDto developmentType) {
-    this.getDevelopmentTypes.add(developmentType);
+    this.developmentType.add(developmentType);
   }
 }

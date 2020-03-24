@@ -2,6 +2,7 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
+import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
@@ -48,9 +49,13 @@ public class QuoteServlet extends AbstractServlet {
     if (types == null) {
       types = req.getParameterValues("types[]"); // multiple
     }
+    String[] photos = req.getParameterValues("photos"); // only one
+    if (photos == null) {
+      photos = req.getParameterValues("photos[]"); // multiple
+    }
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
-        && types != null && types.length > 0) {
+        && types != null && types.length > 0 && photos != null && photos.length > 0) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
@@ -71,6 +76,20 @@ public class QuoteServlet extends AbstractServlet {
         for (Long typeId : typesList) {
           quoteToInsert
               .addDevelopmentType(developmentTypeUcc.getDevelopmentType(Math.toIntExact(typeId)));
+        }
+
+        List<String> photosList = Stream.of(photos).collect(Collectors.toList());
+        for (String photo : photosList) {
+          PhotoDto photoDto = dtoFactory.getPhoto();
+
+          photoDto.setBase64(photo);
+          photoDto.setIdQuote(quoteToInsert.getIdQuote());
+          photoDto.setVisible(false);
+          photoDto.setBeforeWork(true);
+          photoDto.setTitle("Image");
+          photoDto.setIdType(1);
+
+          quoteToInsert.addToListPhotoBefore(photoDto);
         }
 
         quoteUcc.insert(quoteToInsert);

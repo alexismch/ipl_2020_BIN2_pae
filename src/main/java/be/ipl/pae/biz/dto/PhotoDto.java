@@ -10,9 +10,9 @@ public interface PhotoDto {
 
   void setId(int id);
 
-  int getTitle();
+  String getTitle();
 
-  void setTitle(int title);
+  void setTitle(String title);
 
   String getIdQuote();
 

@@ -4,7 +4,7 @@ public class PhotoImpl implements Photo {
 
   private String base64;
   private int id;
-  private int title;
+  private String title;
   private String idQuote;
   private boolean isVisible;
   private int idType;
@@ -25,7 +25,8 @@ public class PhotoImpl implements Photo {
    * @param idType     the development type on the photo
    * @param beforeWork the moment when the photo was taken
    */
-  public PhotoImpl(String base64, int id, int title, String idQuote, boolean isVisible, int idType,
+  public PhotoImpl(String base64, int id, String title, String idQuote, boolean isVisible,
+      int idType,
       boolean beforeWork) {
     super();
     this.base64 = base64;
@@ -73,7 +74,7 @@ public class PhotoImpl implements Photo {
    * @see be.ipl.pae.biz.objets.PhotoTest#getTitle()
    */
   @Override
-  public int getTitle() {
+  public String getTitle() {
     return title;
   }
 
@@ -81,7 +82,7 @@ public class PhotoImpl implements Photo {
    * @see be.ipl.pae.biz.objets.PhotoTest#setTitle(int)
    */
   @Override
-  public void setTitle(int title) {
+  public void setTitle(String title) {
     this.title = title;
   }
 

@@ -80,5 +80,4 @@ public interface QuoteDto {
    * @param developmentType the type to add
    */
   void addDevelopmentType(DevelopmentTypeDto developmentType);
-
 }
