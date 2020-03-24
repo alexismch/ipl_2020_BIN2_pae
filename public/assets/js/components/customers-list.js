@@ -4,9 +4,9 @@ import {ajaxGET} from '../utils/ajax.js';
 
 function getTemplate(){
     return `<div>
-    <form action="customers" class="form-inline p-1 elevation-1 bg-light" method="get">
+    <form action="clients" class="form-inline p-1 elevation-1 bg-light" method="get">
       <input class="form-control form-control-sm" name="name" placeholder="Nom du client" type="text">
-      <input class="form-control form-control-sm" name="postalCode" placeholder="Code postale" type="text">
+      <input class="form-control form-control-sm ml-1" name="postalCode" placeholder="Code postal" type="number">
       <input class="form-control form-control-sm ml-1" name="city" placeholder="Ville du client" type="text">
       <div class="input-group input-group-sm m-1">
         <button class="btn btn-primary btn-sm w-100">Rechercher</button>
@@ -33,7 +33,7 @@ function createCustomersListItem($customersList, customer) {
         <p>${customer.postalcode}</p>
         <p>${customer.city}</p>
         <p>${customer.telnbr}</p>
-        <a class="btn btn-primary w-min" href="clients/${customer.id}">Détails</a>
+        <a class="btn btn-primary w-min" href="clients/${customer.idcustomer}">Détails</a>
       </li>`;
     $customersList.append(customerListItem);
   }
