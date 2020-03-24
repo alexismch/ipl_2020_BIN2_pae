@@ -40,13 +40,13 @@ public class CustomerServlet extends AbstractServlet {
 
         CustomerDto customerToInsert = dtoFactory.getCustomer();
 
-        customerToInsert.setFirstname(firstname);
-        customerToInsert.setLastname(lastname);
+        customerToInsert.setFirstName(firstname);
+        customerToInsert.setLastName(lastname);
         customerToInsert.setAddress(address);
-        customerToInsert.setPostalcode(postalCode);
+        customerToInsert.setPostalCode(postalCode);
         customerToInsert.setCity(city);
         customerToInsert.setEmail(email);
-        customerToInsert.setTelnbr(phoneNumber);
+        customerToInsert.setPhoneNumber(phoneNumber);
 
         customerUcc.insert(customerToInsert);
 

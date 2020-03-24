@@ -22,7 +22,6 @@ public class QuoteImpl implements Quote {
   private List<PhotoDto> listPhotoBefore = new ArrayList<>();
   private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
-  private QuoteState quoteState;
   private List<DevelopmentTypeDto> getDevelopmentTypes = new ArrayList<>();
 
   /**
@@ -36,11 +35,9 @@ public class QuoteImpl implements Quote {
    * @param state the state of the quote
    * @param startDate the start date of work
    * @param customer the customer that has asked a quote
-   * @param quoteState the state of the quote
    */
   public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, BigDecimal totalAmount,
-      int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer,
-      QuoteState quoteState) {
+      int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer) {
     super();
     this.idQuote = iqQuote;
     this.idCustomer = idCustomer;
@@ -50,7 +47,6 @@ public class QuoteImpl implements Quote {
     this.state = state;
     this.startDate = startDate;
     this.customer = customer;
-    this.quoteState = quoteState;
   }
 
 
@@ -161,16 +157,6 @@ public class QuoteImpl implements Quote {
 
   public void setCustomer(CustomerDto customer) {
     this.customer = customer;
-  }
-
-
-  public QuoteState getQuoteState() {
-    return quoteState;
-  }
-
-
-  public void setQuoteState(QuoteState quoteState) {
-    this.quoteState = quoteState;
   }
 
 

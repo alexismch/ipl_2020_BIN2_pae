@@ -2,25 +2,25 @@ package be.ipl.pae.biz.dto;
 
 public interface CustomerDto {
 
-  int getIdcustomer();
+  int getIdCustomer();
 
-  void setIdcustomer(int idcustomer);
+  void setIdCustomer(int idcustomer);
 
-  String getLastname();
+  String getLastName();
 
-  void setLastname(String lastname);
+  void setLastName(String lastname);
 
-  String getFirstname();
+  String getFirstName();
 
-  void setFirstname(String firstname);
+  void setFirstName(String firstname);
 
   String getAddress();
 
   void setAddress(String address);
 
-  int getPostalcode();
+  int getPostalCode();
 
-  void setPostalcode(int postalcode);
+  void setPostalCode(int postalcode);
 
   String getCity();
 
@@ -30,9 +30,9 @@ public interface CustomerDto {
 
   void setEmail(String email);
 
-  String getTelnbr();
+  String getPhoneNumber();
 
-  void setTelnbr(String telnbr);
+  void setPhoneNumber(String telnbr);
 
   int getIdUser();
 

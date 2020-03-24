@@ -72,12 +72,6 @@ public interface QuoteDto {
   void setCustomer(CustomerDto customer);
 
 
-  QuoteState getQuoteState();
-
-
-  void setQuoteState(QuoteState quoteState);
-
-
   List<DevelopmentTypeDto> getDevelopmentTypes();
 
   /**

@@ -45,32 +45,32 @@ public class CustomerImpl implements Customer {
   }
 
   @Override
-  public int getIdcustomer() {
+  public int getIdCustomer() {
     return idCustomer;
   }
 
   @Override
-  public void setIdcustomer(int idcustomer) {
+  public void setIdCustomer(int idcustomer) {
     this.idCustomer = idcustomer;
   }
 
   @Override
-  public String getLastname() {
+  public String getLastName() {
     return lastname;
   }
 
   @Override
-  public void setLastname(String lastname) {
+  public void setLastName(String lastname) {
     this.lastname = lastname;
   }
 
   @Override
-  public String getFirstname() {
+  public String getFirstName() {
     return firstname;
   }
 
   @Override
-  public void setFirstname(String firstname) {
+  public void setFirstName(String firstname) {
     this.firstname = firstname;
   }
 
@@ -85,12 +85,12 @@ public class CustomerImpl implements Customer {
   }
 
   @Override
-  public int getPostalcode() {
+  public int getPostalCode() {
     return postalCode;
   }
 
   @Override
-  public void setPostalcode(int postalcode) {
+  public void setPostalCode(int postalcode) {
     this.postalCode = postalcode;
   }
 
@@ -115,12 +115,12 @@ public class CustomerImpl implements Customer {
   }
 
   @Override
-  public String getTelnbr() {
+  public String getPhoneNumber() {
     return telNbr;
   }
 
   @Override
-  public void setTelnbr(String telnbr) {
+  public void setPhoneNumber(String telnbr) {
     this.telNbr = telnbr;
   }
 
