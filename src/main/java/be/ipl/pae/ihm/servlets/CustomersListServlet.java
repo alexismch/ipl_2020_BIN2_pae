@@ -32,8 +32,6 @@ public class CustomersListServlet extends AbstractServlet {
     if (postalCodeString != null) {
       postalCode = Integer.valueOf(postalCodeString);
     }
-    System.out.println("here servlet");
-
     CustomersFilterDto customersFilterDto = dtoFactory.getCustomersFilter();
     customersFilterDto.setCity(city);
     customersFilterDto.setName(name);
