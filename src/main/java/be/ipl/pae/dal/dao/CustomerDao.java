@@ -40,7 +40,7 @@ public interface CustomerDao {
   /**
    * get a customer thanks to his id.
    * 
-   * @param idCustomer
+   * @param idCustomer id of the customer
    * @return an customeDto object
    * @throws FatalException if you had a problem with the db
    */
