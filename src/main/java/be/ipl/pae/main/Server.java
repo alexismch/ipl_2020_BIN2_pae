@@ -44,8 +44,8 @@ public class Server {
 
   @Injected
   private CustomerServlet customerServlet;
-  
-  @Injected 
+
+  @Injected
   private CustomersListServlet customersListServlet;
 
   /**
@@ -56,7 +56,7 @@ public class Server {
   public void start() throws Exception {
     org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(8080);
     ContextHandlerCollection context = new ContextHandlerCollection();
-    context.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
+    context.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
     server.setHandler(context);
     System.out.println("Server starting...");
     server.start();
@@ -87,7 +87,6 @@ public class Server {
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
-
     return backendContext;
   }
 }
