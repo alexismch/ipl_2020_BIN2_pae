@@ -4,6 +4,7 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.dal.dao.CustomerDao;
+import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
@@ -22,10 +23,13 @@ public class QuoteUccImpl implements QuoteUcc {
   private CustomerDao customerDao;
 
   @Injected
-  private DalServiceTransaction dalService;
+  private PhotoDao photoDao;
 
   @Injected
-  private PhotoDao photoDao;
+  private DevelopmentTypeDao developmentTypeDao;
+
+  @Injected
+  private DalServiceTransaction dalService;
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws BizException {
@@ -79,7 +83,19 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.startTransaction();
       quoteDto = quoteDao.getQuote(idQuote);
       quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
+      quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
+      quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
+      for (PhotoDto photo : quoteDto.getListPhotoBefore()) {
+        DevelopmentTypeDto developmentTypeDto =
+            developmentTypeDao.getDevelopmentType(photo.getIdType());
+        quoteDto.addDevelopmentTypesSet(developmentTypeDto);
+      }
 
+      for (PhotoDto photo : quoteDto.getListPhotoAfter()) {
+        DevelopmentTypeDto developmentTypeDto =
+            developmentTypeDao.getDevelopmentType(photo.getIdType());
+        quoteDto.addDevelopmentTypesSet(developmentTypeDto);
+      }
       return quoteDto;
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
