@@ -4,7 +4,7 @@ import {ajaxGET} from '../utils/ajax.js';
 
 function getTemplate(){
     return `<div>
-    <form action="customers" class="form-inline p-1 elevation-1 bg-light" method="get">
+    <form action="clients" class="form-inline p-1 elevation-1 bg-light" method="get">
       <input class="form-control form-control-sm" name="name" placeholder="Nom du client" type="text">
       <input class="form-control form-control-sm" name="postalCode" placeholder="Code postale" type="text">
       <input class="form-control form-control-sm ml-1" name="city" placeholder="Ville du client" type="text">

@@ -34,7 +34,7 @@ public class CustomerDaoImpl implements CustomerDao {
         query = "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ?";
       } else {
         query = "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ? "
-            + "AND postalCode = ?";
+            + "AND postal_code = ?";
       }
     }
 
