@@ -18,6 +18,8 @@ function getTemplate() {
         <select id="page-add-devis-customer" name="customerId" class="form-control" data-placeholder="Choisissez un client">
           <option value=""></option>
         </select>
+        client inexistant?
+        <input  class="btn btn-primary" type=button onclick=window.location.href="creerClient"; value="creer un nouveau client" />
         <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
       </div>
       <div class="form-group">
