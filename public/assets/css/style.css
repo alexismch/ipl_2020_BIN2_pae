@@ -115,7 +115,7 @@ noscript {
 
 .customers-list {
   display: grid;
-  grid-template-columns: repeat(5, 2fr) 1fr;
+  grid-template-columns: 4fr 4fr 1fr 4fr 4fr 2fr;
 }
 
 .users-list-item, .customers-list-item {
