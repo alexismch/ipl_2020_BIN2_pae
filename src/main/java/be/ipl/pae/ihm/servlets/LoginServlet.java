@@ -32,7 +32,7 @@ public class LoginServlet extends AbstractServlet {
       int id = getUId(token, req.getRemoteAddr());
       UserDto utilisateurDto = null;
       try {
-        utilisateurDto = ucc.recuprer(id);
+        utilisateurDto = ucc.getUser(id);
         sendSuccessWithJson(resp, "user", utilisateurDto.toJson()); // TODO use Genson
       } catch (BizException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());

@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
@@ -25,7 +26,11 @@ public class QuoteUccImpl implements QuoteUcc {
         if (quoteDao.checkQuoteIdInDb(quoteDto.getIdQuote())) {
           throw new BizException("Id de devis déjà utilisé!");
         }
-        return quoteDao.insertQuote(quoteDto);
+        quoteDto = quoteDao.insertQuote(quoteDto);
+        for (DevelopmentTypeDto developmentType : quoteDto.getDevelopmentTypes()) {
+          quoteDao.linkToType(quoteDto.getIdQuote(), developmentType.getIdType());
+        }
+        return quoteDto;
       } catch (FatalException ex) {
         dalService.rollbackTransaction();
         throw new BizException(ex);
@@ -38,6 +43,7 @@ public class QuoteUccImpl implements QuoteUcc {
 
   }
 
+  @Override
   public List<QuoteDto> getQuotes() throws BizException {
     try {
       try {

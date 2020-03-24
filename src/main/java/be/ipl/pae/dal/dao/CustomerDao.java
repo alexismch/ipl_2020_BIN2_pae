@@ -17,5 +17,23 @@ public interface CustomerDao {
    */
   List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto);
 
+  /**
+   * Verify if the customer exists in the db.
+   *
+   * @param customerId the customer id to check
+   * @return true if it exists, false if not
+   * @throws FatalException if you have an error with the db
+   */
+  boolean exists(int customerId) throws FatalException;
+
   CustomerDto insertCustomer(CustomerDto customerDto) throws FatalException;
+
+  /**
+   * Verify if the customer is linked to a user.
+   *
+   * @param customerId the customer id
+   * @return true if the customer is linked to a user, false if not
+   * @throws FatalException if you have an error with the db
+   */
+  boolean isLinked(int customerId) throws FatalException;
 }

@@ -149,6 +149,11 @@ public class Util {
     return BCrypt.hashpw(pwd, BCrypt.gensalt());
   }
 
+  /**
+   * Create a Genson Builder.
+   *
+   * @return the Genson Builder
+   */
   public static GensonBuilder createGensonBuilder() {
     GensonBuilder gensonBuilder = new GensonBuilder().exclude("password").useMethods(true);
     Util.addSerializer(gensonBuilder, LocalDate.class,

@@ -17,12 +17,13 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   @Injected
   private DalServiceTransaction dalService;
 
+  @Override
   public List<DevelopmentTypeDto> getDevelopmentTypes() throws BizException {
     try {
       List<DevelopmentTypeDto> listToReturn = null;
       try {
         dalService.startTransaction();
-        listToReturn = developmentTypeDao.getAllDevelopmentType();
+        listToReturn = developmentTypeDao.getdevelopmentTypes();
       } catch (Exception ex) {
         dalService.rollbackTransaction();
       } finally {
@@ -34,5 +35,26 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     } catch (FatalException ex) {
       throw new BizException(ex);
     }
+  }
+
+  @Override
+  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      try {
+        DevelopmentTypeDto developmentType = developmentTypeDao.getDevelopmentType(typeId);
+        if (developmentType == null) {
+          throw new BizException("Type d'améngament inexistant.");
+        }
+        return developmentType;
+      } catch (FatalException ex) {
+        throw new BizException(ex);
+      }
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+    return null;
   }
 }

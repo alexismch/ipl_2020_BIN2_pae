@@ -113,13 +113,18 @@ noscript {
   grid-template-columns: repeat(4, 2fr) 1fr;
 }
 
-.users-list-item {
+.customers-list {
+  display: grid;
+  grid-template-columns: repeat(5, 2fr) 1fr;
+}
+
+.users-list-item, .customers-list-item {
   padding: .8em;
   grid-column: 1 / -1;
 }
 
 @media (min-width: 768px) {
-  .users-list-item {
+  .users-list-item, .customers-list-item {
     display: grid;
     grid-template-columns: repeat(4, 2fr) 1fr;
     grid-gap: .5em;
@@ -130,16 +135,16 @@ noscript {
 /*noinspection CssInvalidPropertyValue*/
 @supports (grid-template-columns: subgrid) {
   /* 2020-03-14: Only supported by Firefox */
-  .users-list-item {
+  .users-list-item, .customers-list-item {
     grid-template-columns: subgrid;
   }
 }
 
-.users-list-item p {
+.users-list-item p, .customers-list-item p {
   margin: 0;
 }
 
-.users-list-item a {
+.users-list-item a, .customers-list-item a {
   justify-self: right;
 }
 

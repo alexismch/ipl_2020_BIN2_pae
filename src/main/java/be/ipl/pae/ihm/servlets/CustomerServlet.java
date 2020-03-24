@@ -47,7 +47,9 @@ public class CustomerServlet extends AbstractServlet {
         customerToInsert.setCity(city);
         customerToInsert.setEmail(email);
         customerToInsert.setTelnbr(phoneNumber);
+
         customerUcc.insert(customerToInsert);
+
         sendSuccess(resp);
       } catch (FatalException fatalE) {
         fatalE.printStackTrace();

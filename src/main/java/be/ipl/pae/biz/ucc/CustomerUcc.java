@@ -18,10 +18,10 @@ public interface CustomerUcc {
   CustomerDto insert(CustomerDto customerDto) throws FatalException, BizException;
 
   /**
-   * Get all customers saved in the database
-   * 
+   * Get all customers saved in the database.
+   *
    * @param customersFilterDto a filter applied to the results or null if no filter should be
-   *        applied
+   *                           applied
    * @return A list of all customers
    * @throws FatalException Thrown if a fatal error happened during the data retrieving
    */

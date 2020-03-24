@@ -1,6 +1,5 @@
 package be.ipl.pae.ihm.servlets;
 
-import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -17,9 +16,6 @@ public class DevelopmentTypeServlet extends AbstractServlet {
 
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
-
-  @Injected
-  private DtoFactory dtoFactory;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)

@@ -22,11 +22,10 @@ public class UserUccImpl implements UserUcc {
   private DalServiceTransaction dalService;
 
 
-
   @Override
   public UserDto login(String pseudo, String mdp) throws BizException {
     try {
-      UserDto userDto = null;
+      UserDto userDto;
       try {
         dalService.startTransaction();
         userDto = userDao.getUserByPseudo(pseudo);
@@ -80,7 +79,7 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto recuprer(int id) throws BizException {
+  public UserDto getUser(int id) throws BizException {
     try {
       try {
         dalService.startTransaction();

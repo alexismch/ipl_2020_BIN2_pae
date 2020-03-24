@@ -17,17 +17,30 @@ public class CustomerImpl implements Customer {
     super();
   }
 
-  public CustomerImpl(int idcustomer, String lastname, String firstname, String address,
-      int postalcode, String city, String email, String telnbr, int idUser) {
+  /**
+   * Create a CustomerImpl object.
+   *
+   * @param idCustomer the customer id
+   * @param lastname   the customer lastname
+   * @param firstname  the customer firstname
+   * @param address    the customer address
+   * @param postalCode the customer postal code
+   * @param city       the customer city
+   * @param email      the customer email
+   * @param telNbr     the customer tele Nbr
+   * @param idUser     the user id which is linked with the customer
+   */
+  public CustomerImpl(int idCustomer, String lastname, String firstname, String address,
+      int postalCode, String city, String email, String telNbr, int idUser) {
     super();
-    this.idCustomer = idcustomer;
+    this.idCustomer = idCustomer;
     this.lastname = lastname;
     this.firstname = firstname;
     this.address = address;
-    this.postalCode = postalcode;
+    this.postalCode = postalCode;
     this.city = city;
     this.email = email;
-    this.telNbr = telnbr;
+    this.telNbr = telNbr;
     this.idUser = idUser;
   }
 

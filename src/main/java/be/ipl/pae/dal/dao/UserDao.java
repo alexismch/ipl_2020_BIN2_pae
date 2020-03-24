@@ -58,4 +58,13 @@ public interface UserDao {
    * @throws FatalException if you have an error with the db
    */
   UserDto insertUser(UserDto userDto) throws FatalException;
+
+  /**
+   * Verify if the user is linked to a customer.
+   *
+   * @param userId the customer id
+   * @return true if the user is linked to a customer, false if not
+   * @throws FatalException if you have an error with the db
+   */
+  boolean isLinked(int userId) throws FatalException;
 }

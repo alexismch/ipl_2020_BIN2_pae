@@ -37,7 +37,6 @@ public class CustomerDaoImpl implements CustomerDao {
         query =
             "SELECT * FROM mystherbe.customers WHERE lastname LIKE ? AND city LIKE ? AND postalCode = ?";
       }
-
     }
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
@@ -123,6 +122,31 @@ public class CustomerDaoImpl implements CustomerDao {
 
     } catch (Exception ex) {
       ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+  }
+
+  @Override
+  public boolean exists(int customerId) throws FatalException {
+    PreparedStatement ps =
+        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_customer = ?");
+
+    try {
+      ps.setInt(1, customerId);
+      return ps.executeQuery().next();
+    } catch (SQLException ex) {
+      throw new FatalException("error with the db!");
+    }
+  }
+
+  @Override
+  public boolean isLinked(int customerId) throws FatalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT * FROM mystherbe.customers WHERE id_customer = ? AND id_user IS NOT NULL");
+    try {
+      ps.setInt(1, customerId);
+      return ps.executeQuery().next();
+    } catch (SQLException ex) {
       throw new FatalException("error with the db!");
     }
   }

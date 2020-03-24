@@ -19,11 +19,11 @@ public class QuoteImpl implements Quote {
   private int workDuration;
   private QuoteState state;
   private LocalDate startDate;
-  private List<PhotoDto> listPhotoBefore = new ArrayList<PhotoDto>();
-  private List<PhotoDto> listPhotoAfter = new ArrayList<PhotoDto>();
+  private List<PhotoDto> listPhotoBefore = new ArrayList<>();
+  private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
   private QuoteState quoteState;
-  private List<DevelopmentTypeDto> listDevelopmentType = new ArrayList<DevelopmentTypeDto>();
+  private List<DevelopmentTypeDto> getDevelopmentTypes = new ArrayList<>();
 
   /**
    * Create a QuoteImpl object.
@@ -174,15 +174,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public List<DevelopmentTypeDto> getListDevelopmentType() {
-    return listDevelopmentType;
+  public List<DevelopmentTypeDto> getDevelopmentTypes() {
+    return getDevelopmentTypes;
   }
 
 
-  public void addListDevelopmentType(DevelopmentTypeDto developmentType) {
-    this.listDevelopmentType.add(developmentType);
+  public void addDevelopmentType(DevelopmentTypeDto developmentType) {
+    this.getDevelopmentTypes.add(developmentType);
   }
-
-
-
 }
