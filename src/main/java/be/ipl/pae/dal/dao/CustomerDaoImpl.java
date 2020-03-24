@@ -31,7 +31,8 @@ public class CustomerDaoImpl implements CustomerDao {
     if (customersFilterDto == null) {
       query = "SELECT * FROM mystherbe.customers";
     } else {
-      query = "SELECT * FROM mystherbe.users WHERE lastname LIKE ? AND city LIKE ? AND postal_code LIKE ?";
+      query = "SELECT * FROM mystherbe.users "
+          + "WHERE lastname LIKE ? AND city LIKE ? AND postal_code LIKE ?";
     }
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
