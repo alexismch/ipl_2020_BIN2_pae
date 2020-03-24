@@ -78,10 +78,12 @@ public class MockUserDao implements UserDao {
     }
 
     return usersList.stream()
-        .filter(userDto -> userDto.getLastName()
-            .startsWith(usersFilterDto.getName() == null ? "" : usersFilterDto.getName()))
-        .filter(userDto -> userDto.getCity()
-            .startsWith(usersFilterDto.getCity() == null ? "" : usersFilterDto.getCity()))
+        .filter(userDto -> userDto.getLastName().toLowerCase()
+            .startsWith(
+                usersFilterDto.getName() == null ? "" : usersFilterDto.getName().toLowerCase()))
+        .filter(userDto -> userDto.getCity().toLowerCase()
+            .startsWith(
+                usersFilterDto.getCity() == null ? "" : usersFilterDto.getCity().toLowerCase()))
         .collect(Collectors.toList());
   }
 

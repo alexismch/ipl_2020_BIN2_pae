@@ -86,7 +86,8 @@ public class UserDaoImpl implements UserDao {
     String query;
 
     if (usersFilterDto != null) {
-      query = "SELECT * FROM mystherbe.users WHERE lastname LIKE ? AND city LIKE ?";
+      query = "SELECT * FROM mystherbe.users"
+          + "WHERE lower(lastname) LIKE lower(?) AND lower(city) LIKE lower(?)";
     } else {
       query = "SELECT * FROM mystherbe.users";
     }
