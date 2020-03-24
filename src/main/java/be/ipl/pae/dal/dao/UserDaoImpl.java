@@ -160,7 +160,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean checkPseudoInDb(String pseudo) throws FatalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.pseudo =?");
+    ps = dalService.getPreparedStatement(
+        "Select * FROM mystherbe.users usr WHERE REGEXP_REPLACE(LOWER(usr.pseudo), '\\s', '', 'g') =REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')");
 
     try {
 
@@ -209,8 +210,8 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public boolean isLinked(int userId) throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT * FROM mystherbe.customers WHERE id_user = ?");
+    PreparedStatement ps =
+        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_user = ?");
     try {
       ps.setInt(1, userId);
       return ps.executeQuery().next();
