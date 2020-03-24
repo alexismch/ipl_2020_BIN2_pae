@@ -162,7 +162,8 @@ public class UserDaoImpl implements UserDao {
   public boolean checkPseudoInDb(String pseudo) throws FatalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
-        "Select * FROM mystherbe.users usr WHERE REGEXP_REPLACE(LOWER(usr.pseudo), '\\s', '', 'g') =REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')");
+        "Select * FROM mystherbe.users usr WHERE REGEXP_REPLACE(LOWER(usr.pseudo), '\\s', '', 'g') "
+            + "=REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')");
 
     try {
 
