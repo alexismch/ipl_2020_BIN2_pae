@@ -16,7 +16,7 @@ public class PhotoDaoImpl implements PhotoDao {
 
   public PhotoDto getPhotoPerDevelopmentType() {
     //autre uce case, pour plus tard
-    PhotoDto photoDto = null;
+    PhotoDto photoDto;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM  mystherbe.users WHERE  ");
 

@@ -2,7 +2,6 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
-import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.LinkCcUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -16,9 +15,6 @@ public class LinkCcServlet extends AbstractServlet {
 
   @Injected
   private LinkCcUcc linkCcUcc;
-
-  @Injected
-  private DtoFactory dtoFactory;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
