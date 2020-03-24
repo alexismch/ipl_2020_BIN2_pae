@@ -77,11 +77,13 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public QuoteDto getQuote(String idQuote) throws FatalException {
+  public QuoteDto getQuote(String idQuote) throws FatalException, BizException {
     QuoteDto quoteDto;
     try {
       dalService.startTransaction();
       quoteDto = quoteDao.getQuote(idQuote);
+      if (quoteDto.getIdQuote() == null)
+        throw new BizException("Devis non existant!");
       quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
       quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
       quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));

@@ -125,6 +125,8 @@ public class QuoteServlet extends AbstractServlet {
       sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteDto));
     } catch (FatalException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    } catch (BizException be) {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, be.getMessage());
     }
 
   }

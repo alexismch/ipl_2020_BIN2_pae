@@ -30,6 +30,7 @@ public interface QuoteUcc {
    * @param idQuote id of the quote
    * @return an object quoteDto
    * @throws FatalException if you have a problem with the db
+   * @throws BizException if the quote doesn't exist
    */
-  QuoteDto getQuote(String idQuote) throws FatalException;
+  QuoteDto getQuote(String idQuote) throws FatalException, BizException;
 }
