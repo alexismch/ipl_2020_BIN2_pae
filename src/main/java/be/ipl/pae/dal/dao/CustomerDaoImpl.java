@@ -67,7 +67,15 @@ public class CustomerDaoImpl implements CustomerDao {
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
         CustomerDto customerDto = customerDtoFactory.getCustomer();
-
+        customerDto.setIdcustomer(resultSet.getInt(1));
+        customerDto.setLastname(resultSet.getString(2));
+        customerDto.setFirstname(resultSet.getString(3));
+        customerDto.setAddress(resultSet.getString(4));
+        customerDto.setPostalcode(resultSet.getInt(5));
+        customerDto.setCity(resultSet.getString(6));
+        customerDto.setEmail(resultSet.getString(7));
+        customerDto.setTelnbr(resultSet.getString(8));
+        customerDto.setIdUser(resultSet.getInt(9));
         customers.add(customerDto);
       }
     }

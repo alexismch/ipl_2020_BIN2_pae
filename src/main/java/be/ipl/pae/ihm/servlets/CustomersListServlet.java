@@ -4,6 +4,10 @@ import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.util.Util;
+
+import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
 
@@ -32,6 +36,15 @@ public class CustomersListServlet extends AbstractServlet {
     customersFilterDto.setCity(city);
     customersFilterDto.setName(name);
     customersFilterDto.setPostalCode(postalCode);
+
+    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+
+    try {
+      sendSuccessWithJson(resp, "customers",
+          gensonBuilder.create().serialize(customerUcc.getCustomers(customersFilterDto)));
+    } catch (FatalException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
 
   }
 
