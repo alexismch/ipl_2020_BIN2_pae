@@ -155,25 +155,25 @@ public class Util {
    * @return the Genson Builder
    */
   public static GensonBuilder createGensonBuilder() {
-    GensonBuilder gensonBuilder = new GensonBuilder().exclude("password").useMethods(true);
+    GensonBuilder gensonBuilder = new GensonBuilder()
+        .exclude("password")
+        .useMethods(true)
+        .useRuntimeType(true);
+
     Util.addSerializer(gensonBuilder, LocalDate.class,
         (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
 
     Util.addSerializer(gensonBuilder, UserStatus.class,
-        (value, writer, ctx) -> {
-          writer.writeName("status").beginObject()
-              .writeString("id", value.toString())
-              .writeString("name", value.getName())
-              .endObject();
-        });
+        (value, writer, ctx) -> writer.writeName("status").beginObject()
+            .writeString("id", value.toString())
+            .writeString("name", value.getName())
+            .endObject());
 
     Util.addSerializer(gensonBuilder, QuoteState.class,
-        (value, writer, ctx) -> {
-          writer.writeName("state").beginObject()
-              .writeString("id", value.toString())
-              .writeString("title", value.getTitle())
-              .endObject();
-        });
+        (value, writer, ctx) -> writer.writeName("state").beginObject()
+            .writeString("id", value.toString())
+            .writeString("title", value.getTitle())
+            .endObject());
 
     return gensonBuilder;
   }
