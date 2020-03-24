@@ -13,7 +13,7 @@ import {getErrorPage} from './components/error.js';
 import {getDeveloppementTypePage} from './components/developmentTypes-list.js';
 import {getQuotesPage} from './components/quotes-list.js';
 import {getAddDevisPage} from './components/add-devis.js';
-import { getCustomersListPage } from './components/customers-list.js';
+import {getCustomersListPage} from './components/customers-list.js';
 
 let router;
 
@@ -31,6 +31,13 @@ $(() => {
   // @see checkInputValidity
   $('#content').on('focusout input', 'input, textarea, select', function () {
     checkInputValidity($(this));
+  });
+
+  $('#content').on('change', '.custom-file-input', function () {
+    const $element = $(this);
+    const id = $element.attr('id');
+    const fileName = $(this).val().split(/(\\|\/)/g).pop();
+    $('label[for="' + id + '"]').text(fileName);
   });
 
 });

@@ -3,6 +3,7 @@
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
+import {getAddPictureComponent} from './add-picture.js';
 
 function getTemplate() {
   return `<div class="container">
@@ -18,11 +19,11 @@ function getTemplate() {
         <select id="page-add-devis-customer" name="customerId" class="form-control" data-placeholder="Choisissez un client">
           <option value=""></option>
         </select>
-        <p> </p>
-       <p class="text-danger">Client inexistant ?      
-        <input  class="btn btn-danger" type=button onclick=window.location.href="creerClient"; value="Creer un nouveau client" /></p> 
-        
         <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
+        <p class="d-flex align-items-center mx-3 mt-1">
+          Client inexistant ?
+          <a class="btn btn-sm btn-secondary ml-3" href="creerClient">Creer un nouveau client</a>
+        </p>
       </div>
       <div class="form-group">
         <label for="page-add-devis-datetimepicker-input">Date<span class="text-danger">*</span></label>
@@ -52,7 +53,10 @@ function getTemplate() {
         </select>
         <small class="input-error form-text text-danger">Au moins un type d'aménagement dois être selectionné.</small>
       </div>
-      <button class="btn btn-primary">Ajouter le devis</button>
+      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#addPicture">Ajouter des photos d'avant aménagments</button>
+      <div class="form-group mt-2 d-flex justify-content-end">
+        <button class="btn btn-primary">Ajouter le devis</button>
+      </div>
     </form>
   </div>`;
 }
@@ -68,8 +72,12 @@ function createView() {
     allow_single_deselect: true
   });
 
-  $selectClient.append($('<option value="1">TEST</option>'));
-  $selectClient.trigger('chosen:updated');
+  ajaxGET('/api/customers-list', null, (data) => {
+    for (const customer of data.customers) {
+      $(`<option value="${customer.idCustomer}">${customer.lastName} ${customer.firstName}</option>`).appendTo($selectClient);
+    }
+    $selectClient.trigger('chosen:updated');
+  });
 
   $selectClient.data('validator', () => {
     const errorElement = $selectClient.next().next('.input-error');
@@ -110,13 +118,12 @@ function createView() {
 
   $selectTypes.chosen({
     width: '100%',
-    no_results_text: 'Cet aménagment n\'existe pas !',
+    no_results_text: 'Cet aménagement n\'existe pas !',
     allow_single_deselect: true
   });
 
   ajaxGET('/api/developmentType-list', null, (data) => {
     for (const developementType of data.developementTypesList) {
-      console.log(developementType);
       $(`<option value="${developementType.idType}">${developementType.title}</option>`).appendTo($selectTypes);
     }
     $selectTypes.trigger('chosen:updated');
@@ -135,11 +142,13 @@ function createView() {
 
   onSubmitWithAjax($page.find('form'), () => {
     router.navigate('devis');
-    createAlert('success', 'Le devis à bien été ajouté');
+    createAlert('success', 'Le devis a bien été ajouté');
   }, (error) => {
     clearAlerts();
     createAlert('danger', error.responseJSON.error);
-  });
+  }, undefined, undefined, true);
+
+  $page.append(getAddPictureComponent('addPicture').getView());
 
   return $page;
 }

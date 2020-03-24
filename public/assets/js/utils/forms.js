@@ -62,8 +62,9 @@ function checkInputValidity($element) {
  * @param {function} onInvalid A function called if the form is invalid
  * @param {function} onCheckValidity A function used to make an extra validity check.
  *                                   This function should return true is form is valid and false otherwise
+ * @param {boolean} sendAsJsonObject If true the serialized data should be send as JSON object
  */
-function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity) {
+function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity, sendAsJsonObject = false) {
 
   $form.on('submit', function (e) {
     e.preventDefault();
@@ -92,7 +93,7 @@ function onSubmitWithAjax($form, onSuccess, onError, onInvalid, onCheckValidity)
       if (onError !== undefined) {
         onError(error);
       }
-    });
+    }, sendAsJsonObject);
 
   });
 
