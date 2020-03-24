@@ -1,15 +1,15 @@
 package be.ipl.pae.biz.objets;
 
-public class CustomersFilterImpl implements CustomersFilter{
-  
+public class CustomersFilterImpl implements CustomersFilter {
+
   private String name;
   private int postalCode;
   private String city;
-  
+
   public CustomersFilterImpl() {
     super();
   }
-  
+
   public CustomersFilterImpl(String name, int postalCode, String city) {
     super();
     this.name = name;
@@ -46,6 +46,6 @@ public class CustomersFilterImpl implements CustomersFilter{
     return "CustomersFilterImpl [name=" + name + ", postalCode=" + postalCode + ", city=" + city
         + "]";
   }
-  
+
 
 }

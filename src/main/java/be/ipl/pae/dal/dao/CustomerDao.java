@@ -9,7 +9,7 @@ import java.util.List;
 public interface CustomerDao {
 
   /**
-   * Get all the customers saved in the database according to the chosen filters
+   * Get all the customers saved in the database according to the chosen filters.
    *
    * @param customersFilterDto a filter applied to the results or null if no filter should be
    *                           applied
