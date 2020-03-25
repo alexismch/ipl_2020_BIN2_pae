@@ -40,20 +40,22 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public QuoteDto createQuoteDto(ResultSet res) throws FatalException {
-    QuoteDto quote;
+    QuoteDto quote = quoteDtoFactory.getQuote();
     try {
-      quote = quoteDtoFactory.getQuote();
+
       quote.setIdQuote(res.getString(1));
       quote.setIdCustomer(res.getInt(2));
-      // quote.setQuoteDate(res.getDate(3));
-      // quote.setQuoteDate((res.getDate(3).toLocalDate()));
+      quote.setQuoteDate(res.getDate(3).toLocalDate());
+      // quote.setQuoteDate((res.getDate().toLocalDate()));
       // quote.setTotalAmount(res.getBigDecimal(4));
       quote.setWorkDuration(res.getInt(5));
-      // quote.setStartDate(res.getDate(6).toLocalDate());
+      // if (res.getDate(7).toLocalDate() != null)
+      // quote.setStartDate(res.getDate(7).toLocalDate());
       // quote.setState(res.getString(7));
-
     } catch (SQLException ex) {
+      ex.printStackTrace();
       throw new FatalException(ex);
+
     }
 
     return quote;
