@@ -72,7 +72,7 @@ create table mystherbe.photos
     id_photo    serial                not null
         constraint photos_pkey
             primary key,
-    title       varchar(25)           not null,
+    title       varchar(100)          not null,
     base64      varchar(10485760)     not null,
     id_quote    varchar(25)           not null
         constraint photos_id_quote_fkey
