@@ -111,4 +111,21 @@ public class QuoteUccImpl implements QuoteUcc {
     }
     return null;
   }
+
+  @Override
+  public List<QuoteDto> getCustomerQuotes(int customerId) throws BizException {
+    try {
+      try {
+        dalService.startTransaction();
+        return quoteDao.getCustomerQuotes(customerId);
+      } catch (FatalException ex) {
+        dalService.rollbackTransaction();
+        throw new BizException(ex);
+      } finally {
+        dalService.commitTransaction();
+      }
+    } catch (FatalException ex) {
+      throw new BizException(ex);
+    }
+  }
 }

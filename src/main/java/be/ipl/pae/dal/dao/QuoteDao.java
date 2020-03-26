@@ -38,7 +38,7 @@ public interface QuoteDao {
    * Link the quote to a development type.
    *
    * @param quoteId the quote id
-   * @param typeId  the development type id
+   * @param typeId the development type id
    * @throws FatalException if a problem occurred with the db
    */
   void linkToType(String quoteId, int typeId) throws FatalException;
@@ -60,4 +60,13 @@ public interface QuoteDao {
    * @throws FatalException if you had a problem with the db
    */
   QuoteDto getQuote(String idQuote) throws FatalException;
+
+  /**
+   * Get all the customer's quotes from the database from his id
+   * 
+   * @param the customer's id
+   * @return a list of all the customer's quotes
+   */
+  List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException;
+
 }

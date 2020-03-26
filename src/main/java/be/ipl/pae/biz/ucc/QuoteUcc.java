@@ -33,4 +33,13 @@ public interface QuoteUcc {
    * @throws BizException if the quote doesn't exist
    */
   QuoteDto getQuote(String idQuote) throws FatalException, BizException;
+
+  /**
+   * Get all the customer's quotes from the database from his id
+   * 
+   * @param the customer's id
+   * @return a list of all the customer's quotes
+   * @throws BizException
+   */
+  List<QuoteDto> getCustomerQuotes(int customerId) throws BizException;
 }

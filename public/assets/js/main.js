@@ -94,6 +94,10 @@ function initRouter() {
       {
         before: checkOuvrier
       })
+  .on('clients/*', () => {
+    // TODO
+        loadPage(getCustomerDetail(query));
+      })
   .on('utilisateurs', (params, query) => {
         loadPage(getUsersListPage(query));
       },
