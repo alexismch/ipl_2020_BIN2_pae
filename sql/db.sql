@@ -13,7 +13,7 @@ create table mystherbe.users
     city          varchar(25)  not null,
     email         varchar(50)  not null,
     register_date date         not null,
-    status        varchar(50)  not null
+    status char not null
 );
 
 create table mystherbe.customers
@@ -64,7 +64,7 @@ create table mystherbe.development_types
     id_type serial      not null
         constraint development_types_pkey
             primary key,
-    title   varchar(25) not null
+    title varchar(50) not null
 );
 
 create table mystherbe.photos
@@ -99,5 +99,4 @@ create table mystherbe.quote_types
     constraint pk_quote_types
         primary key (id_quote, id_type)
 );
-
 
