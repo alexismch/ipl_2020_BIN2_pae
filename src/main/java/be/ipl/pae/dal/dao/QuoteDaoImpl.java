@@ -23,12 +23,12 @@ public class QuoteDaoImpl implements QuoteDao {
   DtoFactory quoteDtoFactory;
 
 
-
   @Override
   public List<QuoteDto> getAllQuote() throws FatalException {
     List<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT id_quote,id_customer,quote_date,total_amount::decimal,work_duration,id_state,start_date FROM mystherbe.quotes");
+        "SELECT id_quote, id_customer, quote_date, total_amount::decimal, work_duration, id_state, start_date "
+            + "FROM mystherbe.quotes");
     try (ResultSet res = ps.executeQuery()) {
       while (res.next()) {
         quotes.add(createQuoteDto(res));
