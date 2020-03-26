@@ -39,12 +39,12 @@ function createUsersListItem($usersList, user) {
       break;
   }
 
-  const userListItem = `<li class="users-list-item border rounded mb-2">
+  const userListItem = `<li class="users-list-item shadow border border-left-primary rounded mb-2">
       <p>${user.lastName} ${user.firstName}</p>
       <p>${user.email}</p>
       <p>${user.registrationDate}</p>
       <p><span class="badge badge-${badgeColorUserStatus} font-size-100">${user.status.name}</span></p>
-      <a class="btn btn-primary w-min" href="utilisateurs/${user.id}">Détails</a>
+      <a class="btn btn-primary w-min" data-navigo href="utilisateurs/${user.id}">Détails</a>
     </li>`;
   $usersList.append(userListItem);
 }
@@ -89,6 +89,7 @@ function createView(query) {
       $page.find('.users-list-search-msg').addClass('d-none');
     }
     createUsersList($page, data.users);
+    router.updatePageLinks();
   });
   return $page;
 }

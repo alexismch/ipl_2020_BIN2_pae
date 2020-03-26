@@ -1,14 +1,11 @@
 import {router} from '../main.js';
-import {onSubmitWithNavigation} from '../utils/forms.js';
 import {ajaxGET} from '../utils/ajax.js';
-
 
 function getTemplate() {
   return `<div>
     <form action="quotes-list" class="form-inline p-1 elevation-1 bg-light" method="get">
-      <input class="form-control form-control-sm" name="name" placeholder="Ville du devis" type="text">
-      <input class="form-control form-control-sm ml-1" name="postalCode" placeholder="Code postal" type="number">
-      <input class="form-control form-control-sm ml-1" name="city" placeholder="nom du client" type="text">
+      <!-- TODO ajouter filter devis -->
+      <p>Filtre à faire</p>
       <div class="input-group input-group-sm m-1">
         <button class="btn btn-primary btn-sm w-100">Rechercher</button>
       </div>
@@ -27,31 +24,17 @@ function createQuotesList($page, quotesList) {
   }
 }
 
-/*function createQuotesList($page, quotesList) {
-  for (const quote of quotesList) {
-    const quoteListItem = `<li class="quotes-list-item border rounded mb-2">
-        <p>${quote.idQuote}</p>
-        <p>${quote.idCustomer}</p>
-        <p>${quote.workDuration}</p>
-     
-        <p>${quote.startDate}</p>
-        <p>${quote.idQuote}</p>
-        <a class="btn btn-primary w-min" href="test">Ajouter photo</a>
-        </li>`;
-    $page.find('.quotes-list').append(quoteListItem);
-  }
-} */
-
 function createQuotesListItem($quotesList, quote) {
 
-  const quoteListItem = `<li class="list-item border rounded mb-2">
-    <p>${quote.idQuote}</p>
-        <p>${quote.idCustomer}</p>
-        <p>${quote.quoteDate}</p>
-        <p>�${quote.workDuration}</p>
-        <p>${quote.totalAmount}€</p>
-        <a class="btn btn-primary w-min" href="test">Ajouter photo</a>
-      </li>`;
+  const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
+  <p>Devis n°${quote.idQuote}</p>
+  <p>Client: ${quote.idCustomer}</p>
+  <p>Date du devis: ${quote.quoteDate}</p>
+  <p>Date de début des travaux: ${quote.startDate}</p>
+  <p>Durée des travaux: ${quote.workDuration}</p>
+  <p>Montant: ${quote.totalAmount}€</p>
+  <a class="btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Ajouter photo</a>
+</li>`;
   $quotesList.append(quoteListItem);
 }
 
@@ -60,7 +43,9 @@ function createView() {
   const $page = $(getTemplate());
 
   ajaxGET('/api/quotes-list', null, (data) => {
+    console.log(data);
     createQuotesList($page, data.quotesList);
+    router.updatePageLinks();
   });
 
   return $page;

@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * @module Alerts
+ */
 
 /**
  * Create an alert and append it to all .alerts elements in the dom.

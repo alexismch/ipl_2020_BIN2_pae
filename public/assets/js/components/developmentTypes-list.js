@@ -1,5 +1,6 @@
 'use strict';
 
+import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js'
 
 function getTemplate() {
@@ -10,9 +11,7 @@ function createDevelopmentTypesList($page, developementTypesList) {
   $page.empty();
   for (const developmentType of developementTypesList) {
     const developmentListItem = `<li>
-  <a href="amenagements/${developmentType.idType}" class="card border-secondary">
-    <!--<span class="card-header">${developmentType.title}</span>
-    <span class="card-body text-secondary"></span>-->
+  <a class="card scale shadow border-left-primary" data-navigo href="amenagements/${developmentType.idType}">
     <span class="card-body">${developmentType.title}</span>
   </a>
 </li>`;
@@ -25,6 +24,7 @@ function createView() {
 
   ajaxGET('/api/developmentType-list', null, (data) => {
     createDevelopmentTypesList($page, data.developementTypesList);
+    router.updatePageLinks();
   });
 
   return $page;

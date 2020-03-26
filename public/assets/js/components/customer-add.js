@@ -2,7 +2,7 @@
 
 import {router} from '../main.js';
 import {clearAlerts, createAlert} from './alerts.js';
-import {onSubmitWithAjax, verifySamePassword} from '../utils/forms.js';
+import {onSubmitWithAjax} from '../utils/forms.js';
 
 function getTemplate() {
   return `<div class="container">
@@ -16,7 +16,7 @@ function getTemplate() {
       <div class="form-group">
         <label for="page-creerClient-prenom">Prenom<span class="text-danger">*</span></label>
         <input class="form-control" id="page-creerClient-prenom" name="firstname" required type="text"/>
-        <small class="input-error form-text text-danger">Le prénom est requis.</small>
+        <small class="input-error form-text text-danger">Le prï¿½nom est requis.</small>
       </div>
       <div class="form-group">
         <label for="page-creerClient-nom">Adresse<span class="text-danger">*</span></label>
@@ -56,7 +56,7 @@ function createView() {
     router.navigate('');
     clearAlerts();
     createAlert('success',
-        "Le client a bien été ajouté!!");
+        "Le client a bien ï¿½tï¿½ ajoutï¿½!!");
   }, (error) => {
     clearAlerts();
     createAlert('danger', error.responseJSON.error);

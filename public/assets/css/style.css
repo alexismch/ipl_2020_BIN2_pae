@@ -9,35 +9,57 @@ body {
 }
 
 noscript {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: white;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: white;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+select {
+  -webkit-appearance: none;
 }
 
 .custom-file-label {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .custom-file-label::after {
-    content: "Parcourir";
+  content: "Parcourir";
+}
+
+.scale {
+  transition: ease-in-out scale 100ms;
+}
+
+.scale:hover {
+  transform: scale(1.01);
 }
 
 .w-min {
-    width: min-content;
+  width: min-content;
 }
 
 .elevation-1 {
-    box-shadow: 0 0 2px black;
-    z-index: 100;
+  box-shadow: 0 .10rem 0.10rem 0 rgba(58, 59, 69, .35) !important;
+  z-index: 100;
 }
 
 .font-size-100 {
@@ -56,7 +78,7 @@ noscript {
 }
 
 .elevation-2, .navbar {
-  box-shadow: 0 0 4px black;
+  box-shadow: 0 .10rem 0.10rem 0 rgba(58, 59, 69, .50) !important;
   z-index: 200;
 }
 
@@ -84,6 +106,7 @@ noscript {
 .container {
   flex: 1 1 auto;
   margin-top: .5rem !important;
+  margin-bottom: .5rem !important;
 }
 
 .carousel, .carousel-inner, .carousel-item, .carousel-item img {

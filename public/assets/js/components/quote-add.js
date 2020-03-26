@@ -3,7 +3,6 @@
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
-import {getAddPictureComponent} from './add-picture.js';
 
 function getTemplate() {
   return `<div class="container">
@@ -22,7 +21,7 @@ function getTemplate() {
         <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
         <p class="d-flex align-items-center mx-3 mt-1">
           Client inexistant ?
-          <a class="btn btn-sm btn-secondary ml-3" href="creerClient">Creer un nouveau client</a>
+          <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
         </p>
       </div>
       <div class="form-group">
@@ -53,7 +52,9 @@ function getTemplate() {
         </select>
         <small class="input-error form-text text-danger">Au moins un type d'aménagement dois être selectionné.</small>
       </div>
-      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#addPicture">Ajouter des photos d'avant aménagments</button>
+      <h4>Photos d'avant aménagement</h4>
+      <div id="page-add-devis-photos"></div>
+      <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#addPicture">Ajouter une photo suplémentaire</button>
       <div class="form-group mt-2 d-flex justify-content-end">
         <button class="btn btn-primary">Ajouter le devis</button>
       </div>
@@ -148,7 +149,7 @@ function createView() {
     createAlert('danger', error.responseJSON.error);
   }, undefined, undefined, true);
 
-  $page.append(getAddPictureComponent('addPicture').getView());
+  // $page.find("#page-add-devis-photos").append(getAddPictureComponent('addPicture').getView());
 
   return $page;
 }

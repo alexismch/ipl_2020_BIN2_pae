@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * @module AJAX
+ */
 
 /**
  * Do a GET ajax request.

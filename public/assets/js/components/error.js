@@ -1,10 +1,13 @@
 'use strict';
 
 function getTemplate(code, message) {
-  return `<div class="container">
-    <h2>Erreur ${code}</h2>
-    <p>${message}</p>
-  </div>`;
+  return `<div class="container-fluid mt-3">
+  <div class="text-center">
+    <div class="error mx-auto" data-text="404">${code}</div>
+    <p class="lead text-gray-800 mb-5">${message}</p>
+    <a data-navigo href="">← Retour à la page d'accueil</a>
+  </div>
+</div>`;
 }
 
 function createView(code, message) {

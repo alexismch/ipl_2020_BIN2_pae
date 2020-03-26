@@ -7,12 +7,12 @@ import {changeMenuForUser, isClient, isOuvrier} from './userUtils.js';
 import {getUsersListPage} from './components/users-list.js';
 import {getLoginPage} from './components/login.js';
 import {getRegisterPage} from './components/register.js';
-import {getCreateCustommerPage} from './components/createCustommer.js';
+import {getCreateCustommerPage} from './components/customer-add.js';
 import {getHomePage} from './components/home.js';
 import {getErrorPage} from './components/error.js';
 import {getDeveloppementTypePage} from './components/developmentTypes-list.js';
 import {getQuotesPage} from './components/quotes-list.js';
-import {getAddDevisPage} from './components/add-devis.js';
+import {getAddDevisPage} from './components/quote-add.js';
 import {getCustomersListPage} from './components/customers-list.js';
 
 let router;
@@ -63,65 +63,49 @@ function initRouter() {
     });
   })
   .on('connexion', () => {
-        loadPage(getLoginPage());
-      },
-      {
-        before: checkNoUser
-      })
+    loadPage(getLoginPage());
+  }, routeNoUserChecker())
   .on('inscription', () => {
-        loadPage(getRegisterPage());
-      },
-      {
-        before: checkNoUser
-      })
-  .on('mes-devis', () => {
-        // TODO
-        loadPage(get);
-      },
-      {
-        before: checkClient
-      })
+    loadPage(getRegisterPage());
+  }, routeNoUserChecker())
   .on('amenagements', () => {
     loadPage(getDeveloppementTypePage());
   })
-  .on('amenagements/*', () => {
+  .on('amenagements/:id', (params) => {
     // TODO
     loadPage(getErrorPage(404, 'Page introuvable'));
   })
-  .on('clients', (params,query) => {
-        loadPage(getCustomersListPage(query));
-      },
-      {
-        before: checkOuvrier
-      })
-  .on('clients/*', () => {
+  .on('mes-devis', () => {
     // TODO
-        loadPage(getCustomerDetail(query));
-      })
+    loadPage(getErrorPage(404, 'Page introuvable'));
+  }, routeClientChecker())
+  .on('clients', (params, query) => {
+    loadPage(getCustomersListPage(query));
+  }, routeOuvrierChecker())
+  .on('clients/ajouter', () => {
+    loadPage(getCreateCustommerPage());
+  }, routeOuvrierChecker())
+  .on('clients/:id', (params) => {
+    // TODO
+    loadPage(getErrorPage(404, 'Page introuvable'));
+  }, routeOuvrierChecker())
   .on('utilisateurs', (params, query) => {
-        loadPage(getUsersListPage(query));
-      },
-      {
-        before: checkOuvrier
-      })
-  .on('nouveau-devis', () => {
-        loadPage(getAddDevisPage());
-      },
-      {
-        before: checkOuvrier
-      })
-  .on('creerClient', () => {
-        loadPage(getCreateCustommerPage());
-      },
-      {
-        before: checkOuvrier
-      })
+    loadPage(getUsersListPage(query));
+  }, routeOuvrierChecker())
+  .on('utilisateurs/:id', (params) => {
+    // TODO
+    loadPage(getErrorPage(404, 'Page introuvable'));
+  }, routeOuvrierChecker())
   .on('devis', (params, query) => {
-        loadPage(getQuotesPage(query));
-      },
-      {
-        before: checkOuvrier
-      })
+    loadPage(getQuotesPage(query));
+  }, routeOuvrierChecker())
+  .on('devis/nouveau', () => {
+    loadPage(getAddDevisPage());
+  }, routeOuvrierChecker())
+  .on('devis/:id', (params) => {
+    // TODO
+    loadPage(getErrorPage(404, 'Page introuvable'));
+  }, routeOuvrierChecker())
   .on('*', () => {
     if (router.lastRouteResolved().url === origin) {
       loadPage(getHomePage());
@@ -157,6 +141,24 @@ function checkOuvrier(done) {
     return;
   }
   done();
+}
+
+function routeNoUserChecker() {
+  return {
+    before: checkNoUser
+  }
+}
+
+function routeClientChecker() {
+  return {
+    before: checkClient
+  }
+}
+
+function routeOuvrierChecker() {
+  return {
+    before: checkOuvrier
+  }
 }
 
 /**

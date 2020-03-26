@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * @module Forms
+ */
 
 import {ajax} from './ajax.js';
 
