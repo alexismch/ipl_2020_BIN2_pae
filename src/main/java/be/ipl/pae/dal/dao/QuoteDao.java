@@ -62,9 +62,9 @@ public interface QuoteDao {
   QuoteDto getQuote(String idQuote) throws FatalException;
 
   /**
-   * Get all the customer's quotes from the database from his id
-   * 
-   * @param the customer's id
+   * Get all the customer's quotes from the database from his id.
+   *
+   * @param idCustomer the customer's id
    * @return a list of all the customer's quotes
    */
   List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException;
