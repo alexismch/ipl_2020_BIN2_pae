@@ -43,12 +43,12 @@ function createQuotesList($page, quotesList) {
 } */
 
 function createQuotesListItem($quotesList, quote) {
-alert(quote.quoteDate);
+
   const quoteListItem = `<li class="list-item border rounded mb-2">
     <p>${quote.idQuote}</p>
         <p>${quote.idCustomer}</p>
         <p>${quote.quoteDate}</p>
-        <p>µ${quote.workDuration}</p>
+        <p>ï¿½${quote.workDuration}</p>
         <p>${quote.idQuote}</p>
         <a class="btn btn-primary w-min" href="test">Ajouter photo</a>
       </li>`;
@@ -56,7 +56,7 @@ alert(quote.quoteDate);
 }
 
 function createView() {
-  alert("test");
+  
   const $page = $(getTemplate());
 
   ajaxGET('/api/quotes-list', null, (data) => {
