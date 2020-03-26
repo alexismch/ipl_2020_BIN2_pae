@@ -7,9 +7,6 @@ import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +19,7 @@ public class CustomerDetailServlet extends AbstractServlet {
   private QuoteUcc quoteUcc;
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
     int id = 0;
     String idString = req.getParameter("idCustomer");

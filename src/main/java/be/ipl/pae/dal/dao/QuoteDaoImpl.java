@@ -38,6 +38,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
   }
 
+  @Override
   public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
     String query = "Select * FROM mystherbe.quotes WHERE id_customer =?";
 
@@ -182,7 +183,6 @@ public class QuoteDaoImpl implements QuoteDao {
     }
     return quoteDtoToReturn;
   }
-
 
   private QuoteState getStateById(int idState) throws FatalException {
     PreparedStatement ps;

@@ -40,7 +40,7 @@ public interface QuoteUcc {
    *
    * @param customerId the customer's id
    * @return a list of all the customer's quotes
-   * @throws BizException
+   * @throws BizException if an error occurred
    */
   List<QuoteDto> getCustomerQuotes(int customerId) throws BizException;
 }
