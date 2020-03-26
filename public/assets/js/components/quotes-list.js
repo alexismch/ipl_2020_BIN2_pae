@@ -49,7 +49,7 @@ function createQuotesListItem($quotesList, quote) {
         <p>${quote.idCustomer}</p>
         <p>${quote.quoteDate}</p>
         <p>�${quote.workDuration}</p>
-        <p>${quote.idQuote}</p>
+        <p>${quote.totalAmount}€</p>
         <a class="btn btn-primary w-min" href="test">Ajouter photo</a>
       </li>`;
   $quotesList.append(quoteListItem);
