@@ -45,7 +45,7 @@ export class AddPictureComponent extends Component {
 </div>`;
 
   _developmentTypeListOptions;
-  $selectType;
+  _$selectType;
 
   /**
    *
@@ -53,17 +53,12 @@ export class AddPictureComponent extends Component {
   constructor() {
     super();
     this._developmentTypeListOptions = new Map();
-  }
 
-  /**
-   * @inheritDoc
-   */
-  getView() {
-    const $component = $(this._template);
+    this._$view = $(this._template);
 
-    const $fileInput = $component.find('#add-picutre-component-picture-upload-' + this.getUniqueId());
-    const $fileOutputImg = $component.find('#add-picutre-component-picture-' + this.getUniqueId());
-    const $fileOutputData = $component.find('#add-picutre-component-picture-upload-data-' + this.getUniqueId());
+    const $fileInput = this._$view.find('#add-picutre-component-picture-upload-' + this.getUniqueId());
+    const $fileOutputImg = this._$view.find('#add-picutre-component-picture-' + this.getUniqueId());
+    const $fileOutputData = this._$view.find('#add-picutre-component-picture-upload-data-' + this.getUniqueId());
 
     $fileInput.on('change', (e) => {
       const file = e.target.files[0];
@@ -89,18 +84,18 @@ export class AddPictureComponent extends Component {
       }
     });
 
-    this.$selectType = $component.find('#add-picutre-component-types-' + this.getUniqueId());
+    this._$selectType = this._$view.find('#add-picutre-component-types-' + this.getUniqueId());
 
-    this.$selectType.chosen({
+    this._$selectType.chosen({
       width: '100%',
       no_results_text: 'Cet aménagement n\'existe pas !',
       disable_search: true,
       allow_single_deselect: true
     });
 
-    this.$selectType.data('validator', () => {
-      const errorElement = this.$selectType.next().next('.input-error');
-      if (this.$selectType.val()[0] === undefined) {
+    this._$selectType.data('validator', () => {
+      const errorElement = this._$selectType.next().next('.input-error');
+      if (this._$selectType.val()[0] === undefined) {
         errorElement.show(100);
         return false;
       } else {
@@ -108,8 +103,6 @@ export class AddPictureComponent extends Component {
         return true;
       }
     });
-
-    return $component;
   }
 
   /**
@@ -122,7 +115,7 @@ export class AddPictureComponent extends Component {
     for (const developmentType of developmentTypesList) {
       if (this._developmentTypeListOptions.get(developmentType.idType) === undefined) {
         const option = $(`<option value="${developmentType.idType}">${developmentType.title}</option>`);
-        option.appendTo(this.$selectType);
+        option.appendTo(this._$selectType);
         this._developmentTypeListOptions.set(developmentType.idType, option);
       }
     }
@@ -135,7 +128,7 @@ export class AddPictureComponent extends Component {
 
     });
 
-    this.$selectType.trigger('chosen:updated');
+    this._$selectType.trigger('chosen:updated');
   }
 
 }

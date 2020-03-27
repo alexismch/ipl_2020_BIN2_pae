@@ -10,6 +10,7 @@
  */
 export class Component {
 
+  _$view;
   _uniqueId;
 
   /**
@@ -31,7 +32,10 @@ export class Component {
    * @returns {JQuery<HTMLElement> | jQuery | HTMLElement}
    */
   getView() {
-    throw "Abstract method Component#getView not implemented";
+    if (this._$view === undefined) {
+      throw "Component#getView call before view initialisation";
+    }
+    return this._$view;
   }
 
   /**

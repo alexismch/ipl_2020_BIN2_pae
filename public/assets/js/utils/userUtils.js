@@ -1,3 +1,5 @@
+'use strict';
+
 let user = null;
 
 function getUser() {
@@ -26,4 +28,21 @@ function changeMenuForUser(newUser) {
   }
 }
 
-export {getUser, isClient, isOuvrier, changeMenuForUser};
+function getUserStatusColor(currentUser) {
+
+  if (currentUser === undefined) {
+    currentUser = user;
+  }
+
+  switch (currentUser.status.id) {
+    case 'WORKER':
+      return 'info';
+    case 'CUSTOMER':
+      return 'success';
+    case 'NOT_ACCEPTED':
+      return 'secondary';
+  }
+
+}
+
+export {getUser, isClient, isOuvrier, changeMenuForUser, getUserStatusColor};

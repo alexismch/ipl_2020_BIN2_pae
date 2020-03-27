@@ -1,9 +1,11 @@
 'use strict';
+
 /**
  * @module Forms
  */
 
 import {ajax} from './ajax.js';
+import {clearAlerts, createAlert} from './alerts.js';
 
 /**
  * Check if the form is valid. If he is not, error message can be displayed for each field according to the method {@link checkInputValidity}
@@ -47,6 +49,8 @@ function checkInputValidity($element) {
     return isValid;
   } else {
     if (isValid) {
+      clearAlerts();
+      createAlert('danger', 'Certains champs sont invalide !');
       $errorElement.show(100);
     }
     return false;
@@ -190,14 +194,4 @@ function convertDate(date) {
   return moment(date, 'L').format('YYYY-MM-DD');
 }
 
-function verifySamePassword($input1, $input2) {
-  if ($input1.val() === $input2.val()) {
-    $input2.next().next('.notSamePassword').hide(100);
-    return true;
-  }
-  $input2.next('.input-error').hide();
-  $input2.next().next('.notSamePassword').show(100);
-  return false;
-}
-
-export {verifySamePassword, checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation};
+export {checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation};

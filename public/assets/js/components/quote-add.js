@@ -2,7 +2,7 @@
 
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
-import {clearAlerts, createAlert} from './alerts.js';
+import {clearAlerts, createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
@@ -14,7 +14,7 @@ import {AddPictureComponent} from './picture-add.js';
 /**
  * Component that hold a form to add a quote
  *
- * @extends module:Components.Component
+ * @extends module:Components.Page
  */
 export class AddQuotePage extends Page {
 
@@ -86,15 +86,10 @@ export class AddQuotePage extends Page {
    */
   constructor() {
     super('Ajouter un devis');
-  }
 
-  /**
-   * @inheritDoc
-   */
-  getView() {
-    const $page = $(this._template);
+    this._$view = $(this._template);
 
-    this._$selectClient = $page.find('#page-add-devis-customer');
+    this._$selectClient = this._$view.find('#page-add-devis-customer');
 
     this._$selectClient.chosen({
       width: '100%',
@@ -113,7 +108,7 @@ export class AddQuotePage extends Page {
       }
     });
 
-    const $datePicker = $page.find('#page-add-devis-datetimepicker');
+    const $datePicker = this._$view.find('#page-add-devis-datetimepicker');
     $datePicker.datetimepicker({
       format: 'L',
       minDate: moment(),
@@ -137,15 +132,13 @@ export class AddQuotePage extends Page {
       $datePicker.datetimepicker('hide');
     });
 
-    this._$selectTypes = $page.find('#page-add-devis-types');
+    this._$selectTypes = this._$view.find('#page-add-devis-types');
 
     this._$selectTypes.chosen({
       width: '100%',
       no_results_text: 'Cet aménagement n\'existe pas !',
       allow_single_deselect: true
     });
-
-    const addPictureComponent1 = new AddPictureComponent();
 
     this._$selectTypes.data('validator', () => {
       const developmentTypeSelected = this._getSeletedDevelopmentType();
@@ -160,7 +153,7 @@ export class AddQuotePage extends Page {
       }
     });
 
-    onSubmitWithAjax($page.find('form'), () => {
+    onSubmitWithAjax(this._$view.find('form'), () => {
       router.navigate('devis');
       createAlert('success', 'Le devis a bien été ajouté');
     }, (error) => {
@@ -168,9 +161,9 @@ export class AddQuotePage extends Page {
       createAlert('danger', error.responseJSON.error);
     }, undefined, undefined, true);
 
-    this._$photos = $page.find("#page-add-devis-photos");
+    this._$photos = this._$view.find("#page-add-devis-photos");
 
-    $page.find('#page-add-devis-btn-add-picture').on('click', () => {
+    this._$view.find('#page-add-devis-btn-add-picture').on('click', () => {
       this._addAnAddPictureComponent();
     });
 
@@ -178,7 +171,6 @@ export class AddQuotePage extends Page {
     this._retriveCustomerList();
     this._retriveDevelopmentTypeList();
 
-    return $page;
   }
 
   _retriveCustomerList() {
