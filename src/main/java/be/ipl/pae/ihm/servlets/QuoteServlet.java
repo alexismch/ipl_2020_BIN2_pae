@@ -1,6 +1,7 @@
 package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.verifyNotEmpty;
+import static be.ipl.pae.util.Util.verifySameLength;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
@@ -75,7 +76,8 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println(Arrays.toString(photosDevelopmentTypes));
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
-        && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)) {
+        && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)
+        && verifySameLength(photos, photosTitles, photosDevelopmentTypes)) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
