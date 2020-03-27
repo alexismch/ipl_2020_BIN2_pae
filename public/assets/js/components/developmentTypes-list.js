@@ -42,7 +42,6 @@ export class DevelopmentTypePage extends Page {
     <span class="card-body">${developmentType.title}</span>
   </a>
 </li>`;
-      console.log(developmentType);
       this._$view.append(developmentListItem);
     }
 

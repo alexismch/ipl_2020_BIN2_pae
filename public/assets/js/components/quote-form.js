@@ -16,7 +16,7 @@ import {AddPictureComponent} from './picture-add.js';
  *
  * @extends module:Components.Page
  */
-export class AddQuotePage extends Page {
+export class QuoteFormPage extends Page {
 
   _template = `<div class="container">
   <h2>Nouveau devis</h2>
@@ -159,7 +159,7 @@ export class AddQuotePage extends Page {
     }, (error) => {
       clearAlerts();
       createAlert('danger', error.responseJSON.error);
-    }, undefined, undefined, true);
+    });
 
     this._$photos = this._$view.find("#page-add-devis-photos");
 

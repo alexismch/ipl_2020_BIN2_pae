@@ -14,7 +14,7 @@ import {Page} from './page.js';
  *
  * @extends module:Components.Page
  */
-export class AddCustomerPage extends Page {
+export class CustomerFormPage extends Page {
 
   _template = `<div class="container">
     <h2>Ajouter un client</h2>
@@ -67,10 +67,9 @@ export class AddCustomerPage extends Page {
     this._$view = $(this._template);
 
     onSubmitWithAjax(this._$view.find('form'), (data) => {
-      router.navigate('');
+      router.navigate('clients');
       clearAlerts();
-      createAlert('success',
-          "Le client a bien été ajouté!!");
+      createAlert('success', 'Le client a bien été ajouté !');
     }, (error) => {
       clearAlerts();
       createAlert('danger', error.responseJSON.error);

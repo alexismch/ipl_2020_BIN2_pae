@@ -17,7 +17,7 @@ import {Page} from './page.js';
  */
 export class LoginPage extends Page {
 
-  _template = `<div class="container">
+  _template = `<div class="container login mb-5">
   <h2>Connexion</h2>
   <form action="/api/login" class="w-100" method="post" novalidate>
     <div class="form-group">

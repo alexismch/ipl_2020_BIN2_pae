@@ -4,16 +4,19 @@ import {checkInputValidity} from './utils/forms.js';
 import {ajaxGET, ajaxPOST} from './utils/ajax.js';
 import {clearAlerts, createAlert} from './utils/alerts.js';
 import {changeMenuForUser, isClient, isOuvrier} from './utils/userUtils.js';
-import {UsersListPage} from './components/users-list.js';
-import {LoginPage} from './components/login.js';
-import {RegisterPage} from './components/register.js';
-import {AddCustomerPage} from './components/customer-add.js';
 import {HomePage} from './components/home.js';
 import {ErrorPage} from './components/error.js';
+import {LoginPage} from './components/login.js';
+import {RegisterPage} from './components/register.js';
 import {DevelopmentTypePage} from './components/developmentTypes-list.js';
 import {QuotesListPage} from './components/quotes-list.js';
-import {AddQuotePage} from './components/quote-add.js';
+import {QuoteDetailsPage} from './components/quote-details.js';
+import {QuoteFormPage} from './components/quote-form.js';
+import {UsersListPage} from './components/users-list.js';
+import {UserDetailsPage} from './components/user-details.js';
 import {CustomersListPage} from './components/customers-list.js';
+import {CustomerDetailsPage} from './components/customer-details.js';
+import {CustomerFormPage} from './components/customer-form.js';
 
 let router;
 
@@ -83,28 +86,25 @@ function initRouter() {
     loadPage(new CustomersListPage(query));
   }, routeOuvrierChecker())
   .on('clients/ajouter', () => {
-    loadPage(new AddCustomerPage());
+    loadPage(new CustomerFormPage());
   }, routeOuvrierChecker())
   .on('clients/:id', (params) => {
-    // TODO
-    loadPage(new ErrorPage(404));
+    loadPage(new CustomerDetailsPage(params.id));
   }, routeOuvrierChecker())
   .on('utilisateurs', (params, query) => {
     loadPage(new UsersListPage(query));
   }, routeOuvrierChecker())
   .on('utilisateurs/:id', (params) => {
-    // TODO
-    loadPage(new ErrorPage(404));
+    loadPage(new UserDetailsPage(params.id));
   }, routeOuvrierChecker())
   .on('devis', (params, query) => {
     loadPage(new QuotesListPage(query));
   }, routeOuvrierChecker())
   .on('devis/nouveau', () => {
-    loadPage(new AddQuotePage());
+    loadPage(new QuoteFormPage());
   }, routeOuvrierChecker())
   .on('devis/:id', (params) => {
-    // TODO
-    loadPage(new ErrorPage(404));
+    loadPage(new QuoteDetailsPage(params.id));
   }, routeOuvrierChecker())
   .on('*', () => {
     if (router.lastRouteResolved().url === origin) {

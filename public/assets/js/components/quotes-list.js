@@ -34,7 +34,6 @@ export class QuotesListPage extends Page {
     this._$view = $(this._template);
 
     ajaxGET('/api/quotes-list', null, (data) => {
-      console.log(data);
       this._createQuotesList(data.quotesList);
       router.updatePageLinks();
     });

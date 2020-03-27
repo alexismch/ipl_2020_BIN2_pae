@@ -21,6 +21,8 @@ function checkFormValidity($form) {
     $form.find('input, textarea, select').each((i, input) => {
       checkInputValidity($(input));
     });
+    clearAlerts();
+    createAlert('danger', 'Certains champs sont invalide !');
     return false;
   }
 
@@ -49,8 +51,6 @@ function checkInputValidity($element) {
     return isValid;
   } else {
     if (isValid) {
-      clearAlerts();
-      createAlert('danger', 'Certains champs sont invalide !');
       $errorElement.show(100);
     }
     return false;
