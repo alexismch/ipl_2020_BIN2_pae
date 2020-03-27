@@ -65,12 +65,28 @@ public class Util {
   /**
    * Check if the objects are not empty.
    *
-   * @param objects the strings that you need to check
+   * @param objects the objects that you need to check
    * @return true if all the objects are not empty, false otherwise
    */
   public static boolean verifyNotEmpty(Object[]... objects) {
     for (Object[] object : objects) {
       if (!verifyNotEmpty(object)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the objects have the same length.
+   *
+   * @param objects the objects that you need to check
+   * @return true if all the objects have the same length, false otherwise
+   */
+  public static boolean verifySameLength(Object[]... objects) {
+    int length = objects[0].length;
+    for (Object[] object : objects) {
+      if (object.length != length) {
         return false;
       }
     }
