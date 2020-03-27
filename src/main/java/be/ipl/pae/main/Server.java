@@ -82,6 +82,8 @@ public class Server {
     backendContext.setContextPath("/api");
     backendContext.setErrorHandler(new ErrorHandler());
 
+    backendContext.setMaxFormContentSize(1000000000);
+
     backendContext.addServlet(new ServletHolder(loginServlet), "/login");
     backendContext.addServlet(new ServletHolder(logoutServlet), "/logout");
     backendContext.addServlet(new ServletHolder(usersListServlet), "/users-list");

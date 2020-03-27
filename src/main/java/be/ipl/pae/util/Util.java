@@ -53,6 +53,31 @@ public class Util {
   }
 
   /**
+   * Check if the table is not empty.
+   *
+   * @param objects the table that you need to check
+   * @return true if the table is not empty, otherwise false
+   */
+  public static boolean verifyNotEmpty(Object[] objects) {
+    return objects != null && objects.length > 0;
+  }
+
+  /**
+   * Check if the objects are not empty.
+   *
+   * @param objects the strings that you need to check
+   * @return true if all the objects are not empty, false otherwise
+   */
+  public static boolean verifyNotEmpty(Object[]... objects) {
+    for (Object[] object : objects) {
+      if (!verifyNotEmpty(object)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Create a session key.
    *
    * @param ip ip of the request

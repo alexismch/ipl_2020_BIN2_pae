@@ -75,7 +75,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println(Arrays.toString(photosDevelopmentTypes));
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
-        && types != null && types.length > 0 && photos != null && photos.length > 0) {
+        && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
