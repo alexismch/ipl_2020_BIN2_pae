@@ -32,7 +32,7 @@ export class AddPictureComponent extends Component {
         <small class="input-error form-text text-danger">Une photo est requise.</small>
       </div>
       <div class="form-group">
-        <select id="add-picutre-component-types-${this.getUniqueId()}" name="pictureDevelopementType" class="form-control" data-placeholder="Choisissez le type d'aménagement correspondant" required>
+        <select id="add-picutre-component-types-${this.getUniqueId()}" name="pictureDevelopmentType" class="form-control" data-placeholder="Choisissez le type d'aménagement correspondant" required>
           <option value=""></option>
         </select>
         <small class="input-error form-text text-danger">Choisissez un type d'aménagement.</small>
@@ -113,23 +113,23 @@ export class AddPictureComponent extends Component {
   }
 
   /**
-   * Set the list of DevelopementType that can be selected
+   * Set the list of DevelopmentType that can be selected
    *
-   * @param {DevelopementType[]} developementTypesList - List of DevelopementType
+   * @param {DevelopmentType[]} developmentTypesList - List of DevelopmentType
    */
-  setDevelopmentTypesList(developementTypesList) {
+  setDevelopmentTypesList(developmentTypesList) {
 
-    for (const developementType of developementTypesList) {
-      if (this._developmentTypeListOptions.get(developementType.idType) === undefined) {
-        const option = $(`<option value="${developementType.idType}">${developementType.title}</option>`);
+    for (const developmentType of developmentTypesList) {
+      if (this._developmentTypeListOptions.get(developmentType.idType) === undefined) {
+        const option = $(`<option value="${developmentType.idType}">${developmentType.title}</option>`);
         option.appendTo(this.$selectType);
-        this._developmentTypeListOptions.set(developementType.idType, option);
+        this._developmentTypeListOptions.set(developmentType.idType, option);
       }
     }
 
     this._developmentTypeListOptions.forEach((value, key, map) => {
 
-      if (!developementTypesList.find(developementType => developementType.idType == key)) {
+      if (!developmentTypesList.find(developmentType => developmentType.idType == key)) {
         value.remove();
       }
 

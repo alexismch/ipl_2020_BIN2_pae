@@ -175,7 +175,11 @@ function serializeFormToJson($form) {
         indexedArray[n['name']] = n['value'];
       }
     } else {
-      indexedArray[n['name']] = [...indexedArray[n['name']], n['value']];
+      if (Array.isArray(indexedArray[n['name']])) {
+        indexedArray[n['name']] = indexedArray[n['name']].push(n['value']);
+      } else {
+        indexedArray[n['name']] = [indexedArray[n['name']], n['value']];
+      }
     }
   });
 

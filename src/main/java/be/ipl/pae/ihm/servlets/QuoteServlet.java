@@ -18,6 +18,7 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,7 +42,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
     // For testing with JSON object
-    //System.out.println(Util.convertInputStreamToString(req.getInputStream()));
+    // System.out.println(Util.convertInputStreamToString(req.getInputStream()));
     // QuoteDto quote = dtoFactory.getQuote();
     // Util.createGensonBuilder().create().deserializeInto(req.getInputStream(), quote);
 
@@ -56,10 +57,22 @@ public class QuoteServlet extends AbstractServlet {
     if (types == null) {
       types = req.getParameterValues("types[]"); // multiple
     }
-    String[] photos = req.getParameterValues("photos"); // only one
+    String[] photos = req.getParameterValues("pictureData"); // only one
     if (photos == null) {
-      photos = req.getParameterValues("photos[]"); // multiple
+      photos = req.getParameterValues("pictureData[]"); // multiple
     }
+    String[] photosTitles = req.getParameterValues("pictureTitle"); // only one
+    if (photosTitles == null) {
+      photosTitles = req.getParameterValues("pictureTitle[]"); // multiple
+    }
+    String[] photosDevelopmentTypes = req.getParameterValues("pictureDevelopmentType"); // only one
+    if (photosDevelopmentTypes == null) {
+      photosDevelopmentTypes = req.getParameterValues("pictureDevelopmentType[]"); // multiple
+    }
+
+    System.out.println(Arrays.toString(photos));
+    System.out.println(Arrays.toString(photosTitles));
+    System.out.println(Arrays.toString(photosDevelopmentTypes));
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
         && types != null && types.length > 0 && photos != null && photos.length > 0) {

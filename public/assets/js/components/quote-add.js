@@ -2,6 +2,7 @@
 
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
+import {clearAlerts, createAlert} from './alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
@@ -74,7 +75,7 @@ export class AddQuotePage extends Page {
   </form>
 </div>`;
 
-  _developmentTypeList;
+  _developmentTypeList = [];
   _$selectClient;
   _$selectTypes;
   _addPictureComponents = [];
@@ -147,15 +148,13 @@ export class AddQuotePage extends Page {
     const addPictureComponent1 = new AddPictureComponent();
 
     this._$selectTypes.data('validator', () => {
+      const developmentTypeSelected = this._getSeletedDevelopmentType();
+      this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList(developmentTypeSelected));
       const errorElement = this._$selectTypes.next().next('.input-error');
       if (this._$selectTypes.val()[0] === undefined) {
         errorElement.show(100);
-        this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList([]));
         return false;
       } else {
-        const developmentTypeSelected = this._developmentTypeList.filter(
-            developmentType => this._$selectTypes.val().find(selected => selected == developmentType.idType));
-        this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList(developmentTypeSelected));
         errorElement.hide(100);
         return true;
       }
@@ -167,7 +166,7 @@ export class AddQuotePage extends Page {
     }, (error) => {
       clearAlerts();
       createAlert('danger', error.responseJSON.error);
-    }, undefined, undefined, true);
+    }, undefined, undefined, false);
 
     this._$photos = $page.find("#page-add-devis-photos");
 
@@ -193,9 +192,9 @@ export class AddQuotePage extends Page {
 
   _retriveDevelopmentTypeList() {
     ajaxGET('/api/developmentType-list', null, (data) => {
-      this._developmentTypeList = data.developementTypesList;
-      for (const developementType of this._developmentTypeList) {
-        $(`<option value="${developementType.idType}">${developementType.title}</option>`).appendTo(this._$selectTypes);
+      this._developmentTypeList = data.developmentTypesList;
+      for (const developmentType of this._developmentTypeList) {
+        $(`<option value="${developmentType.idType}">${developmentType.title}</option>`).appendTo(this._$selectTypes);
       }
       this._$selectTypes.trigger('chosen:updated');
     });
@@ -204,6 +203,7 @@ export class AddQuotePage extends Page {
   _addAnAddPictureComponent() {
     const addPictureComponent = new AddPictureComponent();
     const addPictureComponentView = addPictureComponent.getView();
+    addPictureComponent.setDevelopmentTypesList(this._getSeletedDevelopmentType());
     const button = $(`<div class="floating-button-container-right">
         <button class="btn btn-danger floating-button-right" type="button"><i class="fas fa-times"></i></button>
       </div>`);
@@ -219,6 +219,11 @@ export class AddQuotePage extends Page {
 
     this._$photos.append(button, addPictureComponentView);
     this._addPictureComponents[this._addPictureComponents.length] = addPictureComponent;
+  }
+
+  _getSeletedDevelopmentType() {
+    return this._developmentTypeList.filter(
+        developmentType => this._$selectTypes.val().find(selected => selected == developmentType.idType));
   }
 
 }
