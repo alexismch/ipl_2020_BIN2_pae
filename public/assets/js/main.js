@@ -12,7 +12,7 @@ import {getHomePage} from './components/home.js';
 import {getErrorPage} from './components/error.js';
 import {getDeveloppementTypePage} from './components/developmentTypes-list.js';
 import {getQuotesPage} from './components/quotes-list.js';
-import {getAddDevisPage} from './components/quote-add.js';
+import {AddQuotePage} from './components/quote-add.js';
 import {getCustomersListPage} from './components/customers-list.js';
 
 let router;
@@ -100,7 +100,7 @@ function initRouter() {
     loadPage(getQuotesPage(query));
   }, routeOuvrierChecker())
   .on('devis/nouveau', () => {
-    loadPage(getAddDevisPage());
+    loadPage(new AddQuotePage());
   }, routeOuvrierChecker())
   .on('devis/:id', (params) => {
     // TODO

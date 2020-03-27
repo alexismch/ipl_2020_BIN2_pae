@@ -5,7 +5,7 @@
 
 /**
  * Do a GET ajax request.
- * @see ajax
+ * @see {@link module:AJAX~ajax ajax}
  */
 function ajaxGET(url, data, onSuccess, onError, isJson) {
   ajax('GET', url, data, onSuccess, onError, isJson);
@@ -13,7 +13,7 @@ function ajaxGET(url, data, onSuccess, onError, isJson) {
 
 /**
  * Do a POST ajax request.
- * @see ajax
+ * @see {@link module:AJAX~ajax ajax}
  */
 function ajaxPOST(url, data, onSuccess, onError, isJson) {
   ajax('POST', url, data, onSuccess, onError, isJson);
@@ -21,7 +21,7 @@ function ajaxPOST(url, data, onSuccess, onError, isJson) {
 
 /**
  * Do a PUT ajax request.
- * @see ajax
+ * @see {@link module:AJAX~ajax ajax}
  */
 function ajaxPUT(url, data, onSuccess, onError, isJson) {
   ajax('PUT', url, data, onSuccess, onError, isJson);
@@ -29,7 +29,7 @@ function ajaxPUT(url, data, onSuccess, onError, isJson) {
 
 /**
  * Do a DELETE ajax request.
- * @see ajax
+ * @see {@link module:AJAX~ajax ajax}
  */
 function ajaxDELETE(url, data, onSuccess, onError, isJson) {
   ajax('DELETE', url, data, onSuccess, onError, isJson);

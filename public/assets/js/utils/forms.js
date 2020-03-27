@@ -144,6 +144,9 @@ function onSubmitWithNavigation($form, navigation, onInvalid, onCheckValidity) {
 function enableButtoms($form) {
   $form.find('button').each((i, button) => {
     const $button = $(button);
+    if ($button.data('content') === undefined) {
+      return;
+    }
     $button.attr('type', 'submit')
     .removeClass('disabled')
     .html($button.data('content'));
@@ -151,7 +154,7 @@ function enableButtoms($form) {
 }
 
 function disableButtoms($form) {
-  $form.find('button').each((i, button) => {
+  $form.find('button').not('*[type="button"]').each((i, button) => {
     const $button = $(button);
     $button.attr('type', 'button')
     .addClass('disabled')
