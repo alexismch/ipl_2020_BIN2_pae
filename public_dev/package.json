@@ -1,11 +1,11 @@
 {
-  "name": "npm_motherfuckers",
+  "name": "projet-ae-groupe-12-npm",
   "version": "1.0.0",
-  "description": "npm_motherfuckers",
+  "description": "NPM for the project 'projet-ae-groupe-12'",
   "main": "index.js",
   "scripts": {
-    "build": "sass src/bundle.scss dist/bundle.min.css --style compressed",
-    "copy": "cp dist/bundle.min.css ../public/assets/vendor/css/bundle.min.css",
+    "buildsass": "sass src/scss/theme.scss dist/scss/style-bundle.min.css --style compressed",
+    "buildsassprod": "sass src/scss/theme.scss ../public/assets/css/style-bundle.min.css --style compressed --no-source-map",
     "jsdoc": "jsdoc ../public/assets/js -r -c ./jsdoc.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,11 +14,12 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "bootstrap4c-chosen": "^1.1.1",
-    "jsdoc": "^3.6.3",
-    "sass": "^1.26.3",
     "sass-svg-uri": "^1.0.0",
     "startbootstrap-sb-admin-2": "^4.0.7",
     "tempusdominus-bootstrap-4": "^5.1.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jsdoc": "^3.6.3",
+    "sass": "^1.26.3"
+  }
 }

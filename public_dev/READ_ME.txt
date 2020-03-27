@@ -11,12 +11,11 @@ commands:
 npm install
 -> to download all npm dependencies
 
-npm run build
--> to create the bundle
+npm run buildsass
+-> to create the style-bundle.min.css
 
-npm run copy
--> to copy the bundle into public/assets/vendor/css
-/!\ need a linux like terminal for this one
+npm run buildsass
+-> to create the style-bundle.min.css in the public directory
 
 npm run jsdoc
 ----------------------------------------------------------------------------------------------------

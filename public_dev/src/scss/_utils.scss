@@ -1,0 +1,27 @@
+.elevation-1 {
+  box-shadow: 0 .10rem 0.10rem 0 rgba(58, 59, 69, .35) !important;
+  z-index: 100;
+}
+
+.elevation-2 {
+  box-shadow: 0 .10rem 0.10rem 0 rgba(58, 59, 69, .50) !important;
+  z-index: 200;
+}
+
+.scale {
+  & {
+    transition: ease-in-out scale 100ms;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+  }
+}
+
+.w-min {
+  width: min-content;
+}
+
+.font-size-100 {
+  font-size: 100% !important;
+}
