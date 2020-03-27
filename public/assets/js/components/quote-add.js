@@ -166,7 +166,7 @@ export class AddQuotePage extends Page {
     }, (error) => {
       clearAlerts();
       createAlert('danger', error.responseJSON.error);
-    }, undefined, undefined, false);
+    }, undefined, undefined, true);
 
     this._$photos = $page.find("#page-add-devis-photos");
 
