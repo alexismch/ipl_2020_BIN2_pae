@@ -47,11 +47,6 @@ public class QuoteServlet extends AbstractServlet {
 
     //System.out.println(req.getParameterMap());
 
-    String quoteId = req.getParameter("quoteId");
-    String customerIdString = req.getParameter("customerId");
-    String dateString = req.getParameter("date");
-    String amountString = req.getParameter("amount");
-    String durationString = req.getParameter("duration");
     String[] types = req.getParameterValues("types"); // only one
     if (types == null) {
       types = req.getParameterValues("types[]"); // multiple
@@ -68,6 +63,12 @@ public class QuoteServlet extends AbstractServlet {
     if (photosDevelopmentTypes == null) {
       photosDevelopmentTypes = req.getParameterValues("pictureDevelopmentType[]"); // multiple
     }
+
+    String quoteId = req.getParameter("quoteId");
+    String customerIdString = req.getParameter("customerId");
+    String dateString = req.getParameter("date");
+    String amountString = req.getParameter("amount");
+    String durationString = req.getParameter("duration");
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
         && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)
