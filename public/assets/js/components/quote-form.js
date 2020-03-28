@@ -111,7 +111,6 @@ export class QuoteFormPage extends Page {
     const $datePicker = this._$view.find('#page-add-devis-datetimepicker');
     $datePicker.datetimepicker({
       format: 'L',
-      minDate: moment(),
       widgetPositioning: {
         horizontal: 'left',
         vertical: 'auto'
