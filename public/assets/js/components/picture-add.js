@@ -39,7 +39,7 @@ export class AddPictureComponent extends Component {
       </div>
     </div>
     <div class="col-md-5">
-      <img id="add-picutre-component-picture-${this.getUniqueId()}" class="w-100 rounded" alt="vide" src="/assets/img/img-placeholder.jpg" />
+      <img id="add-picutre-component-picture-${this.getUniqueId()}" class="w-100 rounded" alt="Image à mettre en ligne" src="/assets/img/img-placeholder.jpg" />
     </div>  
   </div>
 </div>`;
@@ -61,16 +61,21 @@ export class AddPictureComponent extends Component {
     const $fileOutputData = this._$view.find('#add-picutre-component-picture-upload-data-' + this.getUniqueId());
 
     $fileInput.on('change', (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
+      console.log(e.target.files);
+      if (e.target.files.length < 1) {
+        $fileOutputImg.attr('src', '/assets/img/img-placeholder.jpg');
+        $fileOutputData.val('');
+      } else {
+        const file = e.target.files[0];
+        const reader = new FileReader();
 
-      reader.onloadend = () => {
-        $fileOutputImg.attr('src', reader.result);
-        $fileOutputData.val(reader.result);
+        reader.onloadend = () => {
+          $fileOutputImg.attr('src', reader.result);
+          $fileOutputData.val(reader.result);
+        }
+
+        reader.readAsDataURL(file);
       }
-
-      reader.readAsDataURL(file);
-
     });
 
     $fileInput.data('validator', () => {
