@@ -1,5 +1,7 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.hasAccess;
+
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.UserUcc;
@@ -27,6 +29,13 @@ public class UsersListServlet extends AbstractServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    System.out.println("GET /api/users-list by " + req.getRemoteAddr());
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
+    }
 
     String name = req.getParameter("name");
     String city = req.getParameter("city");

@@ -7,11 +7,11 @@ function getUser() {
 }
 
 function isOuvrier() {
-  return user === null ? false : user.status === "o";
+  return user === null ? false : user.status.id === "WORKER";
 }
 
 function isClient() {
-  return user === null ? false : user.status === "c";
+  return user === null ? false : user.status.id === "CUSTOMER";
 }
 
 function changeMenuForUser(newUser) {
