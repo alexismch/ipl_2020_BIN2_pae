@@ -142,7 +142,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "c")) {
+    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }

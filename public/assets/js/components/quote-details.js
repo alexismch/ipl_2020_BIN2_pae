@@ -21,7 +21,10 @@ export class QuoteDetailsPage extends Page {
   <p class="detail-quote-client"></p>
   <div>Types d'aménagements:</div>
   <ul class="detail-quote-development-types"></ul>
+  <div>Photo avant aménagements:</div>
   <div class="detail-quote-photo-before"></div>
+  <div>Photo après aménagements:</div>
+  <div class="detail-quote-photo-after"></div>
   </div>`;
 
   /**
@@ -33,17 +36,18 @@ export class QuoteDetailsPage extends Page {
     this._$view = $(this._template);
 
     ajaxGET(`/api/quote`, `quoteId=${quoteId}`, (data) => {
-      this._createQuoteDetails(data.quote);
+      this._createQuoteDetailsQuote(data.quote);
       this._createQuoteDetailsClient(data.quote.customer);
       this._createQuoteDetailsDevelopmentTypeList(data.quote.developmentTypesSet);
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
+      this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
       router.updatePageLinks();
     });
 
   }
 
 
-  _createQuoteDetails(quote) {
+  _createQuoteDetailsQuote(quote) {
     const $quoteDetail = this._$view.find('.detail-quote');
     $quoteDetail.empty();
         
@@ -77,8 +81,6 @@ export class QuoteDetailsPage extends Page {
     typeList.forEach(type => {
       this._createTypesListItem($quoteDetailType, type);
     });
-
-    
   }
 
   _createTypesListItem($quoteDetailType, type){
@@ -89,8 +91,8 @@ export class QuoteDetailsPage extends Page {
   _createQuoteDetailPhotoBefore(photoList){
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
     $quoteDetailPhoto.empty();
-    if(photoList == null){
-      $quoteDetailPhoto.append("<div>Il n'y a pas de photo avant aménagement!");
+    if(photoList.length == 0){
+      $quoteDetailPhoto.append("<div>Il n'y a pas de photo avant aménagement!</div>");
     } else {
       photoList.forEach(photo => {
         this._createPhotoListItem($quoteDetailPhoto, photo);
@@ -99,7 +101,20 @@ export class QuoteDetailsPage extends Page {
   }
 
   _createPhotoListItem($quoteDetailPhoto, photo){
-    const detail = `<img src="${photo.base64}" alt="${photo.title} " class="img-thumbnail">`;
+    const detail = `<img src="${photo.base64}" alt="${photo.title}" class="img-thumbnail">`;
     $quoteDetailPhoto.append(detail);
+  }
+
+  _createQuoteDetailPhotoAfter(photoList){
+    const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
+    $quoteDetailPhoto.empty();
+
+    if(photoList.length == 0){
+      $quoteDetailPhoto.append("<div>Il n'y a pas de photo après aménagement!</div>");
+    } else {
+      photoList.forEach(photo => {
+        this._createPhotoListItem($quoteDetailPhoto, photo);
+      });
+    }
   }
 }
