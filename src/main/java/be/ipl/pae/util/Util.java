@@ -224,7 +224,7 @@ public class Util {
       if (!hasAccess(accessNeeded, status)) {
         return false;
       }
-    } catch (Exception e) {
+    } catch (Exception ex) {
       return false;
     }
     return true;
@@ -254,6 +254,8 @@ public class Util {
           return true;
         }
         break;
+      default:
+        return false;
     }
     return false;
   }
