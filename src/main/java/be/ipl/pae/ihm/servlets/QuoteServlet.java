@@ -1,5 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.isAllInside;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 import static be.ipl.pae.util.Util.verifySameLength;
 
@@ -19,9 +20,6 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,10 +69,6 @@ public class QuoteServlet extends AbstractServlet {
       photosDevelopmentTypes = req.getParameterValues("pictureDevelopmentType[]"); // multiple
     }
 
-    System.out.println(Arrays.toString(photos));
-    System.out.println(Arrays.toString(photosTitles));
-    System.out.println(Arrays.toString(photosDevelopmentTypes));
-
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
         && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)
         && verifySameLength(photos, photosTitles, photosDevelopmentTypes)) {
@@ -94,22 +88,29 @@ public class QuoteServlet extends AbstractServlet {
         quoteToInsert.setWorkDuration(duration);
         quoteToInsert.setState(QuoteState.QUOTE_ENTERED);
 
-        List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
-        for (Long typeId : typesList) {
+        Object[] typesArray = Stream.of(types).map(Integer::valueOf).toArray();
+        for (Object typeId : typesArray) {
+          Integer id = (Integer) typeId;
           quoteToInsert
-              .addDevelopmentType(developmentTypeUcc.getDevelopmentType(Math.toIntExact(typeId)));
+              .addDevelopmentType(developmentTypeUcc.getDevelopmentType(id));
         }
 
-        List<String> photosList = Stream.of(photos).collect(Collectors.toList());
-        for (String photo : photosList) {
+        Object[] photosTypesArray = Stream.of(photosDevelopmentTypes).map(Integer::valueOf)
+            .toArray();
+
+        if (!isAllInside(typesArray, photosTypesArray)) {
+          throw new Exception();
+        }
+
+        for (int i = 0; i < photos.length; i++) {
           PhotoDto photoDto = dtoFactory.getPhoto();
 
-          photoDto.setBase64(photo);
+          photoDto.setBase64(photos[i]);
           photoDto.setIdQuote(quoteToInsert.getIdQuote());
           photoDto.setVisible(false);
           photoDto.setBeforeWork(true);
-          photoDto.setTitle("Image");
-          photoDto.setIdType(1);
+          photoDto.setTitle(photosTitles[i]);
+          photoDto.setIdType((Integer) photosTypesArray[i]);
 
           quoteToInsert.addToListPhotoBefore(photoDto);
         }

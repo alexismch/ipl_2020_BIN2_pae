@@ -94,6 +94,44 @@ public class Util {
   }
 
   /**
+   * Verify if all elements of b are inside a.
+   *
+   * @param a the 1st Array
+   * @param b the 2nd Array
+   * @return true if all elements of b are inside a, false if not
+   */
+  public static boolean isAllInside(Object[] a, Object[] b) {
+    if (!a.getClass().equals(b.getClass())) {
+      return false;
+    }
+    for (Object o : b) {
+      if (!isInside(a, o)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Verify if b is inside a.
+   *
+   * @param a the Array
+   * @param b the object to verify
+   * @return true if b is inside a, false if not
+   */
+  public static boolean isInside(Object[] a, Object b) {
+    if (!a[0].getClass().equals(b.getClass())) {
+      return false;
+    }
+    for (Object o : a) {
+      if (o.equals(b)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Create a session key.
    *
    * @param ip ip of the request
