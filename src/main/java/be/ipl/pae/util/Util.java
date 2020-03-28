@@ -1,5 +1,6 @@
 package be.ipl.pae.util;
 
+import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.exceptions.WrongTokenException;
@@ -134,12 +135,14 @@ public class Util {
   /**
    * Create a session key.
    *
-   * @param ip ip of the request
-   * @param id id of the user
+   * @param ip      ip of the request
+   * @param userDto the user that asked the session
    * @return the session key
    */
-  public static String createToken(String ip, int id) {
-    return JWT.create().withIssuer("auth0").withClaim("ip", ip).withClaim("uId", id)
+  public static String createToken(String ip, UserDto userDto) {
+    return JWT.create().withIssuer("auth0").withClaim("ip", ip)
+        .withClaim("uId", userDto.getId())
+        .withClaim("uStatus", userDto.getStatus().getCode())
         .sign(JWTALGORITHM);
   }
 
@@ -156,26 +159,103 @@ public class Util {
   /**
    * Check the decoded key with the ip and send the id of the user.
    *
-   * @param decodedKey the decoded key
-   * @param ip         the ip that you need to check
+   * @param decodedToken the decoded key
+   * @param ip           the ip that you need to check
    * @return the user's id
    */
-  public static int getUId(DecodedJWT decodedKey, String ip) {
-    if (!ip.equals(decodedKey.getClaim("ip").asString())) {
+  public static int getUId(DecodedJWT decodedToken, String ip) {
+    if (!ip.equals(decodedToken.getClaim("ip").asString())) {
       throw new WrongTokenException("Mauvaise adresse IP");
     }
-    return decodedKey.getClaim("uId").asInt();
+    return decodedToken.getClaim("uId").asInt();
   }
 
   /**
-   * Decode the key, check the key with the ip, and send the user's id.
+   * Decode the token, check the token with the ip, and send the user's id.
    *
-   * @param key the key that you need to decode
-   * @param ip  the ip that you need to check
+   * @param token the token that you need to decode
+   * @param ip    the ip that you need to check
    * @return the user's id
    */
-  public static int getUId(String key, String ip) {
-    return getUId(decodeToken(key), ip);
+  public static int getUId(String token, String ip) {
+    return getUId(decodeToken(token), ip);
+  }
+
+  /**
+   * Check the decoded key with the ip and send the state of the user.
+   *
+   * @param decodedToken the decoded key
+   * @param ip           the ip that you need to check
+   * @return the user's state
+   */
+  public static String getUStatus(DecodedJWT decodedToken, String ip) {
+    if (!ip.equals(decodedToken.getClaim("ip").asString())) {
+      throw new WrongTokenException("Mauvaise adresse IP");
+    }
+    return decodedToken.getClaim("uStatus").asString();
+  }
+
+  /**
+   * Decode the token, check the token with the ip, and send the user's state.
+   *
+   * @param token the token that you need to decode
+   * @param ip    the ip that you need to check
+   * @return the user's state
+   */
+  public static String getUStatus(String token, String ip) {
+    return getUStatus(decodeToken(token), ip);
+  }
+
+  /**
+   * Verify if the access is autorized.
+   *
+   * @param token        the session token
+   * @param ip           the request ip
+   * @param accessNeeded the access code needed
+   * @return true if access is autorized, false if not
+   */
+  public static boolean hasAccess(String token, String ip, String accessNeeded) {
+    System.out.println("\tUsed token : " + token);
+    if (token == null) {
+      return false;
+    }
+    try {
+      String status = getUStatus(token, ip);
+      if (!hasAccess(accessNeeded, status)) {
+        return false;
+      }
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Verify if the accessGiven is higher or equals than accessNeeded.
+   *
+   * @param accessNeeded the access code needed
+   * @param accesGiven   the access code given
+   * @return true if accessGiven is higher or equals than accessNeeded
+   */
+  public static boolean hasAccess(String accessNeeded, String accesGiven) {
+    switch (accesGiven) {
+      case "n":
+        if ("n".equals(accessNeeded) || "c".equals(accessNeeded) || "o".equals(accessNeeded)) {
+          return true;
+        }
+        break;
+      case "c":
+        if ("c".equals(accessNeeded) || "o".equals(accessNeeded)) {
+          return true;
+        }
+        break;
+      case "o":
+        if ("o".equals(accessNeeded)) {
+          return true;
+        }
+        break;
+    }
+    return false;
   }
 
   /**
@@ -286,5 +366,4 @@ public class Util {
     }
 
   }
-
 }

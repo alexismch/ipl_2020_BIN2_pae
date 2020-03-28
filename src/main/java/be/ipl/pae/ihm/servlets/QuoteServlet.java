@@ -1,5 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.hasAccess;
 import static be.ipl.pae.util.Util.isAllInside;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 import static be.ipl.pae.util.Util.verifySameLength;
@@ -39,6 +40,12 @@ public class QuoteServlet extends AbstractServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
+    }
 
     // For testing with JSON object
     // System.out.println(Util.convertInputStreamToString(req.getInputStream()));

@@ -1,5 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.hasAccess;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.ucc.LinkCcUcc;
@@ -19,6 +20,12 @@ public class LinkCcServlet extends AbstractServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/link-cc by " + req.getRemoteAddr());
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
+    }
 
     String userIdString = req.getParameter("userId");
     String customerIdString = req.getParameter("customerId");
