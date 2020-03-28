@@ -45,7 +45,7 @@ public class QuoteServlet extends AbstractServlet {
     // QuoteDto quote = dtoFactory.getQuote();
     // Util.createGensonBuilder().create().deserializeInto(req.getInputStream(), quote);
 
-    //System.out.println(req.getParameterMap());
+    // System.out.println(req.getParameterMap());
 
     String[] types = req.getParameterValues("types"); // only one
     if (types == null) {
@@ -92,12 +92,11 @@ public class QuoteServlet extends AbstractServlet {
         Object[] typesArray = Stream.of(types).map(Integer::valueOf).toArray();
         for (Object typeId : typesArray) {
           Integer id = (Integer) typeId;
-          quoteToInsert
-              .addDevelopmentType(developmentTypeUcc.getDevelopmentType(id));
+          quoteToInsert.addDevelopmentType(developmentTypeUcc.getDevelopmentType(id));
         }
 
-        Object[] photosTypesArray = Stream.of(photosDevelopmentTypes).map(Integer::valueOf)
-            .toArray();
+        Object[] photosTypesArray =
+            Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
 
         if (!isAllInside(typesArray, photosTypesArray)) {
           throw new Exception();

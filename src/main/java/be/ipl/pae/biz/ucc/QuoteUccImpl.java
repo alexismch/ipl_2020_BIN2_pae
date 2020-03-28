@@ -82,7 +82,6 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       quoteDto = quoteDao.getQuote(idQuote);
-
       if (quoteDto.getIdQuote() == null) {
         throw new BizException("Devis non existant!");
       }
