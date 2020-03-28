@@ -142,6 +142,12 @@ public class QuoteServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), "c")) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
+    }
+
     GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class)
         .exclude("developmentTypes", QuoteDto.class);
 
