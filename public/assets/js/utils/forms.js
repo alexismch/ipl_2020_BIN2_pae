@@ -180,7 +180,7 @@ function serializeFormToJson($form) {
       }
     } else {
       if (Array.isArray(indexedArray[n['name']])) {
-        indexedArray[n['name']] = indexedArray[n['name']].push(n['value']);
+        indexedArray[n['name']].push(n['value']);
       } else {
         indexedArray[n['name']] = [indexedArray[n['name']], n['value']];
       }
