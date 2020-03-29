@@ -2,7 +2,6 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.hasAccess;
 
-import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
@@ -17,9 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class UserServlet extends AbstractServlet {
-
-  @Injected
-  private DtoFactory dtoFactory;
 
   @Injected
   private UserUcc userUcc;
