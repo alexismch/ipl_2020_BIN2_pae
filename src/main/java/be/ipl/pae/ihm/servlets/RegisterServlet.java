@@ -11,6 +11,8 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
+import com.owlike.genson.GensonBuilder;
+
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -26,8 +28,12 @@ public class RegisterServlet extends AbstractServlet {
   static final int MAX_SIZE_FIRST_NAME = 25;
   static final int MAX_SIZE_PWD = 255;
   static final int MAX_SIZE_CITY = 25;
+
+  GensonBuilder genson = Util.createGensonBuilder();
+
   @Injected
   UserUcc userUcc;
+
   @Injected
   DtoFactory dtoFactory;
 
@@ -66,7 +72,7 @@ public class RegisterServlet extends AbstractServlet {
       UserDto userDb;
       try {
         userDb = userUcc.register(userDtoToInsert);
-        sendSuccessWithJson(resp, "user", userDb.toJson()); // TODO use Genson (or remove ?)
+        sendSuccessWithJson(resp, "user", genson.create().serialize(userDb));
       } catch (BizException be) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, be.getMessage());
       } catch (FatalException fe) {

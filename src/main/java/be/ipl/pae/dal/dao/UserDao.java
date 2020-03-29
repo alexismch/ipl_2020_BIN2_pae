@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserDao {
 
   /**
-   * Return an userDto from the database.
+   * Return a userDto from the database.
    *
    * @param pseudo the pseudo of the user
    * @return An object UserDto with the information from the db or return null
