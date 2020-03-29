@@ -221,7 +221,6 @@ public class Util {
     }
     try {
       UserStatus status = UserStatus.getStatusByCode(getUStatus(token, ip));
-      System.out.println(status);
 
       return hasAccess(statusNeeded, status);
     } catch (Exception ex) {
