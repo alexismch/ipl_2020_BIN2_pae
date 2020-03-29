@@ -4,13 +4,11 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
-import static be.ipl.pae.util.Util.hasAccess;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,9 +36,7 @@ public class CustomerDetailServlet extends AbstractServlet {
 
     try {
       sendSuccessWithJson(resp, "customerDetail",
-          gensonBuilder.create().serialize(quoteUcc.getQuote(idString)));
-    } catch (FatalException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+          gensonBuilder.create().serialize(quoteUcc.getCustomerQuotes(id)));
     } catch (BizException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
