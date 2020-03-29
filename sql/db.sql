@@ -73,7 +73,7 @@ create table mystherbe.photos
         constraint photos_pkey
             primary key,
     title       varchar(100)          not null,
-    base64      varchar(10485760)     not null,
+    base64      text                  not null,
     id_quote    varchar(25)           not null
         constraint photos_id_quote_fkey
             references mystherbe.quotes,
