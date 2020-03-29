@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.ihm.servlets.CustomerDetailServlet;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.CustomersListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
@@ -52,6 +53,9 @@ public class Server {
   @Injected
   private LinkCcServlet linkCcServlet;
 
+  @Injected
+  private CustomerDetailServlet customerDetailServlet;
+
   /**
    * Start the server.
    *
@@ -60,7 +64,7 @@ public class Server {
   public void start() throws Exception {
     org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(8080);
     ContextHandlerCollection context = new ContextHandlerCollection();
-    context.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
+    context.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
     server.setHandler(context);
     System.out.println("Server starting...");
     server.start();
@@ -92,6 +96,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
+    backendContext.addServlet(new ServletHolder(customerDetailServlet), "/customer-detail");
     return backendContext;
   }
 }

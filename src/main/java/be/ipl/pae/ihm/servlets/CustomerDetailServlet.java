@@ -3,6 +3,8 @@ package be.ipl.pae.ihm.servlets;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
@@ -30,15 +32,17 @@ public class CustomerDetailServlet extends AbstractServlet {
     if (idString != null) {
       id = Integer.valueOf(idString);
     }
-
+    System.out.println("ici");
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
 
-    // try {
-    // sendSuccessWithJson(resp, "customers",
-    // gensonBuilder.create().serialize(quoteUcc.getQuote(idString)));
-    // } catch (FatalException ex) {
-    // sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-    // }
+    try {
+      sendSuccessWithJson(resp, "customerDetail",
+          gensonBuilder.create().serialize(quoteUcc.getQuote(idString)));
+    } catch (FatalException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    } catch (BizException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
   }
 
 
