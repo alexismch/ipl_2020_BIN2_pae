@@ -1,0 +1,26 @@
+{
+  "name": "projet-ae-groupe-12-npm",
+  "version": "1.0.0",
+  "description": "NPM for the project 'projet-ae-groupe-12'",
+  "main": "index.js",
+  "scripts": {
+    "buildsass": "sass src/scss/theme.scss dist/scss/style-bundle.min.css --style compressed",
+    "buildsassprod": "sass src/scss/theme.scss ../public/assets/css/style-bundle.min.css --style compressed --no-source-map",
+    "jsdoc": "jsdoc ../public/assets/js ./README.md -c ./jsdoc.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "bootstrap4c-chosen": "^1.1.1",
+    "sass-svg-uri": "^1.0.0",
+    "startbootstrap-sb-admin-2": "^4.0.7",
+    "tempusdominus-bootstrap-4": "^5.1.2"
+  },
+  "devDependencies": {
+    "docdash": "^1.2.0",
+    "jsdoc": "^3.6.3",
+    "sass": "^1.26.3"
+  }
+}

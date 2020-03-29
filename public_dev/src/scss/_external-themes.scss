@@ -1,0 +1,15 @@
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+
+@import "../../node_modules/startbootstrap-sb-admin-2/scss/sb-admin-2";
+
+@import "../../node_modules/sass-svg-uri/svg-uri";
+
+@import "../../node_modules/bootstrap4c-chosen/src/scss/component-variables";
+@import "../../node_modules/bootstrap4c-chosen/src/scss/component-chosen";
+
+$bs-datetimepicker-disabled-color: $gray-500 !default;
+@import "../../node_modules/tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
+
+@import "external-themes-fixes";

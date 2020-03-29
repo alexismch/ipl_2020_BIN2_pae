@@ -1,3 +1,5 @@
+'use strict';
+
 let user = null;
 
 function getUser() {
@@ -5,11 +7,11 @@ function getUser() {
 }
 
 function isOuvrier() {
-  return user === null ? false : user.status === "o";
+  return user === null ? false : user.status.id === "WORKER";
 }
 
 function isClient() {
-  return user === null ? false : user.status === "c";
+  return user === null ? false : user.status.id === "CUSTOMER";
 }
 
 function changeMenuForUser(newUser) {
@@ -26,4 +28,21 @@ function changeMenuForUser(newUser) {
   }
 }
 
-export {getUser, isClient, isOuvrier, changeMenuForUser};
+function getUserStatusColor(currentUser) {
+
+  if (currentUser === undefined) {
+    currentUser = user;
+  }
+
+  switch (currentUser.status.id) {
+    case 'WORKER':
+      return 'info';
+    case 'CUSTOMER':
+      return 'success';
+    case 'NOT_ACCEPTED':
+      return 'secondary';
+  }
+
+}
+
+export {getUser, isClient, isOuvrier, changeMenuForUser, getUserStatusColor};

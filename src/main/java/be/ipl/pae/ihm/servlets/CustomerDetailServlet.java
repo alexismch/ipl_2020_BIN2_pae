@@ -10,6 +10,7 @@ import be.ipl.pae.util.Util;
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
+import static be.ipl.pae.util.Util.hasAccess;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,4 @@ public class CustomerDetailServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
   }
-
-
-
 }

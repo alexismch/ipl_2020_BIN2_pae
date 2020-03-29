@@ -1,0 +1,29 @@
+.floating-button-container-right {
+  display: flex;
+  justify-content: flex-end;
+  height: 20px;
+}
+
+.floating-button-right {
+  position: relative;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  right: -15px;
+  top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+* .floating-button-container-right:first-child {
+  & {
+    height: 0;
+  }
+
+  & .floating-button-right {
+    top: -15px;
+  }
+}

@@ -82,7 +82,6 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       quoteDto = quoteDao.getQuote(idQuote);
-
       if (quoteDto.getIdQuote() == null) {
         throw new BizException("Devis non existant!");
       }
@@ -90,6 +89,8 @@ public class QuoteUccImpl implements QuoteUcc {
       quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
       quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
       quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
+
+      //TODO: SELECT FROM quote_types et non photos
 
       for (PhotoDto photo : quoteDto.getListPhotoBefore()) {
         DevelopmentTypeDto developmentTypeDto =

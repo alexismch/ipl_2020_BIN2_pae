@@ -4,6 +4,7 @@ import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.FatalException;
 
 import org.mindrot.bcrypt.BCrypt;
 
@@ -78,12 +79,10 @@ public class MockUserDao implements UserDao {
     }
 
     return usersList.stream()
-        .filter(userDto -> userDto.getLastName().toLowerCase()
-            .startsWith(
-                usersFilterDto.getName() == null ? "" : usersFilterDto.getName().toLowerCase()))
-        .filter(userDto -> userDto.getCity().toLowerCase()
-            .startsWith(
-                usersFilterDto.getCity() == null ? "" : usersFilterDto.getCity().toLowerCase()))
+        .filter(userDto -> userDto.getLastName().toLowerCase().startsWith(
+            usersFilterDto.getName() == null ? "" : usersFilterDto.getName().toLowerCase()))
+        .filter(userDto -> userDto.getCity().toLowerCase().startsWith(
+            usersFilterDto.getCity() == null ? "" : usersFilterDto.getCity().toLowerCase()))
         .collect(Collectors.toList());
   }
 
@@ -104,8 +103,14 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean isLinked(int userId) {
-    //TODO: oui
+    // TODO: oui
     return false;
+  }
+
+  @Override
+  public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

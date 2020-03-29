@@ -41,24 +41,4 @@ public interface UserDto {
   UserStatus getStatus();
 
   void setStatus(UserStatus status);
-
-  /**
-   * Return the current object serialized into json.
-   *
-   * @return A json formatted string
-   * @deprecated use Genson instead
-   */
-  @Deprecated
-  default String toJson() {
-    return "{"
-        + "\"id\":\"" + getId() + "\", "
-        + "\"pseudo\":\"" + getPseudo() + "\", "
-        + "\"lastName\":\"" + getLastName() + "\", "
-        + "\"firstName\":\"" + getFirstName() + "\", "
-        + "\"email\":\"" + getEmail() + "\", "
-        + "\"city\":\"" + getCity() + "\", "
-        + "\"registrationDate\":\"" + getRegistrationDate() + "\", "
-        + "\"status\":\"" + getStatus().getCode() + "\""
-        + "}";
-  }
 }

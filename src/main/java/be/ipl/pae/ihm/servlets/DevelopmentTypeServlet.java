@@ -24,7 +24,7 @@ public class DevelopmentTypeServlet extends AbstractServlet {
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
 
     try {
-      sendSuccessWithJson(resp, "developementTypesList",
+      sendSuccessWithJson(resp, "developmentTypesList",
           gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));
     } catch (BizException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());

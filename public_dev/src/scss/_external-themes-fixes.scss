@@ -1,0 +1,40 @@
+/* This file contains fixes for imported theme */
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+select {
+  -webkit-appearance: none;
+}
+
+.custom-file-label {
+  overflow: hidden;
+}
+
+.custom-file-label::after {
+  content: "Parcourir";
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.container {
+  flex: 1 1 auto;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}

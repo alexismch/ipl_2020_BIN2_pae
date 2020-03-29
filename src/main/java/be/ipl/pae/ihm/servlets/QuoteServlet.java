@@ -1,11 +1,15 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.hasAccess;
+import static be.ipl.pae.util.Util.isAllInside;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
+import static be.ipl.pae.util.Util.verifySameLength;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
@@ -18,8 +22,6 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,29 +42,45 @@ public class QuoteServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
+    }
+
     // For testing with JSON object
-    //System.out.println(Util.convertInputStreamToString(req.getInputStream()));
+    // System.out.println(Util.convertInputStreamToString(req.getInputStream()));
     // QuoteDto quote = dtoFactory.getQuote();
     // Util.createGensonBuilder().create().deserializeInto(req.getInputStream(), quote);
 
-    //System.out.println(req.getParameterMap());
+    // System.out.println(req.getParameterMap());
+
+    String[] types = req.getParameterValues("types"); // only one
+    if (types == null) {
+      types = req.getParameterValues("types[]"); // multiple
+    }
+    String[] photos = req.getParameterValues("pictureData"); // only one
+    if (photos == null) {
+      photos = req.getParameterValues("pictureData[]"); // multiple
+    }
+    String[] photosTitles = req.getParameterValues("pictureTitle"); // only one
+    if (photosTitles == null) {
+      photosTitles = req.getParameterValues("pictureTitle[]"); // multiple
+    }
+    String[] photosDevelopmentTypes = req.getParameterValues("pictureDevelopmentType"); // only one
+    if (photosDevelopmentTypes == null) {
+      photosDevelopmentTypes = req.getParameterValues("pictureDevelopmentType[]"); // multiple
+    }
 
     String quoteId = req.getParameter("quoteId");
     String customerIdString = req.getParameter("customerId");
     String dateString = req.getParameter("date");
     String amountString = req.getParameter("amount");
     String durationString = req.getParameter("duration");
-    String[] types = req.getParameterValues("types"); // only one
-    if (types == null) {
-      types = req.getParameterValues("types[]"); // multiple
-    }
-    String[] photos = req.getParameterValues("photos"); // only one
-    if (photos == null) {
-      photos = req.getParameterValues("photos[]"); // multiple
-    }
 
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
-        && types != null && types.length > 0 && photos != null && photos.length > 0) {
+        && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)
+        && verifySameLength(photos, photosTitles, photosDevelopmentTypes)) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
@@ -79,22 +97,28 @@ public class QuoteServlet extends AbstractServlet {
         quoteToInsert.setWorkDuration(duration);
         quoteToInsert.setState(QuoteState.QUOTE_ENTERED);
 
-        List<Long> typesList = Stream.of(types).map(Long::valueOf).collect(Collectors.toList());
-        for (Long typeId : typesList) {
-          quoteToInsert
-              .addDevelopmentType(developmentTypeUcc.getDevelopmentType(Math.toIntExact(typeId)));
+        Object[] typesArray = Stream.of(types).map(Integer::valueOf).toArray();
+        for (Object typeId : typesArray) {
+          Integer id = (Integer) typeId;
+          quoteToInsert.addDevelopmentType(developmentTypeUcc.getDevelopmentType(id));
         }
 
-        List<String> photosList = Stream.of(photos).collect(Collectors.toList());
-        for (String photo : photosList) {
+        Object[] photosTypesArray =
+            Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
+
+        if (!isAllInside(typesArray, photosTypesArray)) {
+          throw new Exception();
+        }
+
+        for (int i = 0; i < photos.length; i++) {
           PhotoDto photoDto = dtoFactory.getPhoto();
 
-          photoDto.setBase64(photo);
+          photoDto.setBase64(photos[i]);
           photoDto.setIdQuote(quoteToInsert.getIdQuote());
           photoDto.setVisible(false);
           photoDto.setBeforeWork(true);
-          photoDto.setTitle("Image");
-          photoDto.setIdType(1);
+          photoDto.setTitle(photosTitles[i]);
+          photoDto.setIdType((Integer) photosTypesArray[i]);
 
           quoteToInsert.addToListPhotoBefore(photoDto);
         }
@@ -117,6 +141,12 @@ public class QuoteServlet extends AbstractServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
+    }
 
     GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class)
         .exclude("developmentTypes", QuoteDto.class);

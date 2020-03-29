@@ -1,6 +1,10 @@
 'use strict';
 
 /**
+ * @module Alerts
+ */
+
+/**
  * Create an alert and append it to all .alerts elements in the dom.
  *
  * @param {String} level The bootstrap v4.4 alert level like 'primary', 'success', 'warning', 'danger', ...

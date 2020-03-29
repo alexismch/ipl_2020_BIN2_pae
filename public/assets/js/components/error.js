@@ -1,23 +1,50 @@
 'use strict';
 
-function getTemplate(code, message) {
-  return `<div class="container">
-    <h2>Erreur ${code}</h2>
-    <p>${message}</p>
-  </div>`;
-}
+import {Page} from './page.js';
 
-function createView(code, message) {
-  const $page = $(getTemplate(code, message));
+/**
+ * @module Components
+ */
 
-  return $page;
-}
+/**
+ * Component that hold the error page
+ *
+ * @extends module:Components.Page
+ */
+export class ErrorPage extends Page {
 
-export function getErrorPage(code, message) {
-  return {
-    getTitle: () => `Erreur ${code}`,
-    getView: () => {
-      return createView(code, message);
+  code;
+  message;
+
+  /**
+   * Create an error page for the specified error
+   *
+   * @param {number} code - The error code
+   */
+  constructor(code) {
+    super('Erreur ' + code);
+
+    this.code = code;
+
+    switch (this.code) {
+      case 404:
+        this.message = 'Page introuvable';
+      default:
+        this.message = 'Une erreur est survenue';
     }
+
+    this._$view = $(this._template);
+
   }
+
+  get _template() {
+    return `<div class="container-fluid mt-3">
+  <div class="text-center">
+    <div class="error mx-auto" data-text="${this.code}">${this.code}</div>
+    <p class="lead text-gray-800 mb-5">${this.message}</p>
+    <a data-navigo href="">← Retour à la page d'accueil</a>
+  </div>
+</div>`;
+  }
+
 }

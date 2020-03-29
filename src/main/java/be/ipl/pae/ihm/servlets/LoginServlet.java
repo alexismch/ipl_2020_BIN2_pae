@@ -8,6 +8,9 @@ import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.util.Util;
+
+import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
 
@@ -21,6 +24,8 @@ public class LoginServlet extends AbstractServlet {
   @Injected
   UserUcc ucc;
 
+  GensonBuilder genson = Util.createGensonBuilder();
+
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/login by " + req.getRemoteAddr());
@@ -30,21 +35,28 @@ public class LoginServlet extends AbstractServlet {
 
     if (token != null) {
       int id = getUId(token, req.getRemoteAddr());
-      UserDto utilisateurDto = null;
+      UserDto userDto;
       try {
-        utilisateurDto = ucc.getUser(id);
-        sendSuccessWithJson(resp, "user", utilisateurDto.toJson()); // TODO use Genson
+        userDto = ucc.getUser(id);
+        sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
       } catch (BizException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       }
     } else {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide.");
     }
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/login by " + req.getRemoteAddr());
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (token != null) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Already connected.");
+      return;
+    }
+
     String pseudo = req.getParameter("pseudo");
     String passwd = req.getParameter("password");
 
@@ -53,11 +65,11 @@ public class LoginServlet extends AbstractServlet {
         UserDto userDto = ucc.login(pseudo, passwd);
 
         HttpSession session = req.getSession();
-        String token = createToken(req.getRemoteAddr(), userDto.getId());
+        token = createToken(req.getRemoteAddr(), userDto);
         session.setAttribute("token", token);
         System.out.println("\tGenerated token : " + token);
 
-        sendSuccessWithJson(resp, "user", userDto.toJson()); // TODO use Genson
+        sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
       } catch (BizException ex) {
         sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
       }

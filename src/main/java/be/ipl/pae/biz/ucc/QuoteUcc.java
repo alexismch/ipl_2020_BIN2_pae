@@ -13,8 +13,9 @@ public interface QuoteUcc {
    *
    * @param quoteDto the quote to insert
    * @return a QuoteDto object that represents the quote
+   * @throws BizException if an error occurred
    */
-  QuoteDto insert(QuoteDto quoteDto) throws FatalException, BizException;
+  QuoteDto insert(QuoteDto quoteDto) throws BizException;
 
   /**
    * Get all quotes.
@@ -35,11 +36,11 @@ public interface QuoteUcc {
   QuoteDto getQuote(String idQuote) throws FatalException, BizException;
 
   /**
-   * Get all the customer's quotes from the database from his id
-   * 
-   * @param the customer's id
+   * Get all the customer's quotes from the database from his id.
+   *
+   * @param customerId the customer's id
    * @return a list of all the customer's quotes
-   * @throws BizException
+   * @throws BizException if an error occurred
    */
   List<QuoteDto> getCustomerQuotes(int customerId) throws BizException;
 }

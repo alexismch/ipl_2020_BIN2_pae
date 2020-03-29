@@ -1,6 +1,11 @@
 'use strict';
 
+/**
+ * @module Forms
+ */
+
 import {ajax} from './ajax.js';
+import {clearAlerts, createAlert} from './alerts.js';
 
 /**
  * Check if the form is valid. If he is not, error message can be displayed for each field according to the method {@link checkInputValidity}
@@ -16,6 +21,8 @@ function checkFormValidity($form) {
     $form.find('input, textarea, select').each((i, input) => {
       checkInputValidity($(input));
     });
+    clearAlerts();
+    createAlert('danger', 'Certains champs sont invalide !');
     return false;
   }
 
@@ -141,6 +148,9 @@ function onSubmitWithNavigation($form, navigation, onInvalid, onCheckValidity) {
 function enableButtoms($form) {
   $form.find('button').each((i, button) => {
     const $button = $(button);
+    if ($button.data('content') === undefined) {
+      return;
+    }
     $button.attr('type', 'submit')
     .removeClass('disabled')
     .html($button.data('content'));
@@ -148,7 +158,7 @@ function enableButtoms($form) {
 }
 
 function disableButtoms($form) {
-  $form.find('button').each((i, button) => {
+  $form.find('button').not('*[type="button"]').each((i, button) => {
     const $button = $(button);
     $button.attr('type', 'button')
     .addClass('disabled')
@@ -169,7 +179,11 @@ function serializeFormToJson($form) {
         indexedArray[n['name']] = n['value'];
       }
     } else {
-      indexedArray[n['name']] = [...indexedArray[n['name']], n['value']];
+      if (Array.isArray(indexedArray[n['name']])) {
+        indexedArray[n['name']].push(n['value']);
+      } else {
+        indexedArray[n['name']] = [indexedArray[n['name']], n['value']];
+      }
     }
   });
 
@@ -180,14 +194,4 @@ function convertDate(date) {
   return moment(date, 'L').format('YYYY-MM-DD');
 }
 
-function verifySamePassword($input1, $input2) {
-  if ($input1.val() === $input2.val()) {
-    $input2.next().next('.notSamePassword').hide(100);
-    return true;
-  }
-  $input2.next('.input-error').hide();
-  $input2.next().next('.notSamePassword').show(100);
-  return false;
-}
-
-export {verifySamePassword, checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation};
+export {checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation};
