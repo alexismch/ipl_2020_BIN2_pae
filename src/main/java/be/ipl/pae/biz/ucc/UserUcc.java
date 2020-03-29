@@ -49,4 +49,6 @@ public interface UserUcc {
    */
   List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException;
 
+
+  UserDto userConfirmation(String pseudo, char statut) throws FatalException;
 }
