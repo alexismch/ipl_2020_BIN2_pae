@@ -90,6 +90,8 @@ public class QuoteUccImpl implements QuoteUcc {
       quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
       quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
 
+      //TODO: SELECT FROM quote_types et non photos
+
       for (PhotoDto photo : quoteDto.getListPhotoBefore()) {
         DevelopmentTypeDto developmentTypeDto =
             developmentTypeDao.getDevelopmentType(photo.getIdType());
