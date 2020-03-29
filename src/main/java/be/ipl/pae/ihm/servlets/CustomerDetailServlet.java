@@ -25,7 +25,7 @@ public class CustomerDetailServlet extends AbstractServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+    if (!hasAccess(token, req.getRemoteAddr(), "c")) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }
