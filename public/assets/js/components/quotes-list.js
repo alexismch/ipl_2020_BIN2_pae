@@ -50,14 +50,17 @@ export class QuotesListPage extends Page {
 
   _createQuotesListItem($quotesList, quote) {
 
+    console.log(quote);
+
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
-  <p>Devis n°${quote.idQuote}</p>
-  <p>Client: ${quote.idCustomer}</p>
-  <p>Date du devis: ${quote.quoteDate}</p>
-  <p>Date de début des travaux: ${quote.startDate}</p>
-  <p>Durée des travaux: ${quote.workDuration}</p>
-  <p>Montant: ${quote.totalAmount}€</p>
-  <a class="btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>
+  <p class="quote-first-col">Devis n°${quote.idQuote}</p>
+  <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
+  <p class="quote-date">Date du devis: ${quote.quoteDate}</p>
+  <p class="quote-first-col">Date de début des travaux: ${quote.startDate == null ? 'Non determinée' : quote.startDate}</p>
+  <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
+  <p class="quote-amount">Montant: ${quote.totalAmount}€</p>
+  <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state}</span></p>
+  <a class="quote-details-btn btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>
 </li>`;
     $quotesList.append(quoteListItem);
   }
