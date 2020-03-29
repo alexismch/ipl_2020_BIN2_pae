@@ -9,7 +9,16 @@ import java.util.List;
 public interface UserDao {
 
   /**
-   * Return a userDto from the database.
+   * Update the status of the user.
+   *
+   * @param pseudo the pseudo of the user
+   * @return An object UserDto with the information from the db or return null
+   * @throws FatalException if you have an error with the db
+   */
+  UserDto userConfirmation(String pseudo, char statut) throws FatalException;
+
+  /**
+   * Return an userDto from the database.
    *
    * @param pseudo the pseudo of the user
    * @return An object UserDto with the information from the db or return null

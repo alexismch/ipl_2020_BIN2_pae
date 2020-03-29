@@ -110,4 +110,20 @@ public class UserUccImpl implements UserUcc {
 
   }
 
+
+  @Override
+  public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
+    UserDto user = null;
+    try {
+      dalService.startTransaction();
+      user = userDao.userConfirmation(pseudo, statut);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
+    }
+    return user;
+  }
+
 }
