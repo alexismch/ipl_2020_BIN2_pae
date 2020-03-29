@@ -241,10 +241,12 @@ public class Util {
         if (statusGiven.equals(UserStatus.CUSTOMER)) {
           return true;
         }
+        //fall through
       case WORKER:
         if (statusGiven.equals(UserStatus.WORKER)) {
           return true;
         }
+        //fall through
       default:
         return false;
     }
