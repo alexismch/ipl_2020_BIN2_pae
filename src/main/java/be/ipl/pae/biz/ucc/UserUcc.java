@@ -36,9 +36,9 @@ public interface UserUcc {
    *
    * @param id the id of the user that you need to get
    * @return null if you had an error or an object of type UserDto
-   * @throws BizException if an error occurred.
+   * @throws FatalException if an error occurred with the database.
    */
-  UserDto getUser(int id) throws BizException;
+  UserDto getUser(int id) throws FatalException;
 
   /**
    * Get all the users saved in the database.
