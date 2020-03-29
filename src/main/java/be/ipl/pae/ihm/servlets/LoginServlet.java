@@ -35,7 +35,7 @@ public class LoginServlet extends AbstractServlet {
 
     if (token != null) {
       int id = getUId(token, req.getRemoteAddr());
-      UserDto userDto = null;
+      UserDto userDto;
       try {
         userDto = ucc.getUser(id);
         sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
@@ -43,24 +43,29 @@ public class LoginServlet extends AbstractServlet {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       }
     } else {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide.");
     }
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/login by " + req.getRemoteAddr());
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (token != null) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Already connected.");
+      return;
+    }
+
     String pseudo = req.getParameter("pseudo");
     String passwd = req.getParameter("password");
-
-
 
     if (verifyNotEmpty(pseudo, passwd)) {
       try {
         UserDto userDto = ucc.login(pseudo, passwd);
 
         HttpSession session = req.getSession();
-        String token = createToken(req.getRemoteAddr(), userDto);
+        token = createToken(req.getRemoteAddr(), userDto);
         session.setAttribute("token", token);
         System.out.println("\tGenerated token : " + token);
 

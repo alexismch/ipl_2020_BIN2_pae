@@ -5,6 +5,7 @@ import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -28,7 +29,7 @@ public class CustomerServlet extends AbstractServlet {
     System.out.println("POST /api/customer by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }

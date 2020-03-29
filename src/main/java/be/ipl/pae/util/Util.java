@@ -211,53 +211,44 @@ public class Util {
    *
    * @param token        the session token
    * @param ip           the request ip
-   * @param accessNeeded the access code needed
+   * @param statusNeeded the status needed to access
    * @return true if access is autorized, false if not
    */
-  public static boolean hasAccess(String token, String ip, String accessNeeded) {
+  public static boolean hasAccess(String token, String ip, UserStatus statusNeeded) {
     System.out.println("\tUsed token : " + token);
     if (token == null) {
       return false;
     }
     try {
-      String status = getUStatus(token, ip);
-      if (!hasAccess(accessNeeded, status)) {
-        return false;
-      }
+      UserStatus status = UserStatus.getStatusByCode(getUStatus(token, ip));
+      System.out.println(status);
+
+      return hasAccess(statusNeeded, status);
     } catch (Exception ex) {
       return false;
     }
-    return true;
   }
 
   /**
-   * Verify if the accessGiven is higher or equals than accessNeeded.
+   * Verify if the accessGiven is higher or equals than statusNeeded.
    *
-   * @param accessNeeded the access code needed
-   * @param accesGiven   the access code given
-   * @return true if accessGiven is higher or equals than accessNeeded
+   * @param statusNeeded the status needed to access
+   * @param statusGiven  the status given
+   * @return true if accessGiven is higher or equals than statusNeeded
    */
-  public static boolean hasAccess(String accessNeeded, String accesGiven) {
-    switch (accesGiven) {
-      case "n":
-        if ("n".equals(accessNeeded) || "c".equals(accessNeeded) || "o".equals(accessNeeded)) {
+  public static boolean hasAccess(UserStatus statusNeeded, UserStatus statusGiven) {
+    switch (statusNeeded) {
+      case WORKER:
+        if (statusGiven.equals(UserStatus.WORKER)) {
           return true;
         }
-        break;
-      case "c":
-        if ("c".equals(accessNeeded) || "o".equals(accessNeeded)) {
+      case CUSTOMER:
+        if (statusGiven.equals(UserStatus.CUSTOMER)) {
           return true;
         }
-        break;
-      case "o":
-        if ("o".equals(accessNeeded)) {
-          return true;
-        }
-        break;
       default:
         return false;
     }
-    return false;
   }
 
   /**

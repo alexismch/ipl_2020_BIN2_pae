@@ -3,6 +3,7 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.hasAccess;
 
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -24,7 +25,7 @@ public class QuotesListServlet extends AbstractServlet {
     System.out.println("GET /api/quotes-list by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }

@@ -9,6 +9,7 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
@@ -42,7 +43,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }
@@ -142,7 +143,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }

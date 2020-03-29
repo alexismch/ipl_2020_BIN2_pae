@@ -4,6 +4,7 @@ import static be.ipl.pae.util.Util.hasAccess;
 
 import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
@@ -26,7 +27,7 @@ public class CustomersListServlet extends AbstractServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), "o")) {
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }

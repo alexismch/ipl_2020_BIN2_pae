@@ -35,6 +35,12 @@ public class RegisterServlet extends AbstractServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/register by " + req.getRemoteAddr());
 
+    String token = (String) req.getSession().getAttribute("token");
+    if (token != null) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Already connected.");
+      return;
+    }
+
     String pseudo = req.getParameter("pseudo");
     String pwd = req.getParameter("mdp");
     String lastName = req.getParameter("nom");
