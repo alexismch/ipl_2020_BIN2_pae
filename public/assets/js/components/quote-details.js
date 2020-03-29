@@ -1,8 +1,8 @@
 'use strict';
 
-import { router } from '../main.js';
-import { ajaxGET } from '../utils/ajax.js';
-import { Page } from './page.js';
+import {router} from '../main.js';
+import {ajaxGET} from '../utils/ajax.js';
+import {Page} from './page.js';
 
 /**
  * @module Components
@@ -15,17 +15,20 @@ import { Page } from './page.js';
  */
 export class QuoteDetailsPage extends Page {
 
-  _template = `<div class="container">
-  <p class="detail-quote"></p>
-  <div>Client:</div>
-  <p class="detail-quote-client"></p>
-  <div>Types d'aménagements:</div>
-  <ul class="detail-quote-development-types"></ul>
-  <div>Photo avant aménagements:</div>
-  <div class="detail-quote-photo-before"></div>
-  <div>Photo après aménagements:</div>
-  <div class="detail-quote-photo-after"></div>
-  </div>`;
+  _template = `<div>
+  <app-loadbar class="position-relative h-0"></app-loadbar>
+  <div class="container">
+    <p class="detail-quote"></p>
+    <h4>Client</h4>
+    <p class="detail-quote-client"></p>
+    <h4>Types d'aménagements</h4>
+    <ul class="detail-quote-development-types"></ul>
+    <h4>Photo avant aménagements</h4>
+    <div class="detail-quote-photo-before"></div>
+    <h4>Photo après aménagements</h4>
+    <div class="detail-quote-photo-after"></div>
+  </div>
+</div>`;
 
   /**
    *
@@ -36,6 +39,7 @@ export class QuoteDetailsPage extends Page {
     this._$view = $(this._template);
 
     ajaxGET(`/api/quote`, `quoteId=${quoteId}`, (data) => {
+      this._$view.find('app-loadbar').remove();
       this._createQuoteDetailsQuote(data.quote);
       this._createQuoteDetailsClient(data.quote.customer);
       this._createQuoteDetailsDevelopmentTypeList(data.quote.developmentTypesSet);
@@ -50,8 +54,8 @@ export class QuoteDetailsPage extends Page {
   _createQuoteDetailsQuote(quote) {
     const $quoteDetail = this._$view.find('.detail-quote');
     $quoteDetail.empty();
-        
-    const detail = `<div>id du Devis: ${quote.idQuote}</div>
+
+    const detail = `<h2>Devis: ${quote.idQuote}</h2>
                     <div>Date du devis= ${quote.quoteDate}</div>
                     <div>Montant: ${quote.totalAmount}</div>
                     <div>Date de début de devis: ${quote.startDate == null ? "Pas encore de date" : quote.startDate}</div>
@@ -101,7 +105,7 @@ export class QuoteDetailsPage extends Page {
   }
 
   _createPhotoListItem($quoteDetailPhoto, photo){
-    const detail = `<img src="${photo.base64}" alt="${photo.title}" class="img-thumbnail">`;
+    const detail = `<img src="${photo.base64}" alt="${photo.title}">`;
     $quoteDetailPhoto.append(detail);
   }
 

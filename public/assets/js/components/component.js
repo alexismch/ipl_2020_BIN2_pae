@@ -7,6 +7,7 @@
 /**
  * Class representing a component.
  * A component object holds a part of HTML and JavaScript
+ * It's not a real Web Component
  */
 export class Component {
 
