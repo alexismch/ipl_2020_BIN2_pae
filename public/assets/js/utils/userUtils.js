@@ -1,21 +1,27 @@
 'use strict';
 
-let user = null;
+let connectedUser = null;
 
 function getUser() {
-  return user;
+  return connectedUser;
 }
 
-function isOuvrier() {
+function isOuvrier(user) {
+  if (user === undefined) {
+    user = connectedUser;
+  }
   return user === null ? false : user.status.id === "WORKER";
 }
 
-function isClient() {
+function isClient(user) {
+  if (user === undefined) {
+    user = connectedUser;
+  }
   return user === null ? false : user.status.id === "CUSTOMER";
 }
 
 function changeMenuForUser(newUser) {
-  user = newUser;
+  connectedUser = newUser;
   if (isClient()) {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');
@@ -28,13 +34,13 @@ function changeMenuForUser(newUser) {
   }
 }
 
-function getUserStatusColor(currentUser) {
+function getUserStatusColor(user) {
 
-  if (currentUser === undefined) {
-    currentUser = user;
+  if (user === undefined) {
+    user = connectedUser;
   }
 
-  switch (currentUser.status.id) {
+  switch (user.status.id) {
     case 'WORKER':
       return 'info';
     case 'CUSTOMER':
