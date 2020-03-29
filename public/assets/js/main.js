@@ -17,6 +17,9 @@ import {UserDetailsPage} from './components/user-details.js';
 import {CustomersListPage} from './components/customers-list.js';
 import {CustomerDetailsPage} from './components/customer-details.js';
 import {CustomerFormPage} from './components/customer-form.js';
+import {LoadBarComponent} from './components/loadBar.js';
+
+customElements.define('app-loadbar', LoadBarComponent);
 
 let router;
 
