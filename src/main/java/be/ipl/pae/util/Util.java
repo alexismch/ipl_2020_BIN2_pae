@@ -238,12 +238,12 @@ public class Util {
    */
   public static boolean hasAccess(UserStatus statusNeeded, UserStatus statusGiven) {
     switch (statusNeeded) {
-      case WORKER:
-        if (statusGiven.equals(UserStatus.WORKER)) {
-          return true;
-        }
       case CUSTOMER:
         if (statusGiven.equals(UserStatus.CUSTOMER)) {
+          return true;
+        }
+      case WORKER:
+        if (statusGiven.equals(UserStatus.WORKER)) {
           return true;
         }
       default:
