@@ -10,7 +10,7 @@ import {Page} from './page.js';
  */
 
 /**
- * Component that hold a form to add a customer page
+ * Component that hold a form to add a customer
  *
  * @extends module:Components.Page
  */
@@ -48,8 +48,8 @@ export class CustomerFormPage extends Page {
         <label for="page-creerClient-email">Email<span class="text-danger">*</span></label>
         <input class="form-control" id="page-creerClient-email" name="email" required type="email"/>
         <small class="input-error form-text text-danger">Un email valide est requis.</small>
-	  </div>
-	   <div class="form-group">
+	    </div>
+	    <div class="form-group">
         <label for="page-creerClient-phoneNumber">Telephone<span class="text-danger">*</span></label>
         <input class="form-control" id="page-creerClient-phoneNumber" name="phoneNumber" required type="text"/>
         <small class="input-error form-text text-danger">Un phoneNumber valide est requis.</small>

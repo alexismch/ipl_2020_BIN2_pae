@@ -8,7 +8,8 @@ import {HomePage} from './components/home.js';
 import {ErrorPage} from './components/error.js';
 import {LoginPage} from './components/login.js';
 import {RegisterPage} from './components/register.js';
-import {DevelopmentTypePage} from './components/developmentTypes-list.js';
+import {DevelopmentTypesListPage} from './components/developmentTypes-list.js';
+import {DevelopmentTypeFormPage} from './components/developmentType-form.js';
 import {QuotesListPage} from './components/quotes-list.js';
 import {QuoteDetailPage} from './components/quote-detail.js';
 import {QuoteFormPage} from './components/quote-form.js';
@@ -75,7 +76,10 @@ function initRouter() {
     loadPage(new RegisterPage());
   }, routeNoUserChecker())
   .on('amenagements', () => {
-    loadPage(new DevelopmentTypePage());
+    loadPage(new DevelopmentTypesListPage());
+  })
+  .on('amenagements/ajouter', () => {
+    loadPage(new DevelopmentTypeFormPage());
   })
   .on('amenagements/:id', (params) => {
     // TODO
