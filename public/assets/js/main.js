@@ -10,12 +10,12 @@ import {LoginPage} from './components/login.js';
 import {RegisterPage} from './components/register.js';
 import {DevelopmentTypePage} from './components/developmentTypes-list.js';
 import {QuotesListPage} from './components/quotes-list.js';
-import {QuoteDetailsPage} from './components/quote-details.js';
+import {QuoteDetailPage} from './components/quote-detail.js';
 import {QuoteFormPage} from './components/quote-form.js';
 import {UsersListPage} from './components/users-list.js';
-import {UserDetailsPage} from './components/user-details.js';
+import {UserDetailPage} from './components/user-detail.js';
 import {CustomersListPage} from './components/customers-list.js';
-import {CustomerDetailsPage} from './components/customer-details.js';
+import {CustomerDetailPage} from './components/customer-detail.js';
 import {CustomerFormPage} from './components/customer-form.js';
 import {LoadBarComponent} from './components/loadBar.js';
 
@@ -92,13 +92,13 @@ function initRouter() {
     loadPage(new CustomerFormPage());
   }, routeOuvrierChecker())
   .on('clients/:id', (params) => {
-    loadPage(new CustomerDetailsPage(params.id));
+    loadPage(new CustomerDetailPage(params.id));
   }, routeOuvrierChecker())
   .on('utilisateurs', (params, query) => {
     loadPage(new UsersListPage(query));
   }, routeOuvrierChecker())
   .on('utilisateurs/:id', (params) => {
-    loadPage(new UserDetailsPage(params.id));
+    loadPage(new UserDetailPage(params.id));
   }, routeOuvrierChecker())
   .on('devis', (params, query) => {
     loadPage(new QuotesListPage(query));
@@ -107,7 +107,7 @@ function initRouter() {
     loadPage(new QuoteFormPage());
   }, routeOuvrierChecker())
   .on('devis/:id', (params) => {
-    loadPage(new QuoteDetailsPage(params.id));
+    loadPage(new QuoteDetailPage(params.id));
   }, routeOuvrierChecker())
   .on('*', () => {
     if (router.lastRouteResolved().url === origin) {

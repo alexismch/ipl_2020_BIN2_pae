@@ -1,19 +1,26 @@
-
 .amenagements-list {
-  display: grid;
-  grid-gap: .5em;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-auto-rows: 1fr
-}
 
-.amenagements-list .card {
-  height: 100%;
-}
+  & {
+    display: grid;
+    grid-gap: .5em;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 1fr
+  }
 
-.amenagements-list .card .card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  & .card {
+
+    & {
+      height: 100%;
+    }
+
+    & .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+  }
+
 }
 
 @mixin elements-list($elements-name) {
@@ -75,28 +82,31 @@
   }
 }
 
-.quotes-list-item .quote-first-col {
-  grid-column: 1/2;
-}
+.quotes-list-item {
 
-.quotes-list-item .quote-date {
-  grid-column: 2/3;
-  grid-row: 1/2;
-}
+  & .quote-first-col {
+    grid-column: 1/2;
+  }
 
-.quotes-list-item .quote-amount {
-  grid-column: 2/3;
-  grid-row: 3/4;
-}
+  & .quote-date {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
 
-.quotes-list-item .quote-state {
-  grid-column: 3/4;
-  grid-row: 1/2;
-  justify-self: end;
-}
+  & .quote-amount {
+    grid-column: 2/3;
+    grid-row: 3/4;
+  }
 
-.quotes-list-item .quote-details-btn {
-  grid-column: 3/4;
-  grid-row: 2/5;
-  align-self: end;
+  & .quote-state {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    justify-self: end;
+  }
+
+  & .quote-details-btn {
+    grid-column: 3/4;
+    grid-row: 2/5;
+    align-self: end;
+  }
 }

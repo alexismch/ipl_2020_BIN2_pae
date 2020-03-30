@@ -4,7 +4,6 @@ import {Page} from './page.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {router} from '../main.js';
 
-
 /**
  * @module Components
  */
@@ -14,10 +13,10 @@ import {router} from '../main.js';
  *
  * @extends module:Components.Page
  */
-export class CustomerDetailsPage extends Page {
+export class CustomerDetailPage extends Page {
 
   _template = `<div>
-  <p>CustomerDetailsPage works</p>
+  <p>CustomerDetailPage works</p>
   <p class="customer-details-search-msg d-none m-0 p-2 alert alert-primary"></p>
   <ul class="customer-details m-2 p-0"></ul>
   </div>`;
@@ -32,12 +31,12 @@ export class CustomerDetailsPage extends Page {
 
     ajaxGET('/api/customer-details', `idCustomer=${customerId}`, (data) => {
 
-      this._createCustomerDetails(data.customerDetails);
+      this._createCustomerDetail(data.customerDetails);
       router.updatePageLinks();
     });
   }
 
-  _createCustomerDetails(customerDetails){
+  _createCustomerDetail(customerDetails) {
     const $customerDetails = this._$view.find('.customer-details');
     $customerDetails.empty();
     for (const quote of customerDetails) {

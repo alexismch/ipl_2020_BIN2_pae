@@ -13,7 +13,7 @@ import {Page} from './page.js';
  *
  * @extends module:Components.Page
  */
-export class QuoteDetailsPage extends Page {
+export class QuoteDetailPage extends Page {
 
   _template = `<div>
   <app-loadbar class="position-relative h-0"></app-loadbar>
@@ -40,9 +40,9 @@ export class QuoteDetailsPage extends Page {
 
     ajaxGET(`/api/quote`, `quoteId=${quoteId}`, (data) => {
       this._$view.find('app-loadbar').remove();
-      this._createQuoteDetailsQuote(data.quote);
-      this._createQuoteDetailsClient(data.quote.customer);
-      this._createQuoteDetailsDevelopmentTypeList(data.quote.developmentTypesSet);
+      this._createQuoteDetailQuote(data.quote);
+      this._createQuoteDetailClient(data.quote.customer);
+      this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypesSet);
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
       router.updatePageLinks();
@@ -50,8 +50,7 @@ export class QuoteDetailsPage extends Page {
 
   }
 
-
-  _createQuoteDetailsQuote(quote) {
+  _createQuoteDetailQuote(quote) {
     const $quoteDetail = this._$view.find('.detail-quote');
     $quoteDetail.empty();
 
@@ -63,7 +62,7 @@ export class QuoteDetailsPage extends Page {
     $quoteDetail.append(detail);
   }
 
-  _createQuoteDetailsClient(customer){
+  _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
     $quoteDetailClient.empty();
 
@@ -78,7 +77,7 @@ export class QuoteDetailsPage extends Page {
   $quoteDetailClient.append(detail);
   }
 
-  _createQuoteDetailsDevelopmentTypeList(typeList){
+  _createQuoteDetailDevelopmentTypeList(typeList) {
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
     $quoteDetailType.empty();
 
