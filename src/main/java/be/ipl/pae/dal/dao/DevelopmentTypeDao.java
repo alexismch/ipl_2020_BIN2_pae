@@ -23,4 +23,13 @@ public interface DevelopmentTypeDao {
    * @throws FatalException if an error occurred with the db.
    */
   DevelopmentTypeDto getDevelopmentType(int typeId) throws FatalException;
+
+  /**
+   * Insert a new development type into the database.
+   *
+   * @param developmentType the development type to insert
+   * @return a DevelopmentTypeDto object that represents the development type
+   * @throws FatalException if an error occurred with the db.
+   */
+  DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws FatalException;
 }

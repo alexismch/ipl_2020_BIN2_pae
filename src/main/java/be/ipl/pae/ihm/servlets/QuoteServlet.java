@@ -160,8 +160,5 @@ public class QuoteServlet extends AbstractServlet {
     } catch (BizException be) {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, be.getMessage());
     }
-
   }
-
-
 }

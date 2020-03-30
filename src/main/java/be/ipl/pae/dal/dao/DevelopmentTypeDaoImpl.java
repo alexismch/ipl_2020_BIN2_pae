@@ -59,4 +59,24 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
       throw new FatalException("error with the db");
     }
   }
+
+  @Override
+  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws FatalException {
+    PreparedStatement ps = dalService
+        .getPreparedStatement(
+            "INSERT INTO mystherbe.development_types (title) VALUES (?) returning id_type");
+
+    try {
+      ps.setString(1, developmentType.getTitle());
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        developmentType.setIdType(rs.getInt(1));
+        return developmentType;
+      } else {
+        throw new FatalException("error with the db");
+      }
+    } catch (SQLException e) {
+      throw new FatalException("error with the db");
+    }
+  }
 }

@@ -1,8 +1,15 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.hasAccess;
+import static be.ipl.pae.util.Util.verifyNotEmpty;
+
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
+import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
@@ -17,20 +24,39 @@ public class DevelopmentTypeServlet extends AbstractServlet {
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
 
+  @Injected
+  DtoFactory dtoFactory;
+
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    System.out.println("POST /api/developmentType by " + req.getRemoteAddr());
 
-    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
-
-    try {
-      sendSuccessWithJson(resp, "developmentTypesList",
-          gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));
-    } catch (BizException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      return;
     }
 
+    String typeTitle = req.getParameter("typeTitle");
+
+    if (verifyNotEmpty(typeTitle)) {
+      DevelopmentTypeDto developmentType = dtoFactory.getDevelopmentType();
+      developmentType.setTitle(typeTitle);
+
+      try {
+        developmentType = developmentTypeUcc.insert(developmentType);
+
+        GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+
+        sendSuccessWithJson(resp, "developmentType",
+            gensonBuilder.create().serialize(developmentType));
+      } catch (BizException bizE) {
+        sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
+      } catch (FatalException fatalE) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
   }
-
-
 }

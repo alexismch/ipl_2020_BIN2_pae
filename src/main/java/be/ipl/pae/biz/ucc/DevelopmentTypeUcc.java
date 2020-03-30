@@ -26,4 +26,13 @@ public interface DevelopmentTypeUcc {
    */
   DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException;
 
+  /**
+   * Insert a new development type into the database.
+   *
+   * @param developmentType the development type to insert
+   * @return a DevelopmentTypeDto object that represents the development type
+   * @throws BizException   if an error occurred with the db
+   * @throws FatalException if an error occurred with transaction
+   */
+  DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws BizException, FatalException;
 }

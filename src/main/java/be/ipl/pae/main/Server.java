@@ -5,6 +5,7 @@ import be.ipl.pae.ihm.servlets.ConfirmationStatutServlet;
 import be.ipl.pae.ihm.servlets.CustomerDetailsServlet;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.CustomersListServlet;
+import be.ipl.pae.ihm.servlets.DevelopmentTypeListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.ErrorHandler;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
@@ -48,6 +49,9 @@ public class Server {
 
   @Injected
   private DevelopmentTypeServlet developmentTypeServlet;
+
+  @Injected
+  private DevelopmentTypeListServlet developmentTypeListServlet;
 
   @Injected
   private CustomerServlet customerServlet;
@@ -103,7 +107,9 @@ public class Server {
     backendContext.addServlet(new ServletHolder(registerServlet), "/register");
     backendContext.addServlet(new ServletHolder(quoteServlet), "/quote");
     backendContext.addServlet(new ServletHolder(quotesListServlet), "/quotes-list");
-    backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType-list");
+    backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType");
+    backendContext
+        .addServlet(new ServletHolder(developmentTypeListServlet), "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");

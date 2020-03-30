@@ -57,4 +57,22 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     }
     return null;
   }
+
+  @Override
+  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType)
+      throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      try {
+        return developmentTypeDao.insert(developmentType);
+      } catch (FatalException ex) {
+        throw new BizException(ex);
+      }
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+    return null;
+  }
 }

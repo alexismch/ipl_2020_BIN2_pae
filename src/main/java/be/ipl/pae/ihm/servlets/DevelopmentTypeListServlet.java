@@ -1,6 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
-import be.ipl.pae.biz.ucc.QuoteUcc;
+import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.util.Util;
@@ -12,25 +12,19 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CustomerDetailsServlet extends AbstractServlet {
+public class DevelopmentTypeListServlet extends AbstractServlet {
 
   @Injected
-  private QuoteUcc quoteUcc;
+  private DevelopmentTypeUcc developmentTypeUcc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-    int id = 0;
-    String idString = req.getParameter("idCustomer");
-    if (idString != null) {
-      id = Integer.parseInt(idString);
-    }
+    System.out.println("GET /api/developmentType-list by " + req.getRemoteAddr());
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
-    System.out.println("Id recupere : " + id);
     try {
-      sendSuccessWithJson(resp, "customerDetails",
-          gensonBuilder.create().serialize(quoteUcc.getCustomerQuotes(id)));
+      sendSuccessWithJson(resp, "developmentTypesList",
+          gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));
     } catch (BizException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
