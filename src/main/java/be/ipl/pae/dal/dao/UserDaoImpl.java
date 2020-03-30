@@ -226,14 +226,16 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
     UserDto user = getUserByPseudo(pseudo);
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "UPDATE mystherbe.users\r\n" + "    SET status=?\r\n" + "    WHERE pseudo = ?;");
+    PreparedStatement ps =
+        dalService.getPreparedStatement("UPDATE mystherbe.users SET status=? WHERE pseudo = ?");
     try {
-      ps.setString(1, pseudo);
-      ps.setString(2, String.valueOf(statut));
+
+      ps.setString(1, String.valueOf(statut));
+      ps.setString(2, pseudo);
 
       ps.executeUpdate();
     } catch (SQLException ex) {
+      ex.printStackTrace();
       throw new FatalException("error with the db!");
     }
     return user;

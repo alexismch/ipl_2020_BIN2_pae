@@ -1,9 +1,11 @@
 'use strict';
 
+import {router} from '../main.js';
 import {Page} from './page.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {getUserStatusColor, isClient, isOuvrier} from '../utils/userUtils.js'
 import {clearAlerts, createAlert} from '../utils/alerts.js';
+import {onSubmitWithAjax} from '../utils/forms.js';
 
 /**
  * @module Components
@@ -39,6 +41,8 @@ export class UserDetailPage extends Page {
       createAlert('danger', error.responseJSON.error);
     });
 
+
+
   }
 
   _createUserDetail(user) {
@@ -66,7 +70,14 @@ export class UserDetailPage extends Page {
 
     } else if (!isOuvrier(user)) {
 
-      const acceptationForm = `<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
+      const acceptationForm = `<p>FORM</p>`;
+
+      container.append(acceptationForm);
+
+    }
+       if(user.status.name == "Non-accepté"){
+      
+       const confirmerInscription = ` <form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
        Cet utilisateur n'est pas encore confirmé!
        Veuillez selectionner son statut.
        <select class="selectpicker" data-style="btn-primary"  name="statusChoice" id="statusChoice">
@@ -74,10 +85,21 @@ export class UserDetailPage extends Page {
     <option value="Ouvrier">Ouvrier</option> 
     </select>
         <input name="pseudo" type="hidden" value="${user.pseudo}">
-       <a> <input type="submit" value="confirmer Inscription"></a>
-       </form>`;
+           <button class="btn btn-primary" id="btntest" type="submit">modifier le statut</button>
 
-      container.append(acceptationForm);
+       </form>`;
+       container.append(confirmerInscription); 
+        
+            onSubmitWithAjax(this._$view.find('form'), () => {
+              
+      router.navigate('utilisateurs');
+      clearAlerts();
+      createAlert('success', 'Le compte de l utilisateur '+ user.pseudo + 'a bien été modifié');
+    }, (error) => {
+      clearAlerts();
+      createAlert('danger', error.responseJSON.error);
+    });
+
 
     }
 
