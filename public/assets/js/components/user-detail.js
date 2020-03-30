@@ -71,6 +71,20 @@ export class UserDetailPage extends Page {
       container.append(acceptationForm);
 
     }
+       if(user.status.name == "Non-accepté"){
+      
+       const confirmerInscription = ` <form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
+       Cet utilisateur n'est pas encore confirmé!
+       Veuillez selectionner son statut.
+       <select class="selectpicker" data-style="btn-primary"  name="statusChoice" id="statusChoice">
+    <option value="Client">Client</option> 
+    <option value="Ouvrier">Ouvrier</option> 
+    </select>
+        <input name="pseudo" type="hidden" value="${user.pseudo}">
+       <a> <input type="submit" value="confirmer Inscription"></a>
+       </form>`;
+       container.append(confirmerInscription);
+    }
 
   }
 

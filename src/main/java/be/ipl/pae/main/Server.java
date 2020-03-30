@@ -1,6 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.ihm.servlets.ConfirmationStatutServlet;
 import be.ipl.pae.ihm.servlets.CustomerDetailsServlet;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.CustomersListServlet;
@@ -60,6 +61,9 @@ public class Server {
   @Injected
   private CustomerDetailsServlet customerDetailsServlet;
 
+  @Injected
+  private ConfirmationStatutServlet confirmationStatutServlet;
+
   /**
    * Start the server.
    *
@@ -104,6 +108,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
     backendContext.addServlet(new ServletHolder(customerDetailsServlet), "/customer-details");
+    backendContext.addServlet(new ServletHolder(confirmationStatutServlet), "/confirmationStatut");
     return backendContext;
   }
 }
