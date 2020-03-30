@@ -75,7 +75,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
       } else {
         throw new FatalException("error with the db");
       }
-    } catch (SQLException e) {
+    } catch (SQLException ex) {
       throw new FatalException("error with the db");
     }
   }
