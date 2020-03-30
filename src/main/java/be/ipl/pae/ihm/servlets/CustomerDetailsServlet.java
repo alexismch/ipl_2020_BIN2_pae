@@ -33,7 +33,7 @@ public class CustomerDetailsServlet extends AbstractServlet {
     }
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
-
+    System.out.println("Id recupere : " + id);
     try {
       sendSuccessWithJson(resp, "customerDetails",
           gensonBuilder.create().serialize(quoteUcc.getCustomerQuotes(id)));
