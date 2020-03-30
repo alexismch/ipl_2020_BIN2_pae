@@ -70,7 +70,7 @@ export class UserDetailPage extends Page {
 
     } else if (!isOuvrier(user)) {
 
-      const acceptationForm = `<p>FORM</p>`;
+      const acceptationForm = `<p></p>`;
 
       container.append(acceptationForm);
 
@@ -78,9 +78,9 @@ export class UserDetailPage extends Page {
        if(user.status.name == "Non-accepté"){
       
        const confirmerInscription = ` <form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
-       Cet utilisateur n'est pas encore confirmé!
-       Veuillez selectionner son statut.
-       <select class="selectpicker" data-style="btn-primary"  name="statusChoice" id="statusChoice">
+       <p class="text-danger h6">Cet utilisateur n'est pas encore confirmé!</p>
+       <p>Veuillez selectionner son statut.</p>
+       <select class="custom-select" data-style="btn-primary"  name="statusChoice" id="statusChoice">
     <option value="Client">Client</option> 
     <option value="Ouvrier">Ouvrier</option> 
     </select>
@@ -94,7 +94,7 @@ export class UserDetailPage extends Page {
               
       router.navigate('utilisateurs');
       clearAlerts();
-      createAlert('success', 'Le compte de l utilisateur '+ user.pseudo + 'a bien été modifié');
+      createAlert('success', 'Le compte de l utilisateur '+ user.pseudo + 'a bien été modifié.');
     }, (error) => {
       clearAlerts();
       createAlert('danger', error.responseJSON.error);
