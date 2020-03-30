@@ -54,6 +54,13 @@
   }
 }
 
+.customer-detail {
+  @include elements-list('quotes');
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 2fr) 1fr;
+  }
+}
+
 .customers-list {
   @include elements-list('customers');
   @media (min-width: 768px) {
