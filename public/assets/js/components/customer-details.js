@@ -23,6 +23,15 @@ export class CustomerDetailsPage extends Page {
 
     this._$view = $(this._template);
 
+    ajaxGET('/api/customers-list', customerId, (data) => {
+
+      this._createCustomerDetail(data.customerDetail);
+      router.updatePageLinks();
+    });
+  }
+
+  _createCustomerDetail(customerDetail){
+
   }
 
 }

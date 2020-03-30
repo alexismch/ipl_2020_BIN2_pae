@@ -14,7 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CustomerDetailServlet extends AbstractServlet {
+public class CustomerDetailsServlet extends AbstractServlet {
 
   @Injected
   private DtoFactory dtoFactory;
@@ -31,11 +31,11 @@ public class CustomerDetailServlet extends AbstractServlet {
     if (idString != null) {
       id = Integer.valueOf(idString);
     }
-    System.out.println("ici");
+
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
 
     try {
-      sendSuccessWithJson(resp, "customerDetail",
+      sendSuccessWithJson(resp, "customerDetails",
           gensonBuilder.create().serialize(quoteUcc.getCustomerQuotes(id)));
     } catch (BizException ex) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
