@@ -45,7 +45,8 @@ public class QuoteDaoImpl implements QuoteDao {
   @Override
   public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
     String query =
-        "Select id_quote, id_customer, quote_date,total_amount::decimal, work_duration, id_state, start_date"
+        "Select id_quote, id_customer, quote_date, "
+            + "total_amount::decimal, work_duration, id_state, start_date"
             + " FROM mystherbe.quotes WHERE id_customer =?";
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
