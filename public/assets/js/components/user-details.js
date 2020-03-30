@@ -14,7 +14,7 @@ import {clearAlerts, createAlert} from '../utils/alerts.js';
  *
  * @extends module:Components.Page
  */
-export class UserDetailPage extends Page {
+export class UserDetailsPage extends Page {
 
   _template = `<div>
   <app-loadbar class="position-relative h-0"></app-loadbar>
