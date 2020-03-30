@@ -1,5 +1,6 @@
 package be.ipl.pae.dal.dao;
 
+import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
@@ -22,6 +23,8 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   DtoFactory quoteDtoFactory;
 
+  @Injected
+  CustomerDao customerDao;
 
   @Override
   public List<QuoteDto> getAllQuote() throws FatalException {
@@ -44,10 +47,9 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
-    String query =
-        "Select id_quote, id_customer, quote_date, "
-            + "total_amount::decimal, work_duration, id_state, start_date"
-            + " FROM mystherbe.quotes WHERE id_customer =?";
+    String query = "Select id_quote, id_customer, quote_date, "
+        + "total_amount::decimal, work_duration, id_state, start_date"
+        + " FROM mystherbe.quotes WHERE id_customer =?";
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
 
@@ -93,12 +95,17 @@ public class QuoteDaoImpl implements QuoteDao {
       quote.setIdQuote(res.getString(1));
       quote.setIdCustomer(res.getInt(2));
       quote.setQuoteDate(res.getDate(3).toLocalDate());
-      // quote.setQuoteDate((res.getDate().toLocalDate()));
+
       quote.setTotalAmount(res.getBigDecimal(4));
       quote.setWorkDuration(res.getInt(5));
-      // if (res.getDate(7).toLocalDate() != null)
-      // quote.setStartDate(res.getDate(7).toLocalDate());
-      // quote.setState(res.getString(7));
+      Date startDate = res.getDate(7);
+      if (startDate != null) {
+        quote.setStartDate(startDate.toLocalDate());
+      }
+      quote.setState(getStateById(res.getInt(6)));
+
+      CustomerDto customer = customerDao.getCustomer(res.getInt(2));
+      quote.setCustomer(customer);
     } catch (SQLException ex) {
       ex.printStackTrace();
       throw new FatalException(ex);
