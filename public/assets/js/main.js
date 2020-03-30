@@ -13,7 +13,7 @@ import {QuotesListPage} from './components/quotes-list.js';
 import {QuoteDetailsPage} from './components/quote-details.js';
 import {QuoteFormPage} from './components/quote-form.js';
 import {UsersListPage} from './components/users-list.js';
-import {UserDetailsPage} from './components/user-details.js';
+import {UserDetailPage} from './components/user-detail.js';
 import {CustomersListPage} from './components/customers-list.js';
 import {CustomerDetailsPage} from './components/customer-details.js';
 import {CustomerFormPage} from './components/customer-form.js';
@@ -98,7 +98,7 @@ function initRouter() {
     loadPage(new UsersListPage(query));
   }, routeOuvrierChecker())
   .on('utilisateurs/:id', (params) => {
-    loadPage(new UserDetailsPage(params.id));
+    loadPage(new UserDetailPage(params.id));
   }, routeOuvrierChecker())
   .on('devis', (params, query) => {
     loadPage(new QuotesListPage(query));

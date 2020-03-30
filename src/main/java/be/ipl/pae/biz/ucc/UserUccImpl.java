@@ -79,21 +79,16 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto getUser(int id) throws BizException {
+  public UserDto getUser(int id) throws FatalException {
     try {
-      try {
-        dalService.startTransaction();
-        return userDao.getUser(id);
-      } catch (FatalException ex) {
-        dalService.rollbackTransaction();
-        throw new BizException(ex);
-      } finally {
-        dalService.commitTransaction();
-      }
+      dalService.startTransaction();
+      return userDao.getUser(id);
     } catch (FatalException ex) {
-      throw new BizException(ex);
+      dalService.rollbackTransaction();
+      throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-
   }
 
   @Override
@@ -113,7 +108,7 @@ public class UserUccImpl implements UserUcc {
 
   @Override
   public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
-    UserDto user = null;
+    UserDto user;
     try {
       dalService.startTransaction();
       user = userDao.userConfirmation(pseudo, statut);
