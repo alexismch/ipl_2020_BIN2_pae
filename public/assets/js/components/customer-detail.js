@@ -17,8 +17,7 @@ export class CustomerDetailPage extends Page {
 
   _template = `<div>
   <p>CustomerDetailPage works</p>
-  <p class="customer-details-search-msg d-none m-0 p-2 alert alert-primary"></p>
-  <ul class="customer-details m-2 p-0"></ul>
+  <ul class="quotes-list m-2 p-0"></ul>
   </div>`;
 
   /**
@@ -37,7 +36,7 @@ export class CustomerDetailPage extends Page {
   }
 
   _createCustomerDetail(customerDetails) {
-    const $customerDetails = this._$view.find('.customer-details');
+    const $customerDetails = this._$view.find('.quotes-list');
     $customerDetails.empty();
     for (const quote of customerDetails) {
       this._createCustomerDetailsItem($customerDetails, quote);
@@ -46,14 +45,16 @@ export class CustomerDetailPage extends Page {
 
   _createCustomerDetailsItem($customerDetails, quote) {
 
-    const customerDetailsItem = `<li class="customers-details-item shadow border border-left-primary rounded mb-2">
-        <p>${quote.quoteDate}</p>
-        <p>${quote.totalAmount}</p>
-        <p>${quote.workDuration}</p>
-        <p>${quote.state.title}</p>
-        <p>${quote.startDate}</p>
-        <a class="btn btn-primary w-min" data-navigo href="quotes/${quote.idQuote}">Détails</a>
-      </li>`;
+    const customerDetailsItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
+  <p class="quote-first-col">Devis n°${quote.idQuote}</p>
+  <p class="quote-date">Date du devis: ${quote.quoteDate}</p>
+  <p class="quote-first-col">Date de début des travaux: ${quote.startDate == null ? 'Non determinée' : quote.startDate}</p>
+  <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
+  <p class="quote-amount">Montant: ${quote.totalAmount}€</p>
+  <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
+  <a class="quote-details-btn btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>
+</li>`;
+
     $customerDetails.append(customerDetailsItem);
   }
 

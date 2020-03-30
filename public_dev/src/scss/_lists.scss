@@ -61,13 +61,6 @@
   }
 }
 
-.customer-detail {
-  @include elements-list('quotes');
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(4, 2fr) 1fr;
-  }
-}
-
 .customers-list {
   @include elements-list('customers');
   @media (min-width: 768px) {
@@ -95,7 +88,7 @@
 
   & .quote-amount {
     grid-column: 2/3;
-    grid-row: 3/4;
+    grid-row: 2/3;
   }
 
   & .quote-state {

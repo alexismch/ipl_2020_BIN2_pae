@@ -59,7 +59,7 @@ export class QuotesListPage extends Page {
   <p class="quote-first-col">Date de début des travaux: ${quote.startDate == null ? 'Non determinée' : quote.startDate}</p>
   <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
   <p class="quote-amount">Montant: ${quote.totalAmount}€</p>
-  <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state}</span></p>
+  <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
   <a class="quote-details-btn btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>
 </li>`;
     $quotesList.append(quoteListItem);
