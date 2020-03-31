@@ -226,6 +226,7 @@ public class QuoteDaoImpl implements QuoteDao {
     try {
       ps.setDate(1, Date.valueOf(quote.getStartDate()));
       ps.setString(2, quote.getIdQuote());
+      ps.executeUpdate();
     } catch (SQLException ex) {
       ex.printStackTrace();
       throw new FatalException("error with the db!");
