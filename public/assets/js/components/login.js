@@ -1,7 +1,6 @@
 'use strict';
 
 import {router} from '../main.js';
-import {clearAlerts, createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {changeMenuForUser} from '../utils/userUtils.js';
 import {Page} from './page.js';
@@ -46,9 +45,6 @@ export class LoginPage extends Page {
     onSubmitWithAjax(this._$view.find('form'), (data) => {
       changeMenuForUser(data.user);
       router.navigate('');
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error);
     });
   }
 

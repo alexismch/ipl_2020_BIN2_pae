@@ -4,7 +4,7 @@ import {router} from '../main.js';
 import {Page} from './page.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {getUserStatusColor, isClient, isOuvrier} from '../utils/userUtils.js'
-import {clearAlerts, createAlert} from '../utils/alerts.js';
+import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 
 /**
@@ -36,9 +36,6 @@ export class UserDetailPage extends Page {
       this._$view.find('app-loadbar').remove();
       this._createUserDetail(data.userDetail);
 
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error);
     });
 
   }
@@ -83,12 +80,8 @@ export class UserDetailPage extends Page {
 
       onSubmitWithAjax(acceptationForm, () => {
         router.navigate('utilisateurs');
-        clearAlerts();
         createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
-      }, (error) => {
-        clearAlerts();
-        createAlert('danger', error.responseJSON.error);
-      });
+      },);
 
       container.append(acceptationForm);
 

@@ -43,7 +43,9 @@ public class ErrorHandler extends ErrorPageErrorHandler {
     try {
 
       writer.write('{');
-      writer.write("\"success\":false,\"error\":\"" + serializeForJson(message) + "\"");
+      writer.write(
+          "\"success\":false,\"code\":" + code + ",\"error\":\"" + serializeForJson(message)
+              + "\"");
 
       if (showStacks) {
         Throwable th = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
