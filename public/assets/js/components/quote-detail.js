@@ -65,6 +65,10 @@ export class QuoteDetailPage extends Page {
 
   }
 
+  /**
+   * Change the viewu of the current page
+   * @param {*} data 
+   */
   _changeView(data) {
     this._createQuoteDetailQuote(data.quote);
     this._createQuoteDetailClient(data.quote.customer);
@@ -73,6 +77,12 @@ export class QuoteDetailPage extends Page {
     this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
   }
 
+  /**
+   * set the startdate in the db and change the state of the quote to CONFIRMED_DATE
+   * @param {*} $button 
+   * @param {*} quoteId 
+   * @param {*} stateId 
+   */
   onClickDate($button, quoteId, stateId) {
 
     const $datePicker = $button.find('#page-add-devis-datetimepicker');
@@ -112,6 +122,12 @@ export class QuoteDetailPage extends Page {
   };
 
 
+  /**
+   * change the state of the quote to PLACED_ORDERED
+   * @param {*} $button 
+   * @param {*} quoteId 
+   * @param {*} stateId 
+   */
   onClickConfirm($button, quoteId, stateId) {
     $("#confirmDate").on('click', () => {
       $("#confirmDate").off();
@@ -144,6 +160,10 @@ export class QuoteDetailPage extends Page {
 
 
 
+  /**
+   * set the detail of the quote in the current page
+   * @param {*} quote 
+   */
   _createQuoteDetailQuote(quote) {
     const $quoteDetail = this._$view.find('.detail-quote');
     $quoteDetail.empty();
@@ -159,6 +179,10 @@ export class QuoteDetailPage extends Page {
     $quoteDetail.append(detail);
   }
 
+  /**
+   * set the detail of the customer in the current page
+   * @param {*} customer 
+   */
   _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
 
@@ -175,9 +199,12 @@ export class QuoteDetailPage extends Page {
                     <div class="ml-3">Numéro de téléphone: ${customer.phoneNumber}</div>`;
 
     $quoteDetailClient.append(detail);
-
   }
 
+  /**
+   * give all the development type in the current page
+   * @param {*} typeList 
+   */
   _createQuoteDetailDevelopmentTypeList(typeList) {
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
     this._$view.find('.types').append(`<h4>Types d'aménagements</h4>`);
@@ -194,6 +221,10 @@ export class QuoteDetailPage extends Page {
     $quoteDetailType.append(detail);
   }
 
+  /**
+   * give all the photos of the quote before development
+   * @param {*} typeList 
+   */
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
     this._$view.find('.before').append(`<h4 class="before">Photos avant aménagements</h4>`);
@@ -213,6 +244,10 @@ export class QuoteDetailPage extends Page {
     $quoteDetailPhoto.append(detail);
   }
 
+  /**
+   * give all the photos of the quote after development
+   * @param {*} typeList 
+   */
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
     this._$view.find('.after').append(`<h4 class="before">Photos après aménagements</h4>`);
