@@ -231,7 +231,6 @@ public class QuoteDaoImpl implements QuoteDao {
       ex.printStackTrace();
       throw new FatalException("error with the db!");
     }
-
   }
 
 }

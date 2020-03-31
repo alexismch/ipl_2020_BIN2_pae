@@ -67,7 +67,7 @@ export class QuoteDetailPage extends Page {
 
 
   onClickDate($button, quoteId) {
-    $("#confirmDate").click(function (e) {
+    $("#confirmDate").click(() =>{
       $button.empty();
       const _templateToAdd = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
     <div class="form-group">
@@ -115,12 +115,12 @@ export class QuoteDetailPage extends Page {
         $datePicker.datetimepicker('hide');
       });
 
-      const here = this._$view;
+      
       onSubmitWithAjax($button.find('form'), (data) => {
-        $button.empty();
-        console.log(this._$view);
-        const $startDate = here.find(".startDate");
+        $button.remove();
+        const $startDate = this._$view.find(".startDate");
         $startDate.empty();
+        console.log(data.quote.startDate);
         $startDate.append(`<div>Date de début de devis: ${data.quote.startDate}</div>`);
         createAlert('success', 'La date a bien été introduite!');
       }, () => {
@@ -167,7 +167,7 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailDevelopmentTypeList(typeList) {
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
-    this._$view.find('types').append(`<h4>Types d'aménagements</h4>`);
+    this._$view.find('.types').append(`<h4>Types d'aménagements</h4>`);
     $quoteDetailType.empty();
 
     typeList.forEach(type => {
@@ -183,7 +183,7 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
-    this._$view.find('.before').append(`<h4 class="before">Photo avant aménagements</h4>`);
+    this._$view.find('.before').append(`<h4 class="before">Photos avant aménagements</h4>`);
 
     $quoteDetailPhoto.empty();
     if (photoList.length == 0) {
@@ -202,7 +202,7 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
-    this._$view.find('.after').append(`<h4 class="before">Photo avant aménagements</h4>`);
+    this._$view.find('.after').append(`<h4 class="before">Photos après aménagements</h4>`);
     $quoteDetailPhoto.empty();
 
     if (photoList.length == 0) {
