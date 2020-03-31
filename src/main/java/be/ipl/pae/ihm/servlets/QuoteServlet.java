@@ -127,13 +127,13 @@ public class QuoteServlet extends AbstractServlet {
   /**
    * Insert photos into the quote.
    *
-   * @param quoteDto     the quote
-   * @param photos       photos to insert
+   * @param quoteDto the quote
+   * @param photos photos to insert
    * @param photosTitles titles of photos
-   * @param photosTypes  types of photos
+   * @param photosTypes types of photos
    */
-  private void insertPhotos(QuoteDto quoteDto, String[] photos,
-      String[] photosTitles, Object[] photosTypes) {
+  private void insertPhotos(QuoteDto quoteDto, String[] photos, String[] photosTitles,
+      Object[] photosTypes) {
     for (int i = 0; i < photos.length; i++) {
       PhotoDto photoDto = dtoFactory.getPhoto();
 
@@ -172,22 +172,56 @@ public class QuoteServlet extends AbstractServlet {
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("PUT /api/quote by " + req.getRemoteAddr());
+    String stateId = req.getParameter("stateId");
 
+    switch (QuoteState.valueOf(stateId)) {
+      case QUOTE_ENTERED:
+        confirmQuote(req, resp);
+        break;
+      case PLACED_ORDERED:
+        setStartDate(req, resp);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+
+
+  private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String quoteId = req.getParameter("quoteId");
+
+    if (verifyNotEmpty(quoteId)) {
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.confirmQuote(quoteId)));
+      } catch (FatalException ex) {
+        ex.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException ex) {
+        ex.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      }
+
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+  }
+
+  private void setStartDate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String dateString = req.getParameter("date");
     String quoteId = req.getParameter("quoteId");
     if (verifyNotEmpty(dateString, quoteId)) {
       LocalDate date = Date.valueOf(dateString).toLocalDate();
 
-      QuoteDto quoteToModify = dtoFactory.getQuote();
-      quoteToModify.setIdQuote(quoteId);
-      quoteToModify.setStartDate(date);
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+      quote.setStartDate(date);
 
       try {
-        quoteUcc.setStartDateQuoteInDb(quoteToModify);
-        QuoteDto quoteToReturn = quoteUcc.getQuote(quoteId);
-
-        sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteToReturn));
-        // sendSuccess(resp);
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {

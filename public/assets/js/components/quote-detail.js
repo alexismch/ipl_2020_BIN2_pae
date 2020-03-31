@@ -1,11 +1,11 @@
 'use strict';
 
-import {router} from '../main.js';
-import {ajaxGET} from '../utils/ajax.js';
-import {Page} from './page.js';
-import {isOuvrier} from '../utils/userUtils.js';
-import {onSubmitWithAjax} from '../utils/forms.js';
-import {createAlert} from '../utils/alerts.js'
+import { router } from '../main.js';
+import { ajaxGET, ajaxPUT } from '../utils/ajax.js';
+import { Page } from './page.js';
+import { isOuvrier } from '../utils/userUtils.js';
+import { onSubmitWithAjax } from '../utils/forms.js';
+import { createAlert } from '../utils/alerts.js'
 
 /**
  * @module Components
@@ -46,17 +46,17 @@ export class QuoteDetailPage extends Page {
 
     ajaxGET(`/api/quote`, `quoteId=${quoteId}`, (data) => {
       this._$view.find('app-loadbar').remove();
-      this._createQuoteDetailQuote(data.quote);
-      this._createQuoteDetailClient(data.quote.customer);
-      this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
-      this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
-      this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
+      this._changeView(data);
+
       if (isOuvrier() && data.quote.state.id === "QUOTE_ENTERED") {
         this._$view.find('.button').append(
-            `<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
-        this.onClickDate(this._$view.find('.button'), quoteId);
+          `<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
+        this.onClickConfirm(this._$view.find('.button'), quoteId, data.quote.state.id);
       }
 
+      if (isOuvrier() && data.quote.state.id === "PLACED_ORDERED") {
+        this.onClickDate(this._$view.find('.button'), quoteId, data.quote.state.id);
+      }
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -65,11 +65,61 @@ export class QuoteDetailPage extends Page {
 
   }
 
+  _changeView(data) {
+    this._$view.empty();
+    this._createQuoteDetailQuote(data.quote);
+    this._createQuoteDetailClient(data.quote.customer);
+    this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
+    this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
+    this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
+  }
 
-  onClickDate($button, quoteId) {
-    $("#confirmDate").click(() =>{
+  onClickDate($button, quoteId, stateId) {
+
+    const $datePicker = $button.find('#page-add-devis-datetimepicker');
+    $datePicker.datetimepicker({
+      format: 'L',
+      widgetPositioning: {
+        horizontal: 'left',
+        vertical: 'auto'
+      }
+    });
+    const $datePickerInput = $datePicker.find('#page-add-devis-datetimepicker-input');
+    $datePickerInput.data('validator', () => {
+      const $errorElement = $datePicker.next('.input-error');
+      if ($datePickerInput[0].checkValidity()) {
+        $errorElement.hide(100);
+        return true;
+      } else {
+        $errorElement.show(100);
+        return false;
+      }
+    });
+    $datePickerInput.on('blur', () => {
+      $datePicker.datetimepicker('hide');
+    });
+
+
+    onSubmitWithAjax($button.find('form'), (data) => {
+      this._changeView(data);
       $button.empty();
-      const _templateToAdd = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+      const $startDate = this._$view.find(".startDate");
+      $startDate.empty();
+      $startDate.append(`<div>Date de début de devis: ${data.quote.startDate}</div>`);
+      createAlert('success', 'La date a bien été introduite!');
+    }, () => {
+      createAlert('error', `La date n'a pas été introduite!`);
+    });
+  };
+
+
+  onClickConfirm($button, quoteId, stateId) {
+    $("#confirmDate").on('click', () => {
+      $("#confirmDate").off();
+      ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=${stateId}`, () => {
+        this._changeView(data);
+        $button.empty();
+        const _templateToAdd = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
     <div class="form-group">
       <label for="page-add-devis-datetimepicker-input">Date<span class="text-danger">*</span></label>
       <div class="input-group date" id="page-add-devis-datetimepicker" data-target-input="nearest">
@@ -81,52 +131,16 @@ export class QuoteDetailPage extends Page {
       </div>
       <small class="input-error form-text text-danger">Une date est requise.</small>
       <input type="hidden" name="quoteId" value="${quoteId}"/>
+      <input type="hidden" name="stateId" value="${stateId}"/>
       <div class="form-group mt-2 d-flex justify-content-end">
         <button class="btn btn-primary">Ajouter la date du début de devis.</button>
       </div>
     </div>
     </form>`;
 
-
-
-
-      $button.append(_templateToAdd);
-
-      const $datePicker = $button.find('#page-add-devis-datetimepicker');
-      $datePicker.datetimepicker({
-        format: 'L',
-        widgetPositioning: {
-          horizontal: 'left',
-          vertical: 'auto'
-        }
+        $button.append(_templateToAdd);
       });
-      const $datePickerInput = $datePicker.find('#page-add-devis-datetimepicker-input');
-      $datePickerInput.data('validator', () => {
-        const $errorElement = $datePicker.next('.input-error');
-        if ($datePickerInput[0].checkValidity()) {
-          $errorElement.hide(100);
-          return true;
-        } else {
-          $errorElement.show(100);
-          return false;
-        }
-      });
-      $datePickerInput.on('blur', () => {
-        $datePicker.datetimepicker('hide');
-      });
-
-      
-      onSubmitWithAjax($button.find('form'), (data) => {
-        $button.remove();
-        const $startDate = this._$view.find(".startDate");
-        $startDate.empty();
-        console.log(data.quote.startDate);
-        $startDate.append(`<div>Date de début de devis: ${data.quote.startDate}</div>`);
-        createAlert('success', 'La date a bien été introduite!');
-      }, () => {
-        createAlert('error', `La date n'a pas été introduite!`);
-      });
-    });
+    })
   }
 
 

@@ -47,12 +47,24 @@ public interface QuoteUcc {
 
 
   /**
-   * Add the start date of the quote.
+   * Add the start date of the quote and change the state of the quote.
    *
    * @param quote object quote with the id and date
+   * @return a suoteDto object
    * @throws FatalException if you had a problem with the db
+   * @throws BizException if the quote doesn't exist
    */
-  void setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
+  QuoteDto setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException;
+
+  /**
+   * change the state of the quote in PLACED_ORDERED.
+   * 
+   * @param quoteID id of the quote
+   * @return
+   * @throws FatalException if you had a problem with the db
+   * @throws BizException if the quote doesn't exist
+   */
+  QuoteDto confirmQuote(String quoteID) throws FatalException, BizException;
 
 
 }
