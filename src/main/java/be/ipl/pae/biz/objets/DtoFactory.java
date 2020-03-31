@@ -6,6 +6,7 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 
@@ -18,8 +19,10 @@ public interface DtoFactory {
   UserDto getUser();
 
   QuoteDto getQuote();
-  
+
   CustomersFilterDto getCustomersFilter();
+
+  QuotesFilterDto getQuotesFilter();
 
   UsersFilterDto getUsersFilterDto();
 

@@ -153,7 +153,6 @@ public class QuoteServlet extends AbstractServlet {
     }
 
 
-
     String quoteId = req.getParameter("quoteId");
     try {
       QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
@@ -164,6 +163,7 @@ public class QuoteServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, be.getMessage());
     }
   }
+
 
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp)

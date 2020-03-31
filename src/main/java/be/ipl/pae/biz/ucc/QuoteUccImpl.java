@@ -129,4 +129,5 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.commitTransaction();
     }
   }
+
 }

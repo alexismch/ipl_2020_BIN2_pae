@@ -85,7 +85,7 @@ function initRouter() {
   })
   .on('mes-devis', () => {
     // TODO
-    loadPage(new ErrorPage(404));
+    loadPage(new CustomerDetailPage());
   }, routeClientChecker())
   .on('clients', (params, query) => {
     loadPage(new CustomersListPage(query));

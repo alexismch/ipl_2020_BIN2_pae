@@ -21,10 +21,12 @@ public interface CustomerUcc {
    * Get all customers saved in the database.
    *
    * @param customersFilterDto a filter applied to the results or null if no filter should be
-   *                           applied
+   *        applied
    * @return A list of all customers
    * @throws FatalException Thrown if a fatal error happened during the data retrieving
    */
   List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) throws FatalException;
+
+  CustomerDto getCustomerByIdUser(int idUser) throws FatalException;
 
 }

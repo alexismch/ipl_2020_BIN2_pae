@@ -14,13 +14,14 @@ import {ajaxGET} from '../utils/ajax.js';
  */
 export class DevelopmentTypePage extends Page {
 
-  _template = `<div class="carousel slide d-block">
+  _template = `<div class="carousel slide d-block" data-ride="carousel" id="template-carousel">
+  <app-loadbar></app-loadbar>
   <div class="carousel-inner"></div>
-  <a class="carousel-control-prev" href="#" role="button">
+  <a class="carousel-control-prev" data-slide="prev" href="#template-carousel" role="button">
     <i aria-hidden="true" class="fas fa-angle-left"></i>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#" role="button">
+  <a class="carousel-control-next" data-slide="next" href="#template-carousel" role="button">
     <i aria-hidden="true" class="fas fa-angle-right"></i>
     <span class="sr-only">Next</span>
   </a>
@@ -33,9 +34,8 @@ export class DevelopmentTypePage extends Page {
     super(id === undefined ? 'Accueil' : 'Aménagement n°' + id);
 
     this._$view = $(this._template);
-
     ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
-      this.isLoading = false;
+      this._$view.find('app-loadbar').remove();
       if (id !== undefined && data.photosList.length > 0) {
         this.setTitle(data.photosList[0].developmentType);
       }
@@ -45,8 +45,10 @@ export class DevelopmentTypePage extends Page {
         this._createPicturesList(data.photosList);
       }
     }, () => {
-      this.isLoading = false;
+      this._$view.find('app-loadbar').remove();
     });
+     
+
 
   }
 
@@ -83,21 +85,6 @@ export class DevelopmentTypePage extends Page {
     </div>`;
 
     this._$view.find('.carousel-inner').append(pictureContainer);
-    this._$view.carousel({
-      interval: 5000,
-      pause: false,
-      ride: 'carousel'
-    }).carousel('cycle');
-
-    this._$view.find('.carousel-control-prev').click((e) => {
-      e.preventDefault();
-      this._$view.carousel('prev');
-    });
-
-    this._$view.find('.carousel-control-next').click((e) => {
-      e.preventDefault();
-      this._$view.carousel('next');
-    });
 
   }
 

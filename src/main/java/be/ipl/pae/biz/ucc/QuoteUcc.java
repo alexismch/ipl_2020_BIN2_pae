@@ -45,6 +45,7 @@ public interface QuoteUcc {
   List<QuoteDto> getCustomerQuotes(int customerId) throws BizException;
 
 
+
   /**
    * Add the start date of the quote.
    *
@@ -52,4 +53,6 @@ public interface QuoteUcc {
    * @throws FatalException if you had a problem with the db
    */
   void setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
+
+
 }
