@@ -22,10 +22,8 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,8 +37,6 @@ public class QuoteServlet extends AbstractServlet {
 
   @Injected
   DevelopmentTypeUcc developmentTypeUcc;
-
-  GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -152,7 +148,7 @@ public class QuoteServlet extends AbstractServlet {
       return;
     }
 
-
+    GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
     String quoteId = req.getParameter("quoteId");
     try {
@@ -164,6 +160,7 @@ public class QuoteServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, be.getMessage());
     }
   }
+<<<<<<< HEAD
 
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp)
@@ -198,4 +195,6 @@ public class QuoteServlet extends AbstractServlet {
 
 
 
+=======
+>>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
 }

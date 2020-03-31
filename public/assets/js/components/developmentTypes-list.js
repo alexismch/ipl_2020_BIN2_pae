@@ -40,9 +40,6 @@ export class DevelopmentTypesListPage extends Page {
       this._developmentTypesList = data.developmentTypesList;
       this._updateDevelopmentTypesList();
       router.updatePageLinks();
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
     });
 
   }

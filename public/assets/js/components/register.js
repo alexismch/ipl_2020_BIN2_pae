@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {createAlert} from '../utils/alerts.js';
+import {clearAlerts, createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 
@@ -87,11 +87,13 @@ export class RegisterPage extends Page {
 
     onSubmitWithAjax(this._$view.find('form'), (data) => {
       router.navigate('');
+      clearAlerts();
       createAlert('primary',
           "Votre demande d'inscription a été faite, vous ne pourrez pas vous connecter tant que votre inscription n'a pas été accepté.");
+    }, (error) => {
+      clearAlerts();
+      createAlert('danger', error.responseJSON.error);
     });
-
-    this.isLoading = false;
   }
 
   _verifySamePassword($input1, $input2) {

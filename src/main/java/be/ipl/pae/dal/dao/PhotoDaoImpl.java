@@ -1,7 +1,6 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.PhotoDto;
-import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
@@ -64,6 +63,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setBoolean(2, isBefore);
       return getPhotosViaPs(ps);
     } catch (SQLException ex) {
+      ex.printStackTrace();
       throw new FatalException("error with the db!");
     }
   }
@@ -94,52 +94,11 @@ public class PhotoDaoImpl implements PhotoDao {
         }
       }
       ps.close();
+
       return photos;
     } catch (Exception ex) {
+      ex.printStackTrace();
       throw new FatalException(ex.getMessage());
-    }
-  }
-
-  @Override
-  public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT p.title title, p.base64 base64, dt.title dev_type "
-            + "FROM mystherbe.photos p, mystherbe.development_types dt "
-            + "WHERE p.id_type = dt.id_type AND p.is_visible = true");
-    return getVisiblePhotosViaPs(ps);
-  }
-
-  @Override
-  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT p.title title, p.base64 base64, dt.title dev_type "
-            + "FROM mystherbe.photos p, mystherbe.development_types dt "
-            + "WHERE p.id_type = dt.id_type AND p.is_visible = true AND p.id_type = ?");
-
-    try {
-      ps.setInt(1, typeId);
-      return getVisiblePhotosViaPs(ps);
-    } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
-    }
-  }
-
-  private List<PhotoVisibleDto> getVisiblePhotosViaPs(PreparedStatement ps) throws FatalException {
-    try {
-      List<PhotoVisibleDto> photos = new ArrayList<>();
-      try (ResultSet rs = ps.executeQuery()) {
-        while (rs.next()) {
-          PhotoVisibleDto photo = photoDtoFactory.getPhotoVisible();
-          photo.setTitle(rs.getString(1));
-          photo.setBase64(rs.getString(2));
-          photo.setDevelopmentType(rs.getString(3));
-          photos.add(photo);
-        }
-      }
-      ps.close();
-      return photos;
-    } catch (SQLException sqlE) {
-      throw new FatalException("error with the db!");
     }
   }
 }

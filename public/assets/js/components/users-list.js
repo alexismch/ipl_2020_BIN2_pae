@@ -75,9 +75,6 @@ export class UsersListPage extends Page {
       }
       this._createUsersList(data.users);
       router.updatePageLinks();
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
     });
 
   }

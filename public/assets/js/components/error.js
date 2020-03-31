@@ -35,7 +35,6 @@ export class ErrorPage extends Page {
 
     this._$view = $(this._template);
 
-    this.isLoading = false;
   }
 
   get _template() {

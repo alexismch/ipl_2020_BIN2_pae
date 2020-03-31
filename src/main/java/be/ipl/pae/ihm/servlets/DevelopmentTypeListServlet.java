@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DevelopmentTypesListServlet extends AbstractServlet {
+public class DevelopmentTypeListServlet extends AbstractServlet {
 
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;

@@ -43,13 +43,4 @@ public interface QuoteUcc {
    * @throws BizException if an error occurred
    */
   List<QuoteDto> getCustomerQuotes(int customerId) throws BizException;
-
-
-  /**
-   * Add the start date of the quote.
-   *
-   * @param quote object quote with the id and date
-   * @throws FatalException if you had a problem with the db
-   */
-  void setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
 }
