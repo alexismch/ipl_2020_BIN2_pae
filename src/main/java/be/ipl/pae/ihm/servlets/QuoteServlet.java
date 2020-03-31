@@ -160,41 +160,31 @@ public class QuoteServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, be.getMessage());
     }
   }
-<<<<<<< HEAD
-
-  @Override
-  protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    System.out.println("PUT /api/quote by " + req.getRemoteAddr());
-
-    String dateString = req.getParameter("date");
-    String quoteId = req.getParameter("quoteId");
-    System.out.println("date= " + dateString);
-    System.out.println("id = " + quoteId);
-    if (verifyNotEmpty(dateString, quoteId)) {
-      LocalDate date = Date.valueOf(dateString).toLocalDate();
-
-      QuoteDto quoteToModify = dtoFactory.getQuote();
-      quoteToModify.setIdQuote(quoteId);
-      quoteToModify.setStartDate(date);
-
-      try {
-        quoteUcc.setStartDateQuoteInDb(quoteToModify);
-        QuoteDto quoteToReturn = quoteUcc.getQuote(quoteId);
-
-        sendSuccessWithJson(resp, "quote date", genson.create().serialize(quoteToReturn));
-      } catch (FatalException ex) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-      } catch (BizException ex) {
-        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
-      }
-    } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
-    }
-  }
 
 
+  /**
+   * @Override protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws
+   *           ServletException, IOException { System.out.println("PUT /api/quote by " +
+   *           req.getRemoteAddr());
+   * 
+   *           String dateString = req.getParameter("date"); String quoteId =
+   *           req.getParameter("quoteId"); System.out.println("date= " + dateString);
+   *           System.out.println("id = " + quoteId); if (verifyNotEmpty(dateString, quoteId)) {
+   *           LocalDate date = Date.valueOf(dateString).toLocalDate();
+   * 
+   *           QuoteDto quoteToModify = dtoFactory.getQuote(); quoteToModify.setIdQuote(quoteId);
+   *           quoteToModify.setStartDate(date);
+   * 
+   *           try { quoteUcc.setStartDateQuoteInDb(quoteToModify); QuoteDto quoteToReturn =
+   *           quoteUcc.getQuote(quoteId);
+   * 
+   *           sendSuccessWithJson(resp, "quote date", genson.create().serialize(quoteToReturn)); }
+   *           catch (FatalException ex) { sendError(resp,
+   *           HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()); } catch (BizException
+   *           ex) { sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage()); }
+   *           } else { sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres
+   *           invalides"); } }
+   */
 
-=======
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
 }
