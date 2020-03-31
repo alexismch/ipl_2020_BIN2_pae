@@ -6,6 +6,7 @@ import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
+import {CustomerInputComponent} from './customer-input.js';
 
 /**
  * @module Components
@@ -26,17 +27,7 @@ export class QuoteFormPage extends Page {
       <input class="form-control" id="page-add-devis-id" name="quoteId" required type="text"/>
       <small class="input-error form-text text-danger">Un ID est requis.</small>
     </div>
-    <div class="form-group">
-      <label for="page-add-devis-customer">Client<span class="text-danger">*</span></label>
-      <select id="page-add-devis-customer" name="customerId" class="form-control" data-placeholder="Choisissez un client">
-        <option value=""></option>
-      </select>
-      <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
-      <p class="d-flex align-items-center mx-3 mt-1">
-        Client inexistant ?
-        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
-      </p>
-    </div>
+    <div class="form-group select-customer"></div>
     <div class="form-group">
       <label for="page-add-devis-datetimepicker-input">Date<span class="text-danger">*</span></label>
       <div class="input-group date" id="page-add-devis-datetimepicker" data-target-input="nearest">
@@ -76,7 +67,6 @@ export class QuoteFormPage extends Page {
 </div>`;
 
   _developmentTypeList = [];
-  _$selectClient;
   _$selectTypes;
   _addPictureComponents = [];
   _$photos;
@@ -89,24 +79,9 @@ export class QuoteFormPage extends Page {
 
     this._$view = $(this._template);
 
-    this._$selectClient = this._$view.find('#page-add-devis-customer');
-
-    this._$selectClient.chosen({
-      width: '100%',
-      no_results_text: 'Ce client n\'existe pas !',
-      allow_single_deselect: true
-    });
-
-    this._$selectClient.data('validator', () => {
-      const errorElement = this._$selectClient.next().next('.input-error');
-      if (this._$selectClient.val() === '') {
-        errorElement.show(100);
-        return false;
-      } else {
-        errorElement.hide(100);
-        return true;
-      }
-    });
+    const $selectClient = this._$view.find('.select-customer');
+    const customerInputComponent = new CustomerInputComponent('customerId');
+    $selectClient.append(customerInputComponent.getView());
 
     const $datePicker = this._$view.find('#page-add-devis-datetimepicker');
     $datePicker.datetimepicker({
@@ -164,19 +139,9 @@ export class QuoteFormPage extends Page {
     });
 
     this._addAnAddPictureComponent();
-    this._retriveCustomerList();
     this._retriveDevelopmentTypeList();
 
     this.isLoading = false;
-  }
-
-  _retriveCustomerList() {
-    ajaxGET('/api/customers-list', null, (data) => {
-      for (const customer of data.customers) {
-        $(`<option value="${customer.idCustomer}">${customer.lastName} ${customer.firstName}</option>`).appendTo(this._$selectClient);
-      }
-      this._$selectClient.trigger('chosen:updated');
-    });
   }
 
   _retriveDevelopmentTypeList() {

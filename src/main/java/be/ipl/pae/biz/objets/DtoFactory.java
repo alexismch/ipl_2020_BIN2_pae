@@ -29,4 +29,5 @@ public interface DtoFactory {
   CustomerDto getCustomer();
 
   PhotoVisibleDto getPhotoVisible();
+
 }

@@ -1,26 +1,33 @@
 package be.ipl.pae.biz.objets;
 
 public enum QuoteState {
-  QUOTE_ENTERED("Devis introduit"),
-  PLACED_ORDERED("Commande passée"),
+  QUOTE_ENTERED("Devis introduit",1),
+  PLACED_ORDERED("Commande passée",2),
   CONFIRMED_DATE(
-      "Date confirmée"),
-  POSTPONED_DATE("Date repoussée"),
+      "Date confirmée",3),
+  POSTPONED_DATE("Date repoussée",4),
   PARTIAL_INVOICE(
-      "Facturé partiellement"),
+      "Facturé partiellement",5),
   TOTAL_INVOICE(
-      "Facturé totalement"),
-  PAID("Payé"),
-  CANCELLED("Annulé");
+      "Facturé totalement",6),
+  PAID("Payé",7),
+  CANCELLED("Annulé",8);
 
   private String title;
+  private int id;
 
-  QuoteState(String title) {
+  QuoteState(String title, int id) {
     this.title = title;
+    this.id = id;
   }
 
   public String getTitle() {
     return title;
+  }
+  
+
+  public int getId() {
+    return id;
   }
 
   /**

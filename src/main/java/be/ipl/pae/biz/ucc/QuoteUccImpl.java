@@ -3,6 +3,7 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
@@ -122,7 +123,9 @@ public class QuoteUccImpl implements QuoteUcc {
   public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
     try {
       dalService.startTransaction();
+      System.out.println("confirmed date = " + QuoteState.CONFIRMED_DATE);
       quoteDao.setStartDate(quote);
+      quoteDao.setStateQuote(QuoteState.CONFIRMED_DATE, quote.getIdQuote());
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
     } finally {

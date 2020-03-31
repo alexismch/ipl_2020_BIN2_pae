@@ -14,13 +14,13 @@ import {ajaxGET} from '../utils/ajax.js';
  */
 export class CustomerInputComponent extends Component {
 
-  name = '';
-  onlyNotLinked = false;
+  name;
+  onlyNotLinked;
 
   /**
    *
    */
-  constructor(name, onlyNotLinked) {
+  constructor(name = '', onlyNotLinked = false) {
     super();
     this.name = name;
     this.onlyNotLinked = onlyNotLinked;
@@ -58,7 +58,7 @@ export class CustomerInputComponent extends Component {
       <small class="input-error form-text text-danger">Un client doit être sélectionné.</small>
       <p class="d-flex align-items-center mx-3 mt-1">
         Client inexistant ?
-        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Créer un nouveau client</a>
+        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="clients/ajouter">Créer un nouveau client</a>
       </p>
     </div>`;
   }

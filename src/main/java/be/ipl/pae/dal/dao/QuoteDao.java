@@ -1,6 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.ResultSet;
@@ -76,5 +77,14 @@ public interface QuoteDao {
    * @throws FatalException if you had an error with the db
    */
   void setStartDate(QuoteDto quote) throws FatalException;
+
+  /**
+   * change the state of the quote in the db.
+   * 
+   * @param confirmedDate the new state
+   * @param quoteId the quote of the id
+   * @throws FatalException error with the db
+   */
+  void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
 
 }
