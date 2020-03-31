@@ -1,14 +1,11 @@
 'use strict';
 
-
-import { router } from '../main.js';
-import { ajaxGET } from '../utils/ajax.js';
-import { Page } from './page.js';
-import { isOuvrier } from '../utils/userUtils.js';
-import { onSubmitWithAjax } from '../utils/forms.js';
-import { createAlert } from '../utils/alerts.js'
-
-
+import {router} from '../main.js';
+import {ajaxGET} from '../utils/ajax.js';
+import {Page} from './page.js';
+import {isOuvrier} from '../utils/userUtils.js';
+import {onSubmitWithAjax} from '../utils/forms.js';
+import {createAlert} from '../utils/alerts.js'
 
 /**
  * @module Components
@@ -55,11 +52,15 @@ export class QuoteDetailPage extends Page {
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
       if (isOuvrier() && data.quote.state.id === "QUOTE_ENTERED") {
-        this._$view.find('.button').append(`<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
+        this._$view.find('.button').append(
+            `<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
         this.onClickDate(this._$view.find('.button'), quoteId);
       }
 
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
 
   }
