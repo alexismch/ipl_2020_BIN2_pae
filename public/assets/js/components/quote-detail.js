@@ -66,7 +66,6 @@ export class QuoteDetailPage extends Page {
   }
 
   _changeView(data) {
-    this._$view.empty();
     this._createQuoteDetailQuote(data.quote);
     this._createQuoteDetailClient(data.quote.customer);
     this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
@@ -116,7 +115,7 @@ export class QuoteDetailPage extends Page {
   onClickConfirm($button, quoteId, stateId) {
     $("#confirmDate").on('click', () => {
       $("#confirmDate").off();
-      ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=${stateId}`, () => {
+      ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=${stateId}`, (data) => {
         this._changeView(data);
         $button.empty();
         const _templateToAdd = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
