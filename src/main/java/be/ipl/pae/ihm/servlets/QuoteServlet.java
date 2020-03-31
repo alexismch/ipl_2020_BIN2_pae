@@ -127,13 +127,13 @@ public class QuoteServlet extends AbstractServlet {
   /**
    * Insert photos into the quote.
    *
-   * @param quoteDto     the quote
-   * @param photos       photos to insert
+   * @param quoteDto the quote
+   * @param photos photos to insert
    * @param photosTitles titles of photos
-   * @param photosTypes  types of photos
+   * @param photosTypes types of photos
    */
-  private void insertPhotos(QuoteDto quoteDto, String[] photos,
-      String[] photosTitles, Object[] photosTypes) {
+  private void insertPhotos(QuoteDto quoteDto, String[] photos, String[] photosTitles,
+      Object[] photosTypes) {
     for (int i = 0; i < photos.length; i++) {
       PhotoDto photoDto = dtoFactory.getPhoto();
 
@@ -195,11 +195,14 @@ public class QuoteServlet extends AbstractServlet {
 
     if (verifyNotEmpty(quoteId)) {
       try {
-        quoteUcc.confirmQuote(quoteId);
-        sendSuccess(resp);
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.confirmQuote(quoteId)));
       } catch (FatalException ex) {
         ex.printStackTrace();
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException ex) {
+        ex.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
       }
 
     } else {
@@ -218,9 +221,8 @@ public class QuoteServlet extends AbstractServlet {
       quote.setStartDate(date);
 
       try {
-        quoteUcc.setStartDateQuoteInDb(quote);
-        QuoteDto quoteToReturn = quoteUcc.getQuote(quoteId);
-        sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteToReturn));
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {

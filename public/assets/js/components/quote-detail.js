@@ -46,11 +46,8 @@ export class QuoteDetailPage extends Page {
 
     ajaxGET(`/api/quote`, `quoteId=${quoteId}`, (data) => {
       this._$view.find('app-loadbar').remove();
-      this._createQuoteDetailQuote(data.quote);
-      this._createQuoteDetailClient(data.quote.customer);
-      this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
-      this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
-      this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
+      this._changeView(data);
+
       if (isOuvrier() && data.quote.state.id === "QUOTE_ENTERED") {
         this._$view.find('.button').append(
           `<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
@@ -60,9 +57,6 @@ export class QuoteDetailPage extends Page {
       if (isOuvrier() && data.quote.state.id === "PLACED_ORDERED") {
         this.onClickDate(this._$view.find('.button'), quoteId, data.quote.state.id);
       }
-
-
-
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -71,8 +65,16 @@ export class QuoteDetailPage extends Page {
 
   }
 
+  _changeView(data) {
+    this._$view.empty();
+    this._createQuoteDetailQuote(data.quote);
+    this._createQuoteDetailClient(data.quote.customer);
+    this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
+    this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
+    this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
+  }
+
   onClickDate($button, quoteId, stateId) {
-    $button.append(_templateToAdd);
 
     const $datePicker = $button.find('#page-add-devis-datetimepicker');
     $datePicker.datetimepicker({
@@ -99,7 +101,8 @@ export class QuoteDetailPage extends Page {
 
 
     onSubmitWithAjax($button.find('form'), (data) => {
-      $button.remove();
+      this._changeView(data);
+      $button.empty();
       const $startDate = this._$view.find(".startDate");
       $startDate.empty();
       $startDate.append(`<div>Date de début de devis: ${data.quote.startDate}</div>`);
@@ -111,9 +114,10 @@ export class QuoteDetailPage extends Page {
 
 
   onClickConfirm($button, quoteId, stateId) {
-    $("#confirmDate").click(() => {
-
+    $("#confirmDate").on('click', () => {
+      $("#confirmDate").off();
       ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=${stateId}`, () => {
+        this._changeView(data);
         $button.empty();
         const _templateToAdd = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
     <div class="form-group">
@@ -127,12 +131,14 @@ export class QuoteDetailPage extends Page {
       </div>
       <small class="input-error form-text text-danger">Une date est requise.</small>
       <input type="hidden" name="quoteId" value="${quoteId}"/>
+      <input type="hidden" name="stateId" value="${stateId}"/>
       <div class="form-group mt-2 d-flex justify-content-end">
         <button class="btn btn-primary">Ajouter la date du début de devis.</button>
       </div>
     </div>
     </form>`;
 
+        $button.append(_templateToAdd);
       });
     })
   }
@@ -140,28 +146,28 @@ export class QuoteDetailPage extends Page {
 
 
   _createQuoteDetailQuote(quote) {
-      const $quoteDetail = this._$view.find('.detail-quote');
-      $quoteDetail.empty();
+    const $quoteDetail = this._$view.find('.detail-quote');
+    $quoteDetail.empty();
 
 
-      const detail = `<h2>Devis: ${quote.idQuote}</h2>
+    const detail = `<h2>Devis: ${quote.idQuote}</h2>
                     <div>Date du devis= ${quote.quoteDate}</div>
                     <div>Montant: ${quote.totalAmount}</div>
                     <div class="startDate">
                       <div>Date de début de devis: ${quote.startDate == null ? "Pas encore de date" : quote.startDate}</div>
                     </div>
                     <div>Durée des travaux: ${quote.workDuration}</div>`;
-      $quoteDetail.append(detail);
-    }
+    $quoteDetail.append(detail);
+  }
 
   _createQuoteDetailClient(customer) {
-      const $quoteDetailClient = this._$view.find('.detail-quote-client');
+    const $quoteDetailClient = this._$view.find('.detail-quote-client');
 
-      this._$view.find('.client').append('<h4>Client</h4>');
+    this._$view.find('.client').append('<h4>Client</h4>');
 
-      $quoteDetailClient.empty();
+    $quoteDetailClient.empty();
 
-      const detail = `<div class="ml-3">Nom: ${customer.lastName}</div>
+    const detail = `<div class="ml-3">Nom: ${customer.lastName}</div>
                     <div class="ml-3">Prenom: ${customer.firstName}</div>
                     <div class="ml-3">Adresse: ${customer.address}</div>
                     <div class="ml-3">Code postal: ${customer.postalCode}</div>
@@ -169,32 +175,32 @@ export class QuoteDetailPage extends Page {
                     <div class="ml-3">Email: ${customer.email}</div>
                     <div class="ml-3">Numéro de téléphone: ${customer.phoneNumber}</div>`;
 
-      $quoteDetailClient.append(detail);
+    $quoteDetailClient.append(detail);
 
-    }
+  }
 
   _createQuoteDetailDevelopmentTypeList(typeList) {
-      const $quoteDetailType = this._$view.find('.detail-quote-development-types');
-      this._$view.find('.types').append(`<h4>Types d'aménagements</h4>`);
-      $quoteDetailType.empty();
+    const $quoteDetailType = this._$view.find('.detail-quote-development-types');
+    this._$view.find('.types').append(`<h4>Types d'aménagements</h4>`);
+    $quoteDetailType.empty();
 
-      typeList.forEach(type => {
-        this._createTypesListItem($quoteDetailType, type);
-      });
-    }
+    typeList.forEach(type => {
+      this._createTypesListItem($quoteDetailType, type);
+    });
+  }
 
   _createTypesListItem($quoteDetailType, type) {
 
-      const detail = `<li>${type.title}</li>`;
-      $quoteDetailType.append(detail);
-    }
+    const detail = `<li>${type.title}</li>`;
+    $quoteDetailType.append(detail);
+  }
 
   _createQuoteDetailPhotoBefore(photoList) {
-      const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
-      this._$view.find('.before').append(`<h4 class="before">Photos avant aménagements</h4>`);
+    const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
+    this._$view.find('.before').append(`<h4 class="before">Photos avant aménagements</h4>`);
 
-      $quoteDetailPhoto.empty();
-      if(photoList.length == 0) {
+    $quoteDetailPhoto.empty();
+    if (photoList.length == 0) {
       $quoteDetailPhoto.append("<div>Il n'y a pas de photo avant aménagement!</div>");
     } else {
       photoList.forEach(photo => {
