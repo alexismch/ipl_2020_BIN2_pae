@@ -90,6 +90,8 @@ export class RegisterPage extends Page {
       createAlert('primary',
           "Votre demande d'inscription a été faite, vous ne pourrez pas vous connecter tant que votre inscription n'a pas été accepté.");
     });
+
+    this.isLoading = false;
   }
 
   _verifySamePassword($input1, $input2) {

@@ -17,7 +17,6 @@ import { isOuvrier } from '../utils/userUtils.js'
 export class QuoteDetailPage extends Page {
 
   _template = `<div>
-  <app-loadbar class="position-relative h-0"></app-loadbar>
   <div class="container">
     <div class="button"></div>
     <p class="detail-quote"></p>
@@ -52,6 +51,9 @@ export class QuoteDetailPage extends Page {
         this.onClickDate(this._$view.find('.button'));
       }
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
   }
 

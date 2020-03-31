@@ -36,6 +36,9 @@ export class UserDetailPage extends Page {
       this._$view.find('app-loadbar').remove();
       this._createUserDetail(data.userDetail);
 
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
 
   }

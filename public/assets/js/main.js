@@ -56,6 +56,7 @@ function initRouter() {
   router = new Navigo('/', false);
   router.hooks({
     before: function (done) {
+      $('#load-bar').show();
       clearAlerts();
       done();
     },

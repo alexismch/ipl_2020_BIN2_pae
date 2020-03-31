@@ -46,6 +46,8 @@ export class LoginPage extends Page {
       changeMenuForUser(data.user);
       router.navigate('');
     });
+
+    this.isLoading = false;
   }
 
 }

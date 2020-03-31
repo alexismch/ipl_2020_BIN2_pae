@@ -15,7 +15,6 @@ import {ajaxGET} from '../utils/ajax.js';
 export class DevelopmentTypePage extends Page {
 
   _template = `<div class="carousel slide d-block">
-  <app-loadbar></app-loadbar>
   <div class="carousel-inner"></div>
   <a class="carousel-control-prev" href="#" role="button">
     <i aria-hidden="true" class="fas fa-angle-left"></i>
@@ -36,7 +35,7 @@ export class DevelopmentTypePage extends Page {
     this._$view = $(this._template);
 
     ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
-      this._$view.find('app-loadbar').remove();
+      this.isLoading = false;
       if (id !== undefined && data.photosList.length > 0) {
         this.setTitle(data.photosList[0].developmentType);
       }
@@ -46,7 +45,7 @@ export class DevelopmentTypePage extends Page {
         this._createPicturesList(data.photosList);
       }
     }, () => {
-      this._$view.find('app-loadbar').remove();
+      this.isLoading = false;
     });
 
   }
