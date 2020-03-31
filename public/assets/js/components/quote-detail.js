@@ -68,6 +68,9 @@ export class QuoteDetailPage extends Page {
         </div>
       </div>
       <small class="input-error form-text text-danger">Une date est requise.</small>
+      <div class="form-group mt-2 d-flex justify-content-end">
+      <button class="btn btn-primary">Ajouter le devis</button>
+    </div>
     </div>`;
 
     $button.append(_templateToAdd);
@@ -113,7 +116,7 @@ _createQuoteDetailQuote(quote) {
 
 _createQuoteDetailClient(customer) {
   const $quoteDetailClient = this._$view.find('.detail-quote-client');
-  this._$view.find('client').append('<h4>Client</h4>');
+  this._$view.find('.client').append('<h4>Client</h4>');
   $quoteDetailClient.empty();
 
   const detail = `<div class="ml-3">Nom: ${customer.lastName}</div>
