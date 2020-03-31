@@ -32,4 +32,13 @@ public interface DevelopmentTypeDao {
    * @throws FatalException if an error occurred with the db.
    */
   DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws FatalException;
+
+  /**
+   * Get a list of all the development type of a quote.
+   * 
+   * @param quoteId the quote of the id
+   * @return a list of DevelopmentTypeDto
+   * @throws FatalException if you had a problem with the db
+   */
+  List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException;
 }

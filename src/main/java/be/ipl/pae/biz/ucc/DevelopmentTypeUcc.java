@@ -31,7 +31,7 @@ public interface DevelopmentTypeUcc {
    *
    * @param developmentType the development type to insert
    * @return a DevelopmentTypeDto object that represents the development type
-   * @throws BizException   if an error occurred with the db
+   * @throws BizException if an error occurred with the db
    * @throws FatalException if an error occurred with transaction
    */
   DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws BizException, FatalException;
