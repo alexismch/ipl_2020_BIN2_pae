@@ -1,7 +1,7 @@
 'use strict';
 
-import {Component} from './component.js';
-import {ajaxGET} from '../utils/ajax.js';
+import {Component} from '../component.js';
+import {ajaxGET} from '../../utils/ajax.js';
 
 /**
  * @module Components

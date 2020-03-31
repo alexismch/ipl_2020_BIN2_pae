@@ -3,7 +3,7 @@
 import {checkInputValidity} from './utils/forms.js';
 import {ajaxGET, ajaxPOST} from './utils/ajax.js';
 import {clearAlerts, createAlert} from './utils/alerts.js';
-import {changeMenuForUser, isClient, isOuvrier} from './utils/userUtils.js';
+import {changeMenuForUser, isCustomer, isWorker} from './utils/userUtils.js';
 import {HomePage} from './components/home.js';
 import {ErrorPage} from './components/error.js';
 import {LoginPage} from './components/login.js';
@@ -124,7 +124,7 @@ function initRouter() {
 function routeNoUserChecker() {
   return {
     before: (done) => {
-      if (isClient() || isOuvrier()) {
+      if (isCustomer() || isWorker()) {
         done(false);
         router.navigate('');
         return;
@@ -137,7 +137,7 @@ function routeNoUserChecker() {
 function routeClientChecker() {
   return {
     before: (done) => {
-      if (!isClient()) {
+      if (!isCustomer()) {
         done(false);
         router.navigate('');
         return;
@@ -150,7 +150,7 @@ function routeClientChecker() {
 function routeOuvrierChecker() {
   return {
     before: (done) => {
-      if (!isOuvrier()) {
+      if (!isWorker()) {
         done(false);
         router.navigate('');
         return;

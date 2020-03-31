@@ -6,7 +6,8 @@ import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
-import {CustomerInputComponent} from './customer-input.js';
+import {CustomerInputComponent} from './inputs/customer-input.js';
+import {DateInputComponent} from './inputs/datepicker-input.js';
 
 /**
  * @module Components
@@ -28,17 +29,7 @@ export class QuoteFormPage extends Page {
       <small class="input-error form-text text-danger">Un ID est requis.</small>
     </div>
     <div class="form-group select-customer"></div>
-    <div class="form-group">
-      <label for="page-add-devis-datetimepicker-input">Date<span class="text-danger">*</span></label>
-      <div class="input-group date" id="page-add-devis-datetimepicker" data-target-input="nearest">
-        <input type="text" class="form-control" id="page-add-devis-datetimepicker-input" autocomplete="off"
-        data-target="#page-add-devis-datetimepicker" data-toggle="datetimepicker" name="date" required/>
-        <div class="input-group-append" data-target="#page-add-devis-datetimepicker" data-toggle="datetimepicker">
-          <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
-        </div>
-      </div>
-      <small class="input-error form-text text-danger">Une date est requise.</small>
-    </div>
+    <div class="form-group select-date"></div>
     <div class="form-group">
       <label for="page-add-devis-amount">Montant total (en €)<span class="text-danger">*</span></label>
       <input class="form-control" id="page-add-devis-amount" name="amount" required type="number" min="0" step=".01"/>
@@ -83,28 +74,9 @@ export class QuoteFormPage extends Page {
     const customerInputComponent = new CustomerInputComponent('customerId');
     $selectClient.append(customerInputComponent.getView());
 
-    const $datePicker = this._$view.find('#page-add-devis-datetimepicker');
-    $datePicker.datetimepicker({
-      format: 'L',
-      widgetPositioning: {
-        horizontal: 'left',
-        vertical: 'auto'
-      }
-    });
-    const $datePickerInput = $datePicker.find('#page-add-devis-datetimepicker-input');
-    $datePickerInput.data('validator', () => {
-      const $errorElement = $datePicker.next('.input-error');
-      if ($datePickerInput[0].checkValidity()) {
-        $errorElement.hide(100);
-        return true;
-      } else {
-        $errorElement.show(100);
-        return false;
-      }
-    });
-    $datePickerInput.on('blur', () => {
-      $datePicker.datetimepicker('hide');
-    });
+    const $selectDate = this._$view.find('.select-date');
+    const datepicker = new DateInputComponent('date');
+    $selectDate.append(datepicker.getView());
 
     this._$selectTypes = this._$view.find('#page-add-devis-types');
 

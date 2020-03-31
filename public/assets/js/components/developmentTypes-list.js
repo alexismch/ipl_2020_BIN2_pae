@@ -3,7 +3,7 @@
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {Page} from './page.js';
-import {isOuvrier} from '../utils/userUtils.js';
+import {isWorker} from '../utils/userUtils.js';
 
 /**
  * @module Components
@@ -29,7 +29,7 @@ export class DevelopmentTypesListPage extends Page {
 
     this._$view = $(this._template);
 
-    if (isOuvrier()) {
+    if (isWorker()) {
       const addDevelopmentTypeButton = `<div class="d-flex justify-content-end p-1 elevation-1 bg-light">
   <a class="btn btn-sm btn-primary" data-navigo href="amenagements/ajouter">Ajouter un aménagement</a>
 </div>`;

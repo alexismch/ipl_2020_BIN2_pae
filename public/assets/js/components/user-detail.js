@@ -3,10 +3,10 @@
 import {router} from '../main.js';
 import {Page} from './page.js';
 import {ajaxGET} from '../utils/ajax.js';
-import {getUserStatusColor, isClient, isOuvrier} from '../utils/userUtils.js'
+import {getUserStatusColor, isCustomer, isWorker} from '../utils/userUtils.js'
 import {clearAlerts, createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
-import {CustomerInputComponent} from './customer-input.js';
+import {CustomerInputComponent} from './inputs/customer-input.js';
 
 /**
  * @module Components
@@ -60,13 +60,13 @@ export class UserDetailPage extends Page {
 
     container.append($(detail));
 
-    if (isClient(user)) {
+    if (isCustomer(user)) {
 
       const clientDetail = `<p>Client details</p>`;
 
       container.append(clientDetail);
 
-    } else if (!isOuvrier(user)) {
+    } else if (!isWorker(user)) {
 
       const acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
   <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
