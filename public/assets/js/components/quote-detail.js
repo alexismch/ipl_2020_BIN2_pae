@@ -79,9 +79,9 @@ export class QuoteDetailPage extends Page {
 
   /**
    * set the startdate in the db and change the state of the quote to CONFIRMED_DATE
-   * @param {*} $button 
-   * @param {*} quoteId 
-   * @param {*} stateId 
+   * @param {jQuery} $button 
+   * @param {int} quoteId 
+   * @param {int} stateId 
    */
   onClickDate($button, quoteId, stateId) {
 
@@ -124,9 +124,9 @@ export class QuoteDetailPage extends Page {
 
   /**
    * change the state of the quote to PLACED_ORDERED
-   * @param {*} $button 
-   * @param {*} quoteId 
-   * @param {*} stateId 
+   * @param {jQuery} $button 
+   * @param {int} quoteId 
+   * @param {int} stateId 
    */
   onClickConfirm($button, quoteId, stateId) {
     $("#confirmDate").on('click', () => {
@@ -162,7 +162,7 @@ export class QuoteDetailPage extends Page {
 
   /**
    * set the detail of the quote in the current page
-   * @param {*} quote 
+   * @param {Quote} quote 
    */
   _createQuoteDetailQuote(quote) {
     const $quoteDetail = this._$view.find('.detail-quote');
@@ -181,7 +181,7 @@ export class QuoteDetailPage extends Page {
 
   /**
    * set the detail of the customer in the current page
-   * @param {*} customer 
+   * @param {Customer} customer 
    */
   _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
@@ -203,7 +203,7 @@ export class QuoteDetailPage extends Page {
 
   /**
    * give all the development type in the current page
-   * @param {*} typeList 
+   * @param {ListType} typeList 
    */
   _createQuoteDetailDevelopmentTypeList(typeList) {
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
@@ -223,7 +223,7 @@ export class QuoteDetailPage extends Page {
 
   /**
    * give all the photos of the quote before development
-   * @param {*} typeList 
+   * @param {ListType} typeList 
    */
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
@@ -246,7 +246,7 @@ export class QuoteDetailPage extends Page {
 
   /**
    * give all the photos of the quote after development
-   * @param {*} typeList 
+   * @param {ListType} typeList 
    */
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
