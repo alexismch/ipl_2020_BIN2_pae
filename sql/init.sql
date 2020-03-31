@@ -86,7 +86,7 @@ VALUES (6, 'caro', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu
 INSERT INTO mystherbe.customers (id_customer, lastname, firstname, address, postal_code, city,
                                  email, tel_nbr, id_user)
 VALUES (1, 'Line', 'Caroline', 'Rue de l’Eglise, 11', 4987, 'Stoumont', 'caro.line@hotmail.com',
-        '080.12.56.78', null);
+        '080.12.56.78', 6);
 INSERT INTO mystherbe.customers (id_customer, lastname, firstname, address, postal_code, city,
                                  email, tel_nbr, id_user)
 VALUES (2, 'Ile', 'Théophile', 'Rue de Renkin, 7', 4800, 'Verviers', 'theo.phile@proximus.be',
@@ -106,7 +106,7 @@ INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, w
 VALUES ('2', 1, '2018-12-15', 18306, 25, 7, '2019-03-15', null);
 INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
                               id_state, start_date, id_photo)
-VALUES ('3', 1, '2019-11-12', 8540, 10, 3, '2020-03-30', null);
+VALUES ('3', 1, '2019-11-12', 8540, 10, 2, '2020-03-30', null);
 INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
                               id_state, start_date, id_photo)
 VALUES ('4', 2, '2020-01-10', 6123, 7, 6, '2020-03-02', null);
