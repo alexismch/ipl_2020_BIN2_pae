@@ -120,6 +120,19 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
+  public void confirmQuote(String quoteID) throws FatalException {
+    try {
+      dalService.startTransaction();
+      System.out.println("confirmed date = " + QuoteState.CONFIRMED_DATE);
+      quoteDao.setStateQuote(QuoteState.PLACED_ORDERED, quoteID);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  @Override
   public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
     try {
       dalService.startTransaction();

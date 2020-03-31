@@ -54,5 +54,13 @@ public interface QuoteUcc {
    */
   void setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
 
+  /**
+   * change the state of the quote in PLACED_ORDERED.
+   * 
+   * @param quoteID id of the quote
+   * @throws FatalException if you had a problem with the db
+   */
+  void confirmQuote(String quoteID) throws FatalException;
+
 
 }
