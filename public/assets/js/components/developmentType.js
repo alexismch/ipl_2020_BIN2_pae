@@ -17,11 +17,11 @@ export class DevelopmentTypePage extends Page {
   _template = `<div class="carousel slide d-block">
   <app-loadbar></app-loadbar>
   <div class="carousel-inner"></div>
-  <a class="carousel-control-prev" data-slide="prev" href="#template-carousel" role="button">
+  <a class="carousel-control-prev" href="#" role="button">
     <i aria-hidden="true" class="fas fa-angle-left"></i>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" data-slide="next" href="#template-carousel" role="button">
+  <a class="carousel-control-next" href="#" role="button">
     <i aria-hidden="true" class="fas fa-angle-right"></i>
     <span class="sr-only">Next</span>
   </a>
@@ -85,10 +85,20 @@ export class DevelopmentTypePage extends Page {
 
     this._$view.find('.carousel-inner').append(pictureContainer);
     this._$view.carousel({
-      interval: 1,
+      interval: 5000,
       pause: false,
       ride: 'carousel'
     }).carousel('cycle');
+
+    this._$view.find('.carousel-control-prev').click((e) => {
+      e.preventDefault();
+      this._$view.carousel('prev');
+    });
+
+    this._$view.find('.carousel-control-next').click((e) => {
+      e.preventDefault();
+      this._$view.carousel('next');
+    });
 
   }
 
