@@ -19,13 +19,13 @@ export class QuoteDetailPage extends Page {
   <app-loadbar class="position-relative h-0"></app-loadbar>
   <div class="container">
     <p class="detail-quote"></p>
-    <h4>Client</h4>
+    <div class="client"></div>
     <p class="detail-quote-client"></p>
-    <h4>Types d'aménagements</h4>
+    <div class="types"></div>
     <ul class="detail-quote-development-types"></ul>
-    <h4>Photo avant aménagements</h4>
+    <div class="before"></div>
     <div class="detail-quote-photo-before"></div>
-    <h4>Photo après aménagements</h4>
+    <div class="after"></div>
     <div class="detail-quote-photo-after"></div>
   </div>
 </div>`;
@@ -42,7 +42,7 @@ export class QuoteDetailPage extends Page {
       this._$view.find('app-loadbar').remove();
       this._createQuoteDetailQuote(data.quote);
       this._createQuoteDetailClient(data.quote.customer);
-      this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypesSet);
+      this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
       router.updatePageLinks();
@@ -64,6 +64,7 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
+    this._$view.find('client').append('<h4>Client</h4>');
     $quoteDetailClient.empty();
 
     const detail = `<div class="ml-3">Nom: ${customer.lastName}</div>
@@ -79,6 +80,7 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailDevelopmentTypeList(typeList) {
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
+    this._$view.find('types').append(`<h4>Types d'aménagements</h4>`);
     $quoteDetailType.empty();
 
     typeList.forEach(type => {
@@ -93,6 +95,8 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailPhotoBefore(photoList){
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
+    this._$view.find('before').append(`<h4 class="before">Photo avant aménagements</h4>`);
+    
     $quoteDetailPhoto.empty();
     if(photoList.length == 0){
       $quoteDetailPhoto.append("<div>Il n'y a pas de photo avant aménagement!</div>");
@@ -110,6 +114,7 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailPhotoAfter(photoList){
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
+    this._$view.find('after').append(`<h4 class="before">Photo avant aménagements</h4>`);
     $quoteDetailPhoto.empty();
 
     if(photoList.length == 0){

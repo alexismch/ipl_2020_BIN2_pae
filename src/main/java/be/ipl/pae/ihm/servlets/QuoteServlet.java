@@ -148,8 +148,7 @@ public class QuoteServlet extends AbstractServlet {
       return;
     }
 
-    GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class)
-        .exclude("developmentTypes", QuoteDto.class);
+    GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
     String quoteId = req.getParameter("quoteId");
     try {

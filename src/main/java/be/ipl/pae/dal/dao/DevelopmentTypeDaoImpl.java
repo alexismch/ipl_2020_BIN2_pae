@@ -61,10 +61,40 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   }
 
   @Override
+  public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SElECT dt.id_type, dt.title FROM mystherbe.development_types dt, mystherbe.quote_types qt WHERE qt.id_quote = ?"
+            + " AND qt.id_type = dt.id_type");
+
+    try {
+      ps.setString(1, quoteId);
+      return getDevelopmentTypeDtoViaPs(ps);
+    } catch (SQLException ex) {
+      throw new FatalException("error with the db!");
+    }
+  }
+
+
+  private List<DevelopmentTypeDto> getDevelopmentTypeDtoViaPs(PreparedStatement ps)
+      throws SQLException {
+    List<DevelopmentTypeDto> listToReturn = new ArrayList<DevelopmentTypeDto>();
+
+    try (ResultSet resultSet = ps.executeQuery()) {
+      while (resultSet.next()) {
+        DevelopmentTypeDto developmentTypeDto = developmentTypeDtoFactory.getDevelopmentType();
+        developmentTypeDto.setIdType(resultSet.getInt(1));
+        developmentTypeDto.setTitle(resultSet.getString(2));
+        listToReturn.add(developmentTypeDto);
+      }
+    }
+    ps.close();
+    return listToReturn;
+  }
+
+  @Override
   public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws FatalException {
-    PreparedStatement ps = dalService
-        .getPreparedStatement(
-            "INSERT INTO mystherbe.development_types (title) VALUES (?) returning id_type");
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "INSERT INTO mystherbe.development_types (title) VALUES (?) returning id_type");
 
     try {
       ps.setString(1, developmentType.getTitle());
