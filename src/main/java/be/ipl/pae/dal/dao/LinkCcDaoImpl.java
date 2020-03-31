@@ -15,7 +15,7 @@ public class LinkCcDaoImpl implements LinkCcDao {
   @Override
   public void link(int customerId, int userId) throws FatalException {
     PreparedStatement ps = dalService
-        .getPreparedStatement("UPDATE mystherbe.customers SET id_user = ? WHERE id_customer = ?");
+        .getPreparedStatement("UPDATE mystherbe.customers SET id_user = ?  WHERE id_customer = ?");
 
     try {
       ps.setInt(1, userId);
