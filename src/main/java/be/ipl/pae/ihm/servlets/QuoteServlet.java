@@ -183,7 +183,7 @@ public class QuoteServlet extends AbstractServlet {
         quoteUcc.setStartDateQuoteInDb(quoteToModify);
         QuoteDto quoteToReturn = quoteUcc.getQuote(quoteId);
 
-        sendSuccessWithJson(resp, "quote date", genson.create().serialize(quoteToReturn));
+        sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteToReturn));
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {
