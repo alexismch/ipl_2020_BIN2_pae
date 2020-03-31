@@ -95,7 +95,7 @@ export class UsersListPage extends Page {
     const userListItem = `<li class="users-list-item shadow border border-left-primary rounded mb-2">
       <p>${user.lastName} ${user.firstName}</p>
       <p>${user.email}</p>
-      <p>${user.registrationDate}</p>
+      <p>Inscrit le ${moment(user.registrationDate).format('L')}</p>
       <p><span class="badge badge-${getUserStatusColor(user)} font-size-100">${user.status.name}</span></p>
       <a class="btn btn-primary w-min" data-navigo href="utilisateurs/${user.id}">Détails</a>
     </li>`;

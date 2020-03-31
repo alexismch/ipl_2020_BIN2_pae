@@ -29,7 +29,6 @@ export class Component {
   /**
    * Get the content of the component that can be placed in the HTML
    *
-   * @abstract
    * @returns {JQuery<HTMLElement> | jQuery | HTMLElement}
    */
   getView() {
