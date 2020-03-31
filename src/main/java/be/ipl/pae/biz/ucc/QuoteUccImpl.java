@@ -79,27 +79,32 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto getQuote(String idQuote) throws FatalException, BizException {
-    QuoteDto quoteDto;
+
     try {
       dalService.startTransaction();
-      quoteDto = quoteDao.getQuote(idQuote);
-      if (quoteDto.getIdQuote() == null) {
-        throw new BizException("Devis non existant!");
-      }
-
-      quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
-      quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
-      quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
-
-      quoteDto.setDevelopmentType(developmentTypeDao.getDevelopmentTypeList(quoteDto.getIdQuote()));
-
-      return quoteDto;
+      return getQuoteBis(idQuote);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
     }
     return null;
+  }
+
+  private QuoteDto getQuoteBis(String idQuote) throws FatalException, BizException {
+    QuoteDto quoteDto;
+    quoteDto = quoteDao.getQuote(idQuote);
+    if (quoteDto.getIdQuote() == null) {
+      throw new BizException("Devis non existant!");
+    }
+
+    quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
+    quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
+    quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
+
+    quoteDto.setDevelopmentType(developmentTypeDao.getDevelopmentTypeList(quoteDto.getIdQuote()));
+
+    return quoteDto;
   }
 
   @Override
@@ -123,9 +128,8 @@ public class QuoteUccImpl implements QuoteUcc {
   public QuoteDto confirmQuote(String quoteId) throws FatalException, BizException {
     try {
       dalService.startTransaction();
-      System.out.println("confirmed date = " + QuoteState.CONFIRMED_DATE);
       quoteDao.setStateQuote(QuoteState.PLACED_ORDERED, quoteId);
-      return getQuote(quoteId);
+      return getQuoteBis(quoteId);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
@@ -138,10 +142,9 @@ public class QuoteUccImpl implements QuoteUcc {
   public QuoteDto setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException {
     try {
       dalService.startTransaction();
-      System.out.println("confirmed date = " + QuoteState.CONFIRMED_DATE);
       quoteDao.setStartDate(quote);
       quoteDao.setStateQuote(QuoteState.CONFIRMED_DATE, quote.getIdQuote());
-      return getQuote(quote.getIdQuote());
+      return getQuoteBis(quote.getIdQuote());
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
