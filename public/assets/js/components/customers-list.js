@@ -81,6 +81,9 @@ export class CustomersListPage extends Page {
       }
       this._createCustomersList(data.customers);
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
 
   }

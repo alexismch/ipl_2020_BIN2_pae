@@ -36,6 +36,9 @@ export class QuotesListPage extends Page {
     ajaxGET('/api/quotes-list', null, (data) => {
       this._createQuotesList(data.quotesList);
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
 
   }

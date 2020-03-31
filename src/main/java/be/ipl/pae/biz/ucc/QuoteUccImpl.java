@@ -90,18 +90,7 @@ public class QuoteUccImpl implements QuoteUcc {
       quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
       quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
 
-      // TODO: SELECT FROM quote_types et non photos
-
       quoteDto.setDevelopmentType(developmentTypeDao.getDevelopmentTypeList(quoteDto.getIdQuote()));
-      /*
-       * for (PhotoDto photo : quoteDto.getListPhotoBefore()) { DevelopmentTypeDto
-       * developmentTypeDto = developmentTypeDao.getDevelopmentType(photo.getIdType());
-       * quoteDto.addDevelopmentTypesSet(developmentTypeDto); }
-       * 
-       * for (PhotoDto photo : quoteDto.getListPhotoAfter()) { DevelopmentTypeDto developmentTypeDto
-       * = developmentTypeDao.getDevelopmentType(photo.getIdType());
-       * quoteDto.addDevelopmentTypesSet(developmentTypeDto); }
-       */
 
       return quoteDto;
     } catch (FatalException ex) {
@@ -126,6 +115,18 @@ public class QuoteUccImpl implements QuoteUcc {
       }
     } catch (FatalException ex) {
       throw new BizException(ex);
+    }
+  }
+
+  @Override
+  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
+    try {
+      dalService.startTransaction();
+      quoteDao.setStartDate(quote);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
     }
   }
 }
