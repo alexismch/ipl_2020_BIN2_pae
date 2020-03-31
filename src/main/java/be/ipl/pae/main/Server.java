@@ -5,14 +5,13 @@ import be.ipl.pae.ihm.servlets.ConfirmationStatutServlet;
 import be.ipl.pae.ihm.servlets.CustomerDetailsServlet;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.CustomersListServlet;
+import be.ipl.pae.ihm.servlets.DevelopmentTypeListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
-import be.ipl.pae.ihm.servlets.DevelopmentTypesListServlet;
 import be.ipl.pae.ihm.servlets.ErrorHandler;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LinkCcServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
-import be.ipl.pae.ihm.servlets.PhotosListServlet;
 import be.ipl.pae.ihm.servlets.QuoteServlet;
 import be.ipl.pae.ihm.servlets.QuotesListServlet;
 import be.ipl.pae.ihm.servlets.RegisterServlet;
@@ -52,7 +51,7 @@ public class Server {
   private DevelopmentTypeServlet developmentTypeServlet;
 
   @Injected
-  private DevelopmentTypesListServlet developmentTypesListServlet;
+  private DevelopmentTypeListServlet developmentTypeListServlet;
 
   @Injected
   private CustomerServlet customerServlet;
@@ -69,9 +68,6 @@ public class Server {
   @Injected
   private ConfirmationStatutServlet confirmationStatutServlet;
 
-  @Injected
-  private PhotosListServlet photosListServlet;
-
   /**
    * Start the server.
    *
@@ -80,7 +76,7 @@ public class Server {
   public void start() throws Exception {
     org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(8080);
     ContextHandlerCollection context = new ContextHandlerCollection();
-    context.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
+    context.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
     server.setHandler(context);
     System.out.println("Server starting...");
     server.start();
@@ -113,13 +109,12 @@ public class Server {
     backendContext.addServlet(new ServletHolder(quotesListServlet), "/quotes-list");
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType");
     backendContext
-        .addServlet(new ServletHolder(developmentTypesListServlet), "/developmentType-list");
+        .addServlet(new ServletHolder(developmentTypeListServlet), "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
     backendContext.addServlet(new ServletHolder(customerDetailsServlet), "/customer-details");
     backendContext.addServlet(new ServletHolder(confirmationStatutServlet), "/confirmationStatut");
-    backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
     return backendContext;
   }
 }

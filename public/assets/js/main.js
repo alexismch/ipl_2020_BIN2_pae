@@ -10,7 +10,6 @@ import {LoginPage} from './components/login.js';
 import {RegisterPage} from './components/register.js';
 import {DevelopmentTypesListPage} from './components/developmentTypes-list.js';
 import {DevelopmentTypeFormPage} from './components/developmentType-form.js';
-import {DevelopmentTypePage} from './components/developmentType.js';
 import {QuotesListPage} from './components/quotes-list.js';
 import {QuoteDetailPage} from './components/quote-detail.js';
 import {QuoteFormPage} from './components/quote-form.js';
@@ -29,6 +28,9 @@ $(() => {
 
   ajaxGET('/api/login', null, (data) => {
     changeMenuForUser(data.user);
+    initRouter();
+  }, () => {
+    changeMenuForUser(null);
     initRouter();
   });
 
@@ -80,7 +82,8 @@ function initRouter() {
     loadPage(new DevelopmentTypeFormPage());
   })
   .on('amenagements/:id', (params) => {
-    loadPage(new DevelopmentTypePage(params.id));
+    // TODO
+    loadPage(new ErrorPage(404));
   })
   .on('mes-devis', () => {
     // TODO

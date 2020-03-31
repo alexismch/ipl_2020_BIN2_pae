@@ -25,15 +25,16 @@ public class ConfirmationStatutServlet extends AbstractServlet {
 
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("POST /api/confirmerInscription by " + req.getRemoteAddr());
+    System.out.println("teeeeeqt    " + req.getParameter("statusChoice"));
     UserDto userDb = dtoFactory.getUser();
     String pseudo = req.getParameter("pseudo");
     String statutComplet = req.getParameter("statusChoice");
     char statut;
 
-    if (statutComplet == "Ouvrier") {
-      statut = 'o';
-    } else {
+    if (statutComplet == "Client") {
       statut = 'c';
+    } else {
+      statut = 'o';
     }
     try {
       userDb = userUcc.userConfirmation(pseudo, statut);
