@@ -45,4 +45,13 @@ public interface CustomerDao {
    * @throws FatalException if you had a problem with the db
    */
   CustomerDto getCustomer(int idCustomer) throws FatalException;
+
+  /**
+   * Get a customer from his user id
+   * 
+   * @param idUser Id of the user used to get the customer
+   * @return an CustomerDto object
+   * @throws FatalException
+   */
+  CustomerDto getCustomerByIdUser(int idUser) throws FatalException;
 }

@@ -22,6 +22,7 @@ public class CustomerUccImpl implements CustomerUcc {
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
     try {
       try {
+
         dalService.startTransaction();
         return customerDao.insertCustomer(customerDto);
 
@@ -39,9 +40,7 @@ public class CustomerUccImpl implements CustomerUcc {
   @Override
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto)
       throws FatalException {
-    System.out.println("here getCustomer ucc");
     try {
-
       dalService.startTransaction();
       return customerDao.getCustomers(customersFilterDto);
 
@@ -49,6 +48,24 @@ public class CustomerUccImpl implements CustomerUcc {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  @Override
+  public CustomerDto getCustomerByIdUser(int idUser) throws FatalException {
+    try {
+
+      dalService.startTransaction();
+      return customerDao.getCustomerByIdUser(idUser);
+
+    } catch (FatalException ex) {
+
+      dalService.rollbackTransaction();
+
+      throw new FatalException(ex);
+    } finally {
+
       dalService.commitTransaction();
     }
   }
