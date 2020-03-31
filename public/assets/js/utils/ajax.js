@@ -79,7 +79,7 @@ function ajax(method = 'GET', url = '', requestData = null, onSuccess = null, on
         createAlert('danger', (jqXHR.responseJSON.code !== undefined ? jqXHR.responseJSON.code + ' ' : '') + jqXHR.responseJSON.error);
       } else {
         if (jqXHR.status === 0) {
-          createAlert('danger', 'Connection perdue');
+          createAlert('danger', 'Connexion perdue');
         } else {
           createAlert('danger', jqXHR.status + ' ' + errorThrown);
         }
