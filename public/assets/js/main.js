@@ -80,7 +80,7 @@ function initRouter() {
     loadPage(new DevelopmentTypeFormPage());
   })
   .on('amenagements/:id', (params) => {
-    loadPage(new DevelopmentTypePage());
+    loadPage(new DevelopmentTypePage(params.id));
   })
   .on('mes-devis', () => {
     // TODO

@@ -16,8 +16,7 @@ export class DevelopmentTypePage extends Page {
 
   _template = `<div class="carousel slide d-block" data-ride="carousel" id="template-carousel">
   <app-loadbar></app-loadbar>
-  <div class="carousel-inner">
-  </div>
+  <div class="carousel-inner"></div>
   <a class="carousel-control-prev" data-slide="prev" href="#template-carousel" role="button">
     <i aria-hidden="true" class="fas fa-angle-left"></i>
     <span class="sr-only">Previous</span>
@@ -36,12 +35,16 @@ export class DevelopmentTypePage extends Page {
 
     this._$view = $(this._template);
 
-    ajaxGET('/api/photos-list', id === undefined ? null : `id=${id}`, (data) => {
+    ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
       this._$view.find('app-loadbar').remove();
-      if (id !== undefined && data.photos.length > 0) {
-        this.setTitle(data.photos[0].developmentType);
+      if (id !== undefined && data.photosList.length > 0) {
+        this.setTitle(data.photosList[0].developmentType);
       }
-      this._createPicturesList(data.photos);
+      if (data.photosList.length === 0) {
+        this._setNoPicture();
+      } else {
+        this._createPicturesList(data.photosList);
+      }
     }, () => {
       this._$view.find('app-loadbar').remove();
     });
@@ -58,12 +61,25 @@ export class DevelopmentTypePage extends Page {
 
   }
 
+  _setNoPicture() {
+
+    const noPictureContainer = `<div class="carousel-item active">
+  <img alt="Aucune photo disponible" src="/assets/img/img-placeholder.jpg">
+  <div class="carousel-caption d-block">
+    <h5>Aucune photo disponible</h5>
+  </div>
+</div>`;
+
+    this._$view.find('.carousel-inner').append(noPictureContainer);
+
+  }
+
   _addPicture(picture, first) {
 
     const pictureContainer = `<div class="carousel-item${first ? ' active' : ''}">
       <img alt="${picture.title}" src="${picture.base64}"/>
       <div class="carousel-caption d-block">
-        <h5>${picture.developmentType.name}</h5>
+        <h5>${picture.developmentType}</h5>
       </div>
     </div>`;
 
