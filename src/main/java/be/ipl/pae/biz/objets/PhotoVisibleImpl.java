@@ -10,6 +10,13 @@ public class PhotoVisibleImpl implements PhotoVisible {
     super();
   }
 
+  /**
+   * Create a new PhotoVisibleImpl object.
+   *
+   * @param title           the title of the photo
+   * @param base64          the base64 of the photo
+   * @param developmentType the development type of the photo
+   */
   public PhotoVisibleImpl(String title, String base64, String developmentType) {
     this.title = title;
     this.base64 = base64;
