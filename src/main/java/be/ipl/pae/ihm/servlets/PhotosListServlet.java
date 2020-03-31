@@ -30,11 +30,11 @@ public class PhotosListServlet extends AbstractServlet {
       GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
 
       if (typeId == null) {
-        sendSuccessWithJson(resp, "developmentTypesList",
+        sendSuccessWithJson(resp, "photosList",
             gensonBuilder.create().serialize(photoUcc.getVisiblePhotos()));
       } else if (verifyNotEmpty(typeId)) {
         int id = Integer.parseInt(typeId);
-        sendSuccessWithJson(resp, "developmentTypesList",
+        sendSuccessWithJson(resp, "photosList",
             gensonBuilder.create().serialize(photoUcc.getVisiblePhotos(id)));
       } else {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
