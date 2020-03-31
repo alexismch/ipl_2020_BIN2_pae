@@ -21,7 +21,7 @@ public interface QuoteUcc {
    * Get all quotes.
    *
    * @return the quotes list.
-   * @throws FatalException if you have a problem with the db
+   * @throws BizException if you have a problem with the db
    */
   List<QuoteDto> getQuotes() throws BizException;
 
@@ -58,13 +58,11 @@ public interface QuoteUcc {
 
   /**
    * change the state of the quote in PLACED_ORDERED.
-   * 
-   * @param quoteID id of the quote
-   * @return
+   *
+   * @param quoteId id of the quote
+   * @return the quote
    * @throws FatalException if you had a problem with the db
-   * @throws BizException if the quote doesn't exist
+   * @throws BizException   if the quote doesn't exist
    */
-  QuoteDto confirmQuote(String quoteID) throws FatalException, BizException;
-
-
+  QuoteDto confirmQuote(String quoteId) throws FatalException, BizException;
 }
