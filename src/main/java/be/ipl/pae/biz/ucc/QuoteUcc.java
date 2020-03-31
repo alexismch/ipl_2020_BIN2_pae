@@ -46,8 +46,8 @@ public interface QuoteUcc {
 
 
   /**
-   * add the start date of the quote
-   * 
+   * Add the start date of the quote.
+   *
    * @param quote object quote with the id and date
    * @throws FatalException if you had a problem with the db
    */
