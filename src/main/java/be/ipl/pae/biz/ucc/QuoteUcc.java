@@ -21,7 +21,7 @@ public interface QuoteUcc {
    * Get all quotes.
    *
    * @return the quotes list.
-   * @throws FatalException if you have a problem with the db
+   * @throws BizException if you have a problem with the db
    */
   List<QuoteDto> getQuotes() throws BizException;
 
