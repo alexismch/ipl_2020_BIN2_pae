@@ -38,6 +38,9 @@ public class CustomerDaoImpl implements CustomerDao {
             + "WHERE lower(lastname) LIKE lower(?) AND lower(city) LIKE lower(?) "
             + "AND postal_code = ?";
       }
+      if (customersFilterDto.isOnlyNotLinked()) {
+        query += " AND id_user IS NULL";
+      }
     }
 
     PreparedStatement ps = dalService.getPreparedStatement(query);

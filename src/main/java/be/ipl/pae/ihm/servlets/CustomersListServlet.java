@@ -39,10 +39,17 @@ public class CustomersListServlet extends AbstractServlet {
     if (postalCodeString != null) {
       postalCode = Integer.parseInt(postalCodeString);
     }
+    boolean onlyNotLinked = false;
+    String onlyNotLinkedString = req.getParameter("onlyNotLinked");
+    if (onlyNotLinkedString != null) {
+      onlyNotLinked = Boolean.parseBoolean(onlyNotLinkedString);
+    }
+
     CustomersFilterDto customersFilterDto = dtoFactory.getCustomersFilter();
     customersFilterDto.setCity(city);
     customersFilterDto.setName(name);
     customersFilterDto.setPostalCode(postalCode);
+    customersFilterDto.setOnlyNotLinked(onlyNotLinked);
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
 
