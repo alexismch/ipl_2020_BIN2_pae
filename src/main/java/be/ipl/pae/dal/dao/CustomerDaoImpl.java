@@ -179,6 +179,7 @@ public class CustomerDaoImpl implements CustomerDao {
     return customerDto;
   }
 
+  @Override
   public CustomerDto getCustomerByIdUser(int idUser) throws FatalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_user =? ");
