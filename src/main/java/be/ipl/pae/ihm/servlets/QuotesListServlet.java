@@ -38,7 +38,6 @@ public class QuotesListServlet extends AbstractServlet {
     String quoteDateString = req.getParameter("dateDevis");
     String minAmountString = req.getParameter("montantMin");
     String maxAmountString = req.getParameter("montantMax");
-    String name = req.getParameter("name");
     // String developmentType = req.getParameter("amenagements");
     int minAmount = -1;
     int maxAmount = -1;
@@ -52,6 +51,7 @@ public class QuotesListServlet extends AbstractServlet {
       minAmount = Integer.parseInt(minAmountString);
     }
     LocalDate quoteDate = null;
+    String name = req.getParameter("name");
 
     QuotesFilterDto quotesFilterDto = dtoFactory.getQuotesFilter();
     quotesFilterDto.setCustomerName(name);
