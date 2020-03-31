@@ -34,7 +34,6 @@ export class DevelopmentTypePage extends Page {
     super(id === undefined ? 'Accueil' : 'Aménagement n°' + id);
 
     this._$view = $(this._template);
-
     ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
       this._$view.find('app-loadbar').remove();
       if (id !== undefined && data.photosList.length > 0) {
@@ -48,6 +47,8 @@ export class DevelopmentTypePage extends Page {
     }, () => {
       this._$view.find('app-loadbar').remove();
     });
+     
+
 
   }
 
