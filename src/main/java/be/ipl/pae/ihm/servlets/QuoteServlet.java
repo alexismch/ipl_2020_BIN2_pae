@@ -169,7 +169,6 @@ public class QuoteServlet extends AbstractServlet {
     }
   }
 
-
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("PUT /api/quote by " + req.getRemoteAddr());

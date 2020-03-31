@@ -50,9 +50,8 @@ public class LinkCcServlet extends AbstractServlet {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
-      } catch (FatalException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      } catch (FatalException fatalE) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       }
     } else {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
