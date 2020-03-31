@@ -233,4 +233,20 @@ public class QuoteDaoImpl implements QuoteDao {
     }
   }
 
+  @Override
+  public void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException {
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("UPDATE mystherbe.quotes SET id_state = ? WHERE id_quote = ?");
+
+    try {
+      ps.setInt(1, confirmedDate.getId());
+      ps.setString(2, quoteId);
+      ps.executeUpdate();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+  }
+
 }
