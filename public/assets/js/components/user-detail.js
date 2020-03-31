@@ -23,6 +23,37 @@ export class UserDetailPage extends Page {
   <div class="container"></div>
 </div>`;
 
+   acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
+  <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
+  <p>Veuillez selectionner son statut.</p>
+  <select class="custom-select" name="statusChoice" >
+    <option value="Client">Client</option> 
+    <option value="Ouvrier">Ouvrier</option> 
+  </select>
+  <input name="pseudo" type="hidden" value="${user.pseudo}">
+  <input type = "submit" >
+</form>`);
+ 
+
+
+     linkform = $(`<form action="/api/link-cc" class="w-100 mb-3" method="post" novalidate>  
+  <input name="userId" type="hidden" value="${user.id}">
+  <div class="form-group">
+      <label for="customerLink">Client<span class="text-danger">*</span></label>
+      <select id="customerLink" name="customerId" class="form-control" data-placeholder="Choisissez un client">
+        <option value="test">test</option>
+      </select>
+      <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
+      <p class="d-flex align-items-center mx-3 mt-1">
+      L'utilisateur ne correspond à aucun client?
+        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
+      </p>
+    </div>
+  <div class="d-flex justify-content-end mt-2">
+    <button class="btn btn-primary" id="btntest" type="submit">Modifier le statut</button>
+  </div>
+</form>`);
+
   _$selectClient;
 
   /**
@@ -42,7 +73,14 @@ export class UserDetailPage extends Page {
       createAlert('danger', error.responseJSON.error);
     });
     
+  this._getCustomerList();
 
+  onSubmitWithAjax(acceptationForm, () => {
+        router.navigate('utilisateurs');
+        clearAlerts();
+        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
+      });
+     
           
 
          
@@ -73,45 +111,10 @@ export class UserDetailPage extends Page {
 
     } else if (!isOuvrier(user)) {
 
-      const acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
-  <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
-  <p>Veuillez selectionner son statut.</p>
-  <select class="custom-select" name="statusChoice" >
-    <option value="Client">Client</option> 
-    <option value="Ouvrier">Ouvrier</option> 
-  </select>
-  <input name="pseudo" type="hidden" value="${user.pseudo}">
-  <input type = "submit" >
-</form>`);
-
-      const linkform = $(`<form action="/api/link-cc" class="w-100 mb-3" method="post" novalidate>  
-  <input name="userId" type="hidden" value="${user.id}">
-  <div class="form-group">
-      <label for="customerLink">Client<span class="text-danger">*</span></label>
-      <select id="customerLink" name="customerId" class="form-control" data-placeholder="Choisissez un client">
-        <option value="test">test</option>
-      </select>
-      <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
-      <p class="d-flex align-items-center mx-3 mt-1">
-      L'utilisateur ne correspond à aucun client?
-        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
-      </p>
-    </div>
-  <div class="d-flex justify-content-end mt-2">
-    <button class="btn btn-primary" id="btntest" type="submit">Modifier le statut</button>
-  </div>
-</form>`);
-
     acceptationForm.append(linkform);
       container.append(acceptationForm);
        this._$selectClient = linkform.find('#customerLink');
-this._getCustomerList();
-onSubmitWithAjax(acceptationForm, () => {
-        router.navigate('utilisateurs');
-        clearAlerts();
-        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
-      });
-     
+
     
 
     }
