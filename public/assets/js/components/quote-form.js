@@ -138,7 +138,6 @@ export class QuoteFormPage extends Page {
       this._addAnAddPictureComponent();
     });
 
-    this._addAnAddPictureComponent();
     this._retriveDevelopmentTypeList();
 
     this.isLoading = false;
@@ -163,9 +162,6 @@ export class QuoteFormPage extends Page {
       </div>`);
 
     button.on('click', () => {
-      if (this._addPictureComponents.length <= 1) {
-        return;
-      }
       this._addPictureComponents = this._addPictureComponents.filter(aPicCp => aPicCp != addPictureComponent);
       button.remove();
       addPictureComponentView.remove();
