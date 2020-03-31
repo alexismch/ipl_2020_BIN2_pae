@@ -44,7 +44,7 @@ public class LoginServlet extends AbstractServlet {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       }
     } else {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Token invalide.");
+      sendSuccessWithJson(resp, "user", null);
     }
   }
 

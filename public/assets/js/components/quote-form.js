@@ -2,7 +2,7 @@
 
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
-import {clearAlerts, createAlert} from '../utils/alerts.js';
+import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
@@ -155,9 +155,6 @@ export class QuoteFormPage extends Page {
     onSubmitWithAjax(this._$view.find('form'), () => {
       router.navigate('devis');
       createAlert('success', 'Le devis a bien été ajouté');
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error);
     });
 
     this._$photos = this._$view.find("#page-add-devis-photos");

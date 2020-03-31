@@ -1,5 +1,7 @@
 'use strict';
 
+import {clearAlerts, createAlert} from './alerts.js';
+
 /**
  * @module AJAX
  */
@@ -72,6 +74,13 @@ function ajax(method = 'GET', url = '', requestData = null, onSuccess = null, on
         errorThrown,
         jqXHR
       });
+      clearAlerts();
+      if (jqXHR.responseJSON.error !== undefined) {
+        createAlert('danger', (jqXHR.responseJSON.code !== undefined ? jqXHR.responseJSON.code + ' ' : '') + jqXHR.responseJSON.error);
+      } else {
+        console.log(jqXHR.status);
+        createAlert('danger', jqXHR.status + ' ' + errorThrown);
+      }
       if (onError !== null) {
         onError(jqXHR, textStatus, errorThrown);
       }

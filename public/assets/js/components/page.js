@@ -34,4 +34,9 @@ export class Page extends Component {
     return this._title;
   }
 
+  setTitle(title) {
+    this._title = title;
+    $('title').text(`${title} | La Rose et Le Lilas`);
+  }
+
 }
