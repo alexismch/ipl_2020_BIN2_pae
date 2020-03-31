@@ -47,14 +47,11 @@ public class DtoFactoryImpl implements DtoFactory {
   }
 
   @Override
-
   public PhotoVisibleDto getPhotoVisible() {
     return new PhotoVisibleImpl();
   }
 
   public QuotesFilterDto getQuotesFilter() {
-    // TODO Auto-generated method stub
     return new QuotesFilterImpl();
-
   }
 }

@@ -32,23 +32,26 @@ public class CustomersListServlet extends AbstractServlet {
       return;
     }
 
+    CustomersFilterDto customersFilterDto = dtoFactory.getCustomersFilter();
+
     String name = req.getParameter("name");
-    String postalCodeString = req.getParameter("postalCode");
+    customersFilterDto.setName(name);
+
     String city = req.getParameter("city");
+    customersFilterDto.setCity(city);
+
+    String postalCodeString = req.getParameter("postalCode");
     int postalCode = 0;
     if (postalCodeString != null) {
       postalCode = Integer.parseInt(postalCodeString);
     }
+    customersFilterDto.setPostalCode(postalCode);
+
     boolean onlyNotLinked = false;
     String onlyNotLinkedString = req.getParameter("onlyNotLinked");
     if (onlyNotLinkedString != null) {
       onlyNotLinked = Boolean.parseBoolean(onlyNotLinkedString);
     }
-
-    CustomersFilterDto customersFilterDto = dtoFactory.getCustomersFilter();
-    customersFilterDto.setCity(city);
-    customersFilterDto.setName(name);
-    customersFilterDto.setPostalCode(postalCode);
     customersFilterDto.setOnlyNotLinked(onlyNotLinked);
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);

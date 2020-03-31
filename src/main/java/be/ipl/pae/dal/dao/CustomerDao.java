@@ -47,11 +47,11 @@ public interface CustomerDao {
   CustomerDto getCustomer(int idCustomer) throws FatalException;
 
   /**
-   * Get a customer from his user id
-   * 
+   * Get a customer from his user id.
+   *
    * @param idUser Id of the user used to get the customer
    * @return an CustomerDto object
-   * @throws FatalException
+   * @throws FatalException If error with the database.
    */
   CustomerDto getCustomerByIdUser(int idUser) throws FatalException;
 }
