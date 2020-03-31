@@ -81,6 +81,11 @@ export class UserDetailPage extends Page {
     <option value="Ouvrier">Ouvrier</option> 
   </select>
   <input name="pseudo" type="hidden" value="${user.pseudo}">
+  <input type = "submit" >
+</form>`);
+
+      const linkform = $(`<form action="/api/link-cc" class="w-100 mb-3" method="post" novalidate>  
+  <input name="userId" type="hidden" value="${user.id}">
   <div class="form-group">
       <label for="customerLink">Client<span class="text-danger">*</span></label>
       <select id="customerLink" name="customerId" class="form-control" data-placeholder="Choisissez un client">
@@ -88,7 +93,7 @@ export class UserDetailPage extends Page {
       </select>
       <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
       <p class="d-flex align-items-center mx-3 mt-1">
-        Client inexistant ?
+      L'utilisateur ne correspond à aucun client?
         <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
       </p>
     </div>
@@ -97,15 +102,17 @@ export class UserDetailPage extends Page {
   </div>
 </form>`);
 
-
-       this._$selectClient = acceptationForm.find('#customerLink');
+    acceptationForm.append(linkform);
+      container.append(acceptationForm);
+       this._$selectClient = linkform.find('#customerLink');
 this._getCustomerList();
 onSubmitWithAjax(acceptationForm, () => {
         router.navigate('utilisateurs');
         clearAlerts();
-        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.' + user.status);
+        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
       });
-      container.append(acceptationForm);
+     
+    
 
     }
 
