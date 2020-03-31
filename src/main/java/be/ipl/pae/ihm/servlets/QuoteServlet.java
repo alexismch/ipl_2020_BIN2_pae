@@ -172,6 +172,8 @@ public class QuoteServlet extends AbstractServlet {
 
     String dateString = req.getParameter("date");
     String quoteId = req.getParameter("quoteId");
+    System.out.println("date= " + dateString);
+    System.out.println("id = " + quoteId);
     if (verifyNotEmpty(dateString, quoteId)) {
       LocalDate date = Date.valueOf(dateString).toLocalDate();
 
