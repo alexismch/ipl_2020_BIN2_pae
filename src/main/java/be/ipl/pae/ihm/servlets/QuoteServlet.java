@@ -22,8 +22,10 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.stream.Stream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,6 +39,8 @@ public class QuoteServlet extends AbstractServlet {
 
   @Injected
   DevelopmentTypeUcc developmentTypeUcc;
+
+  GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -148,8 +152,6 @@ public class QuoteServlet extends AbstractServlet {
       return;
     }
 
-    GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
-
     String quoteId = req.getParameter("quoteId");
     try {
       QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
@@ -162,29 +164,35 @@ public class QuoteServlet extends AbstractServlet {
   }
 
 
-  /**
-   * @Override protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws
-   *           ServletException, IOException { System.out.println("PUT /api/quote by " +
-   *           req.getRemoteAddr());
-   * 
-   *           String dateString = req.getParameter("date"); String quoteId =
-   *           req.getParameter("quoteId"); System.out.println("date= " + dateString);
-   *           System.out.println("id = " + quoteId); if (verifyNotEmpty(dateString, quoteId)) {
-   *           LocalDate date = Date.valueOf(dateString).toLocalDate();
-   * 
-   *           QuoteDto quoteToModify = dtoFactory.getQuote(); quoteToModify.setIdQuote(quoteId);
-   *           quoteToModify.setStartDate(date);
-   * 
-   *           try { quoteUcc.setStartDateQuoteInDb(quoteToModify); QuoteDto quoteToReturn =
-   *           quoteUcc.getQuote(quoteId);
-   * 
-   *           sendSuccessWithJson(resp, "quote date", genson.create().serialize(quoteToReturn)); }
-   *           catch (FatalException ex) { sendError(resp,
-   *           HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()); } catch (BizException
-   *           ex) { sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage()); }
-   *           } else { sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres
-   *           invalides"); } }
-   */
+  @Override
+  protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    System.out.println("PUT /api/quote by " + req.getRemoteAddr());
+
+    String dateString = req.getParameter("date");
+    String quoteId = req.getParameter("quoteId");
+    if (verifyNotEmpty(dateString, quoteId)) {
+      LocalDate date = Date.valueOf(dateString).toLocalDate();
+
+      QuoteDto quoteToModify = dtoFactory.getQuote();
+      quoteToModify.setIdQuote(quoteId);
+      quoteToModify.setStartDate(date);
+
+      try {
+        quoteUcc.setStartDateQuoteInDb(quoteToModify);
+        QuoteDto quoteToReturn = quoteUcc.getQuote(quoteId);
+
+        sendSuccessWithJson(resp, "quote date", genson.create().serialize(quoteToReturn));
+      } catch (FatalException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+  }
+
 
 
 }

@@ -128,4 +128,17 @@ public class QuoteUccImpl implements QuoteUcc {
       throw new BizException(ex);
     }
   }
+
+  @Override
+  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
+    try {
+      dalService.startTransaction();
+      quoteDao.setStartDate(quote);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
 }
