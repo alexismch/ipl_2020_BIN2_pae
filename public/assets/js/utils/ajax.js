@@ -75,11 +75,14 @@ function ajax(method = 'GET', url = '', requestData = null, onSuccess = null, on
         jqXHR
       });
       clearAlerts();
-      if (jqXHR.responseJSON.error !== undefined) {
+      if (jqXHR.responseJSON !== undefined && jqXHR.responseJSON.error !== undefined) {
         createAlert('danger', (jqXHR.responseJSON.code !== undefined ? jqXHR.responseJSON.code + ' ' : '') + jqXHR.responseJSON.error);
       } else {
-        console.log(jqXHR.status);
-        createAlert('danger', jqXHR.status + ' ' + errorThrown);
+        if (jqXHR.status === 0) {
+          createAlert('danger', 'Connection perdue');
+        } else {
+          createAlert('danger', jqXHR.status + ' ' + errorThrown);
+        }
       }
       if (onError !== null) {
         onError(jqXHR, textStatus, errorThrown);
