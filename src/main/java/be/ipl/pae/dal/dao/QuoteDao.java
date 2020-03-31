@@ -69,4 +69,13 @@ public interface QuoteDao {
    */
   List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException;
 
+  /**
+   * set the startdate in the db.
+   * 
+   * @param quote a quote with an id and the startdate
+   * @throws FatalException if you had an error with the db
+   */
+  void setStartDate(QuoteDto quote) throws FatalException;
+
+
 }

@@ -216,4 +216,22 @@ public class QuoteDaoImpl implements QuoteDao {
     }
     return quoteState;
   }
+
+  @Override
+  public void setStartDate(QuoteDto quote) throws FatalException {
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("UPDATE mystherbe.quotes SET start_date = ? WHERE id_quote = ? ");
+
+    try {
+      ps.setDate(1, Date.valueOf(quote.getStartDate()));
+      ps.setString(2, quote.getIdQuote());
+      ps.executeUpdate();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+
+  }
+
 }
