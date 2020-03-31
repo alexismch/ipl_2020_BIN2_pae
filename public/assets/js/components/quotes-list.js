@@ -1,4 +1,5 @@
 import {router} from '../main.js';
+import {onSubmitWithNavigation} from '../utils/forms.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {Page} from './page.js';
 
@@ -14,9 +15,25 @@ import {Page} from './page.js';
 export class QuotesListPage extends Page {
 
   _template = `<div>
-  <form action="quotes-list" class="form-inline p-1 elevation-1 bg-light" method="get">
-    <!-- TODO ajouter filter devis -->
-    <p>Filtre à faire</p>
+  <form action="devis" class="form-inline p-1 elevation-1 bg-light" method="get">
+  <input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">
+  <input class="form-control form-control-sm mx-1 mt-1" name="dateDevis" placeholder="Date du devis" type="date">
+  <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
+  <input class="form-control form-control-sm mx-1 mt-1" name="montantMax" placeholder="Montant Maximum" type="number">
+
+  <select name="amenagement" id="amenagements">
+    <option value="Aménagement de jardin de ville">Aménagement de jardin de ville</option>
+    <option value="Aménagement de jardin">Aménagement de jardin</option>
+    <option value="Aménagement de parc paysagiste">Aménagement de parc paysagiste</option>
+    <option value="Création de potagers">Création de potagers</option>
+    <option value="Entretien de vergers haute-tige">Entretien de vergers haute-tige</option>
+    <option value="Entretien de vergers basse-tige">Entretien de vergers basse-tige</option>
+    <option value="Aménagement d’étang">Aménagement d’étang</option>
+    <option value="Installation de système d’arrosage automatique">Installation de système d’arrosage automatique</option>
+    <option value="Terrasses en boisTerrasses en boisoption>
+    <option value="Terrasses en pierres naturelles">Terrasses en pierres naturelles</option>
+  </select>
+
     <div class="input-group input-group-sm m-1">
       <button class="btn btn-primary btn-sm w-100">Rechercher</button>
     </div>
@@ -28,12 +45,56 @@ export class QuotesListPage extends Page {
   /**
    *
    */
-  constructor() {
+  constructor(query) {
     super('Devis');
 
     this._$view = $(this._template);
 
-    ajaxGET('/api/quotes-list', null, (data) => {
+    onSubmitWithNavigation(this._$view.find('form'), (url, data) => {
+      if (data !== query) {
+        router.navigate(url + '?' + data);
+      }
+    });
+
+    ajaxGET('/api/quotes-list', query, (data) => {
+      if (query !== undefined && query !== null && query !== '') {
+        let shouldHide = true;
+        let researchMsg = 'Résultats de la recherche: ';
+        const fields = query.split('&');
+        for (const field of fields) {
+          const entry = field.split('=');
+          if (entry[1] !== '' && entry[1] !== undefined) {
+            researchMsg += '<span class="badge badge-primary mr-1 font-size-100">';
+            switch (entry[0]) {
+              case 'name':
+                researchMsg += 'Nom: ';
+                break;
+              case'dateDevis':
+                researchMsg += 'Date du devis: '
+                break;
+              case 'montantMin':
+                researchMsg += 'Montant minimum: ';
+                break;
+              case 'montantMax':
+                researchMsg += 'Montant Maximum: ';
+                break;
+              case 'amenagement':
+                researchMsg += 'Amenagement: '
+                break;
+            }
+            researchMsg += decodeURI(entry[1]) + '</span>';
+            shouldHide = false;
+          }
+        }
+        if (!shouldHide) {
+          this._$view.find('.quotes-list-search-msg').html(researchMsg).removeClass('d-none');
+          this._$view.find('form').deserialize(query);
+        } else {
+          this._$view.find('.quotes-list-search-msg').addClass('d-none');
+        }
+      } else {
+        this._$view.find('.quotes-list-search-msg').addClass('d-none');
+      }
       this._createQuotesList(data.quotesList);
       router.updatePageLinks();
     });
