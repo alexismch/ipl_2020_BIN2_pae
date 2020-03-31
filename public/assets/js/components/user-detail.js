@@ -104,9 +104,6 @@ onSubmitWithAjax(acceptationForm, () => {
         router.navigate('utilisateurs');
         clearAlerts();
         createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.' + user.status);
-      }, (error) => {
-        clearAlerts();
-        createAlert('danger', error.responseJSON.error);
       });
       container.append(acceptationForm);
 
