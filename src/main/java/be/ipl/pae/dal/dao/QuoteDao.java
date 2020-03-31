@@ -73,7 +73,6 @@ public interface QuoteDao {
    * set the startdate in the db.
    * 
    * @param quote a quote with an id and the startdate
-   * @return a quoteDto object
    * @throws FatalException if you had an error with the db
    */
   void setStartDate(QuoteDto quote) throws FatalException;
