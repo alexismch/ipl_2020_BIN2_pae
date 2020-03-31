@@ -14,7 +14,7 @@ import {ajaxGET} from '../utils/ajax.js';
  */
 export class DevelopmentTypePage extends Page {
 
-  _template = `<div class="carousel slide d-block" data-ride="carousel" id="template-carousel">
+  _template = `<div class="carousel slide d-block">
   <app-loadbar></app-loadbar>
   <div class="carousel-inner"></div>
   <a class="carousel-control-prev" data-slide="prev" href="#template-carousel" role="button">
@@ -84,6 +84,11 @@ export class DevelopmentTypePage extends Page {
     </div>`;
 
     this._$view.find('.carousel-inner').append(pictureContainer);
+    this._$view.carousel({
+      interval: 1,
+      pause: false,
+      ride: 'carousel'
+    }).carousel('cycle');
 
   }
 
