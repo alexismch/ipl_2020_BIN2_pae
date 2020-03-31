@@ -31,7 +31,7 @@ public class ConfirmationStatutServlet extends AbstractServlet {
     String statutComplet = req.getParameter("statusChoice");
     char statut;
 
-    if (statutComplet == "Client") {
+    if (statutComplet == "CUSTOMER") {
       statut = 'c';
     } else {
       statut = 'o';

@@ -6,6 +6,7 @@ import {ajaxGET} from '../utils/ajax.js';
 import {getUserStatusColor, isClient, isOuvrier} from '../utils/userUtils.js'
 import {clearAlerts, createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
+import {CustomerInputComponent} from './customer-input.js';
 
 /**
  * @module Components
@@ -23,39 +24,6 @@ export class UserDetailPage extends Page {
   <div class="container"></div>
 </div>`;
 
-   acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
-  <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
-  <p>Veuillez selectionner son statut.</p>
-  <select class="custom-select" name="statusChoice" >
-    <option value="Client">Client</option> 
-    <option value="Ouvrier">Ouvrier</option> 
-  </select>
-  <input name="pseudo" type="hidden" value="${user.pseudo}">
-  <input type = "submit" >
-</form>`);
- 
-
-
-     linkform = $(`<form action="/api/link-cc" class="w-100 mb-3" method="post" novalidate>  
-  <input name="userId" type="hidden" value="${user.id}">
-  <div class="form-group">
-      <label for="customerLink">Client<span class="text-danger">*</span></label>
-      <select id="customerLink" name="customerId" class="form-control" data-placeholder="Choisissez un client">
-        <option value="test">test</option>
-      </select>
-      <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
-      <p class="d-flex align-items-center mx-3 mt-1">
-      L'utilisateur ne correspond à aucun client?
-        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
-      </p>
-    </div>
-  <div class="d-flex justify-content-end mt-2">
-    <button class="btn btn-primary" id="btntest" type="submit">Modifier le statut</button>
-  </div>
-</form>`);
-
-  _$selectClient;
-
   /**
    *
    */
@@ -67,23 +35,12 @@ export class UserDetailPage extends Page {
     ajaxGET('/api/user', `id=${userId}`, (data) => {
       this._$view.find('app-loadbar').remove();
       this._createUserDetail(data.userDetail);
-
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error);
+      router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
-    
-  this._getCustomerList();
 
-  onSubmitWithAjax(acceptationForm, () => {
-        router.navigate('utilisateurs');
-        clearAlerts();
-        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
-      });
-     
-          
-
-         
   }
 
   _createUserDetail(user) {
@@ -111,23 +68,70 @@ export class UserDetailPage extends Page {
 
     } else if (!isOuvrier(user)) {
 
-    acceptationForm.append(linkform);
+      const acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
+  <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
+  <div class="form-group">
+    <select name="statusChoice" class="select-status" data-placeholder="Veuillez sélectionner son statut">
+      <option value=""></option>
+      <option value="CUSTOMER">Client</option> 
+      <option value="WORKER">Ouvrier</option> 
+    </select>
+  </div>
+  
+  <input name="pseudo" type="hidden" value="${user.pseudo}">
+  <input name="userId" type="hidden" value="${user.id}">
+  
+  <div class="form-group select-client"></div>
+  <div class="d-flex justify-content-end mt-2">
+    <button class="btn btn-primary" type="submit">Modifier le statut</button>
+  </div>
+</form>`);
+
+      const $selectStatus = acceptationForm.find('.select-status');
+      const $selectClient = acceptationForm.find('.select-client');
+      $selectClient.hide();
+
+      $selectStatus.chosen({
+        width: '100%',
+        disable_search: true,
+        allow_single_deselect: true
+      });
+
+      $selectStatus.data('validator', () => {
+        const errorElement = $selectStatus.next().next('.input-error');
+        if ($selectStatus.val()[0] === undefined) {
+          acceptationForm.attr('action', '/api/confirmationStatut');
+          $selectClient.hide();
+          errorElement.show(100);
+          return false;
+        } else {
+
+          if ($selectStatus.val() === "CUSTOMER") {
+            acceptationForm.attr('action', '/api/link-cc');
+            $selectClient.show();
+          } else {
+            acceptationForm.attr('action', '/api/confirmationStatut');
+            $selectClient.hide();
+          }
+
+          errorElement.hide(100);
+          return true;
+        }
+      });
+
+      const customerInputComponent = new CustomerInputComponent('customerId', true);
+
+      $selectClient.append(customerInputComponent.getView());
+
+      onSubmitWithAjax(acceptationForm, () => {
+        router.navigate('utilisateurs');
+        clearAlerts();
+        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
+      });
+
       container.append(acceptationForm);
-       this._$selectClient = linkform.find('#customerLink');
-
-    
-
     }
 
-  }
-    _getCustomerList() {
-    ajaxGET('/api/customers-list', null, (data) => {
-      for (const customer of data.customers) {
-        
-        $(`<option value="${customer.idCustomer}">${customer.lastName} ${customer.firstName}</option>`).appendTo(this._$selectClient);
-      }
-      this._$selectClient.trigger('chosen:updated');
-    });
   }
 
 }
