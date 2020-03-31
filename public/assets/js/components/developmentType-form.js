@@ -41,6 +41,7 @@ export class DevelopmentTypeFormPage extends Page {
       createAlert('success', 'L\'aménagment a bien été ajouté');
     });
 
+    this.isLoading = false;
   }
 
 }

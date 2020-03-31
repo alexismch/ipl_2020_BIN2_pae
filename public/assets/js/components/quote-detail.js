@@ -16,7 +16,6 @@ import {Page} from './page.js';
 export class QuoteDetailPage extends Page {
 
   _template = `<div>
-  <app-loadbar class="position-relative h-0"></app-loadbar>
   <div class="container">
     <p class="detail-quote"></p>
     <div class="client"></div>
@@ -46,6 +45,9 @@ export class QuoteDetailPage extends Page {
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
 
   }

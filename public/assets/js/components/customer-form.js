@@ -71,6 +71,7 @@ export class CustomerFormPage extends Page {
       createAlert('success', 'Le client a bien été ajouté !');
     });
 
+    this.isLoading = false;
   }
 
 }

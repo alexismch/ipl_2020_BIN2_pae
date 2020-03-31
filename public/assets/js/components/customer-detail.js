@@ -32,6 +32,9 @@ export class CustomerDetailPage extends Page {
 
       this._createCustomerDetail(data.customerDetails);
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
   }
 

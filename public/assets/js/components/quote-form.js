@@ -167,6 +167,7 @@ export class QuoteFormPage extends Page {
     this._retriveCustomerList();
     this._retriveDevelopmentTypeList();
 
+    this.isLoading = false;
   }
 
   _retriveCustomerList() {

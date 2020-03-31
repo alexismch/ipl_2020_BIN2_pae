@@ -14,6 +14,7 @@ import {Component} from './component.js';
 export class Page extends Component {
 
   _title;
+  _isLoading = false;
 
   /**
    * Create a page.
@@ -37,6 +38,15 @@ export class Page extends Component {
   setTitle(title) {
     this._title = title;
     $('title').text(`${title} | La Rose et Le Lilas`);
+  }
+
+  get isLoading() {
+    return this._isLoading;
+  }
+
+  set isLoading(isLoading) {
+    this._isLoading = isLoading;
+    $('#load-bar').hide();
   }
 
 }
