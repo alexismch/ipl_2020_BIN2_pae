@@ -50,7 +50,7 @@ public interface QuoteUcc {
    * Add the start date of the quote and change the state of the quote.
    *
    * @param quote object quote with the id and date
-   * @return a suoteDto object
+   * @return a quoteDto object
    * @throws FatalException if you had a problem with the db
    * @throws BizException if the quote doesn't exist
    */
@@ -59,12 +59,12 @@ public interface QuoteUcc {
   /**
    * change the state of the quote in PLACED_ORDERED.
    * 
-   * @param quoteID id of the quote
-   * @return
+   * @param quoteId id of the quote
+   * @return a quoteDto object
    * @throws FatalException if you had a problem with the db
    * @throws BizException if the quote doesn't exist
    */
-  QuoteDto confirmQuote(String quoteID) throws FatalException, BizException;
+  QuoteDto confirmQuote(String quoteId) throws FatalException, BizException;
 
 
 }
