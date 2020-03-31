@@ -6,7 +6,6 @@ import be.ipl.pae.biz.objets.QuoteState;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 public interface QuoteDto {
 
@@ -75,6 +74,8 @@ public interface QuoteDto {
 
   List<DevelopmentTypeDto> getDevelopmentTypes();
 
+  void setDevelopmentType(List<DevelopmentTypeDto> developmentType);
+
   /**
    * Add a development type to the list.
    *
@@ -86,12 +87,4 @@ public interface QuoteDto {
 
   void setListPhotoAfter(List<PhotoDto> listPhotoAfter);
 
-  /**
-   * Add a development type to the set.
-   *
-   * @param developmentTypes the type to add
-   */
-  void addDevelopmentTypesSet(DevelopmentTypeDto developmentTypes);
-
-  Set<DevelopmentTypeDto> getDevelopmentTypesSet();
 }

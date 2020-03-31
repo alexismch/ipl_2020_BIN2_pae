@@ -90,19 +90,18 @@ public class QuoteUccImpl implements QuoteUcc {
       quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
       quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
 
-      //TODO: SELECT FROM quote_types et non photos
+      // TODO: SELECT FROM quote_types et non photos
 
-      for (PhotoDto photo : quoteDto.getListPhotoBefore()) {
-        DevelopmentTypeDto developmentTypeDto =
-            developmentTypeDao.getDevelopmentType(photo.getIdType());
-        quoteDto.addDevelopmentTypesSet(developmentTypeDto);
-      }
-
-      for (PhotoDto photo : quoteDto.getListPhotoAfter()) {
-        DevelopmentTypeDto developmentTypeDto =
-            developmentTypeDao.getDevelopmentType(photo.getIdType());
-        quoteDto.addDevelopmentTypesSet(developmentTypeDto);
-      }
+      quoteDto.setDevelopmentType(developmentTypeDao.getDevelopmentTypeList(quoteDto.getIdQuote()));
+      /*
+       * for (PhotoDto photo : quoteDto.getListPhotoBefore()) { DevelopmentTypeDto
+       * developmentTypeDto = developmentTypeDao.getDevelopmentType(photo.getIdType());
+       * quoteDto.addDevelopmentTypesSet(developmentTypeDto); }
+       * 
+       * for (PhotoDto photo : quoteDto.getListPhotoAfter()) { DevelopmentTypeDto developmentTypeDto
+       * = developmentTypeDao.getDevelopmentType(photo.getIdType());
+       * quoteDto.addDevelopmentTypesSet(developmentTypeDto); }
+       */
 
       return quoteDto;
     } catch (FatalException ex) {

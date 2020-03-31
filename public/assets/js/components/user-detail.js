@@ -41,8 +41,6 @@ export class UserDetailPage extends Page {
       createAlert('danger', error.responseJSON.error);
     });
 
-
-
   }
 
   _createUserDetail(user) {
@@ -70,36 +68,29 @@ export class UserDetailPage extends Page {
 
     } else if (!isOuvrier(user)) {
 
-      const acceptationForm = `<p></p>`;
-
-      container.append(acceptationForm);
-
-    }
-       if(user.status.name == "Non-accepté"){
-      
-       const confirmerInscription = ` <form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
-       <p class="text-danger h6">Cet utilisateur n'est pas encore confirmé!</p>
-       <p>Veuillez selectionner son statut.</p>
-       <select class="custom-select" data-style="btn-primary"  name="statusChoice" id="statusChoice">
+      const acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
+  <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
+  <p>Veuillez selectionner son statut.</p>
+  <select class="custom-select" name="statusChoice">
     <option value="Client">Client</option> 
     <option value="Ouvrier">Ouvrier</option> 
-    </select>
-        <input name="pseudo" type="hidden" value="${user.pseudo}">
-           <button class="btn btn-primary" id="btntest" type="submit">modifier le statut</button>
+  </select>
+  <input name="pseudo" type="hidden" value="${user.pseudo}">
+  <div class="d-flex justify-content-end mt-2">
+    <button class="btn btn-primary" id="btntest" type="submit">Modifier le statut</button>
+  </div>
+</form>`);
 
-       </form>`;
-       container.append(confirmerInscription); 
-        
-            onSubmitWithAjax(this._$view.find('form'), () => {
-              
-      router.navigate('utilisateurs');
-      clearAlerts();
-      createAlert('success', 'Le compte de l utilisateur '+ user.pseudo + 'a bien été modifié.');
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error);
-    });
+      onSubmitWithAjax(acceptationForm, () => {
+        router.navigate('utilisateurs');
+        clearAlerts();
+        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
+      }, (error) => {
+        clearAlerts();
+        createAlert('danger', error.responseJSON.error);
+      });
 
+      container.append(acceptationForm);
 
     }
 

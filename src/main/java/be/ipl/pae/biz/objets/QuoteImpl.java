@@ -8,9 +8,7 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class QuoteImpl implements Quote {
 
@@ -25,7 +23,7 @@ public class QuoteImpl implements Quote {
   private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
   private List<DevelopmentTypeDto> developmentType = new ArrayList<>();
-  private Set<DevelopmentTypeDto> developmentTypesSet = new HashSet<DevelopmentTypeDto>();
+
 
   /**
    * Create a QuoteImpl object.
@@ -168,6 +166,11 @@ public class QuoteImpl implements Quote {
   }
 
 
+  public void setDevelopmentType(List<DevelopmentTypeDto> developmentType) {
+    this.developmentType = developmentType;
+  }
+
+
   public void addDevelopmentType(DevelopmentTypeDto developmentType) {
     this.developmentType.add(developmentType);
   }
@@ -181,14 +184,6 @@ public class QuoteImpl implements Quote {
     this.listPhotoAfter = listPhotoAfter;
   }
 
-  @Override
-  public void addDevelopmentTypesSet(DevelopmentTypeDto developmentTypes) {
-    this.developmentTypesSet.add(developmentTypes);
-  }
 
-
-  public Set<DevelopmentTypeDto> getDevelopmentTypesSet() {
-    return developmentTypesSet;
-  }
 
 }
