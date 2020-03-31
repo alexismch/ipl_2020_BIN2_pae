@@ -1,17 +1,14 @@
 'use strict';
 
-<<<<<<< HEAD
+
 import { router } from '../main.js';
 import { ajaxGET } from '../utils/ajax.js';
 import { Page } from './page.js';
 import { isOuvrier } from '../utils/userUtils.js';
 import { onSubmitWithAjax } from '../utils/forms.js';
 import { createAlert } from '../utils/alerts.js'
-=======
-import {router} from '../main.js';
-import {ajaxGET} from '../utils/ajax.js';
-import {Page} from './page.js';
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
+
 
 /**
  * @module Components
@@ -25,8 +22,9 @@ import {Page} from './page.js';
 export class QuoteDetailPage extends Page {
 
   _template = `<div>
-<<<<<<< HEAD
-    <div class="container">
+
+<app-loadbar class="position-relative h-0"></app-loadbar>    
+<div class="container">
       <div class="button"></div>
       <p class="detail-quote"></p>
       <div class="client"></div>
@@ -39,21 +37,7 @@ export class QuoteDetailPage extends Page {
       <div class="detail-quote-photo-after"></div>
     </div>
   </div>`;
-=======
-  <app-loadbar class="position-relative h-0"></app-loadbar>
-  <div class="container">
-    <p class="detail-quote"></p>
-    <div class="client"></div>
-    <p class="detail-quote-client"></p>
-    <div class="types"></div>
-    <ul class="detail-quote-development-types"></ul>
-    <div class="before"></div>
-    <div class="detail-quote-photo-before"></div>
-    <div class="after"></div>
-    <div class="detail-quote-photo-after"></div>
-  </div>
-</div>`;
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
 
   /**
    *
@@ -70,19 +54,17 @@ export class QuoteDetailPage extends Page {
       this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
-<<<<<<< HEAD
       if (isOuvrier() && data.quote.state.id === "QUOTE_ENTERED") {
         this._$view.find('.button').append(`<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
         this.onClickDate(this._$view.find('.button'),quoteId);
       }
-=======
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
       router.updatePageLinks();
     });
 
   }
 
-<<<<<<< HEAD
+
   onClickDate($button,quoteId) {
     $("#confirmDate").click(function (e) {
       $button.empty();
@@ -103,13 +85,10 @@ export class QuoteDetailPage extends Page {
       </div>
     </div>
     </form>`;
-=======
-  _createQuoteDetailQuote(quote) {
-    const $quoteDetail = this._$view.find('.detail-quote');
-    $quoteDetail.empty();
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
 
-<<<<<<< HEAD
+
+
+
       $button.append(_templateToAdd);
 
       const $datePicker = $button.find('#page-add-devis-datetimepicker');
@@ -154,8 +133,7 @@ export class QuoteDetailPage extends Page {
     const $quoteDetail = this._$view.find('.detail-quote');
     $quoteDetail.empty();
 
-=======
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
     const detail = `<h2>Devis: ${quote.idQuote}</h2>
                     <div>Date du devis= ${quote.quoteDate}</div>
                     <div>Montant: ${quote.totalAmount}</div>
@@ -168,11 +146,9 @@ export class QuoteDetailPage extends Page {
 
   _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
-<<<<<<< HEAD
+
     this._$view.find('.client').append('<h4>Client</h4>');
-=======
-    this._$view.find('client').append('<h4>Client</h4>');
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
     $quoteDetailClient.empty();
 
     const detail = `<div class="ml-3">Nom: ${customer.lastName}</div>
@@ -183,11 +159,8 @@ export class QuoteDetailPage extends Page {
                     <div class="ml-3">Email: ${customer.email}</div>
                     <div class="ml-3">Numéro de téléphone: ${customer.phoneNumber}</div>`;
 
-<<<<<<< HEAD
     $quoteDetailClient.append(detail);
-=======
-  $quoteDetailClient.append(detail);
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
   }
 
   _createQuoteDetailDevelopmentTypeList(typeList) {
@@ -200,16 +173,12 @@ export class QuoteDetailPage extends Page {
     });
   }
 
-<<<<<<< HEAD
   _createTypesListItem($quoteDetailType, type) {
-=======
-  _createTypesListItem($quoteDetailType, type){
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
+
     const detail = `<li>${type.title}</li>`;
     $quoteDetailType.append(detail);
   }
 
-<<<<<<< HEAD
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
     this._$view.find('.before').append(`<h4 class="before">Photo avant aménagements</h4>`);
@@ -235,33 +204,6 @@ export class QuoteDetailPage extends Page {
     $quoteDetailPhoto.empty();
 
     if (photoList.length == 0) {
-=======
-  _createQuoteDetailPhotoBefore(photoList){
-    const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
-    this._$view.find('before').append(`<h4 class="before">Photo avant aménagements</h4>`);
-    
-    $quoteDetailPhoto.empty();
-    if(photoList.length == 0){
-      $quoteDetailPhoto.append("<div>Il n'y a pas de photo avant aménagement!</div>");
-    } else {
-      photoList.forEach(photo => {
-        this._createPhotoListItem($quoteDetailPhoto, photo);
-      });
-    }
-  }
-
-  _createPhotoListItem($quoteDetailPhoto, photo){
-    const detail = `<img src="${photo.base64}" alt="${photo.title}">`;
-    $quoteDetailPhoto.append(detail);
-  }
-
-  _createQuoteDetailPhotoAfter(photoList){
-    const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
-    this._$view.find('after').append(`<h4 class="before">Photo avant aménagements</h4>`);
-    $quoteDetailPhoto.empty();
-
-    if(photoList.length == 0){
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
       $quoteDetailPhoto.append("<div>Il n'y a pas de photo après aménagement!</div>");
     } else {
       photoList.forEach(photo => {
