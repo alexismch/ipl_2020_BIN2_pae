@@ -46,7 +46,7 @@ export class QuoteDetailPage extends Page {
       this._createQuoteDetailDevelopmentTypeList(data.quote.developmentTypes);
       this._createQuoteDetailPhotoBefore(data.quote.listPhotoBefore);
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
-      if (isOuvrier()) {
+      if (isOuvrier() && data.quote.state.id === "QUOTE_ENTERED") {
         this._$view.find('.button').append(`<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
         this.onClickDate(this._$view.find('.button'));
       }
@@ -71,7 +71,7 @@ export class QuoteDetailPage extends Page {
       </div>
       <small class="input-error form-text text-danger">Une date est requise.</small>
       <div class="form-group mt-2 d-flex justify-content-end">
-      <button class="btn btn-primary">Ajouter le devis</button>
+      <button class="btn btn-primary">Ajouter la date du début de devis.</button>
     </div>
     </div>`;
 
