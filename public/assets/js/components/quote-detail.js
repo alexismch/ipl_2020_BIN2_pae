@@ -56,7 +56,7 @@ export class QuoteDetailPage extends Page {
       this._createQuoteDetailPhotoAfter(data.quote.listPhotoAfter);
       if (isOuvrier() && data.quote.state.id === "QUOTE_ENTERED") {
         this._$view.find('.button').append(`<button type="button" id="confirmDate" class="btn btn-warning">Confirmer que la commande est passée.</button>`);
-        this.onClickDate(this._$view.find('.button'),quoteId);
+        this.onClickDate(this._$view.find('.button'), quoteId);
       }
 
       router.updatePageLinks();
@@ -65,7 +65,7 @@ export class QuoteDetailPage extends Page {
   }
 
 
-  onClickDate($button,quoteId) {
+  onClickDate($button, quoteId) {
     $("#confirmDate").click(function (e) {
       $button.empty();
       const _templateToAdd = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
@@ -115,8 +115,9 @@ export class QuoteDetailPage extends Page {
       });
 
       const here = this._$view;
-      onSubmitWithAjax($button.find('form'), (data) =>{
+      onSubmitWithAjax($button.find('form'), (data) => {
         $button.empty();
+        console.log(this._$view);
         const $startDate = here.find(".startDate");
         $startDate.empty();
         $startDate.append(`<div>Date de début de devis: ${data.quote.startDate}</div>`);
