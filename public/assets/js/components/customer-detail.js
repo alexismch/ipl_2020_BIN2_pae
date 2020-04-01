@@ -28,21 +28,12 @@ export class CustomerDetailPage extends Page {
     this._$view = $(this._template);
 
     ajaxGET('/api/customer-details', `idCustomer=${customerId}`, (data) => {
-<<<<<<< HEAD
       if(jQuery.isEmptyObject(data.customerDetails)){
         this._noDetail();
       }else{
         this._createCustomerDetail(data.customerDetails);
         router.updatePageLinks();
       }
-=======
-
-      this._createCustomerDetail(data.customerDetails);
-      router.updatePageLinks();
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
->>>>>>> branch 'master' of https://gitlab.vinci.be/6i2-cae/projet-ae-groupe-12.git
     });
   }
 
