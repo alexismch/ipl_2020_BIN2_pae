@@ -3,7 +3,7 @@
 import {router} from '../main.js';
 import {Page} from './page.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
-import {clearAlerts, createAlert} from '../utils/alerts.js';
+import {createAlert} from '../utils/alerts.js';
 
 /**
  * @module Components
@@ -39,11 +39,9 @@ export class DevelopmentTypeFormPage extends Page {
     onSubmitWithAjax(this._$view.find('form'), () => {
       router.navigate('amenagements');
       createAlert('success', 'L\'aménagment a bien été ajouté');
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error)
     });
 
+    this.isLoading = false;
   }
 
 }

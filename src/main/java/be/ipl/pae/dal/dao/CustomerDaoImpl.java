@@ -38,6 +38,9 @@ public class CustomerDaoImpl implements CustomerDao {
             + "WHERE lower(lastname) LIKE lower(?) AND lower(city) LIKE lower(?) "
             + "AND postal_code = ?";
       }
+      if (customersFilterDto.isOnlyNotLinked()) {
+        query += " AND id_user IS NULL";
+      }
     }
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
@@ -152,42 +155,30 @@ public class CustomerDaoImpl implements CustomerDao {
   public CustomerDto getCustomer(int idCustomer) throws FatalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_customer =? ");
-    CustomerDto customerDto = customerDtoFactory.getCustomer();
-
-    try {
-      ps.setInt(1, idCustomer);
-      try (ResultSet resultSet = ps.executeQuery()) {
-        while (resultSet.next()) {
-          customerDto.setIdCustomer(resultSet.getInt(1));
-          customerDto.setLastName(resultSet.getString(2));
-          customerDto.setFirstName(resultSet.getString(3));
-          customerDto.setAddress(resultSet.getString(4));
-          customerDto.setPostalCode(resultSet.getInt(5));
-          customerDto.setCity(resultSet.getString(6));
-          customerDto.setEmail(resultSet.getString(7));
-          customerDto.setPhoneNumber(resultSet.getString(8));
-          customerDto.setIdUser(resultSet.getInt(9));
-        }
-      }
-    } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new FatalException("error with the db!");
-    }
-    return customerDto;
+    return getCustomerViaPs(ps, idCustomer);
   }
 
+  @Override
   public CustomerDto getCustomerByIdUser(int idUser) throws FatalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_user =? ");
+    return getCustomerViaPs(ps, idUser);
+  }
+
+  /**
+   * Get a CustomerDto via PreparedStatement.
+   *
+   * @param ps the PreparedStatement
+   * @param id the first paramter of the ps
+   * @return the CustomerDto
+   * @throws FatalException if an error occurred with the db
+   */
+  private CustomerDto getCustomerViaPs(PreparedStatement ps, int id) throws FatalException {
     CustomerDto customerDto = customerDtoFactory.getCustomer();
-
     try {
-
-      ps.setInt(1, idUser);
-
+      ps.setInt(1, id);
       try (ResultSet resultSet = ps.executeQuery()) {
         while (resultSet.next()) {
-
           customerDto.setIdCustomer(resultSet.getInt(1));
           customerDto.setLastName(resultSet.getString(2));
           customerDto.setFirstName(resultSet.getString(3));
@@ -197,14 +188,11 @@ public class CustomerDaoImpl implements CustomerDao {
           customerDto.setEmail(resultSet.getString(7));
           customerDto.setPhoneNumber(resultSet.getString(8));
           customerDto.setIdUser(resultSet.getInt(9));
-
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new FatalException("error with the db!");
     }
-
     return customerDto;
   }
 }

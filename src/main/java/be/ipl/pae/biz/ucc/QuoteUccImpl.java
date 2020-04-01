@@ -3,6 +3,7 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
@@ -78,38 +79,32 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto getQuote(String idQuote) throws FatalException, BizException {
-    QuoteDto quoteDto;
+
     try {
       dalService.startTransaction();
-      quoteDto = quoteDao.getQuote(idQuote);
-      if (quoteDto.getIdQuote() == null) {
-        throw new BizException("Devis non existant!");
-      }
-
-      quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
-      quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
-      quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
-
-      // TODO: SELECT FROM quote_types et non photos
-
-      quoteDto.setDevelopmentType(developmentTypeDao.getDevelopmentTypeList(quoteDto.getIdQuote()));
-      /*
-       * for (PhotoDto photo : quoteDto.getListPhotoBefore()) { DevelopmentTypeDto
-       * developmentTypeDto = developmentTypeDao.getDevelopmentType(photo.getIdType());
-       * quoteDto.addDevelopmentTypesSet(developmentTypeDto); }
-       * 
-       * for (PhotoDto photo : quoteDto.getListPhotoAfter()) { DevelopmentTypeDto developmentTypeDto
-       * = developmentTypeDao.getDevelopmentType(photo.getIdType());
-       * quoteDto.addDevelopmentTypesSet(developmentTypeDto); }
-       */
-
-      return quoteDto;
+      return getQuoteBis(idQuote);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
     }
     return null;
+  }
+
+  private QuoteDto getQuoteBis(String idQuote) throws FatalException, BizException {
+    QuoteDto quoteDto;
+    quoteDto = quoteDao.getQuote(idQuote);
+    if (quoteDto.getIdQuote() == null) {
+      throw new BizException("Devis non existant!");
+    }
+
+    quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
+    quoteDto.setListPhotoBefore(photoDao.getPhotos(quoteDto.getIdQuote(), true));
+    quoteDto.setListPhotoAfter(photoDao.getPhotos(quoteDto.getIdQuote(), false));
+
+    quoteDto.setDevelopmentType(developmentTypeDao.getDevelopmentTypeList(quoteDto.getIdQuote()));
+
+    return quoteDto;
   }
 
   @Override
@@ -130,12 +125,29 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
+  public QuoteDto confirmQuote(String quoteId) throws FatalException, BizException {
+    try {
+      dalService.startTransaction();
+      quoteDao.setStateQuote(QuoteState.PLACED_ORDERED, quoteId);
+      return getQuoteBis(quoteId);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  @Override
+  public QuoteDto setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
+      quoteDao.setStateQuote(QuoteState.CONFIRMED_DATE, quote.getIdQuote());
+      return getQuoteBis(quote.getIdQuote());
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }

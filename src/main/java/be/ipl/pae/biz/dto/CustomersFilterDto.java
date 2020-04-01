@@ -14,6 +14,8 @@ public interface CustomersFilterDto {
 
   void setCity(String city);
 
-  String toString();
-  
+  boolean isOnlyNotLinked();
+
+  void setOnlyNotLinked(boolean onlyNotLinked);
+
 }

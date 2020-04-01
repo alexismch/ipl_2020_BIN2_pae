@@ -5,6 +5,7 @@ public class CustomersFilterImpl implements CustomersFilter {
   private String name;
   private int postalCode;
   private String city;
+  private boolean onlyNotLinked;
 
   public CustomersFilterImpl() {
     super();
@@ -46,6 +47,16 @@ public class CustomersFilterImpl implements CustomersFilter {
 
   public void setCity(String city) {
     this.city = city;
+  }
+
+  @Override
+  public boolean isOnlyNotLinked() {
+    return onlyNotLinked;
+  }
+
+  @Override
+  public void setOnlyNotLinked(boolean onlyNotLinked) {
+    this.onlyNotLinked = onlyNotLinked;
   }
 
   @Override

@@ -2,10 +2,12 @@
 
 import {router} from '../main.js';
 import {ajaxGET} from '../utils/ajax.js';
-import {clearAlerts, createAlert} from '../utils/alerts.js';
+import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
+import {CustomerInputComponent} from './inputs/customer-input.js';
+import {DateInputComponent} from './inputs/datepicker-input.js';
 
 /**
  * @module Components
@@ -26,28 +28,8 @@ export class QuoteFormPage extends Page {
       <input class="form-control" id="page-add-devis-id" name="quoteId" required type="text"/>
       <small class="input-error form-text text-danger">Un ID est requis.</small>
     </div>
-    <div class="form-group">
-      <label for="page-add-devis-customer">Client<span class="text-danger">*</span></label>
-      <select id="page-add-devis-customer" name="customerId" class="form-control" data-placeholder="Choisissez un client">
-        <option value=""></option>
-      </select>
-      <small class="input-error form-text text-danger">Un client doit être selectionné.</small>
-      <p class="d-flex align-items-center mx-3 mt-1">
-        Client inexistant ?
-        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="../clients/ajouter">Creer un nouveau client</a>
-      </p>
-    </div>
-    <div class="form-group">
-      <label for="page-add-devis-datetimepicker-input">Date<span class="text-danger">*</span></label>
-      <div class="input-group date" id="page-add-devis-datetimepicker" data-target-input="nearest">
-        <input type="text" class="form-control" id="page-add-devis-datetimepicker-input" autocomplete="off"
-        data-target="#page-add-devis-datetimepicker" data-toggle="datetimepicker" name="date" required/>
-        <div class="input-group-append" data-target="#page-add-devis-datetimepicker" data-toggle="datetimepicker">
-          <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
-        </div>
-      </div>
-      <small class="input-error form-text text-danger">Une date est requise.</small>
-    </div>
+    <div class="form-group select-customer"></div>
+    <div class="form-group select-date"></div>
     <div class="form-group">
       <label for="page-add-devis-amount">Montant total (en €)<span class="text-danger">*</span></label>
       <input class="form-control" id="page-add-devis-amount" name="amount" required type="number" min="0" step=".01"/>
@@ -76,7 +58,6 @@ export class QuoteFormPage extends Page {
 </div>`;
 
   _developmentTypeList = [];
-  _$selectClient;
   _$selectTypes;
   _addPictureComponents = [];
   _$photos;
@@ -89,47 +70,13 @@ export class QuoteFormPage extends Page {
 
     this._$view = $(this._template);
 
-    this._$selectClient = this._$view.find('#page-add-devis-customer');
+    const $selectClient = this._$view.find('.select-customer');
+    const customerInputComponent = new CustomerInputComponent('customerId');
+    $selectClient.append(customerInputComponent.getView());
 
-    this._$selectClient.chosen({
-      width: '100%',
-      no_results_text: 'Ce client n\'existe pas !',
-      allow_single_deselect: true
-    });
-
-    this._$selectClient.data('validator', () => {
-      const errorElement = this._$selectClient.next().next('.input-error');
-      if (this._$selectClient.val() === '') {
-        errorElement.show(100);
-        return false;
-      } else {
-        errorElement.hide(100);
-        return true;
-      }
-    });
-
-    const $datePicker = this._$view.find('#page-add-devis-datetimepicker');
-    $datePicker.datetimepicker({
-      format: 'L',
-      widgetPositioning: {
-        horizontal: 'left',
-        vertical: 'auto'
-      }
-    });
-    const $datePickerInput = $datePicker.find('#page-add-devis-datetimepicker-input');
-    $datePickerInput.data('validator', () => {
-      const $errorElement = $datePicker.next('.input-error');
-      if ($datePickerInput[0].checkValidity()) {
-        $errorElement.hide(100);
-        return true;
-      } else {
-        $errorElement.show(100);
-        return false;
-      }
-    });
-    $datePickerInput.on('blur', () => {
-      $datePicker.datetimepicker('hide');
-    });
+    const $selectDate = this._$view.find('.select-date');
+    const datepicker = new DateInputComponent('date');
+    $selectDate.append(datepicker.getView());
 
     this._$selectTypes = this._$view.find('#page-add-devis-types');
 
@@ -155,9 +102,6 @@ export class QuoteFormPage extends Page {
     onSubmitWithAjax(this._$view.find('form'), () => {
       router.navigate('devis');
       createAlert('success', 'Le devis a bien été ajouté');
-    }, (error) => {
-      clearAlerts();
-      createAlert('danger', error.responseJSON.error);
     });
 
     this._$photos = this._$view.find("#page-add-devis-photos");
@@ -166,19 +110,9 @@ export class QuoteFormPage extends Page {
       this._addAnAddPictureComponent();
     });
 
-    this._addAnAddPictureComponent();
-    this._retriveCustomerList();
     this._retriveDevelopmentTypeList();
 
-  }
-
-  _retriveCustomerList() {
-    ajaxGET('/api/customers-list', null, (data) => {
-      for (const customer of data.customers) {
-        $(`<option value="${customer.idCustomer}">${customer.lastName} ${customer.firstName}</option>`).appendTo(this._$selectClient);
-      }
-      this._$selectClient.trigger('chosen:updated');
-    });
+    this.isLoading = false;
   }
 
   _retriveDevelopmentTypeList() {
@@ -200,9 +134,6 @@ export class QuoteFormPage extends Page {
       </div>`);
 
     button.on('click', () => {
-      if (this._addPictureComponents.length <= 1) {
-        return;
-      }
       this._addPictureComponents = this._addPictureComponents.filter(aPicCp => aPicCp != addPictureComponent);
       button.remove();
       addPictureComponentView.remove();

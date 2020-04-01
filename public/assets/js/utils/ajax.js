@@ -1,5 +1,7 @@
 'use strict';
 
+import {clearAlerts, createAlert} from './alerts.js';
+
 /**
  * @module AJAX
  */
@@ -72,6 +74,16 @@ function ajax(method = 'GET', url = '', requestData = null, onSuccess = null, on
         errorThrown,
         jqXHR
       });
+      clearAlerts();
+      if (jqXHR.responseJSON !== undefined && jqXHR.responseJSON.error !== undefined) {
+        createAlert('danger', (jqXHR.responseJSON.code !== undefined ? jqXHR.responseJSON.code + ' ' : '') + jqXHR.responseJSON.error);
+      } else {
+        if (jqXHR.status === 0) {
+          createAlert('danger', 'Connexion perdue');
+        } else {
+          createAlert('danger', jqXHR.status + ' ' + errorThrown);
+        }
+      }
       if (onError !== null) {
         onError(jqXHR, textStatus, errorThrown);
       }

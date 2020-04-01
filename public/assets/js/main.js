@@ -3,13 +3,14 @@
 import {checkInputValidity} from './utils/forms.js';
 import {ajaxGET, ajaxPOST} from './utils/ajax.js';
 import {clearAlerts, createAlert} from './utils/alerts.js';
-import {changeMenuForUser, isClient, isOuvrier} from './utils/userUtils.js';
+import {changeMenuForUser, isCustomer, isWorker} from './utils/userUtils.js';
 import {HomePage} from './components/home.js';
 import {ErrorPage} from './components/error.js';
 import {LoginPage} from './components/login.js';
 import {RegisterPage} from './components/register.js';
 import {DevelopmentTypesListPage} from './components/developmentTypes-list.js';
 import {DevelopmentTypeFormPage} from './components/developmentType-form.js';
+import {DevelopmentTypePage} from './components/developmentType.js';
 import {QuotesListPage} from './components/quotes-list.js';
 import {QuoteDetailPage} from './components/quote-detail.js';
 import {QuoteFormPage} from './components/quote-form.js';
@@ -28,9 +29,6 @@ $(() => {
 
   ajaxGET('/api/login', null, (data) => {
     changeMenuForUser(data.user);
-    initRouter();
-  }, () => {
-    changeMenuForUser(null);
     initRouter();
   });
 
@@ -58,6 +56,7 @@ function initRouter() {
   router = new Navigo('/', false);
   router.hooks({
     before: function (done) {
+      $('#load-bar').show();
       clearAlerts();
       done();
     },
@@ -82,8 +81,7 @@ function initRouter() {
     loadPage(new DevelopmentTypeFormPage());
   })
   .on('amenagements/:id', (params) => {
-    // TODO
-    loadPage(new ErrorPage(404));
+    loadPage(new DevelopmentTypePage(params.id));
   })
   .on('mes-devis', () => {
     // TODO
@@ -126,7 +124,7 @@ function initRouter() {
 function routeNoUserChecker() {
   return {
     before: (done) => {
-      if (isClient() || isOuvrier()) {
+      if (isCustomer() || isWorker()) {
         done(false);
         router.navigate('');
         return;
@@ -139,7 +137,7 @@ function routeNoUserChecker() {
 function routeClientChecker() {
   return {
     before: (done) => {
-      if (!isClient()) {
+      if (!isCustomer()) {
         done(false);
         router.navigate('');
         return;
@@ -152,7 +150,7 @@ function routeClientChecker() {
 function routeOuvrierChecker() {
   return {
     before: (done) => {
-      if (!isOuvrier()) {
+      if (!isWorker()) {
         done(false);
         router.navigate('');
         return;

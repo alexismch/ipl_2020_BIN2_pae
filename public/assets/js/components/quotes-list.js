@@ -97,6 +97,9 @@ export class QuotesListPage extends Page {
       }
       this._createQuotesList(data.quotesList);
       router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
 
   }

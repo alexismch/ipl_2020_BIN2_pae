@@ -25,7 +25,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,13 +51,6 @@ public class QuoteServlet extends AbstractServlet {
       return;
     }
 
-    // For testing with JSON object
-    // System.out.println(Util.convertInputStreamToString(req.getInputStream()));
-    // QuoteDto quote = dtoFactory.getQuote();
-    // Util.createGensonBuilder().create().deserializeInto(req.getInputStream(), quote);
-
-    // System.out.println(req.getParameterMap());
-
     String[] types = req.getParameterValues("types"); // only one
     if (types == null) {
       types = req.getParameterValues("types[]"); // multiple
@@ -82,9 +74,7 @@ public class QuoteServlet extends AbstractServlet {
     String amountString = req.getParameter("amount");
     String durationString = req.getParameter("duration");
 
-    if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)
-        && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)
-        && verifySameLength(photos, photosTitles, photosDevelopmentTypes)) {
+    if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)) {
       try {
         int customerId = Integer.parseInt(customerIdString);
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
@@ -107,24 +97,16 @@ public class QuoteServlet extends AbstractServlet {
           quoteToInsert.addDevelopmentType(developmentTypeUcc.getDevelopmentType(id));
         }
 
-        Object[] photosTypesArray =
-            Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
+        if (verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes)) {
+          Object[] photosTypesArray =
+              Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
 
-        if (!isAllInside(typesArray, photosTypesArray)) {
-          throw new Exception();
-        }
-
-        for (int i = 0; i < photos.length; i++) {
-          PhotoDto photoDto = dtoFactory.getPhoto();
-
-          photoDto.setBase64(photos[i]);
-          photoDto.setIdQuote(quoteToInsert.getIdQuote());
-          photoDto.setVisible(false);
-          photoDto.setBeforeWork(true);
-          photoDto.setTitle(photosTitles[i]);
-          photoDto.setIdType((Integer) photosTypesArray[i]);
-
-          quoteToInsert.addToListPhotoBefore(photoDto);
+          if (verifySameLength(photos, photosTitles, photosDevelopmentTypes)
+              && isAllInside(typesArray, photosTypesArray)) {
+            insertPhotos(quoteToInsert, photos, photosTitles, photosTypesArray);
+          } else {
+            throw new Exception();
+          }
         }
 
         quoteUcc.insert(quoteToInsert);
@@ -139,6 +121,30 @@ public class QuoteServlet extends AbstractServlet {
       }
     } else {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+  }
+
+  /**
+   * Insert photos into the quote.
+   *
+   * @param quoteDto the quote
+   * @param photos photos to insert
+   * @param photosTitles titles of photos
+   * @param photosTypes types of photos
+   */
+  private void insertPhotos(QuoteDto quoteDto, String[] photos, String[] photosTitles,
+      Object[] photosTypes) {
+    for (int i = 0; i < photos.length; i++) {
+      PhotoDto photoDto = dtoFactory.getPhoto();
+
+      photoDto.setBase64(photos[i]);
+      photoDto.setIdQuote(quoteDto.getIdQuote());
+      photoDto.setVisible(false);
+      photoDto.setBeforeWork(true);
+      photoDto.setTitle(photosTitles[i]);
+      photoDto.setIdType((Integer) photosTypes[i]);
+
+      quoteDto.addToListPhotoBefore(photoDto);
     }
   }
 
@@ -163,26 +169,59 @@ public class QuoteServlet extends AbstractServlet {
     }
   }
 
-
   @Override
-  protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("PUT /api/quote by " + req.getRemoteAddr());
+    String stateId = req.getParameter("stateId");
 
+    switch (QuoteState.valueOf(stateId)) {
+      case QUOTE_ENTERED:
+        confirmQuote(req, resp);
+        break;
+      case PLACED_ORDERED:
+        setStartDate(req, resp);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+
+
+  private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String quoteId = req.getParameter("quoteId");
+
+    if (verifyNotEmpty(quoteId)) {
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.confirmQuote(quoteId)));
+      } catch (FatalException ex) {
+        ex.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException ex) {
+        ex.printStackTrace();
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      }
+
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+  }
+
+  private void setStartDate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String dateString = req.getParameter("date");
     String quoteId = req.getParameter("quoteId");
     if (verifyNotEmpty(dateString, quoteId)) {
       LocalDate date = Date.valueOf(dateString).toLocalDate();
 
-      QuoteDto quoteToModify = dtoFactory.getQuote();
-      quoteToModify.setIdQuote(quoteId);
-      quoteToModify.setStartDate(date);
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+      quote.setStartDate(date);
 
       try {
-        quoteUcc.setStartDateQuoteInDb(quoteToModify);
-        QuoteDto quoteToReturn = quoteUcc.getQuote(quoteId);
-
-        sendSuccessWithJson(resp, "quote date", genson.create().serialize(quoteToReturn));
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {
@@ -192,7 +231,4 @@ public class QuoteServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
-
-
-
 }

@@ -6,14 +6,14 @@ function getUser() {
   return connectedUser;
 }
 
-function isOuvrier(user) {
+function isWorker(user) {
   if (user === undefined) {
     user = connectedUser;
   }
   return user === null ? false : user.status.id === "WORKER";
 }
 
-function isClient(user) {
+function isCustomer(user) {
   if (user === undefined) {
     user = connectedUser;
   }
@@ -22,10 +22,10 @@ function isClient(user) {
 
 function changeMenuForUser(newUser) {
   connectedUser = newUser;
-  if (isClient()) {
+  if (isCustomer()) {
     $('.nav-user, .nav-ouvrier').addClass('d-none');
     $('.nav-client').removeClass('d-none');
-  } else if (isOuvrier()) {
+  } else if (isWorker()) {
     $('.nav-user, .nav-client').addClass('d-none');
     $('.nav-ouvrier').removeClass('d-none');
   } else {
@@ -51,4 +51,4 @@ function getUserStatusColor(user) {
 
 }
 
-export {getUser, isClient, isOuvrier, changeMenuForUser, getUserStatusColor};
+export {getUser, isCustomer, isWorker, changeMenuForUser, getUserStatusColor};

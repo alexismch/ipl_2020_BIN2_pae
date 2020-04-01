@@ -21,7 +21,7 @@ public interface QuoteUcc {
    * Get all quotes.
    *
    * @return the quotes list.
-   * @throws FatalException if you have a problem with the db
+   * @throws BizException if you have a problem with the db
    */
   List<QuoteDto> getQuotes() throws BizException;
 
@@ -44,12 +44,27 @@ public interface QuoteUcc {
    */
   List<QuoteDto> getCustomerQuotes(int customerId) throws BizException;
 
+
+
   /**
-   * Add the start date of the quote.
+   * Add the start date of the quote and change the state of the quote.
    *
    * @param quote object quote with the id and date
+   * @return a quoteDto object
    * @throws FatalException if you had a problem with the db
+   * @throws BizException if the quote doesn't exist
    */
-  void setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
+  QuoteDto setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException;
+
+  /**
+   * change the state of the quote in PLACED_ORDERED.
+   * 
+   * @param quoteId id of the quote
+   * @return a quoteDto object
+   * @throws FatalException if you had a problem with the db
+   * @throws BizException if the quote doesn't exist
+   */
+  QuoteDto confirmQuote(String quoteId) throws FatalException, BizException;
+
 
 }
