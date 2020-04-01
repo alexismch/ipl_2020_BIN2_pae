@@ -16,7 +16,6 @@ import {router} from '../main.js';
 export class CustomerDetailPage extends Page {
 
   _template = `<div>
-  <p>CustomerDetailPage works</p>
   <ul class="quotes-list m-2 p-0"></ul>
   </div>`;
 
@@ -24,15 +23,24 @@ export class CustomerDetailPage extends Page {
    *
    */
   constructor(customerId) {
-    super('Details du client n°' + customerId);
+    super('Details du client');
 
     this._$view = $(this._template);
 
     ajaxGET('/api/customer-details', `idCustomer=${customerId}`, (data) => {
-
-      this._createCustomerDetail(data.customerDetails);
-      router.updatePageLinks();
+      if(jQuery.isEmptyObject(data.customerDetails)){
+        this._noDetail();
+      }else{
+        this._createCustomerDetail(data.customerDetails);
+        router.updatePageLinks();
+      }
     });
+  }
+
+  _noDetail(){
+    const detailsItem = `<p>Il n'ya pas de devis!</p>`;
+    const $customerDetails = this._$view.find('.quotes-list');
+    $customerDetails.append(detailsItem);
   }
 
   _createCustomerDetail(customerDetails) {
