@@ -84,33 +84,32 @@ function initRouter() {
     loadPage(new DevelopmentTypePage(params.id));
   })
   .on('mes-devis', () => {
-    // TODO
     loadPage(new CustomerDetailPage());
-  }, routeClientChecker())
+  }, routeCustomerChecker())
   .on('clients', (params, query) => {
     loadPage(new CustomersListPage(query));
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('clients/ajouter', () => {
     loadPage(new CustomerFormPage());
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('clients/:id', (params) => {
     loadPage(new CustomerDetailPage(params.id));
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('utilisateurs', (params, query) => {
     loadPage(new UsersListPage(query));
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('utilisateurs/:id', (params) => {
     loadPage(new UserDetailPage(params.id));
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('devis', (params, query) => {
     loadPage(new QuotesListPage(query));
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('devis/nouveau', () => {
     loadPage(new QuoteFormPage());
-  }, routeOuvrierChecker())
+  }, routeWorkerChecker())
   .on('devis/:id', (params) => {
     loadPage(new QuoteDetailPage(params.id));
-  }, routeOuvrierChecker())
+  }, routeCustomerOrWorkerChecker())
   .on('*', () => {
     if (router.lastRouteResolved().url === origin) {
       loadPage(new HomePage());
@@ -134,7 +133,20 @@ function routeNoUserChecker() {
   }
 }
 
-function routeClientChecker() {
+function routeCustomerOrWorkerChecker() {
+  return {
+    before: (done) => {
+      if (!isCustomer() && !isWorker()) {
+        done(false);
+        router.navigate('');
+        return;
+      }
+      done();
+    }
+  }
+}
+
+function routeCustomerChecker() {
   return {
     before: (done) => {
       if (!isCustomer()) {
@@ -147,7 +159,7 @@ function routeClientChecker() {
   }
 }
 
-function routeOuvrierChecker() {
+function routeWorkerChecker() {
   return {
     before: (done) => {
       if (!isWorker()) {

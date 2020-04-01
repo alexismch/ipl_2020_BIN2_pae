@@ -28,12 +28,16 @@ export class CustomerDetailPage extends Page {
     this._$view = $(this._template);
 
     ajaxGET('/api/customer-details', `idCustomer=${customerId}`, (data) => {
-      if(jQuery.isEmptyObject(data.customerDetails)){
+      if (jQuery.isEmptyObject(data.customerDetails)) {
         this._noDetail();
-      }else{
+      } else {
         this._createCustomerDetail(data.customerDetails);
-        router.updatePageLinks();
       }
+
+      router.updatePageLinks();
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
   }
 
