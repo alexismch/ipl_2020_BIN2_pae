@@ -179,7 +179,7 @@ public class QuoteServlet extends AbstractServlet {
         confirmQuote(req, resp);
         break;
       case PLACED_ORDERED:
-        setStartDate(req, resp);
+        confirmStartDate(req, resp);
         break;
 
       default:
@@ -191,11 +191,17 @@ public class QuoteServlet extends AbstractServlet {
 
   private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String quoteId = req.getParameter("quoteId");
+    String dateString = req.getParameter("date");
 
-    if (verifyNotEmpty(quoteId)) {
+    if (verifyNotEmpty(quoteId, dateString)) {
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+      LocalDate date = Date.valueOf(dateString).toLocalDate();
+      quote.setStartDate(date);
       try {
+        quoteUcc.confirmQuote(quoteId);
         sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.confirmQuote(quoteId)));
+            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
       } catch (FatalException ex) {
         ex.printStackTrace();
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
@@ -209,19 +215,18 @@ public class QuoteServlet extends AbstractServlet {
     }
   }
 
-  private void setStartDate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    String dateString = req.getParameter("date");
+  private void confirmStartDate(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+
     String quoteId = req.getParameter("quoteId");
-    if (verifyNotEmpty(dateString, quoteId)) {
-      LocalDate date = Date.valueOf(dateString).toLocalDate();
+    if (verifyNotEmpty(quoteId)) {
 
       QuoteDto quote = dtoFactory.getQuote();
       quote.setIdQuote(quoteId);
-      quote.setStartDate(date);
 
       try {
         sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
+            genson.create().serialize(quoteUcc.confirmStartDate(quote.getIdQuote())));
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {

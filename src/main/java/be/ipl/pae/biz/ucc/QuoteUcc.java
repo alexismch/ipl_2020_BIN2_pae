@@ -47,7 +47,7 @@ public interface QuoteUcc {
 
 
   /**
-   * Add the start date of the quote and change the state of the quote.
+   * Add the start date of the quote.
    *
    * @param quote object quote with the id and date
    * @return a quoteDto object
@@ -65,6 +65,16 @@ public interface QuoteUcc {
    * @throws BizException if the quote doesn't exist
    */
   QuoteDto confirmQuote(String quoteId) throws FatalException, BizException;
+
+  /**
+   * change the state of the quote in CONFIRMED_DATE.
+   * 
+   * @param quoteId id of the quote
+   * @return a quoteDto object
+   * @throws FatalException if you had a problem with the db
+   * @throws BizException if the quote doesn't exist
+   */
+  QuoteDto confirmStartDate(String quoteId) throws FatalException, BizException;
 
 
 }

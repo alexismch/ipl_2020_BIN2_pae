@@ -143,8 +143,21 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
-      quoteDao.setStateQuote(QuoteState.CONFIRMED_DATE, quote.getIdQuote());
       return getQuoteBis(quote.getIdQuote());
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  @Override
+  public QuoteDto confirmStartDate(String quoteId) throws FatalException, BizException {
+    try {
+      dalService.startTransaction();
+      quoteDao.setStateQuote(QuoteState.CONFIRMED_DATE, quoteId);
+      return getQuoteBis(quoteId);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
