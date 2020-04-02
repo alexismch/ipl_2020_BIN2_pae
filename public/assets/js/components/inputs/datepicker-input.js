@@ -14,15 +14,17 @@ import {Component} from '../component.js';
 export class DateInputComponent extends Component {
 
   name;
+  labelValue;
   _$datePicker;
   _$datePickerInput;
 
   /**
    *
    */
-  constructor(name = '', required = true, showLabel = true, showError = true) {
+  constructor(name = '', required = true, labelValue = 'Date', showLabel = true, showError = true) {
     super();
     this.name = name;
+    this.labelValue = labelValue;
 
     this._$view = $(this._template);
 
@@ -62,8 +64,10 @@ export class DateInputComponent extends Component {
 
     if (this._showLabel) {
       this._$view.find('label').removeClass('sr-only');
+      this._$view.find('input').removeAttr('placeholder');
     } else {
       this._$view.find('label').addClass('sr-only');
+      this._$view.find('input').attr('placeholder', this.labelValue);
     }
 
   }
@@ -92,7 +96,7 @@ export class DateInputComponent extends Component {
 
   get _template() {
     return `<div>
-      <label for="datepicker-input-${this.getUniqueId()}">Date<span class="text-danger">*</span></label>
+      <label for="datepicker-input-${this.getUniqueId()}">${this.labelValue}<span class="text-danger">*</span></label>
       <div class="input-group date" id="datepicker-${this.getUniqueId()}" data-target-input="nearest">
         <input type="text" class="form-control" id="datepicker-input-${this.getUniqueId()}" autocomplete="off"
         data-target="#datepicker-${this.getUniqueId()}" data-toggle="datetimepicker" name="${this.name}" required/>

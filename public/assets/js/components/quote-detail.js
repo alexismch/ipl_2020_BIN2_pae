@@ -93,7 +93,40 @@ export class QuoteDetailPage extends Page {
    */
   _createPlaceOrderForm($formContainer, quoteId, stateId) {
 
-    const $button = $('<button class="btn btn-primary" type="button">Confirmer que la commande est passée.</button>');
+    const form = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+  <div class="form-group date-container"></div>
+  <input type="hidden" name="quoteId" value="${quoteId}"/>
+  <input type="hidden" name="stateId" value="${stateId}"/>
+  <div class="form-group mt-2 d-flex justify-content-end">
+    <button class="btn btn-primary">Confirmer la commande</button>
+  </div>
+</form>`;
+
+    const $form = $(form);
+
+    const $selectDate = $form.find('.date-container');
+    const datepicker = new DateInputComponent('date');
+    $selectDate.append(datepicker.getView());
+
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La commande a bien été confirmée !');
+    }, () => {
+      createAlert('error', `La commande n'a pas été confirmée !`);
+    });
+
+    $formContainer.append($form);
+  }
+
+  /**
+   * set the startdate in the db and change the state of the quote to CONFIRMED_DATE
+   * @param {*} $button
+   * @param {*} quoteId
+   * @param {*} stateId
+   */
+  _createConfirmDateForm($formContainer, quoteId, stateId) {
+
+    const $button = $('<button class="btn btn-primary" type="button">Confirmer la date de début des travaux</button>');
 
     $button.on('click', () => {
 
@@ -108,40 +141,6 @@ export class QuoteDetailPage extends Page {
     });
 
     $formContainer.append($button);
-
-  }
-
-  /**
-   * set the startdate in the db and change the state of the quote to CONFIRMED_DATE
-   * @param {*} $button
-   * @param {*} quoteId
-   * @param {*} stateId
-   */
-  _createConfirmDateForm($formContainer, quoteId, stateId) {
-
-    const form = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
-  <div class="form-group date-container"></div>
-  <input type="hidden" name="quoteId" value="${quoteId}"/>
-  <input type="hidden" name="stateId" value="${stateId}"/>
-  <div class="form-group mt-2 d-flex justify-content-end">
-    <button class="btn btn-primary">Ajouter la date du début de devis.</button>
-  </div>
-</form>`;
-
-    const $form = $(form);
-
-    const $selectDate = $form.find('.date-container');
-    const datepicker = new DateInputComponent('date');
-    $selectDate.append(datepicker.getView());
-
-    onSubmitWithAjax($form, (data) => {
-      this._changeView(data.quote);
-      createAlert('success', 'La date a bien été introduite!');
-    }, () => {
-      createAlert('error', `La date n'a pas été introduite!`);
-    });
-
-    $formContainer.append($form);
   };
 
   /**
