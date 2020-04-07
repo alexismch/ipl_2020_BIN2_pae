@@ -76,5 +76,15 @@ public interface QuoteUcc {
    */
   QuoteDto confirmStartDate(String quoteId) throws FatalException, BizException;
 
+  /**
+   * Set the state of the quote to cancelled.
+   * 
+   * @param quoteId id of the quote
+   * @return a quoteDto object
+   * @throws BizException BizException if the quote doesn't exist
+   * @throws FatalException if you had a problem with the db
+   */
+  QuoteDto cancelQuote(String quoteId) throws BizException, FatalException;
+
 
 }

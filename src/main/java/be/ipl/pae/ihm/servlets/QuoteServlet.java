@@ -181,6 +181,9 @@ public class QuoteServlet extends AbstractServlet {
       case PLACED_ORDERED:
         confirmStartDate(req, resp);
         break;
+      case CANCELLED:
+        cancelQuote(req, resp);
+        break;
 
       default:
         break;
@@ -235,5 +238,26 @@ public class QuoteServlet extends AbstractServlet {
     } else {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "ParamÃ¨tres invalides");
     }
+  }
+
+  private void cancelQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String quoteId = req.getParameter("quoteId");
+
+    if (verifyNotEmpty(quoteId)) {
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.cancelQuote(quote.getIdQuote())));
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      } catch (FatalException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+
   }
 }
