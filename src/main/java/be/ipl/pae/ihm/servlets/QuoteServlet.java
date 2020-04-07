@@ -222,6 +222,7 @@ public class QuoteServlet extends AbstractServlet {
       throws IOException {
 
     String quoteId = req.getParameter("quoteId");
+
     if (verifyNotEmpty(quoteId)) {
 
       QuoteDto quote = dtoFactory.getQuote();
