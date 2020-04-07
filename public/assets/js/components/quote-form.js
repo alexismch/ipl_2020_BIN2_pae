@@ -1,13 +1,13 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxGET} from '../utils/ajax.js';
 import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
 import {AddPictureComponent} from './picture-add.js';
 import {CustomerInputComponent} from './inputs/customer-input.js';
 import {DateInputComponent} from './inputs/datepicker-input.js';
+import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developmentType-input.js';
 
 /**
  * @module Components
@@ -40,13 +40,7 @@ export class QuoteFormPage extends Page {
       <input class="form-control" id="page-add-devis-duration" name="duration" required type="number" min="0"/>
       <small class="input-error form-text text-danger">Une durée correcte est requise.</small>
     </div>
-    <div class="form-group">
-      <label for="page-add-devis-types">Type d'aménagement(s)<span class="text-danger">*</span></label>
-      <select id="page-add-devis-types" name="types" class="form-control" data-placeholder="Choisissez au moins un type d'aménagement" multiple>
-        <option value=""></option>
-      </select>
-      <small class="input-error form-text text-danger">Au moins un type d'aménagement dois être selectionné.</small>
-    </div>
+    <div class="form-group select-multiple-developmentType"></div>
     <h4>Photos d'avant aménagement</h4>
     <div id="page-add-devis-photos">
     </div>
@@ -58,7 +52,6 @@ export class QuoteFormPage extends Page {
 </div>`;
 
   _developmentTypeList = [];
-  _$selectTypes;
   _addPictureComponents = [];
   _$photos;
 
@@ -78,26 +71,12 @@ export class QuoteFormPage extends Page {
     const datepicker = new DateInputComponent('date');
     $selectDate.append(datepicker.getView());
 
-    this._$selectTypes = this._$view.find('#page-add-devis-types');
-
-    this._$selectTypes.chosen({
-      width: '100%',
-      no_results_text: 'Cet aménagement n\'existe pas !',
-      allow_single_deselect: true
+    const $selectMultipleDevelopemntType = this._$view.find('.select-multiple-developmentType');
+    const mutltipleDevelopmentTypeInputComponent = new MutltipleDevelopmentTypeInputComponent('types', (developmentTypeList) => {
+      this._developmentTypeList = developmentTypeList;
+      this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList(this._developmentTypeList));
     });
-
-    this._$selectTypes.data('validator', () => {
-      const developmentTypeSelected = this._getSeletedDevelopmentType();
-      this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList(developmentTypeSelected));
-      const errorElement = this._$selectTypes.next().next('.input-error');
-      if (this._$selectTypes.val()[0] === undefined) {
-        errorElement.show(100);
-        return false;
-      } else {
-        errorElement.hide(100);
-        return true;
-      }
-    });
+    $selectMultipleDevelopemntType.append(mutltipleDevelopmentTypeInputComponent.getView());
 
     onSubmitWithAjax(this._$view.find('form'), () => {
       router.navigate('devis');
@@ -110,25 +89,13 @@ export class QuoteFormPage extends Page {
       this._addAnAddPictureComponent();
     });
 
-    this._retriveDevelopmentTypeList();
-
     this.isLoading = false;
-  }
-
-  _retriveDevelopmentTypeList() {
-    ajaxGET('/api/developmentType-list', null, (data) => {
-      this._developmentTypeList = data.developmentTypesList;
-      for (const developmentType of this._developmentTypeList) {
-        $(`<option value="${developmentType.idType}">${developmentType.title}</option>`).appendTo(this._$selectTypes);
-      }
-      this._$selectTypes.trigger('chosen:updated');
-    });
   }
 
   _addAnAddPictureComponent() {
     const addPictureComponent = new AddPictureComponent();
     const addPictureComponentView = addPictureComponent.getView();
-    addPictureComponent.setDevelopmentTypesList(this._getSeletedDevelopmentType());
+    addPictureComponent.setDevelopmentTypesList(this._developmentTypeList);
     const button = $(`<div class="floating-button-container-right">
         <button class="btn btn-danger floating-button-right" type="button"><i class="fas fa-times"></i></button>
       </div>`);
@@ -141,11 +108,6 @@ export class QuoteFormPage extends Page {
 
     this._$photos.append(button, addPictureComponentView);
     this._addPictureComponents[this._addPictureComponents.length] = addPictureComponent;
-  }
-
-  _getSeletedDevelopmentType() {
-    return this._developmentTypeList.filter(
-        developmentType => this._$selectTypes.val().find(selected => selected == developmentType.idType));
   }
 
 }

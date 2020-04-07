@@ -16,6 +16,7 @@ export class CustomerInputComponent extends Component {
 
   name;
   onlyNotLinked;
+  _$selectClient;
 
   /**
    *
