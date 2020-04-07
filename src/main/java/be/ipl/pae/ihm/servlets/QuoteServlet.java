@@ -256,7 +256,7 @@ public class QuoteServlet extends AbstractServlet {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       }
     } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "ParamÃ¨tres invalides");
     }
 
   }
