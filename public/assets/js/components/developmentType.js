@@ -33,7 +33,7 @@ export class DevelopmentTypePage extends Page {
     super(id === undefined ? 'Accueil' : 'Aménagement n°' + id);
 
     this._$view = $(this._template);
-    ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
+    /**ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
       if (id !== undefined && data.photosList.length > 0) {
         this.setTitle(data.photosList[0].developmentType);
       }
@@ -45,7 +45,7 @@ export class DevelopmentTypePage extends Page {
       this.isLoading = false;
     }, () => {
       this.isLoading = false;
-    });
+    });*/
      
 
 
