@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxGET, ajaxPUT, ajaxDELETE} from '../utils/ajax.js';
+import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
@@ -111,7 +111,7 @@ export class QuoteDetailPage extends Page {
     const datepicker = new DateInputComponent('date');
     $selectDate.append(datepicker.getView());
 
-    const $cancelButton = this.cancelQuote(quoteId).addClass( "float-right" );
+    const $cancelButton = this._cancelQuote(quoteId).addClass("float-right");
 
     onSubmitWithAjax($form, (data) => {
       this._changeView(data.quote);
@@ -252,7 +252,7 @@ export class QuoteDetailPage extends Page {
 
   //TODO
   _createPartialInvoiceForm($formContainer, quoteId, stateId){
-    const $cancelButton = this.cancelQuote(quoteId).addClass("ml-1");
+    const $cancelButton = this._cancelQuote(quoteId).addClass("ml-1");
 
     $formContainer.append($cancelButton);
   }
@@ -301,7 +301,7 @@ export class QuoteDetailPage extends Page {
    * @param {*} typeList
    */
   _createQuoteDetailDevelopmentTypeList(typeList) {
-    this._$view.find('.types').append(`<h4>Types d'aménagements</h4>`);
+    this._$view.find('.types').empty().append(`<h4>Types d'aménagements</h4>`);
 
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
     $quoteDetailType.empty();
@@ -317,7 +317,7 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
-    this._$view.find('.before').append('<h4>Photos avant aménagements</h4>');
+    this._$view.find('.before').empty().append('<h4>Photos avant aménagements</h4>');
     $quoteDetailPhoto.empty();
 
     if (photoList.length == 0) {
@@ -335,7 +335,7 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
-    this._$view.find('.after').append('<h4>Photos après aménagements</h4>');
+    this._$view.find('.after').empty().append('<h4>Photos après aménagements</h4>');
     $quoteDetailPhoto.empty();
 
     if (photoList.length == 0) {
