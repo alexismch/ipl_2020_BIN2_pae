@@ -198,8 +198,7 @@ public class QuoteServlet extends AbstractServlet {
       throws ServletException, IOException {
 
     String quoteId = req.getParameter("quoteId");
-    System.out.println("test = " + req.getParameterMap());
-    System.out.println("test = " + quoteId);
+
     if (verifyNotEmpty(quoteId)) {
       QuoteDto quote = dtoFactory.getQuote();
       quote.setIdQuote(quoteId);
