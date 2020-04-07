@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxGET, ajaxPUT} from '../utils/ajax.js';
+import {ajaxGET, ajaxPUT, ajaxDELETE} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
@@ -79,7 +79,7 @@ export class QuoteDetailPage extends Page {
         this._createPlaceOrderForm($formContainer, quote.idQuote, quote.state.id);
         break;
       case 'PLACED_ORDERED':
-        this._createConfirmDateForm($formContainer, quote.idQuote, quote.state.id);
+        this._createConfirmDateForm($formContainer, quote.idQuote, quote.state.id, quote.startDate);
         break;
       case 'CONFIRMED_DATE':
         this._createPartialInvoiceForm($formContainer, quote.idQuote, quote.state.id);
@@ -128,7 +128,7 @@ export class QuoteDetailPage extends Page {
    * create the button cancel and the listener
    * @param {*} quoteId 
    */
-  cancelQuote(quoteId){
+  _cancelQuote(quoteId){
     const $cancelButton = $(`<button class="btn btn-danger" type="button">Annuler l'aménagement</button>`);
     $cancelButton.on('click', () => {
 
@@ -146,11 +146,11 @@ export class QuoteDetailPage extends Page {
 
 
   /**
-   * Hide all the buttons and add the datepicker, then  
+   * Hide all the buttons and add the datepicker, when you've chosen the date, the function will dodo an ajaxPut 
    * @param {*} quoteId 
    * @param {*} stateId 
    */
-  changeStartDate(quoteId, stateId){
+  _changeStartDate(quoteId, stateId){
     const $changeStartDateButton = $(`<button class="btn btn-warning btn-sm" type="button">Modifier date des débuts de travaux</button>`);
 
     $changeStartDateButton.on("click", () => {
@@ -187,8 +187,25 @@ export class QuoteDetailPage extends Page {
   }
   
 
-  deleteStartDate(quoteId, stateId){
-    const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm" type="button">Supprimer date des débuts de travaux</button>`);
+  /**
+   * Delete the start date and hide the btn delete and the btn that allows to go to the CONFIRMED_DATE state
+   * @param {*} quoteId 
+   */
+  _deleteStartDate(quoteId){
+    const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm deleteStartDate" type="button">Supprimer date des débuts de travaux</button>`);
+
+    $deleteStartDateButton.on("click", () => {
+
+      this.isLoading = true;
+      
+      ajaxDELETE(`/api/quote?quoteId=${quoteId}`, null, (data) => {
+        this._changeView(data.quote);
+        this._$view.find('.deleteStartDate').hide();
+        this.isLoading = false;
+      }, () => {
+        this.isLoading = false;
+      });
+    });
 
 
     return $deleteStartDateButton;
@@ -200,14 +217,14 @@ export class QuoteDetailPage extends Page {
    * @param {*} quoteId
    * @param {*} stateId
    */
-  _createConfirmDateForm($formContainer, quoteId, stateId) {
+  _createConfirmDateForm($formContainer, quoteId, stateId, startDate) {
 
     const $divButtons = $(` <div class="form-group mt-2 d-flex">
                     </div>`);
-    const $confirmDateButton = $('<button class="btn btn-primary" type="button">Confirmer la date de début des travaux</button>');
-    const $cancelButton = this.cancelQuote(quoteId).addClass("ml-1");
-    const $changeStartDateButton = this.changeStartDate(quoteId, stateId).addClass("ml-1");
-    const $deleteStartDateButton = this.deleteStartDate(quoteId,stateId).addClass("ml-1");
+    const $confirmDateButton = $('<button class="btn btn-primary deleteStartDate" type="button">Confirmer la date de début des travaux</button>');
+    const $cancelButton = this. _cancelQuote(quoteId).addClass("ml-1");
+    const $changeStartDateButton = this. _changeStartDate(quoteId, stateId).addClass("ml-1");
+    const $deleteStartDateButton = this. _deleteStartDate(quoteId,stateId).addClass("ml-1");
 
     this._$view.find('.buttonToAdd').append($changeStartDateButton).append($deleteStartDateButton);
 
@@ -226,6 +243,11 @@ export class QuoteDetailPage extends Page {
     });
 
     $formContainer.append($divButtons);
+
+
+    if(startDate == null){
+      this._$view.find('.deleteStartDate').hide();
+    }
   };
 
   //TODO

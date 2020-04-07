@@ -197,6 +197,24 @@ public class QuoteServlet extends AbstractServlet {
   protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
+    String quoteId = req.getParameter("quoteId");
+    System.out.println("test = " + req.getParameterMap());
+    System.out.println("test = " + quoteId);
+    if (verifyNotEmpty(quoteId)) {
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+      quote.setStartDate(null);
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
+      } catch (FatalException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
   }
 
   private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
