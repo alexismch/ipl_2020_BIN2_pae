@@ -25,6 +25,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -192,6 +193,12 @@ public class QuoteServlet extends AbstractServlet {
 
 
 
+  @Override
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+
+  }
+
   private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String quoteId = req.getParameter("quoteId");
     String dateString = req.getParameter("date");
@@ -222,6 +229,7 @@ public class QuoteServlet extends AbstractServlet {
       throws IOException {
 
     String quoteId = req.getParameter("quoteId");
+    String dateString = req.getParameter("date");
 
     if (verifyNotEmpty(quoteId)) {
 
@@ -229,8 +237,15 @@ public class QuoteServlet extends AbstractServlet {
       quote.setIdQuote(quoteId);
 
       try {
-        sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.confirmStartDate(quote.getIdQuote())));
+        if (verifyNotEmpty(dateString)) {
+          LocalDate date = Date.valueOf(dateString).toLocalDate();
+          quote.setStartDate(date);
+          sendSuccessWithJson(resp, "quote",
+              genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
+        } else {
+          sendSuccessWithJson(resp, "quote",
+              genson.create().serialize(quoteUcc.confirmStartDate(quote.getIdQuote())));
+        }
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {
