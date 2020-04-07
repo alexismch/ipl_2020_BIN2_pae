@@ -81,6 +81,9 @@ export class QuoteDetailPage extends Page {
       case 'PLACED_ORDERED':
         this._createConfirmDateForm($formContainer, quote.idQuote, quote.state.id);
         break;
+      case 'CONFIRMED_DATE':
+        this._createPartialInvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        break;
 
     }
   }
@@ -108,6 +111,8 @@ export class QuoteDetailPage extends Page {
     const datepicker = new DateInputComponent('date');
     $selectDate.append(datepicker.getView());
 
+    const $cancelButton = this.cancelQuote(quoteId).addClass( "float-right" );
+
     onSubmitWithAjax($form, (data) => {
       this._changeView(data.quote);
       createAlert('success', 'La commande a bien été confirmée !');
@@ -115,7 +120,28 @@ export class QuoteDetailPage extends Page {
       createAlert('error', `La commande n'a pas été confirmée !`);
     });
 
-    $formContainer.append($form);
+    $formContainer.append($form).append($cancelButton);
+    
+  }
+
+  /**
+   * create the button cancel and the listener
+   * @param {*} quoteId 
+   */
+  cancelQuote(quoteId){
+    const $cancelButton = $(`<button class="btn btn-danger" type="button">Annuler l'aménagement</button>`);
+    $cancelButton.on('click', () => {
+
+      this.isLoading = true;
+
+      ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=CANCELLED`, (data) => {
+        this._changeView(data.quote);
+        this.isLoading = false;
+      }, () => {
+        this.isLoading = false;
+      });
+    });
+    return $cancelButton;
   }
 
   /**
@@ -126,9 +152,14 @@ export class QuoteDetailPage extends Page {
    */
   _createConfirmDateForm($formContainer, quoteId, stateId) {
 
-    const $button = $('<button class="btn btn-primary" type="button">Confirmer la date de début des travaux</button>');
+    const $divButtons = $(` <div class="form-group mt-2 d-flex ">
+                    </div>`);
+    const $confirmDateButton = $('<button class="btn btn-primary" type="button">Confirmer la date de début des travaux</button>');
+    const $cancelButton = this.cancelQuote(quoteId).addClass("ml-1");
 
-    $button.on('click', () => {
+    $divButtons.append($confirmDateButton).append($cancelButton);
+
+    $confirmDateButton.on('click', () => {
 
       this.isLoading = true;
 
@@ -140,8 +171,15 @@ export class QuoteDetailPage extends Page {
       });
     });
 
-    $formContainer.append($button);
+    $formContainer.append($divButtons);
   };
+
+  //TODO
+  _createPartialInvoiceForm($formContainer, quoteId, stateId){
+    const $cancelButton = this.cancelQuote(quoteId).addClass("ml-1");
+
+    $formContainer.append($cancelButton);
+  }
 
   /**
    * set the detail of the quote in the current page
