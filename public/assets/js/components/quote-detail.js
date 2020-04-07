@@ -21,6 +21,7 @@ export class QuoteDetailPage extends Page {
 
   _template = `<div class="container">
   <div class="formContainer"></div>
+  <div class="cancelContainer"></div>
   <p class="detail-quote"></p>
   <p class="detail-quote-client"></p>
   <div class="types"></div>
@@ -71,7 +72,9 @@ export class QuoteDetailPage extends Page {
     }
 
     const $formContainer = this._$view.find('.formContainer');
+    const $cancelCointainer = this._$view.find('.cancelContainer');
     $formContainer.empty();
+    $cancelCointainer.empty();
 
     switch (quote.state.id) {
 
@@ -111,7 +114,7 @@ export class QuoteDetailPage extends Page {
     const datepicker = new DateInputComponent('date');
     $selectDate.append(datepicker.getView());
 
-    const $cancelButton = this.cancelQuote(quoteId).addClass( "float-right" );
+    const $cancelButton = this._cancelQuote(quoteId).addClass( "float-right" );
 
     onSubmitWithAjax($form, (data) => {
       this._changeView(data.quote);
@@ -228,7 +231,8 @@ export class QuoteDetailPage extends Page {
 
     this._$view.find('.buttonToAdd').append($changeStartDateButton).append($deleteStartDateButton);
 
-    $divButtons.append($confirmDateButton).append($cancelButton);
+    $divButtons.append($confirmDateButton);
+    this._$view.find('.cancelContainer').append($cancelButton);
 
     $confirmDateButton.on('click', () => {
 
@@ -252,9 +256,9 @@ export class QuoteDetailPage extends Page {
 
   //TODO
   _createPartialInvoiceForm($formContainer, quoteId, stateId){
-    const $cancelButton = this.cancelQuote(quoteId).addClass("ml-1");
+    const $cancelButton = this._cancelQuote(quoteId).addClass("ml-1");
 
-    $formContainer.append($cancelButton);
+    this._$view.find('.cancelContainer').append($cancelButton);
   }
 
   /**
