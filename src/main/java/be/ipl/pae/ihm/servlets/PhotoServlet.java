@@ -41,7 +41,6 @@ public class PhotoServlet extends AbstractServlet {
       return;
     }
 
-    String quoteId = req.getParameter("quoteId");
     String[] photos = req.getParameterValues("pictureData"); // only one
     if (photos == null) {
       photos = req.getParameterValues("pictureData[]"); // multiple
@@ -58,6 +57,7 @@ public class PhotoServlet extends AbstractServlet {
     if (photosIsVisible == null) {
       photosIsVisible = req.getParameterValues("pictureIsVisible[]"); // multiple
     }
+    String quoteId = req.getParameter("quoteId");
 
     if (verifyNotEmpty(quoteId)
         && verifyNotEmpty(photos, photosTitles, photosDevelopmentTypes, photosIsVisible)
@@ -78,7 +78,7 @@ public class PhotoServlet extends AbstractServlet {
         }
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
-      } catch (Exception e) {
+      } catch (Exception ex) {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       }
     } else {
