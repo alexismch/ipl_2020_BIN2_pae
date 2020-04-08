@@ -127,10 +127,10 @@ public class QuoteServlet extends AbstractServlet {
   /**
    * Insert photos into the quote.
    *
-   * @param quoteDto the quote
-   * @param photos photos to insert
+   * @param quoteDto     the quote
+   * @param photos       photos to insert
    * @param photosTitles titles of photos
-   * @param photosTypes types of photos
+   * @param photosTypes  types of photos
    */
   private void insertPhotos(QuoteDto quoteDto, String[] photos, String[] photosTitles,
       Object[] photosTypes) {
@@ -154,7 +154,7 @@ public class QuoteServlet extends AbstractServlet {
 
     String token = (String) req.getSession().getAttribute("token");
     if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
 
@@ -181,6 +181,9 @@ public class QuoteServlet extends AbstractServlet {
       case PLACED_ORDERED:
         confirmStartDate(req, resp);
         break;
+      case CANCELLED:
+        cancelQuote(req, resp);
+        break;
 
       default:
         break;
@@ -188,6 +191,27 @@ public class QuoteServlet extends AbstractServlet {
   }
 
 
+  @Override
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    String quoteId = req.getParameter("quoteId");
+
+    if (verifyNotEmpty(quoteId)) {
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+      quote.setStartDate(null);
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
+      } catch (FatalException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+  }
 
   private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String quoteId = req.getParameter("quoteId");
@@ -219,14 +243,23 @@ public class QuoteServlet extends AbstractServlet {
       throws IOException {
 
     String quoteId = req.getParameter("quoteId");
+    String dateString = req.getParameter("date");
+
     if (verifyNotEmpty(quoteId)) {
 
       QuoteDto quote = dtoFactory.getQuote();
       quote.setIdQuote(quoteId);
 
       try {
-        sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.confirmStartDate(quote.getIdQuote())));
+        if (verifyNotEmpty(dateString)) {
+          LocalDate date = Date.valueOf(dateString).toLocalDate();
+          quote.setStartDate(date);
+          sendSuccessWithJson(resp, "quote",
+              genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
+        } else {
+          sendSuccessWithJson(resp, "quote",
+              genson.create().serialize(quoteUcc.confirmStartDate(quote.getIdQuote())));
+        }
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {
@@ -235,5 +268,26 @@ public class QuoteServlet extends AbstractServlet {
     } else {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
+  }
+
+  private void cancelQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String quoteId = req.getParameter("quoteId");
+
+    if (verifyNotEmpty(quoteId)) {
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.cancelQuote(quote.getIdQuote())));
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      } catch (FatalException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+
   }
 }

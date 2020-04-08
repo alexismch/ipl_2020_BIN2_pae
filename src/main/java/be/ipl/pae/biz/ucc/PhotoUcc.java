@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
+import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
@@ -26,4 +27,13 @@ public interface PhotoUcc {
    * @throws FatalException if an error occurred with transaction
    */
   List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException, FatalException;
+
+  /**
+   * Insert photos into the db.
+   *
+   * @param photoDtos the photos to insert
+   * @throws BizException   if an error occured with the db
+   * @throws FatalException if an error occurred with transaction
+   */
+  void insert(List<PhotoDto> photoDtos) throws FatalException, BizException;
 }

@@ -28,7 +28,7 @@ public class CustomersListServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     String token = (String) req.getSession().getAttribute("token");
     if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
 

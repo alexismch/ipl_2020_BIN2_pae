@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxGET, ajaxPUT} from '../utils/ajax.js';
+import {ajaxGET, ajaxPUT, ajaxDELETE} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
@@ -21,6 +21,7 @@ export class QuoteDetailPage extends Page {
 
   _template = `<div class="container">
   <div class="formContainer"></div>
+  <div class="cancelContainer"></div>
   <p class="detail-quote"></p>
   <p class="detail-quote-client"></p>
   <div class="types"></div>
@@ -71,7 +72,9 @@ export class QuoteDetailPage extends Page {
     }
 
     const $formContainer = this._$view.find('.formContainer');
+    const $cancelCointainer = this._$view.find('.cancelContainer');
     $formContainer.empty();
+    $cancelCointainer.empty();
 
     switch (quote.state.id) {
 
@@ -79,7 +82,10 @@ export class QuoteDetailPage extends Page {
         this._createPlaceOrderForm($formContainer, quote.idQuote, quote.state.id);
         break;
       case 'PLACED_ORDERED':
-        this._createConfirmDateForm($formContainer, quote.idQuote, quote.state.id);
+        this._createConfirmDateForm($formContainer, quote.idQuote, quote.state.id, quote.startDate);
+        break;
+      case 'CONFIRMED_DATE':
+        this._createPartialInvoiceForm($formContainer, quote.idQuote, quote.state.id);
         break;
 
     }
@@ -108,6 +114,8 @@ export class QuoteDetailPage extends Page {
     const datepicker = new DateInputComponent('date');
     $selectDate.append(datepicker.getView());
 
+    const $cancelButton = this._cancelQuote(quoteId).addClass("float-right");
+
     onSubmitWithAjax($form, (data) => {
       this._changeView(data.quote);
       createAlert('success', 'La commande a bien été confirmée !');
@@ -115,7 +123,95 @@ export class QuoteDetailPage extends Page {
       createAlert('error', `La commande n'a pas été confirmée !`);
     });
 
+    $formContainer.append($form).append($cancelButton);
+    
+  }
+
+  /**
+   * create the button cancel and the listener
+   * @param {*} quoteId 
+   */
+  _cancelQuote(quoteId){
+    const $cancelButton = $(`<button class="btn btn-danger" type="button">Annuler l'aménagement</button>`);
+    $cancelButton.on('click', () => {
+
+      this.isLoading = true;
+
+      ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=CANCELLED`, (data) => {
+        this._changeView(data.quote);
+        this.isLoading = false;
+      }, () => {
+        this.isLoading = false;
+      });
+    });
+    return $cancelButton;
+  }
+
+
+  /**
+   * Hide all the buttons and add the datepicker, when you've chosen the date, the function will dodo an ajaxPut 
+   * @param {*} quoteId 
+   * @param {*} stateId 
+   */
+  _changeStartDate(quoteId, stateId){
+    const $changeStartDateButton = $(`<button class="btn btn-warning btn-sm" type="button">Modifier date des débuts de travaux</button>`);
+
+    $changeStartDateButton.on("click", () => {
+      const $formContainer = this._$view.find('.formContainer');
+      this._$view.find('.formContainer,.buttonToAdd').empty();
+
+      const form = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+                      <div class="form-group date-container"></div>
+                      <input type="hidden" name="quoteId" value="${quoteId}"/>
+                      <input type="hidden" name="stateId" value="${stateId}"/>
+                      <div class="form-group mt-2 d-flex justify-content-end">
+                        <button class="btn btn-primary">Changer la date</button>
+                      </div>
+                    </form>`;
+
+    const $form = $(form);
+
+    const $selectDate = $form.find('.date-container');
+    const datepicker = new DateInputComponent('date');
+    $selectDate.append(datepicker.getView());
+
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La date a bien été modifié!');
+    }, () => {
+      createAlert('error', `La date n'a pas été modifié!`);
+    });
+
     $formContainer.append($form);
+
+    });
+
+    return $changeStartDateButton;
+  }
+  
+
+  /**
+   * Delete the start date and hide the btn delete and the btn that allows to go to the CONFIRMED_DATE state
+   * @param {*} quoteId 
+   */
+  _deleteStartDate(quoteId){
+    const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm deleteStartDate" type="button">Supprimer date des débuts de travaux</button>`);
+
+    $deleteStartDateButton.on("click", () => {
+
+      this.isLoading = true;
+      
+      ajaxDELETE(`/api/quote?quoteId=${quoteId}`, null, (data) => {
+        this._changeView(data.quote);
+        this._$view.find('.deleteStartDate').hide();
+        this.isLoading = false;
+      }, () => {
+        this.isLoading = false;
+      });
+    });
+
+
+    return $deleteStartDateButton;
   }
 
   /**
@@ -124,11 +220,21 @@ export class QuoteDetailPage extends Page {
    * @param {*} quoteId
    * @param {*} stateId
    */
-  _createConfirmDateForm($formContainer, quoteId, stateId) {
+  _createConfirmDateForm($formContainer, quoteId, stateId, startDate) {
 
-    const $button = $('<button class="btn btn-primary" type="button">Confirmer la date de début des travaux</button>');
+    const $divButtons = $(` <div class="form-group mt-2 d-flex">
+                    </div>`);
+    const $confirmDateButton = $('<button class="btn btn-primary deleteStartDate" type="button">Confirmer la date de début des travaux</button>');
+    const $cancelButton = this. _cancelQuote(quoteId).addClass("ml-1");
+    const $changeStartDateButton = this. _changeStartDate(quoteId, stateId).addClass("ml-1");
+    const $deleteStartDateButton = this. _deleteStartDate(quoteId,stateId).addClass("ml-1");
 
-    $button.on('click', () => {
+    this._$view.find('.buttonToAdd').append($changeStartDateButton).append($deleteStartDateButton);
+
+    $divButtons.append($confirmDateButton);
+    this._$view.find('.cancelContainer').append($cancelButton);
+
+    $confirmDateButton.on('click', () => {
 
       this.isLoading = true;
 
@@ -140,8 +246,20 @@ export class QuoteDetailPage extends Page {
       });
     });
 
-    $formContainer.append($button);
+    $formContainer.append($divButtons);
+
+
+    if(startDate == null){
+      this._$view.find('.deleteStartDate').hide();
+    }
   };
+
+  //TODO
+  _createPartialInvoiceForm($formContainer, quoteId, stateId){
+    const $cancelButton = this._cancelQuote(quoteId).addClass("ml-1");
+
+    this._$view.find('.cancelContainer').append($cancelButton);
+  }
 
   /**
    * set the detail of the quote in the current page
@@ -154,9 +272,9 @@ export class QuoteDetailPage extends Page {
                     <p><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
                     <p class="my-0">Date du devis: ${moment(quote.quoteDate).format('L')}</p>
                     <p class="my-0">Montant: ${quote.totalAmount}</p>
-                    <div class="startDate">
-                      <p class="my-0">Date de début des traveaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format(
-        'L')}</p>
+                    <div class="startDate d-flex">
+                      <p class="my-0">Date de début des traveaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
+                      <div class="buttonToAdd"></div>
                     </div>
                     <p class="my-0">Durée des travaux: ${quote.workDuration}</p>`;
 
@@ -187,7 +305,7 @@ export class QuoteDetailPage extends Page {
    * @param {*} typeList
    */
   _createQuoteDetailDevelopmentTypeList(typeList) {
-    this._$view.find('.types').append(`<h4>Types d'aménagements</h4>`);
+    this._$view.find('.types').empty().append(`<h4>Types d'aménagements</h4>`);
 
     const $quoteDetailType = this._$view.find('.detail-quote-development-types');
     $quoteDetailType.empty();
@@ -203,7 +321,7 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
-    this._$view.find('.before').append('<h4>Photos avant aménagements</h4>');
+    this._$view.find('.before').empty().append('<h4>Photos avant aménagements</h4>');
     $quoteDetailPhoto.empty();
 
     if (photoList.length == 0) {
@@ -221,7 +339,7 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
-    this._$view.find('.after').append('<h4>Photos après aménagements</h4>');
+    this._$view.find('.after').empty().append('<h4>Photos après aménagements</h4>');
     $quoteDetailPhoto.empty();
 
     if (photoList.length == 0) {

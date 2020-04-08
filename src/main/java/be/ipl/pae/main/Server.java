@@ -12,6 +12,7 @@ import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LinkCcServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
+import be.ipl.pae.ihm.servlets.PhotoServlet;
 import be.ipl.pae.ihm.servlets.PhotosListServlet;
 import be.ipl.pae.ihm.servlets.QuoteServlet;
 import be.ipl.pae.ihm.servlets.QuotesListServlet;
@@ -72,6 +73,9 @@ public class Server {
   @Injected
   private PhotosListServlet photosListServlet;
 
+  @Injected
+  private PhotoServlet photoServlet;
+
   /**
    * Start the server.
    *
@@ -120,6 +124,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(customerDetailsServlet), "/customer-details");
     backendContext.addServlet(new ServletHolder(confirmationStatutServlet), "/confirmationStatut");
     backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
+    backendContext.addServlet(new ServletHolder(photoServlet), "/photo");
     return backendContext;
   }
 }

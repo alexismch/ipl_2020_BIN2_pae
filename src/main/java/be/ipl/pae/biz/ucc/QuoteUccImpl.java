@@ -166,4 +166,18 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
+  @Override
+  public QuoteDto cancelQuote(String quoteId) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      quoteDao.setStateQuote(QuoteState.CANCELLED, quoteId);
+      return getQuoteBis(quoteId);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
 }
