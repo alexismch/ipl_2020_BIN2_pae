@@ -38,6 +38,26 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   }
 
   @Override
+  public List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) throws BizException {
+    try {
+      List<DevelopmentTypeDto> listToReturn = null;
+      try {
+        dalService.startTransaction();
+        listToReturn = developmentTypeDao.getDevelopmentTypeList(quoteId);
+      } catch (Exception ex) {
+        dalService.rollbackTransaction();
+      } finally {
+        dalService.commitTransaction();
+      }
+
+      return listToReturn;
+
+    } catch (FatalException ex) {
+      throw new BizException(ex);
+    }
+  }
+
+  @Override
   public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException {
     try {
       dalService.startTransaction();
@@ -64,6 +84,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     try {
       dalService.startTransaction();
       try {
+        //TODO: vérifier doublon
         return developmentTypeDao.insert(developmentType);
       } catch (FatalException ex) {
         throw new BizException(ex);

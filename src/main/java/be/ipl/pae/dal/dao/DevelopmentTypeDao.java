@@ -35,7 +35,7 @@ public interface DevelopmentTypeDao {
 
   /**
    * Get a list of all the development type of a quote.
-   * 
+   *
    * @param quoteId the quote of the id
    * @return a list of DevelopmentTypeDto
    * @throws FatalException if you had a problem with the db

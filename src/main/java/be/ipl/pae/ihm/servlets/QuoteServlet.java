@@ -25,7 +25,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -128,10 +127,10 @@ public class QuoteServlet extends AbstractServlet {
   /**
    * Insert photos into the quote.
    *
-   * @param quoteDto the quote
-   * @param photos photos to insert
+   * @param quoteDto     the quote
+   * @param photos       photos to insert
    * @param photosTitles titles of photos
-   * @param photosTypes types of photos
+   * @param photosTypes  types of photos
    */
   private void insertPhotos(QuoteDto quoteDto, String[] photos, String[] photosTitles,
       Object[] photosTypes) {
@@ -155,7 +154,7 @@ public class QuoteServlet extends AbstractServlet {
 
     String token = (String) req.getSession().getAttribute("token");
     if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
 
@@ -192,10 +191,8 @@ public class QuoteServlet extends AbstractServlet {
   }
 
 
-
   @Override
-  protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     String quoteId = req.getParameter("quoteId");
 

@@ -26,7 +26,7 @@ public class UserServlet extends AbstractServlet {
 
     String token = (String) req.getSession().getAttribute("token");
     if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
-      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
 

@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
+import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.dal.dao.PhotoDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
@@ -32,6 +33,24 @@ public class PhotoUccImpl implements PhotoUcc {
       dalService.commitTransaction();
     }
     return null;
+  }
+
+  @Override
+  public void insert(List<PhotoDto> photos) throws FatalException, BizException {
+    try {
+      dalService.startTransaction();
+      try {
+        for (PhotoDto photo : photos) {
+          photoDao.insert(photo);
+        }
+      } catch (FatalException ex) {
+        throw new BizException(ex);
+      }
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
   }
 
   @Override
