@@ -1,16 +1,22 @@
 $detail-quote-image-min-width: 400px;
 $detail-quote-image-min-height: 300px;
 
-.detail-quote-photo-before, .detail-quote-photo-after {
+.detail-quote-photos-before, .detail-quote-photos-after {
 
-  & {
+  & .list {
     display: grid;
     grid-gap: .2em;
     grid-template-columns: repeat(auto-fit, minmax($detail-quote-image-min-width, 1fr));
   }
 
-  & img {
+  & .list img {
     width: 100%;
     object-fit: cover;
   }
+
+  & .empty {
+    text-align: center;
+    margin: 1em 0;
+  }
+
 }

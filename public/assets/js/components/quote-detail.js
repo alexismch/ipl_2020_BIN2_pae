@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxGET, ajaxPUT, ajaxDELETE} from '../utils/ajax.js';
+import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
@@ -20,16 +20,29 @@ import {DateInputComponent} from './inputs/datepicker-input.js';
 export class QuoteDetailPage extends Page {
 
   _template = `<div class="container">
-  <div class="formContainer"></div>
-  <div class="cancelContainer"></div>
-  <p class="detail-quote"></p>
-  <p class="detail-quote-client"></p>
-  <div class="types"></div>
-  <ul class="detail-quote-development-types"></ul>
-  <div class="before"></div>
-  <div class="detail-quote-photo-before"></div>
-  <div class="after"></div>
-  <div class="detail-quote-photo-after"></div>
+  <h2 class="quote-title mb-3"></h2>
+  <div class="worker-panel card shadow mb-3">
+    <div class="card-header">
+      <h4 class="m-0 text-primary">Ouvrier/Patron</h4>
+    </div>
+    <div class="card-body">
+      <div class="formContainer"></div>
+      <div class="cancelContainer"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="detail-quote card shadow mb-3"></div>
+    </div>
+    <div class="col-lg-6">
+      <div class="detail-quote-client card shadow mb-3"></div>
+    </div>
+    <div class="col-lg-12">
+      <div class="detail-quote-development-types card shadow mb-3"></div>
+    </div>
+  </div>
+  <div class="detail-quote-photos-before card shadow mb-3"></div>
+  <div class="detail-quote-photos-after card shadow mb-3"></div>
 </div>`;
 
   /**
@@ -39,6 +52,12 @@ export class QuoteDetailPage extends Page {
     super('Details du devis ' + quoteId);
 
     this._$view = $(this._template);
+
+    if (isWorker()) {
+      this._$view.find('.worker-panel').show();
+    } else {
+      this._$view.find('.worker-panel').hide();
+    }
 
     ajaxGET(`/api/quote`, `quoteId=${quoteId}`, (data) => {
 
@@ -266,17 +285,23 @@ export class QuoteDetailPage extends Page {
    * @param {*} quote
    */
   _createQuoteDetailQuote(quote) {
+    this._$view.find('.quote-title').append(`Devis: ${quote.idQuote}`);
+
     const $quoteDetail = this._$view.find('.detail-quote');
 
-    const detail = `<h2>Devis: ${quote.idQuote}</h2>
-                    <p><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
-                    <p class="my-0">Date du devis: ${moment(quote.quoteDate).format('L')}</p>
-                    <p class="my-0">Montant: ${quote.totalAmount}</p>
-                    <div class="startDate d-flex">
-                      <p class="my-0">Date de début des traveaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
-                      <div class="buttonToAdd"></div>
-                    </div>
-                    <p class="my-0">Durée des travaux: ${quote.workDuration}</p>`;
+    const detail = `<div class="card-header py-3">
+  <h4 class="m-0 text-primary">Infos</h4>
+</div>
+<div class="card-body">
+  <p><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
+  <p class="my-0">Date du devis: ${moment(quote.quoteDate).format('L')}</p>
+  <p class="my-0">Montant: ${quote.totalAmount}</p>
+  <div class="startDate d-flex">
+    <p class="my-0">Date de début des traveaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
+    <div class="buttonToAdd"></div>
+  </div>
+  <p class="my-0">Durée des travaux: ${quote.workDuration}</p>
+</div>`;
 
     $quoteDetail.empty().append(detail);
   }
@@ -288,14 +313,18 @@ export class QuoteDetailPage extends Page {
   _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
 
-    const detail = `<h4>Client</h4>
-                    <p class="ml-3 my-0">Nom: ${customer.lastName}</p>
-                    <p class="ml-3 my-0">Prenom: ${customer.firstName}</p>
-                    <p class="ml-3 my-0">Adresse: ${customer.address}</p>
-                    <p class="ml-3 my-0">Code postal: ${customer.postalCode}</p>
-                    <p class="ml-3 my-0">Ville: ${customer.city}</p>
-                    <p class="ml-3 my-0">Email: ${customer.email}</p>
-                    <p class="ml-3 my-0">Numéro de téléphone: ${customer.phoneNumber}</p>`;
+    const detail = `<div class="card-header py-3">
+  <h4 class="m-0 text-primary">Client</h4>
+</div>
+<div class="card-body">
+  <p class="m-0">Nom: ${customer.lastName}</p>
+  <p class="m-0">Prenom: ${customer.firstName}</p>
+  <p class="m-0">Adresse: ${customer.address}</p>
+  <p class="m-0">Code postal: ${customer.postalCode}</p>
+  <p class="m-0">Ville: ${customer.city}</p>
+  <p class="m-0">Email: ${customer.email}</p>
+  <p class="m-0">Numéro de téléphone: ${customer.phoneNumber}</p>
+</div>`;
 
     $quoteDetailClient.empty().append(detail);
   }
@@ -305,14 +334,17 @@ export class QuoteDetailPage extends Page {
    * @param {*} typeList
    */
   _createQuoteDetailDevelopmentTypeList(typeList) {
-    this._$view.find('.types').empty().append(`<h4>Types d'aménagements</h4>`);
+    const $quoteDetailTypes = this._$view.find('.detail-quote-development-types');
+    $quoteDetailTypes.empty();
+    $quoteDetailTypes.append(`<div class="card-header py-3"><h4 class="m-0 text-primary">Types d'aménagements</h4></div>`);
 
-    const $quoteDetailType = this._$view.find('.detail-quote-development-types');
-    $quoteDetailType.empty();
+    const $quoteDetailTypesList = $('<ul>', {class: 'list m-1'});
 
     typeList.forEach(type => {
-      $quoteDetailType.append($(`<li>${type.title}</li>`));
+      $quoteDetailTypesList.append($(`<li>${type.title}</li>`));
     });
+
+    $quoteDetailTypes.append($('<div class="card-body"></div>').append($quoteDetailTypesList));
   }
 
   /**
@@ -320,17 +352,9 @@ export class QuoteDetailPage extends Page {
    * @param {*} typeList
    */
   _createQuoteDetailPhotoBefore(photoList) {
-    const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-before');
-    this._$view.find('.before').empty().append('<h4>Photos avant aménagements</h4>');
-    $quoteDetailPhoto.empty();
-
-    if (photoList.length == 0) {
-      $quoteDetailPhoto.append("<p>Il n'y a pas de photo avant aménagement!</p>");
-    } else {
-      photoList.forEach(photo => {
-        this._createPhotoListItem($quoteDetailPhoto, photo);
-      });
-    }
+    const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-before');
+    $quoteDetailPhoto.empty().append('<div class="card-header py-3"><h4 class="m-0 text-primary">Photos avant aménagements</h4></div>');
+    this._createPhotoList($quoteDetailPhoto, photoList);
   }
 
   /**
@@ -338,17 +362,23 @@ export class QuoteDetailPage extends Page {
    * @param {*} typeList
    */
   _createQuoteDetailPhotoAfter(photoList) {
-    const $quoteDetailPhoto = this._$view.find('.detail-quote-photo-after');
-    this._$view.find('.after').empty().append('<h4>Photos après aménagements</h4>');
-    $quoteDetailPhoto.empty();
+    const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-after');
+    $quoteDetailPhoto.empty().append('<div class="card-header py-3"><h4 class="m-0 text-primary">Photos après aménagements</h4></div>');
+    this._createPhotoList($quoteDetailPhoto, photoList);
+  }
 
+  _createPhotoList($container, photoList) {
+    const $cardBody = $('<div class="card-body"></div>');
     if (photoList.length == 0) {
-      $quoteDetailPhoto.append("<p>Il n'y a pas de photo après aménagement!</p>");
+      $cardBody.append("<p class='empty'>Il n'y a pas de photo après aménagement!</p>");
     } else {
+      const $list = $('<div>', {class: 'list'});
       photoList.forEach(photo => {
-        this._createPhotoListItem($quoteDetailPhoto, photo);
+        this._createPhotoListItem($list, photo);
       });
+      $cardBody.append($list);
     }
+    $container.append($cardBody);
   }
 
   _createPhotoListItem($quoteDetailPhoto, photo) {
