@@ -1,6 +1,6 @@
 'use strict';
 
-import {Component} from './component.js';
+import {Component} from '../component.js';
 
 /**
  * @module Components
@@ -37,6 +37,12 @@ export class AddPictureComponent extends Component {
         </select>
         <small class="input-error form-text text-danger">Choisissez un type d'aménagement.</small>
       </div>
+      <div id="add-picutre-component-picutre-visibility-${this.getUniqueId()}" class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="add-picutre-component-visible-${this.getUniqueId()}" name="pictureIsVisible">
+          <label class="custom-control-label" for="add-picutre-component-visible-${this.getUniqueId()}">Rendre visible</label>
+        </div>
+      </div>
     </div>
     <div class="col-md-5">
       <img id="add-picutre-component-picture-${this.getUniqueId()}" class="w-100 rounded" alt="Image à mettre en ligne" src="/assets/img/img-placeholder.jpg" />
@@ -50,11 +56,15 @@ export class AddPictureComponent extends Component {
   /**
    *
    */
-  constructor() {
+  constructor(isBefore = true) {
     super();
     this._developmentTypeListOptions = new Map();
 
     this._$view = $(this._template);
+
+    if (isBefore) {
+      this._$view.find('#add-picutre-component-picutre-visibility-' + this.getUniqueId()).remove();
+    }
 
     const $fileInput = this._$view.find('#add-picutre-component-picture-upload-' + this.getUniqueId());
     const $fileOutputImg = this._$view.find('#add-picutre-component-picture-' + this.getUniqueId());
