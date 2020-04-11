@@ -108,4 +108,16 @@ public class QuoteUccImplTest {
     QuoteDto quoteToTest = qcc.setStartDateQuoteInDb(quoteDto);
     assertNotEquals(QuoteState.CONFIRMED_DATE, quoteToTest.getState());
   }
+
+  @Test
+  @DisplayName("test getQuotes")
+  public void testGetQuotes() throws BizException {
+    assertNotNull(qcc.getQuotes());
+  }
+
+  @Test
+  @DisplayName("test getQuotesFiltered with null parameter")
+  public void testGetQuotesFiltered() throws FatalException {
+    assertNotNull(qcc.getQuotesFiltered(null));
+  }
 }

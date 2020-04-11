@@ -43,7 +43,6 @@ _developmentTypeList = [];
     const $selectMultipleDevelopemntType = this._$view.find('.select-multiple-developmentType');
     const mutltipleDevelopmentTypeInputComponent = new MutltipleDevelopmentTypeInputComponent('types', (developmentTypeList) => {
       this._developmentTypeList = developmentTypeList;
-      this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList(this._developmentTypeList));
     });
     $selectMultipleDevelopemntType.append(mutltipleDevelopmentTypeInputComponent.getView());
     onSubmitWithNavigation(this._$view.find('form'), (url, data) => {

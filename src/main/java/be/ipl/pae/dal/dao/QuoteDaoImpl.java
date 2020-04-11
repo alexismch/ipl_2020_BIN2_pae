@@ -7,6 +7,7 @@ import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.services.DalService;
+import be.ipl.pae.dal.util.DalUtils;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
 
@@ -63,7 +64,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
     boolean[] ref = new boolean[5];
     if (quotesFilterDto.getCustomerName() != null) {
-      queryWhere += " AND (c.lastname= ?) ";
+      queryWhere += " AND lower(c.lastname) LIKE lower(?)";
       ref[0] = true;
     }
     if (quotesFilterDto.getTotalAmountMin() != -1) {
@@ -100,7 +101,8 @@ public class QuoteDaoImpl implements QuoteDao {
     int indexSet = 1;
     try {
       if (ref[0]) {
-        ps.setString(indexSet, quotesFilterDto.getCustomerName());
+        String name = DalUtils.escapeSpecialLikeChar(quotesFilterDto.getCustomerName());
+        ps.setString(indexSet, name + "%");
         indexSet++;
       }
       if (ref[1]) {

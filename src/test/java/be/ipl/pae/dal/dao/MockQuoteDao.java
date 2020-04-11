@@ -1,5 +1,6 @@
 package be.ipl.pae.dal.dao;
 
+import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
@@ -8,6 +9,7 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockQuoteDao implements QuoteDao {
@@ -17,8 +19,7 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public List<QuoteDto> getAllQuote() throws FatalException {
-    // TODO Auto-generated method stub
-    return null;
+    return new ArrayList<>();
   }
 
   @Override
@@ -80,7 +81,22 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
-    // TODO Auto-generated method stub
+    ArrayList<QuoteDto> testArray = new ArrayList<>();
+    if (quotesFilterDto == null) {
+      return testArray;
+    }
+    QuoteDto quoteDto = dtoFactory.getQuote();
+    CustomerDto customerDto = dtoFactory.getCustomer();
+    if (quotesFilterDto.getCustomerName() != null) {
+      customerDto.setLastName(quotesFilterDto.getCustomerName());
+      quoteDto.setCustomer(customerDto);
+    }
+    // if(quotesFilterDto.getTotalAmountMin()!= null) {
+    // quoteDto.setTotalAmount(quotesFilterDto.getTotalAmountMin());
+    // }
+    // if(quotesFilterDto.getTotalAmountMin()!= null) {
+    //
+    // }
     return null;
   }
 
