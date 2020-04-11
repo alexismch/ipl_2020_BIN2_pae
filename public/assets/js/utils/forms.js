@@ -131,9 +131,20 @@ function onSubmitWithNavigation($form, navigation, onInvalid, onCheckValidity) {
     disableButtoms($form);
 
     const url = $form.attr('action');
-    const data = $form.find(':input').filter(function (index, element) {
+    let data = $form.find(':input').filter(function (index, element) {
       return $(element).val() != '';
     }).serialize();
+
+    if (data.match(/Date=[^&]*&/)) {
+      data = data.replace(/Date=([^&]*)&/, function (a, b) {
+        return 'Date=' + convertDate(decodeURIComponent(b)) + '&'
+      });
+    } else {
+      data = data.replace(/Date=([^&]*)/, function (a, b) {
+        console.log(decodeURI(b));
+        return 'Date=' + convertDate(decodeURIComponent(b));
+      });
+    }
 
     if (navigation !== undefined) {
       navigation(url, data);
@@ -191,6 +202,7 @@ function serializeFormToJson($form) {
 }
 
 function convertDate(date) {
+  console.log(date);
   return moment(date, 'L').format('YYYY-MM-DD');
 }
 
