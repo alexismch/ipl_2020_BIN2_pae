@@ -20,15 +20,15 @@ export class CustomersListPage extends Page {
       <input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">
       <input class="form-control form-control-sm mx-1 mt-1" name="postalCode" placeholder="Code postal" type="number">
       <input class="form-control form-control-sm mx-1 mt-1" name="city" placeholder="Ville du client" type="text">
-      <div class="input-group input-group-sm m-1">
+      <div class="input-group input-group-sm mx-1 mt-1">
         <button class="btn btn-sm btn-primary w-100">Rechercher</button>
       </div>
     </form>
     <div>
-      <a class="btn btn-sm btn-primary mx-1" data-navigo href="clients/ajouter">Ajouter un client</a>
+      <a class="btn btn-sm btn-primary mx-1 mt-1" data-navigo href="clients/ajouter">Ajouter un client</a>
     </div>
   </div>
-  <p class="customers-list-search-msg d-none m-0 p-2 alert alert-primary"></p>
+  <p class="customers-list-search-msg d-none m-0 p-2 alert alert-primary rounded-0"></p>
   <ul class="customers-list m-2 p-0"></ul>
 </div>`;
 

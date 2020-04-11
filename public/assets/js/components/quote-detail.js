@@ -244,9 +244,9 @@ export class QuoteDetailPage extends Page {
     const $divButtons = $(` <div class="form-group mt-2 d-flex">
                     </div>`);
     const $confirmDateButton = $('<button class="btn btn-primary deleteStartDate" type="button">Confirmer la date de début des travaux</button>');
-    const $cancelButton = this. _cancelQuote(quoteId).addClass("ml-1");
-    const $changeStartDateButton = this. _changeStartDate(quoteId, stateId).addClass("ml-1");
-    const $deleteStartDateButton = this. _deleteStartDate(quoteId,stateId).addClass("ml-1 mt-2");
+    const $cancelButton = this._cancelQuote(quoteId).addClass("ml-1");
+    const $changeStartDateButton = this._changeStartDate(quoteId, stateId).addClass("ml-1");
+    const $deleteStartDateButton = this._deleteStartDate(quoteId, stateId).addClass("ml-1 mt-2");
 
     this._$view.find('.buttonToAdd').append($changeStartDateButton).append($deleteStartDateButton);
 

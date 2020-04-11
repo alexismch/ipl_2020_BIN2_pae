@@ -19,13 +19,13 @@ export class UsersListPage extends Page {
 
   _template = `<div>
   <form action="utilisateurs" class="form-inline p-1 elevation-1 bg-light" method="get">
-    <input class="form-control form-control-sm" name="name" placeholder="Nom de l'utilisateur" type="text">
-    <input class="form-control form-control-sm ml-1" name="city" placeholder="Ville de l'utilisateur" type="text">
-    <div class="input-group input-group-sm m-1">
+    <input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom de l'utilisateur" type="text">
+    <input class="form-control form-control-sm  mx-1 mt-1" name="city" placeholder="Ville de l'utilisateur" type="text">
+    <div class="input-group input-group-sm  mx-1 mt-1">
       <button class="btn btn-primary btn-sm w-100">Rechercher</button>
     </div>
   </form>
-  <p class="users-list-search-msg d-none m-0 p-2 alert alert-primary"></p>
+  <p class="users-list-search-msg d-none m-0 p-2 alert alert-primary rounded-0"></p>
   <ul class="users-list m-2 p-0"></ul>
 </div>`;
 

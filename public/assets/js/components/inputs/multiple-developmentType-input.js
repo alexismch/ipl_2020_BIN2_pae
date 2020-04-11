@@ -16,6 +16,7 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
 
   name;
   labelValue;
+  placeholder;
   validator;
   _$selectTypes;
   _developmentTypeList;
@@ -25,11 +26,12 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
    */
   constructor(name = '', validator, required = true,
       labelValue = 'Type d\'aménagement(s)<span class="text-danger">*</span>',
-      showLabel = true, showError = true) {
+      showLabel = true, showError = true, placeholder = 'Choisissez au moins un type d\'aménagement') {
     super();
     this.name = name;
     this.labelValue = labelValue;
     this.validator = validator;
+    this.placeholder = placeholder;
 
     this._$view = $(this._template);
 
@@ -103,7 +105,7 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
     return `<div>
   <label for="multiple-developmentType-input-${this.getUniqueId()}">${this.labelValue}</label>
   <select id="multiple-developmentType-input-${this.getUniqueId()}" name="${this.name}" required
-          class="form-control" data-placeholder="Choisissez au moins un type d'aménagement" multiple>
+          class="form-control" data-placeholder="${this.placeholder}" multiple>
     <option value=""></option>
   </select>
   <small class="input-error form-text text-danger">Au moins un type d'aménagement dois être selectionné.</small>
@@ -116,8 +118,12 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
       for (const developmentType of this._developmentTypeList) {
         $(`<option value="${developmentType.idType}">${developmentType.title}</option>`).appendTo(this._$selectTypes);
       }
-      this._$selectTypes.trigger('chosen:updated');
+      this.update();
     });
+  }
+
+  update() {
+    this._$selectTypes.trigger('chosen:updated');
   }
 
 }
