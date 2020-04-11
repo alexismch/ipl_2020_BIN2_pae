@@ -1,7 +1,9 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.CustomerDto;
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.services.DalService;
@@ -43,6 +45,89 @@ public class QuoteDaoImpl implements QuoteDao {
 
     return quotes;
 
+  }
+
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+
+    ArrayList<QuoteDto> quotesList = new ArrayList<>();
+
+    String querySelect =
+        "SELECT q.id_quote, q.quote_date, q.total_amount, q.work_duration,c.id_customer, q.id_state ";
+
+    String queryFrom = "FROM mystherbe.quotes q, mystherbe.customers c ";
+
+    String queryWhere = "WHERE (q.id_customer = c.id_customer)";
+
+    boolean[] ref = new boolean[5];
+    if (quotesFilterDto.getCustomerName() != null) {
+      queryWhere += " AND (c.lastname= ?) ";
+      ref[0] = true;
+    }
+    if (quotesFilterDto.getTotalAmountMin() != -1) {
+      queryWhere += "AND (q.total_amout > ?) ";
+      ref[1] = true;
+
+    }
+    if (quotesFilterDto.getTotalAmountMax() != -1) {
+      queryWhere += "AND (q.total_amount < ?) ";
+      ref[2] = true;
+
+    }
+    if (quotesFilterDto.getQuoteDate() != null) {
+      queryWhere += "AND (q.quote_date = ?) ";
+      ref[3] = true;
+    }
+    int nbDevTypes = 0;
+    if (quotesFilterDto.getDevelopmentType() != null) {
+      if (quotesFilterDto.getDevelopmentType().size() > 0) {
+        ref[4] = true;
+        for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentType()) {
+          nbDevTypes++;
+          querySelect += ", qt" + nbDevTypes + ".id_type";
+          queryFrom += ", mystherbe.quote_types qt" + nbDevTypes + " ";
+          queryWhere += "AND (q.id_quote = qt" + nbDevTypes + ".id_quote) AND (qt" + nbDevTypes
+              + ".id_type = ?) ";
+        }
+      }
+    }
+
+
+    String query = querySelect + queryFrom + queryWhere;
+    PreparedStatement ps = dalService.getPreparedStatement(query);
+    int indexSet = 1;
+    try {
+      if (ref[0]) {
+        ps.setString(indexSet, quotesFilterDto.getCustomerName());
+        indexSet++;
+      }
+      if (ref[1]) {
+        ps.setInt(indexSet, quotesFilterDto.getTotalAmountMin());
+        indexSet++;
+      }
+      if (ref[2]) {
+        ps.setInt(indexSet, quotesFilterDto.getTotalAmountMax());
+        indexSet++;
+      }
+      if (ref[3]) {
+        ps.setDate(indexSet, Date.valueOf(quotesFilterDto.getQuoteDate()));
+        indexSet++;
+      }
+      if (ref[4]) {
+        for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentType()) {
+          ps.setInt(indexSet, developementType.getIdType());
+          indexSet++;
+        }
+      }
+
+      try (ResultSet rs = ps.executeQuery()) {
+        System.out.println("Les resultats: " + rs.getMetaData().toString());
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return quotesList;
   }
 
   @Override

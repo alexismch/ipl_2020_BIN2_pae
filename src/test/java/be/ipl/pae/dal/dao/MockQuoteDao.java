@@ -1,6 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dependencies.Injected;
@@ -75,6 +76,12 @@ public class MockQuoteDao implements QuoteDao {
   @Override
   public void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException {
 
+  }
+
+  @Override
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

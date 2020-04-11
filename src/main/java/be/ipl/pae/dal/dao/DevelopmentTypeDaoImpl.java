@@ -64,8 +64,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SElECT dt.id_type, dt.title FROM mystherbe.development_types dt, mystherbe.quote_types qt "
-            + " WHERE qt.id_quote = ?"
-            + " AND qt.id_type = dt.id_type");
+            + " WHERE qt.id_quote = ?" + " AND qt.id_type = dt.id_type");
 
     try {
       ps.setString(1, quoteId);

@@ -2,6 +2,7 @@ import {router} from '../main.js';
 import {onSubmitWithNavigation} from '../utils/forms.js';
 import {ajaxGET} from '../utils/ajax.js';
 import {Page} from './page.js';
+import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developmentType-input.js';
 
 /**
  * @module Components
@@ -21,18 +22,7 @@ export class QuotesListPage extends Page {
   <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
   <input class="form-control form-control-sm mx-1 mt-1" name="montantMax" placeholder="Montant Maximum" type="number">
 
-  <select name="amenagement" id="amenagements">
-    <option value="Aménagement de jardin de ville">Aménagement de jardin de ville</option>
-    <option value="Aménagement de jardin">Aménagement de jardin</option>
-    <option value="Aménagement de parc paysagiste">Aménagement de parc paysagiste</option>
-    <option value="Création de potagers">Création de potagers</option>
-    <option value="Entretien de vergers haute-tige">Entretien de vergers haute-tige</option>
-    <option value="Entretien de vergers basse-tige">Entretien de vergers basse-tige</option>
-    <option value="Aménagement d’étang">Aménagement d’étang</option>
-    <option value="Installation de système d’arrosage automatique">Installation de système d’arrosage automatique</option>
-    <option value="Terrasses en boisTerrasses en boisoption>
-    <option value="Terrasses en pierres naturelles">Terrasses en pierres naturelles</option>
-  </select>
+  <div class="form-group select-multiple-developmentType"></div>
 
     <div class="input-group input-group-sm m-1">
       <button class="btn btn-primary btn-sm w-100">Rechercher</button>
@@ -42,6 +32,7 @@ export class QuotesListPage extends Page {
   <ul class="quotes-list m-2 p-0"></ul>
 </div>`;
 
+_developmentTypeList = [];
   /**
    *
    */
@@ -49,7 +40,12 @@ export class QuotesListPage extends Page {
     super('Devis');
 
     this._$view = $(this._template);
-
+    const $selectMultipleDevelopemntType = this._$view.find('.select-multiple-developmentType');
+    const mutltipleDevelopmentTypeInputComponent = new MutltipleDevelopmentTypeInputComponent('types', (developmentTypeList) => {
+      this._developmentTypeList = developmentTypeList;
+      this._addPictureComponents.forEach(addPictureComponent => addPictureComponent.setDevelopmentTypesList(this._developmentTypeList));
+    });
+    $selectMultipleDevelopemntType.append(mutltipleDevelopmentTypeInputComponent.getView());
     onSubmitWithNavigation(this._$view.find('form'), (url, data) => {
       if (data !== query) {
         router.navigate(url + '?' + data);

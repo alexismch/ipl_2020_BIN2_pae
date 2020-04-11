@@ -1,6 +1,7 @@
 package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.exceptions.FatalException;
 
@@ -86,5 +87,13 @@ public interface QuoteDao {
    * @throws FatalException error with the db
    */
   void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
+
+  /**
+   * 
+   * @param quotesFilterDto all the filters that the user chosed
+   * @return a list of quotes depending on the user's filters
+   * @throws FatalException
+   */
+  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
 }

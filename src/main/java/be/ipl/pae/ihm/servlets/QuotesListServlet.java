@@ -6,9 +6,11 @@ import static be.ipl.pae.util.Util.hasAccess;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
+import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.util.Util;
 
 import com.owlike.genson.GensonBuilder;
@@ -25,6 +27,8 @@ public class QuotesListServlet extends AbstractServlet {
   private DtoFactory dtoFactory;
   @Injected
   private QuoteUcc quoteUcc;
+  @Injected
+  private DevelopmentTypeUcc developementTypeUcc;
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/quotes-list by " + req.getRemoteAddr());
@@ -38,7 +42,10 @@ public class QuotesListServlet extends AbstractServlet {
     String quoteDateString = req.getParameter("dateDevis");
     String minAmountString = req.getParameter("montantMin");
     String maxAmountString = req.getParameter("montantMax");
-    // String developmentType = req.getParameter("amenagements");
+    String[] types = req.getParameterValues("types"); // only one
+    if (types == null) {
+      types = req.getParameterValues("types[]"); // multiple
+    }
     int minAmount = -1;
     int maxAmount = -1;
     if (quoteDateString != null) {
@@ -50,19 +57,25 @@ public class QuotesListServlet extends AbstractServlet {
     if (minAmountString != null) {
       minAmount = Integer.parseInt(minAmountString);
     }
+
     LocalDate quoteDate = null;
     String name = req.getParameter("name");
 
     QuotesFilterDto quotesFilterDto = dtoFactory.getQuotesFilter();
     quotesFilterDto.setCustomerName(name);
-    // quotesFilterDto.setDevelopmentType(developmentType);
+    // quotesFilterDto.setDevelopmentType(types);
     quotesFilterDto.setQuoteDate(quoteDate);
     quotesFilterDto.setTotalAmountMax(maxAmount);
     quotesFilterDto.setTotalAmountMin(minAmount);
 
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
-
+    try {
+      quoteUcc.getQuotesFiltered(quotesFilterDto);
+    } catch (FatalException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     try {
       sendSuccessWithJson(resp, "quotesList",
           gensonBuilder.create().serialize(quoteUcc.getQuotes()));

@@ -3,7 +3,9 @@ package be.ipl.pae.biz.ucc;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.biz.objets.QuotesFilter;
 import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
@@ -172,6 +174,18 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.startTransaction();
       quoteDao.setStateQuote(QuoteState.CANCELLED, quoteId);
       return getQuoteBis(quoteId);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+    try {
+      dalService.startTransaction();
+      return quoteDao.getQuotesFiltered(quotesFilterDto);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());

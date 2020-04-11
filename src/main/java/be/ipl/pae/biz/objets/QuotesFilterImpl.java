@@ -1,6 +1,7 @@
 package be.ipl.pae.biz.objets;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class QuotesFilterImpl implements QuotesFilter {
 
@@ -8,7 +9,7 @@ public class QuotesFilterImpl implements QuotesFilter {
   private LocalDate quoteDate;
   private int totalAmountMin;
   private int totalAmountMax;
-  private DevelopmentType developmentType;
+  private ArrayList<DevelopmentType> developmentTypeList;
 
   public QuotesFilterImpl() {
     super();
@@ -25,13 +26,13 @@ public class QuotesFilterImpl implements QuotesFilter {
    * 
    */
   public QuotesFilterImpl(String customerName, LocalDate quoteDate, int totalAmountMin,
-      int totalAmountMax, DevelopmentType developmentType) {
+      int totalAmountMax, ArrayList<DevelopmentType> developmentType) {
     super();
     this.customerName = customerName;
     this.quoteDate = quoteDate;
     this.totalAmountMin = totalAmountMin;
     this.totalAmountMax = totalAmountMax;
-    this.developmentType = developmentType;
+    this.developmentTypeList = developmentType;
   }
 
   public String getCustomerName() {
@@ -66,12 +67,12 @@ public class QuotesFilterImpl implements QuotesFilter {
     this.totalAmountMax = totalAmountMax;
   }
 
-  public DevelopmentType getDevelopmentType() {
-    return developmentType;
+  public ArrayList<DevelopmentType> getDevelopmentType() {
+    return developmentTypeList;
   }
 
-  public void setDevelopmentType(DevelopmentType developmentType) {
-    this.developmentType = developmentType;
+  public void setDevelopmentType(ArrayList<DevelopmentType> developmentType) {
+    this.developmentTypeList = developmentType;
   }
 
 
