@@ -1,5 +1,7 @@
 package be.ipl.pae.biz.objets;
 
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ public class QuotesFilterImpl implements QuotesFilter {
   private LocalDate quoteDate;
   private int totalAmountMin;
   private int totalAmountMax;
-  private ArrayList<DevelopmentType> developmentTypeList;
+  private ArrayList<DevelopmentTypeDto> developmentTypeList;
 
   public QuotesFilterImpl() {
     super();
@@ -26,13 +28,13 @@ public class QuotesFilterImpl implements QuotesFilter {
    * 
    */
   public QuotesFilterImpl(String customerName, LocalDate quoteDate, int totalAmountMin,
-      int totalAmountMax, ArrayList<DevelopmentType> developmentType) {
+      int totalAmountMax, ArrayList<DevelopmentTypeDto> developmentTypeDto) {
     super();
     this.customerName = customerName;
     this.quoteDate = quoteDate;
     this.totalAmountMin = totalAmountMin;
     this.totalAmountMax = totalAmountMax;
-    this.developmentTypeList = developmentType;
+    this.developmentTypeList = developmentTypeDto;
   }
 
   public String getCustomerName() {
@@ -67,12 +69,12 @@ public class QuotesFilterImpl implements QuotesFilter {
     this.totalAmountMax = totalAmountMax;
   }
 
-  public ArrayList<DevelopmentType> getDevelopmentType() {
+  public ArrayList<DevelopmentTypeDto> getDevelopmentTypeDto() {
     return developmentTypeList;
   }
 
-  public void setDevelopmentType(ArrayList<DevelopmentType> developmentType) {
-    this.developmentTypeList = developmentType;
+  public void setDevelopmentType(ArrayList<DevelopmentTypeDto> developmentTypeDto) {
+    this.developmentTypeList = developmentTypeDto;
   }
 
 

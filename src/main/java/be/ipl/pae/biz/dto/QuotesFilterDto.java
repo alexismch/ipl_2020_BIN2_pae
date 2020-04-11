@@ -1,7 +1,5 @@
 package be.ipl.pae.biz.dto;
 
-import be.ipl.pae.biz.objets.DevelopmentType;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -23,8 +21,8 @@ public interface QuotesFilterDto {
 
   void setTotalAmountMax(int totalAmountMax);
 
-  ArrayList<DevelopmentType> getDevelopmentType();
+  ArrayList<DevelopmentTypeDto> getDevelopmentTypeDto();
 
-  void setDevelopmentType(ArrayList<DevelopmentType> developmentType);
+  void setDevelopmentType(ArrayList<DevelopmentTypeDto> developmentTypeDto);
 
 }

@@ -3,6 +3,7 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.util.Util.hasAccess;
 
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
@@ -17,6 +18,8 @@ import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +31,7 @@ public class QuotesListServlet extends AbstractServlet {
   @Injected
   private QuoteUcc quoteUcc;
   @Injected
-  private DevelopmentTypeUcc developementTypeUcc;
+  private DevelopmentTypeUcc developmentTypeUcc;
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/quotes-list by " + req.getRemoteAddr());
@@ -63,7 +66,24 @@ public class QuotesListServlet extends AbstractServlet {
 
     QuotesFilterDto quotesFilterDto = dtoFactory.getQuotesFilter();
     quotesFilterDto.setCustomerName(name);
-    // quotesFilterDto.setDevelopmentType(types);
+
+    ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<DevelopmentTypeDto>();
+    if (types != null) {
+      Object[] typesArray = Stream.of(types).map(Integer::valueOf).toArray();
+      for (Object typeId : typesArray) {
+        Integer id = (Integer) typeId;
+        try {
+          listDevelopment.add(developmentTypeUcc.getDevelopmentType(id));
+        } catch (BizException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (FatalException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
+    }
+    quotesFilterDto.setDevelopmentType(listDevelopment);
     quotesFilterDto.setQuoteDate(quoteDate);
     quotesFilterDto.setTotalAmountMax(maxAmount);
     quotesFilterDto.setTotalAmountMin(minAmount);
@@ -78,9 +98,10 @@ public class QuotesListServlet extends AbstractServlet {
     }
     try {
       sendSuccessWithJson(resp, "quotesList",
-          gensonBuilder.create().serialize(quoteUcc.getQuotes()));
-    } catch (BizException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+          gensonBuilder.create().serialize(quoteUcc.getQuotesFiltered(quotesFilterDto)));
+    } catch (FatalException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 }
