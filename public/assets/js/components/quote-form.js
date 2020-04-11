@@ -4,7 +4,7 @@ import {router} from '../main.js';
 import {createAlert} from '../utils/alerts.js';
 import {onSubmitWithAjax} from '../utils/forms.js';
 import {Page} from './page.js';
-import {AddPictureComponent} from './picture-add.js';
+import {AddPictureComponent} from './inputs/picture-add.js';
 import {CustomerInputComponent} from './inputs/customer-input.js';
 import {DateInputComponent} from './inputs/datepicker-input.js';
 import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developmentType-input.js';
