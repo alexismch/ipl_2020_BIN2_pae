@@ -53,7 +53,7 @@ export class CustomerInputComponent extends Component {
   get _template() {
     return `<div>
       <label for="customer-input-${this.getUniqueId()}">Client<span class="text-danger">*</span></label>
-      <select id="customer-input-${this.getUniqueId()}" name="${this.name}" class="form-control" data-placeholder="Choisissez un client">
+      <select id="customer-input-${this.getUniqueId()}" name="${this.name}" class="form-control" data-placeholder="Choisissez un client" required>
         <option value=""></option>
       </select>
       <small class="input-error form-text text-danger">Un client doit être sélectionné.</small>

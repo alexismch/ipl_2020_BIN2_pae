@@ -2,6 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
@@ -11,11 +12,12 @@ public interface UserDao {
   /**
    * Update the status of the user.
    *
-   * @param pseudo the pseudo of the user
-   * @return An object UserDto with the information from the db or return null
+   * @param userId    the id of the user
+   * @param newStatus the status that will be applied to the user
+   * @return An object UserDto with the user with new status
    * @throws FatalException if you have an error with the db
    */
-  UserDto userConfirmation(String pseudo, char statut) throws FatalException;
+  UserDto changeUserStatus(int userId, UserStatus newStatus) throws FatalException;
 
   /**
    * Return an userDto from the database.
@@ -32,6 +34,15 @@ public interface UserDao {
    * @return An userDto object with all the informations that the db gave you or null
    */
   UserDto getUser(int userId);
+
+  /**
+   * Get the status of the user by id.
+   *
+   * @param userId the id of the user from who you need to get the status
+   * @return an {@link UserStatus} or null if the user do not exist
+   * @throws FatalException if an error occurred with the database.
+   */
+  UserStatus getUserStatus(int userId) throws FatalException;
 
   /**
    * Get all the users saved in the database.

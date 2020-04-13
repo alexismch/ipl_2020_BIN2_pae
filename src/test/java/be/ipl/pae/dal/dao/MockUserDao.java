@@ -3,6 +3,7 @@ package be.ipl.pae.dal.dao;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
 
@@ -17,6 +18,12 @@ public class MockUserDao implements UserDao {
   @Injected
   private DtoFactory dtoFactory;
 
+
+  @Override
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws FatalException {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
   @Override
   public UserDto getUserByPseudo(String pseudo) {
@@ -34,6 +41,12 @@ public class MockUserDao implements UserDao {
 
   @Override
   public UserDto getUser(int idUtilisateur) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public UserStatus getUserStatus(int id) throws FatalException {
     // TODO Auto-generated method stub
     return null;
   }
@@ -107,10 +120,5 @@ public class MockUserDao implements UserDao {
     return false;
   }
 
-  @Override
-  public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
 }

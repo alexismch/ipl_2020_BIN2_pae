@@ -81,6 +81,26 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
+  public UserStatus getUserStatus(int userId) throws FatalException {
+    UserStatus userStatus = null;
+    PreparedStatement ps = dalService
+        .getPreparedStatement("SELECT status FROM mystherbe.users WHERE id_user = ?");
+    try {
+      ps.setInt(1, userId);
+      ResultSet resultSet = ps.executeQuery();
+
+      if (resultSet.next()) {
+        userStatus = UserStatus.getStatusByCode(resultSet.getString(1));
+      }
+
+      ps.close();
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return userStatus;
+  }
+
+  @Override
   public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
 
     String query;
@@ -224,20 +244,19 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
-    UserDto user = getUserByPseudo(pseudo);
-    PreparedStatement ps =
-        dalService.getPreparedStatement("UPDATE mystherbe.users SET status=? WHERE pseudo = ?");
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws FatalException {
+    PreparedStatement ps = dalService
+        .getPreparedStatement("UPDATE mystherbe.users SET status = ? WHERE id_user = ?");
     try {
-
-      ps.setString(1, String.valueOf(statut));
-      ps.setString(2, pseudo);
+      ps.setString(1, newStatus.getCode());
+      ps.setInt(2, userId);
 
       ps.executeUpdate();
     } catch (SQLException ex) {
       ex.printStackTrace();
       throw new FatalException("error with the db!");
     }
-    return user;
+    return getUser(userId);
   }
+
 }

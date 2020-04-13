@@ -34,7 +34,7 @@ export class UserDetailPage extends Page {
 
     ajaxGET('/api/user', `id=${userId}`, (data) => {
       this._$view.find('app-loadbar').remove();
-      this._createUserDetail(data.userDetail);
+      this._createUserDetail(data.user);
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -45,9 +45,7 @@ export class UserDetailPage extends Page {
 
   _createUserDetail(user) {
 
-    console.log(user);
-
-    const container = this._$view.find('.container');
+    const container = this._$view.find('.container').empty();
 
     const detail = `<h2>Details de l'utilisateur n°${user.id}</h2>
 <p>Nom : ${user.lastName}</p>
@@ -62,34 +60,53 @@ export class UserDetailPage extends Page {
 
     if (isCustomer(user)) {
 
-      const clientDetail = `<p>Client details</p>`;
+      const $linkForm = $(`<form action="/api/link-cc" class="w-100 mb-3" method="post" novalidate>
+  <div class="form-group select-client"></div>
+  
+  <input name="userId" type="hidden" value="${user.id}" />
+  
+  <div class="d-flex justify-content-end mt-2">
+    <button class="btn btn-primary" type="submit">Lier l'utilisateur au client</button>
+  </div>
+</form>`);
 
-      container.append(clientDetail);
+      const $selectClient = $linkForm.find('.select-client');
+
+      const customerInputComponent = new CustomerInputComponent('customerId', true);
+      $selectClient.append(customerInputComponent.getView());
+
+      onSubmitWithAjax($linkForm, (data) => {
+        // this._createUserDetail(data.user);
+        clearAlerts();
+        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a été lié au client.');
+      }, () => {
+        clearAlerts();
+        createAlert('error', 'Le compte de l\'utilisateur ' + user.pseudo + ' n\'a pas été lié au client.');
+      });
+
+      container.append($linkForm);
 
     } else if (!isWorker(user)) {
 
-      const acceptationForm = $(`<form action="/api/confirmationStatut" class="w-100 mb-3" method="post" novalidate>
+      const $acceptationForm = $(`<form action="/api/user" class="w-100 mb-3" method="put" novalidate>
   <p class="text-danger">Cet utilisateur n'est pas encore confirmé!</p>
   <div class="form-group">
-    <select name="statusChoice" class="select-status" data-placeholder="Veuillez sélectionner son statut">
+    <select name="status" class="select-status" data-placeholder="Veuillez sélectionner son statut" required>
       <option value=""></option>
       <option value="CUSTOMER">Client</option> 
       <option value="WORKER">Ouvrier</option> 
     </select>
+    <small class="input-error form-text text-danger">Un statut est requis.</small>
   </div>
   
-  <input name="pseudo" type="hidden" value="${user.pseudo}">
-  <input name="userId" type="hidden" value="${user.id}">
+  <input name="userId" type="hidden" value="${user.id}" />
   
-  <div class="form-group select-client"></div>
   <div class="d-flex justify-content-end mt-2">
     <button class="btn btn-primary" type="submit">Modifier le statut</button>
   </div>
 </form>`);
 
-      const $selectStatus = acceptationForm.find('.select-status');
-      const $selectClient = acceptationForm.find('.select-client');
-      $selectClient.hide();
+      const $selectStatus = $acceptationForm.find('.select-status');
 
       $selectStatus.chosen({
         width: '100%',
@@ -100,36 +117,24 @@ export class UserDetailPage extends Page {
       $selectStatus.data('validator', () => {
         const errorElement = $selectStatus.next().next('.input-error');
         if ($selectStatus.val()[0] === undefined) {
-          acceptationForm.attr('action', '/api/confirmationStatut');
-          $selectClient.hide();
           errorElement.show(100);
           return false;
         } else {
-
-          if ($selectStatus.val() === "CUSTOMER") {
-            acceptationForm.attr('action', '/api/link-cc');
-            $selectClient.show();
-          } else {
-            acceptationForm.attr('action', '/api/confirmationStatut');
-            $selectClient.hide();
-          }
-
           errorElement.hide(100);
           return true;
         }
       });
 
-      const customerInputComponent = new CustomerInputComponent('customerId', true);
-
-      $selectClient.append(customerInputComponent.getView());
-
-      onSubmitWithAjax(acceptationForm, () => {
-        router.navigate('utilisateurs');
+      onSubmitWithAjax($acceptationForm, (data) => {
+        this._createUserDetail(data.user);
         clearAlerts();
-        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a bien été modifié.');
+        createAlert('success', 'Le compte de l\'utilisateur ' + user.pseudo + ' a été modifié.');
+      }, () => {
+        clearAlerts();
+        createAlert('error', 'Le compte de l\'utilisateur ' + user.pseudo + ' n\'a pas été modifié.');
       });
 
-      container.append(acceptationForm);
+      container.append($acceptationForm);
     }
 
   }

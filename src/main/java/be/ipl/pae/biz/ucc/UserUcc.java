@@ -2,6 +2,7 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 
@@ -49,6 +50,15 @@ public interface UserUcc {
    */
   List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException;
 
-
-  UserDto userConfirmation(String pseudo, char statut) throws FatalException;
+  /**
+   * Change the status of a user
+   *
+   * @param userId    the id of the user
+   * @param newStatus the new status
+   * @return The user with the new status
+   * @throws BizException   Thrown if {@code newStatus} can not be applied to the user identified by
+   *                        {@code userId}
+   * @throws FatalException Thrown if a fatal error happened during the data retrieving
+   */
+  UserDto changeUserStatus(int userId, UserStatus newStatus) throws BizException, FatalException;
 }

@@ -12,7 +12,6 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-
 public class UserUccImpl implements UserUcc {
 
   @Injected
@@ -105,13 +104,29 @@ public class UserUccImpl implements UserUcc {
 
   }
 
-
   @Override
-  public UserDto userConfirmation(String pseudo, char statut) throws FatalException {
+  public UserDto changeUserStatus(int userId, UserStatus newStatus)
+      throws FatalException, BizException {
     UserDto user;
     try {
       dalService.startTransaction();
-      user = userDao.userConfirmation(pseudo, statut);
+      UserStatus status = userDao.getUserStatus(userId);
+
+      if (status == null) {
+        throw new BizException("Il n'y a aucun utilisateur avec l'id " + userId);
+      }
+
+      if (status == newStatus) {
+        return userDao.getUser(userId);
+      }
+
+      if (!UserStatus.NOT_ACCEPTED.equals(status)) {
+        throw new BizException(
+            "Le status de l'utilisateur doit être égal à " + UserStatus.NOT_ACCEPTED.getName()
+                + " pour pouvoir être changé.");
+      }
+
+      user = userDao.changeUserStatus(userId, newStatus);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);

@@ -8,7 +8,6 @@ import be.ipl.pae.biz.ucc.LinkCcUcc;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 
 import java.io.IOException;
 
@@ -35,14 +34,11 @@ public class LinkCcServlet extends AbstractServlet {
 
     String userIdString = req.getParameter("userId");
     String customerIdString = req.getParameter("customerId");
-    String pseudo = req.getParameter("pseudo");
-
 
     if (verifyNotEmpty(userIdString, customerIdString)) {
       try {
         int userId = Integer.parseInt(userIdString);
         int customerId = Integer.parseInt(customerIdString);
-        user.userConfirmation(pseudo, 'c');
         linkCcUcc.link(customerId, userId);
 
         sendSuccess(resp);
@@ -50,8 +46,6 @@ public class LinkCcServlet extends AbstractServlet {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
-      } catch (FatalException fatalE) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       }
     } else {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
