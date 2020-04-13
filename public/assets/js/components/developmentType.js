@@ -33,7 +33,7 @@ export class DevelopmentTypePage extends Page {
     super(id === undefined ? 'Accueil' : 'Aménagement n°' + id);
 
     this._$view = $(this._template);
-    /**ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
+    ajaxGET('/api/photos-list', id === undefined ? null : `typeId=${id}`, (data) => {
       if (id !== undefined && data.photosList.length > 0) {
         this.setTitle(data.photosList[0].developmentType);
       }
@@ -45,7 +45,7 @@ export class DevelopmentTypePage extends Page {
       this.isLoading = false;
     }, () => {
       this.isLoading = false;
-    });*/
+    });
      
 
 
@@ -66,7 +66,7 @@ export class DevelopmentTypePage extends Page {
     const noPictureContainer = `<div class="carousel-item active">
   <img alt="Aucune photo disponible" src="/assets/img/img-placeholder.jpg">
   <div class="carousel-caption d-block">
-    <h5>Aucune photo disponible</h5>
+    <h5 class="text-inherit">Aucune photo disponible</h5>
   </div>
 </div>`;
 
@@ -79,7 +79,7 @@ export class DevelopmentTypePage extends Page {
     const pictureContainer = `<div class="carousel-item${first ? ' active' : ''}">
       <img alt="${picture.title}" src="${picture.base64}"/>
       <div class="carousel-caption d-block">
-        <h5>${picture.developmentType}</h5>
+        <h5 class="text-inherit">${picture.developmentType}</h5>
       </div>
     </div>`;
 
