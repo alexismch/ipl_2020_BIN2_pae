@@ -42,7 +42,7 @@ public class QuotesListServlet extends AbstractServlet {
       return;
     }
 
-    String quoteDateString = req.getParameter("dateDevis");
+    String quoteDateString = req.getParameter("quoteDate");
     String minAmountString = req.getParameter("montantMin");
     String maxAmountString = req.getParameter("montantMax");
     String[] types = req.getParameterValues("types"); // only one
@@ -51,8 +51,9 @@ public class QuotesListServlet extends AbstractServlet {
     }
     int minAmount = -1;
     int maxAmount = -1;
+    LocalDate quoteDate = null;
     if (quoteDateString != null) {
-      LocalDate.parse(quoteDateString);
+      quoteDate = LocalDate.parse(quoteDateString);
     }
     if (maxAmountString != null) {
       maxAmount = Integer.parseInt(maxAmountString);
@@ -61,7 +62,7 @@ public class QuotesListServlet extends AbstractServlet {
       minAmount = Integer.parseInt(minAmountString);
     }
 
-    LocalDate quoteDate = null;
+
     String name = req.getParameter("name");
 
     QuotesFilterDto quotesFilterDto = dtoFactory.getQuotesFilter();
@@ -74,12 +75,12 @@ public class QuotesListServlet extends AbstractServlet {
         Integer id = (Integer) typeId;
         try {
           listDevelopment.add(developmentTypeUcc.getDevelopmentType(id));
-        } catch (BizException e) {
+        } catch (BizException ex) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
-        } catch (FatalException e) {
+          ex.printStackTrace();
+        } catch (FatalException ex) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          ex.printStackTrace();
         }
       }
     }
@@ -92,16 +93,16 @@ public class QuotesListServlet extends AbstractServlet {
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
     try {
       quoteUcc.getQuotesFiltered(quotesFilterDto);
-    } catch (FatalException e) {
+    } catch (FatalException ex) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      ex.printStackTrace();
     }
     try {
       sendSuccessWithJson(resp, "quotesList",
           gensonBuilder.create().serialize(quoteUcc.getQuotesFiltered(quotesFilterDto)));
-    } catch (FatalException e) {
+    } catch (FatalException ex) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      ex.printStackTrace();
     }
   }
 }
