@@ -27,7 +27,7 @@ export class QuoteDetailPage extends Page {
     </div>
     <div class="card-body">
       <div class="formContainer"></div>
-      <div class="cancelContainer"></div>
+      <div class="cancelContainer d-flex justify-content-end"></div>
     </div>
   </div>
   <div class="row">
@@ -91,20 +91,23 @@ export class QuoteDetailPage extends Page {
     }
 
     const $formContainer = this._$view.find('.formContainer');
-    const $cancelCointainer = this._$view.find('.cancelContainer');
+    const $cancelContainer = this._$view.find('.cancelContainer');
     $formContainer.empty();
-    $cancelCointainer.empty();
+    $cancelContainer.empty();
 
     switch (quote.state.id) {
 
       case 'QUOTE_ENTERED':
         this._createPlaceOrderForm($formContainer, quote.idQuote, quote.state.id);
+        this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'PLACED_ORDERED':
-        this._createConfirmDateForm($formContainer, quote.idQuote, quote.state.id, quote.startDate);
+        this._createConfirmDateForm($formContainer, quote);
+        this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'CONFIRMED_DATE':
         this._createPartialInvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
 
     }
@@ -118,39 +121,35 @@ export class QuoteDetailPage extends Page {
    */
   _createPlaceOrderForm($formContainer, quoteId, stateId) {
 
-    const form = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+    const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
   <div class="form-group date-container"></div>
   <input type="hidden" name="quoteId" value="${quoteId}"/>
   <input type="hidden" name="stateId" value="${stateId}"/>
   <div class="form-group mt-2 d-flex justify-content-end">
     <button class="btn btn-primary">Confirmer la commande</button>
   </div>
-</form>`;
-
-    const $form = $(form);
+</form>`);
 
     const $selectDate = $form.find('.date-container');
     const datepicker = new DateInputComponent('date');
     $selectDate.append(datepicker.getView());
 
-    const $cancelButton = this._cancelQuote(quoteId).addClass("float-right");
-
     onSubmitWithAjax($form, (data) => {
       this._changeView(data.quote);
       createAlert('success', 'La commande a bien été confirmée !');
     }, () => {
-      createAlert('error', `La commande n'a pas été confirmée !`);
+      createAlert('error', 'La commande n\'a pas été confirmée !');
     });
 
-    $formContainer.append($form).append($cancelButton);
+    $formContainer.append($form);
     
   }
 
   /**
    * create the button cancel and the listener
-   * @param {*} quoteId 
+   * @param {*} quoteId
    */
-  _cancelQuote(quoteId){
+  _createCancelQuoteButton($cancelContainer, quoteId) {
     const $cancelButton = $(`<button class="btn btn-danger" type="button">Annuler l'aménagement</button>`);
     $cancelButton.on('click', () => {
 
@@ -163,51 +162,52 @@ export class QuoteDetailPage extends Page {
         this.isLoading = false;
       });
     });
-    return $cancelButton;
+    $cancelContainer.append($cancelButton);
   }
 
-
   /**
-   * Hide all the buttons and add the datepicker, when you've chosen the date, the function will dodo an ajaxPut 
-   * @param {*} quoteId 
-   * @param {*} stateId 
+   * Hide all the buttons and add the datepicker, when you've chosen the date, the function will dodo an ajaxPut
+   * @param {*} quoteId
+   * @param {*} stateId
    */
-  _changeStartDate(quoteId, stateId){
+  _changeStartDate(quote) {
     const $changeStartDateButton = $(`<button class="btn btn-warning btn-sm" type="button">Modifier date des débuts de travaux</button>`);
 
-    $changeStartDateButton.on("click", () => {
-      const $formContainer = this._$view.find('.formContainer');
-      this._$view.find('.formContainer,.buttonToAdd').empty();
+    $changeStartDateButton.on('click', (e) => {
+      const $startDateControlButtons = this._$view.find('.startDateControlButtons');
+      this._$view.find('.formContainer').empty();
 
-      const form = `<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+      const $form = $(`<form action="/api/quote" class="w-100 my-2 alert alert-primary" method="put" novalidate>
                       <div class="form-group date-container"></div>
-                      <input type="hidden" name="quoteId" value="${quoteId}"/>
-                      <input type="hidden" name="stateId" value="${stateId}"/>
-                      <div class="form-group mt-2 d-flex justify-content-end">
-                        <button class="btn btn-primary">Changer la date</button>
+                      <input type="hidden" name="quoteId" value="${quote.idQuote}"/>
+                      <input type="hidden" name="stateId" value="${quote.state.id}"/>
+                      <div class="form-group mt-1 mb-0 d-flex justify-content-end">
+                        <button class="btn btn-danger btn-sm mr-1 cancel" type="button">Annuler</button>
+                        <button class="btn btn-primary btn-sm">Changer la date</button>
                       </div>
-                    </form>`;
+                    </form>`);
 
-    const $form = $(form);
+      const $selectDate = $form.find('.date-container');
+      const datepicker = new DateInputComponent('date', true, 'Date de début des travaux');
+      const datepickerView = datepicker.getView();
+      datepickerView.find('.input-group').addClass('input-group-sm');
+      $selectDate.append(datepickerView);
 
-    const $selectDate = $form.find('.date-container');
-    const datepicker = new DateInputComponent('date');
-    $selectDate.append(datepicker.getView());
+      $form.find('.cancel').on('click', () => this._changeView(quote));
 
-    onSubmitWithAjax($form, (data) => {
-      this._changeView(data.quote);
-      createAlert('success', 'La date a bien été modifié!');
-    }, () => {
-      createAlert('error', `La date n'a pas été modifié!`);
-    });
+      onSubmitWithAjax($form, (data) => {
+        this._changeView(data.quote);
+        createAlert('success', 'La date de début des travaux a été modifiée !');
+      }, () => {
+        createAlert('error', 'La date de début des travaux n\'a pas été modifiée !');
+      });
 
-    $formContainer.append($form);
-
+      $(e.target).remove();
+      $startDateControlButtons.prepend($form);
     });
 
     return $changeStartDateButton;
   }
-  
 
   /**
    * Delete the start date and hide the btn delete and the btn that allows to go to the CONFIRMED_DATE state
@@ -216,16 +216,17 @@ export class QuoteDetailPage extends Page {
   _deleteStartDate(quoteId){
     const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm deleteStartDate" type="button">Supprimer date des débuts de travaux</button>`);
 
-    $deleteStartDateButton.on("click", () => {
+    $deleteStartDateButton.on('click', () => {
 
       this.isLoading = true;
-      
+
       ajaxDELETE(`/api/quote?quoteId=${quoteId}`, null, (data) => {
         this._changeView(data.quote);
-        this._$view.find('.deleteStartDate').hide();
         this.isLoading = false;
+        createAlert('success', 'La date de début des travaux a été supprimée !');
       }, () => {
         this.isLoading = false;
+        createAlert('error', 'La date de début des travaux n\'a pas pu être supprimée !');
       });
     });
 
@@ -239,45 +240,38 @@ export class QuoteDetailPage extends Page {
    * @param {*} quoteId
    * @param {*} stateId
    */
-  _createConfirmDateForm($formContainer, quoteId, stateId, startDate) {
+  _createConfirmDateForm($formContainer, quote) {
 
-    const $divButtons = $(` <div class="form-group mt-2 d-flex">
-                    </div>`);
-    const $confirmDateButton = $('<button class="btn btn-primary deleteStartDate" type="button">Confirmer la date de début des travaux</button>');
-    const $cancelButton = this._cancelQuote(quoteId).addClass("ml-1");
-    const $changeStartDateButton = this._changeStartDate(quoteId, stateId).addClass("ml-1");
-    const $deleteStartDateButton = this._deleteStartDate(quoteId, stateId).addClass("ml-1 mt-2");
+    const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+                      <input type="hidden" name="quoteId" value="${quote.idQuote}"/>
+                      <input type="hidden" name="stateId" value="${quote.state.id}"/>
+                      <div class="form-group mt-2 d-flex justify-content-end">
+                        <button class="btn btn-primary">Confirmer la date de début des travaux</button>
+                      </div>
+                    </form>`);
 
-    this._$view.find('.buttonToAdd').append($changeStartDateButton).append($deleteStartDateButton);
-
-    $divButtons.append($confirmDateButton);
-    this._$view.find('.cancelContainer').append($cancelButton);
-
-    $confirmDateButton.on('click', () => {
-
-      this.isLoading = true;
-
-      ajaxPUT(`/api/quote`, `quoteId=${quoteId}&stateId=${stateId}`, (data) => {
-        this._changeView(data.quote);
-        this.isLoading = false;
-      }, () => {
-        this.isLoading = false;
-      });
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La date a bien été confirmée !');
+    }, () => {
+      createAlert('error', 'La date n\'a pas été confirmée !');
     });
 
-    $formContainer.append($divButtons);
+    $formContainer.append($form);
 
+    const $changeStartDateButton = this._changeStartDate(quote).addClass("mt-1 mr-1");
+    const $deleteStartDateButton = this._deleteStartDate(quote.idQuote, quote.state.id).addClass("mt-1 mb-1");
 
-    if(startDate == null){
-      this._$view.find('.deleteStartDate').hide();
+    this._$view.find('.startDateControlButtons').append($changeStartDateButton).append($deleteStartDateButton);
+
+    if (quote.quoteDate == null) {
+      $deleteStartDateButton.remove();
+      $form.remove();
     }
   };
 
   //TODO
   _createPartialInvoiceForm($formContainer, quoteId, stateId){
-    const $cancelButton = this._cancelQuote(quoteId).addClass("ml-1");
-
-    this._$view.find('.cancelContainer').append($cancelButton);
   }
 
   /**
@@ -295,10 +289,10 @@ export class QuoteDetailPage extends Page {
 <div class="card-body">
   <p><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
   <p class="my-0">Date du devis: ${moment(quote.quoteDate).format('L')}</p>
-  <p class="my-0">Montant: ${quote.totalAmount}</p>
-  <div class="startDate d-flex">
-    <p class="my-0">Date de début des traveaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
-    <div class="buttonToAdd"></div>
+  <p class="my-0">Montant: ${quote.totalAmount}€</p>
+  <div class="startDate">
+    <p class="my-0">Date de début des travaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
+    <div class="startDateControlButtons d-flex flex-wrap"></div>
   </div>
   <p class="my-0">Durée des travaux: ${quote.workDuration}</p>
 </div>`;
@@ -364,26 +358,22 @@ export class QuoteDetailPage extends Page {
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-after');
     $quoteDetailPhoto.empty().append('<div class="card-header py-3"><h4 class="m-0 text-primary">Photos après aménagements</h4></div>');
-    this._createPhotoList($quoteDetailPhoto, photoList);
+    this._createPhotoList($quoteDetailPhoto, photoList, false);
   }
 
-  _createPhotoList($container, photoList) {
+  _createPhotoList($container, photoList, isBefore = true) {
     const $cardBody = $('<div class="card-body"></div>');
     if (photoList.length == 0) {
-      $cardBody.append("<p class='empty'>Il n'y a pas de photo après aménagement!</p>");
+      $cardBody.append(`<p class='empty'>Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
       const $list = $('<div>', {class: 'list'});
       photoList.forEach(photo => {
-        this._createPhotoListItem($list, photo);
+        const detail = `<img src="${photo.base64}" alt="${photo.title}">`;
+        $list.append(detail);
       });
       $cardBody.append($list);
     }
     $container.append($cardBody);
-  }
-
-  _createPhotoListItem($quoteDetailPhoto, photo) {
-    const detail = `<img src="${photo.base64}" alt="${photo.title}">`;
-    $quoteDetailPhoto.append(detail);
   }
 
 }
