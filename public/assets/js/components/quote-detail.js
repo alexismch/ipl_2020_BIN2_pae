@@ -285,7 +285,7 @@ export class QuoteDetailPage extends Page {
    * @param {*} quote
    */
   _createQuoteDetailQuote(quote) {
-    this._$view.find('.quote-title').append(`Devis: ${quote.idQuote}`);
+    this._$view.find('.quote-title').empty().append(`Devis: ${quote.idQuote}`);
 
     const $quoteDetail = this._$view.find('.detail-quote');
 
