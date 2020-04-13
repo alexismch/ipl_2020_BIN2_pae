@@ -1,4 +1,4 @@
-package be.ipl.pae.main;
+package be.ipl.pae.ihm.server;
 
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.ihm.servlets.ConfirmationStatutServlet;
@@ -27,6 +27,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Server {
+
+  private int port;
 
   @Injected
   QuoteServlet quoteServlet;
@@ -76,13 +78,17 @@ public class Server {
   @Injected
   private PhotoServlet photoServlet;
 
+  public Server(int port) {
+    this.port = port;
+  }
+
   /**
    * Start the server.
    *
    * @throws Exception Thrown if an error occurred during startup
    */
   public void start() throws Exception {
-    org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(8080);
+    org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(this.port);
     ContextHandlerCollection context = new ContextHandlerCollection();
     context.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
     server.setHandler(context);
