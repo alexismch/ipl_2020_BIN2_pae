@@ -170,7 +170,7 @@ public class CustomerDaoImpl implements CustomerDao {
    *
    * @param ps the PreparedStatement
    * @param id the first paramter of the ps
-   * @return the CustomerDto
+   * @return the CustomerDto or null
    * @throws FatalException if an error occurred with the db
    */
   private CustomerDto getCustomerViaPs(PreparedStatement ps, int id) throws FatalException {
@@ -178,7 +178,7 @@ public class CustomerDaoImpl implements CustomerDao {
     try {
       ps.setInt(1, id);
       try (ResultSet resultSet = ps.executeQuery()) {
-        while (resultSet.next()) {
+        if (resultSet.next()) {
           customerDto.setIdCustomer(resultSet.getInt(1));
           customerDto.setLastName(resultSet.getString(2));
           customerDto.setFirstName(resultSet.getString(3));
@@ -188,6 +188,8 @@ public class CustomerDaoImpl implements CustomerDao {
           customerDto.setEmail(resultSet.getString(7));
           customerDto.setPhoneNumber(resultSet.getString(8));
           customerDto.setIdUser(resultSet.getInt(9));
+        } else {
+          return null;
         }
       }
     } catch (SQLException ex) {

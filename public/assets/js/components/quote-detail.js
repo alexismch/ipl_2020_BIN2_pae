@@ -21,9 +21,9 @@ export class QuoteDetailPage extends Page {
 
   _template = `<div class="container">
   <h2 class="quote-title mb-3"></h2>
-  <div class="worker-panel card shadow mb-3">
+  <div class="worker-panel card mb-3">
     <div class="card-header">
-      <h4 class="m-0 text-primary">Ouvrier/Patron</h4>
+      <h4>Ouvrier/Patron</h4>
     </div>
     <div class="card-body">
       <div class="formContainer"></div>
@@ -32,13 +32,13 @@ export class QuoteDetailPage extends Page {
   </div>
   <div class="row">
     <div class="col-lg-6">
-      <div class="detail-quote card shadow mb-3"></div>
+      <div class="detail-quote card mb-3"></div>
     </div>
     <div class="col-lg-6">
-      <div class="detail-quote-client card shadow mb-3"></div>
+      <div class="detail-quote-client card mb-3"></div>
     </div>
     <div class="col-lg-12">
-      <div class="detail-quote-development-types card shadow mb-3"></div>
+      <div class="detail-quote-development-types card mb-3"></div>
     </div>
   </div>
   <div class="detail-quote-photos-before card shadow mb-3"></div>
@@ -283,18 +283,18 @@ export class QuoteDetailPage extends Page {
 
     const $quoteDetail = this._$view.find('.detail-quote');
 
-    const detail = `<div class="card-header py-3">
-  <h4 class="m-0 text-primary">Infos</h4>
+    const detail = `<div class="card-header">
+  <h4>Infos</h4>
 </div>
 <div class="card-body">
   <p><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
-  <p class="my-0">Date du devis: ${moment(quote.quoteDate).format('L')}</p>
-  <p class="my-0">Montant: ${quote.totalAmount}€</p>
+  <p>Date du devis: ${moment(quote.quoteDate).format('L')}</p>
+  <p>Montant: ${quote.totalAmount}€</p>
   <div class="startDate">
-    <p class="my-0">Date de début des travaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
+    <p>Date de début des travaux: ${quote.startDate == null ? "Pas encore de date" : moment(quote.startDate).format('L')}</p>
     <div class="startDateControlButtons d-flex flex-wrap"></div>
   </div>
-  <p class="my-0">Durée des travaux: ${quote.workDuration}</p>
+  <p>Durée des travaux: ${quote.workDuration}</p>
 </div>`;
 
     $quoteDetail.empty().append(detail);
@@ -307,17 +307,17 @@ export class QuoteDetailPage extends Page {
   _createQuoteDetailClient(customer) {
     const $quoteDetailClient = this._$view.find('.detail-quote-client');
 
-    const detail = `<div class="card-header py-3">
-  <h4 class="m-0 text-primary">Client</h4>
+    const detail = `<div class="card-header">
+  <h4>Client</h4>
 </div>
 <div class="card-body">
-  <p class="m-0">Nom: ${customer.lastName}</p>
-  <p class="m-0">Prenom: ${customer.firstName}</p>
-  <p class="m-0">Adresse: ${customer.address}</p>
-  <p class="m-0">Code postal: ${customer.postalCode}</p>
-  <p class="m-0">Ville: ${customer.city}</p>
-  <p class="m-0">Email: ${customer.email}</p>
-  <p class="m-0">Numéro de téléphone: ${customer.phoneNumber}</p>
+  <p>Nom: ${customer.lastName}</p>
+  <p>Prenom: ${customer.firstName}</p>
+  <p>Adresse: ${customer.address}</p>
+  <p>Code postal: ${customer.postalCode}</p>
+  <p>Ville: ${customer.city}</p>
+  <p>Email: ${customer.email}</p>
+  <p>Numéro de téléphone: ${customer.phoneNumber}</p>
 </div>`;
 
     $quoteDetailClient.empty().append(detail);
@@ -330,7 +330,7 @@ export class QuoteDetailPage extends Page {
   _createQuoteDetailDevelopmentTypeList(typeList) {
     const $quoteDetailTypes = this._$view.find('.detail-quote-development-types');
     $quoteDetailTypes.empty();
-    $quoteDetailTypes.append(`<div class="card-header py-3"><h4 class="m-0 text-primary">Types d'aménagements</h4></div>`);
+    $quoteDetailTypes.append(`<div class="card-header"><h4>Types d'aménagements</h4></div>`);
 
     const $quoteDetailTypesList = $('<ul>', {class: 'list m-1'});
 
@@ -347,7 +347,7 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoBefore(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-before');
-    $quoteDetailPhoto.empty().append('<div class="card-header py-3"><h4 class="m-0 text-primary">Photos avant aménagements</h4></div>');
+    $quoteDetailPhoto.empty().append('<div class="card-header"><h4>Photos avant aménagements</h4></div>');
     this._createPhotoList($quoteDetailPhoto, photoList);
   }
 
@@ -357,14 +357,14 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-after');
-    $quoteDetailPhoto.empty().append('<div class="card-header py-3"><h4 class="m-0 text-primary">Photos après aménagements</h4></div>');
+    $quoteDetailPhoto.empty().append('<div class="card-header"><h4>Photos après aménagements</h4></div>');
     this._createPhotoList($quoteDetailPhoto, photoList, false);
   }
 
   _createPhotoList($container, photoList, isBefore = true) {
     const $cardBody = $('<div class="card-body"></div>');
     if (photoList.length == 0) {
-      $cardBody.append(`<p class='empty'>Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
+      $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
       const $list = $('<div>', {class: 'list'});
       photoList.forEach(photo => {

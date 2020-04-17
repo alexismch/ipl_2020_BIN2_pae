@@ -1,5 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
+import static be.ipl.pae.util.Util.createGensonBuilder;
 import static be.ipl.pae.util.Util.hasAccess;
 import static be.ipl.pae.util.Util.verifyNotEmpty;
 
@@ -23,6 +24,42 @@ public class CustomerServlet extends AbstractServlet {
 
   @Injected
   DtoFactory dtoFactory;
+
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    String token = (String) req.getSession().getAttribute("token");
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
+      return;
+    }
+
+    String idUserString = req.getParameter("userId");
+
+    int idUser;
+    if (idUserString != null) {
+      try {
+        idUser = Integer.parseInt(idUserString);
+      } catch (NumberFormatException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED,
+            "L'id d'utilisteur passé en paramètre n'est pas un nombre entier");
+        return;
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED,
+          "Un id d'utilisteur doit être passé en paramètre");
+      return;
+    }
+
+    try {
+      System.out.println("idUser=" + idUser);
+      CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUser);
+      sendSuccessWithJson(resp, "customer", createGensonBuilder().create().serialize(customerDto));
+    } catch (FatalException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+  }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
