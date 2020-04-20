@@ -137,7 +137,7 @@ _developmentTypeList = [];
   <img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
   <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
   <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
-  <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).fromat('L')}</p>
+  <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).format('L')}</p>
   <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
   <p class="quote-first-col">Montant: ${quote.totalAmount}€</p>
   <ul class="quote-development-types">
