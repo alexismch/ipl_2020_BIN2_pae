@@ -92,12 +92,6 @@ public class QuotesListServlet extends AbstractServlet {
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
     try {
-      quoteUcc.getQuotesFiltered(quotesFilterDto);
-    } catch (FatalException ex) {
-      // TODO Auto-generated catch block
-      ex.printStackTrace();
-    }
-    try {
       sendSuccessWithJson(resp, "quotesList",
           gensonBuilder.create().serialize(quoteUcc.getQuotesFiltered(quotesFilterDto)));
     } catch (FatalException ex) {

@@ -56,9 +56,8 @@ public class QuoteDaoImpl implements QuoteDao {
 
     ArrayList<QuoteDto> quotesList = new ArrayList<>();
 
-    String querySelect =
-        "SELECT q.id_quote, q.quote_date, q.total_amount::decimal, "
-            + "q.work_duration, c.id_customer, q.id_state ";
+    String querySelect = "SELECT q.id_quote, q.quote_date, q.total_amount::decimal, "
+        + "q.work_duration, c.id_customer, q.id_state, q.start_date ";
 
     String queryFrom = "FROM mystherbe.quotes q, mystherbe.customers c ";
 
@@ -139,6 +138,11 @@ public class QuoteDaoImpl implements QuoteDao {
           quoteDto.setCustomer(customerDao.getCustomer(rs.getInt(inc)));
           inc++;
           quoteDto.setState(getStateById(rs.getInt(inc)));
+          inc++;
+          Date startDate = rs.getDate(inc);
+          if (startDate != null) {
+            quoteDto.setStartDate(startDate.toLocalDate());
+          }
           inc++;
           if (quotesFilterDto.getDevelopmentTypeDto() != null
               && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
