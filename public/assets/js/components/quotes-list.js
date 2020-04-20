@@ -134,12 +134,19 @@ _developmentTypeList = [];
   _createQuotesListItem($quotesList, quote) {
 
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
-  <p class="quote-first-col">Devis n°${quote.idQuote}</p>
+  <img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
+  <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
   <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
-  <p class="quote-date">Date du devis: ${moment(quote.quoteDate).format('L')}</p>
-  <p class="quote-first-col">Date de début des travaux: ${quote.startDate == null ? 'Non determinée' : quote.startDate}</p>
+  <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).fromat('L')}</p>
   <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
-  <p class="quote-amount">Montant: ${quote.totalAmount}€</p>
+  <p class="quote-first-col">Montant: ${quote.totalAmount}€</p>
+  <ul class="quote-development-types">
+    <li><span class="badge badge-primary font-size-100">A1 blabla</span></li>
+    <li><span class="badge badge-primary font-size-100">A2 blablablabla</span></li>
+    <li><span class="badge badge-primary font-size-100">A1 bla</span></li>
+    <li><span class="badge badge-primary font-size-100">A1 blablablablablablablabla</span></li>
+    <li><span class="badge badge-primary font-size-100">A1 blablablablablabla</span></li>
+  </ul>
   <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
   <a class="quote-details-btn btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>
 </li>`;
