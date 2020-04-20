@@ -5,7 +5,6 @@ import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.exceptions.FatalException;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public interface QuoteDao {
@@ -17,15 +16,6 @@ public interface QuoteDao {
    * @throws FatalException if a problem occurred with the db
    */
   List<QuoteDto> getAllQuote() throws FatalException;
-
-  /**
-   * Create a new Quote with all the informations collected in the db.
-   *
-   * @param res the result from the query
-   * @return the quote collected as a dto object
-   * @throws FatalException if a problem occurred with the db
-   */
-  QuoteDto createQuoteDto(ResultSet res) throws FatalException;
 
   /**
    * Insert a new quote into the database.

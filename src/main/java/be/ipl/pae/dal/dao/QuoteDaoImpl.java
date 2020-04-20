@@ -201,8 +201,14 @@ public class QuoteDaoImpl implements QuoteDao {
     return customerQuotes;
   }
 
-  @Override
-  public QuoteDto createQuoteDto(ResultSet res) throws FatalException {
+  /**
+   * Create a new Quote with all the informations collected in the db.
+   *
+   * @param res the result from the query
+   * @return the quote collected as a dto object
+   * @throws FatalException if a problem occurred with the db
+   */
+  private QuoteDto createQuoteDto(ResultSet res) throws FatalException {
     QuoteDto quote = quoteDtoFactory.getQuote();
     try {
 
