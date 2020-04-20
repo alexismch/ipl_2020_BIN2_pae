@@ -97,7 +97,7 @@ public interface QuoteUcc {
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
   /**
-   * Set the state of the quote to TOTAL_INVOICE
+   * Set the state of the quote to TOTAL_INVOICE.
    * 
    * @param idQuote id of the quote
    * @return a quoteDto object
