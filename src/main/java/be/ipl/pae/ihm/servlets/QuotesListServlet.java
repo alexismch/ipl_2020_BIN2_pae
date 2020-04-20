@@ -43,8 +43,6 @@ public class QuotesListServlet extends AbstractServlet {
     }
 
     String quoteDateString = req.getParameter("quoteDate");
-    String maxAmountString = req.getParameter("montantMax");
-    String minAmountString = req.getParameter("montantMin");
     String[] types = req.getParameterValues("types"); // only one
     if (types == null) {
       types = req.getParameterValues("types[]"); // multiple
@@ -55,9 +53,11 @@ public class QuotesListServlet extends AbstractServlet {
     if (quoteDateString != null) {
       quoteDate = LocalDate.parse(quoteDateString);
     }
+    String maxAmountString = req.getParameter("montantMax");
     if (maxAmountString != null) {
       maxAmount = Integer.parseInt(maxAmountString);
     }
+    String minAmountString = req.getParameter("montantMin");
     if (minAmountString != null) {
       minAmount = Integer.parseInt(minAmountString);
     }
