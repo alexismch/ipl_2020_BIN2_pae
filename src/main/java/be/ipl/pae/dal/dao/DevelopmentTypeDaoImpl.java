@@ -77,7 +77,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
 
   private List<DevelopmentTypeDto> getDevelopmentTypeDtoViaPs(PreparedStatement ps)
       throws SQLException {
-    List<DevelopmentTypeDto> listToReturn = new ArrayList<DevelopmentTypeDto>();
+    List<DevelopmentTypeDto> listToReturn = new ArrayList<>();
 
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
@@ -105,6 +105,18 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
       } else {
         throw new FatalException("error with the db");
       }
+    } catch (SQLException ex) {
+      throw new FatalException("error with the db");
+    }
+  }
+
+  @Override
+  public boolean exists(String title) throws FatalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT * FROM mystherbe.development_types WHERE title = ?");
+    try {
+      ps.setString(1, title);
+      return ps.executeQuery().next();
     } catch (SQLException ex) {
       throw new FatalException("error with the db");
     }

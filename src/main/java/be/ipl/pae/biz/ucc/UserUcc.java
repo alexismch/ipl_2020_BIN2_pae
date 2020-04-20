@@ -15,10 +15,10 @@ public interface UserUcc {
    * password.
    *
    * @param pseudo pseudo of the user
-   * @param pwd user's password
+   * @param pwd    user's password
    * @return an UserDto object that represent the user
    * @throws BizException Thrown if pseudo or pwd is incorrect or if the user status equals to
-   *         NOT_ACCEPTED
+   *                      NOT_ACCEPTED
    */
   UserDto login(String pseudo, String pwd) throws BizException;
 
@@ -27,7 +27,7 @@ public interface UserUcc {
    *
    * @param userDto the user that we need to insert in the db
    * @return the registered user
-   * @throws BizException if the email or pseudo is already used
+   * @throws BizException   if the email or pseudo is already used
    * @throws FatalException if you had a problem with the db
    */
   UserDto register(UserDto userDto) throws BizException, FatalException;
@@ -51,7 +51,7 @@ public interface UserUcc {
   List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException;
 
   /**
-   * Change the status of a user
+   * Change the status of a user.
    *
    * @param userId    the id of the user
    * @param newStatus the new status

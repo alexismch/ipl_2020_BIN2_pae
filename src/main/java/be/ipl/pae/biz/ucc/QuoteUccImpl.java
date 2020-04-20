@@ -5,7 +5,6 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.QuoteState;
-import be.ipl.pae.biz.objets.QuotesFilter;
 import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
@@ -182,6 +181,7 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
+  @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
     try {
       dalService.startTransaction();

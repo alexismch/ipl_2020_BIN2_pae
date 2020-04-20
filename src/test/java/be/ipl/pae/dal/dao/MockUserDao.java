@@ -5,7 +5,6 @@ import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
 
 import org.mindrot.bcrypt.BCrypt;
 
@@ -18,37 +17,75 @@ public class MockUserDao implements UserDao {
   @Injected
   private DtoFactory dtoFactory;
 
-
   @Override
-  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws FatalException {
-    // TODO Auto-generated method stub
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) {
+    if (userId == 1) {
+      UserDto userDto = dtoFactory.getUser();
+      userDto.setPseudo("sousou");
+      userDto.setId(userId);
+      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      userDto.setStatus(newStatus);
+      return userDto;
+    } else if (userId == 2) {
+      UserDto userDto = dtoFactory.getUser();
+      userDto.setPseudo("yessai");
+      userDto.setId(userId);
+      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      userDto.setStatus(newStatus);
+      return userDto;
+    }
+
     return null;
   }
 
   @Override
   public UserDto getUserByPseudo(String pseudo) {
-    if (!pseudo.equals("sousou")) {
-      return null;
+    if (pseudo.equals("sousou")) {
+      UserDto utilisateurDto = dtoFactory.getUser();
+      utilisateurDto.setPseudo("sousou");
+      utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      utilisateurDto.setId(1);
+      utilisateurDto.setStatus(UserStatus.WORKER);
+      return utilisateurDto;
+    } else if (pseudo.equals("yessai")) {
+      UserDto utilisateurDto = dtoFactory.getUser();
+      utilisateurDto.setPseudo("yessai");
+      utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      utilisateurDto.setId(2);
+      utilisateurDto.setStatus(UserStatus.CUSTOMER);
+      return utilisateurDto;
     }
-
-    UserDto utilisateurDto = dtoFactory.getUser();
-    utilisateurDto.setPseudo("sousou");
-    utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-    utilisateurDto.setId(1);
-
-    return utilisateurDto;
+    return null;
   }
 
   @Override
   public UserDto getUser(int idUtilisateur) {
-    // TODO Auto-generated method stub
+    if (idUtilisateur == 1) {
+      UserDto userDto = dtoFactory.getUser();
+      userDto.setPseudo("sousou");
+      userDto.setId(idUtilisateur);
+      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      userDto.setStatus(UserStatus.WORKER);
+      return userDto;
+    } else if (idUtilisateur == 2) {
+      UserDto userDto = dtoFactory.getUser();
+      userDto.setPseudo("yessai");
+      userDto.setId(idUtilisateur);
+      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      userDto.setStatus(UserStatus.CUSTOMER);
+    }
     return null;
   }
 
   @Override
-  public UserStatus getUserStatus(int id) throws FatalException {
-    // TODO Auto-generated method stub
-    return null;
+  public UserStatus getUserStatus(int id) {
+    if (id == 1) {
+      return UserStatus.WORKER;
+    }
+    if (id == 2) {
+      return UserStatus.CUSTOMER;
+    }
+    return UserStatus.NOT_ACCEPTED;
   }
 
   @Override
@@ -116,9 +153,6 @@ public class MockUserDao implements UserDao {
 
   @Override
   public boolean isLinked(int userId) {
-    // TODO: oui
-    return false;
+    return userId == 2;
   }
-
-
 }

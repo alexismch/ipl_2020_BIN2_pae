@@ -88,10 +88,11 @@ public interface QuoteUcc {
   QuoteDto cancelQuote(String quoteId) throws BizException, FatalException;
 
   /**
-   * 
-   * @param quotesFilter all the filters that the user chosed
+   * Get quotes via filters.
+   *
+   * @param quotesFilterDto all the filters that the user chosed
    * @return a list of quotes depending on the user's filters
-   * @throws FatalException
+   * @throws FatalException if you had a problem with the db
    */
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 

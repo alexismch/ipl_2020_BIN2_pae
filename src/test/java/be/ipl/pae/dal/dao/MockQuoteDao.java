@@ -6,9 +6,7 @@ import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,36 +16,27 @@ public class MockQuoteDao implements QuoteDao {
   private DtoFactory dtoFactory;
 
   @Override
-  public List<QuoteDto> getAllQuote() throws FatalException {
+  public List<QuoteDto> getAllQuote() {
     return new ArrayList<>();
   }
 
   @Override
-  public QuoteDto createQuoteDto(ResultSet res) throws FatalException {
-    // TODO Auto-generated method stub
-    return null;
+  public QuoteDto insertQuote(QuoteDto quoteDto) {
+    return quoteDto;
   }
 
   @Override
-  public QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public void linkToType(String quoteId, int typeId) throws FatalException {
-    // TODO Auto-generated method stub
+  public void linkToType(String quoteId, int typeId) {
 
   }
 
   @Override
-  public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean checkQuoteIdInDb(String quoteId) {
+    return quoteId != null;
   }
 
   @Override
-  public QuoteDto getQuote(String idQuote) throws FatalException {
+  public QuoteDto getQuote(String idQuote) {
     QuoteDto quoteDto = dtoFactory.getQuote();
     quoteDto.setIdQuote(idQuote);
     quoteDto.setIdCustomer(1);
@@ -64,18 +53,18 @@ public class MockQuoteDao implements QuoteDao {
   }
 
   @Override
-  public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
+  public List<QuoteDto> getCustomerQuotes(int idCustomer) {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public void setStartDate(QuoteDto quote) throws FatalException {
+  public void setStartDate(QuoteDto quote) {
 
   }
 
   @Override
-  public void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException {
+  public void setStateQuote(QuoteState confirmedDate, String quoteId) {
 
   }
 

@@ -49,15 +49,6 @@ public class UserDaoImpl implements UserDao {
     return userDto;
   }
 
-  // pas sur si je dois utiliser ca pour l'instant
-
-  /*
-   * private void setValeurResutlset(ResultSet rs) { try { ResultSetMetaData rsMetaData =
-   * rs.getMetaData(); List<Method> tousLesSetters = new ArrayList<Method>(); for (Method method :
-   * UtilisateurDto.class.getDeclaredMethods()) { if (method.getName().startsWith("set")) {
-   * tousLesSetters.add(method); } } } catch (SQLException e) { e.printStackTrace(); } }
-   */
-
   @Override
   public UserDto getUser(int idUtilisateur) {
 
@@ -94,8 +85,8 @@ public class UserDaoImpl implements UserDao {
       }
 
       ps.close();
-    } catch (SQLException e) {
-      throw new FatalException(e);
+    } catch (SQLException ex) {
+      throw new FatalException(ex);
     }
     return userStatus;
   }
@@ -241,7 +232,6 @@ public class UserDaoImpl implements UserDao {
       throw new FatalException("error with the db!");
     }
   }
-
 
   @Override
   public UserDto changeUserStatus(int userId, UserStatus newStatus) throws FatalException {

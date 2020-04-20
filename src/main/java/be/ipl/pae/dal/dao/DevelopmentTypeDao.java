@@ -41,4 +41,12 @@ public interface DevelopmentTypeDao {
    * @throws FatalException if you had a problem with the db
    */
   List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException;
+
+  /**
+   * Verify if a development type exists with a specific title.
+   *
+   * @param title the title
+   * @return true if exists, true if not
+   */
+  boolean exists(String title) throws FatalException;
 }

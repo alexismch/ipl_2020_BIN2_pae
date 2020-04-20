@@ -51,12 +51,14 @@ public class QuoteDaoImpl implements QuoteDao {
 
   }
 
+  @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
 
     ArrayList<QuoteDto> quotesList = new ArrayList<>();
 
     String querySelect =
-        "SELECT q.id_quote, q.quote_date, q.total_amount::decimal, q.work_duration, c.id_customer, q.id_state ";
+        "SELECT q.id_quote, q.quote_date, q.total_amount::decimal, "
+            + "q.work_duration, c.id_customer, q.id_state ";
 
     String queryFrom = "FROM mystherbe.quotes q, mystherbe.customers c ";
 
@@ -82,19 +84,17 @@ public class QuoteDaoImpl implements QuoteDao {
       ref[3] = true;
     }
     int nbDevTypes = 0;
-    if (quotesFilterDto.getDevelopmentTypeDto() != null) {
-      if (quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
-        ref[4] = true;
-        for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
-          nbDevTypes++;
-          querySelect += ", qt" + nbDevTypes + ".id_type ";
-          queryFrom += ", mystherbe.quote_types qt" + nbDevTypes + " ";
-          queryWhere += "AND (q.id_quote = qt" + nbDevTypes + ".id_quote) AND (qt" + nbDevTypes
-              + ".id_type = ?) ";
-        }
+    if (quotesFilterDto.getDevelopmentTypeDto() != null
+        && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
+      ref[4] = true;
+      for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
+        nbDevTypes++;
+        querySelect += ", qt" + nbDevTypes + ".id_type ";
+        queryFrom += ", mystherbe.quote_types qt" + nbDevTypes + " ";
+        queryWhere += "AND (q.id_quote = qt" + nbDevTypes + ".id_quote) AND (qt" + nbDevTypes
+            + ".id_type = ?) ";
       }
     }
-
 
     String query = querySelect + queryFrom + queryWhere;
     PreparedStatement ps = dalService.getPreparedStatement(query);
@@ -126,35 +126,34 @@ public class QuoteDaoImpl implements QuoteDao {
 
       try (ResultSet rs = ps.executeQuery()) {
         while (rs.next()) {
-          int i = 1;
+          int inc = 1;
           QuoteDto quoteDto = quoteDtoFactory.getQuote();
-          quoteDto.setIdQuote(rs.getString(i));
-          i++;
-          quoteDto.setQuoteDate(rs.getDate(i).toLocalDate());
-          i++;
-          quoteDto.setTotalAmount(rs.getBigDecimal(i));
-          i++;
-          quoteDto.setWorkDuration(rs.getInt(i));
-          i++;
-          quoteDto.setCustomer(customerDao.getCustomer(rs.getInt(i)));
-          i++;
-          quoteDto.setState(getStateById(rs.getInt(i)));
-          i++;
-          if (quotesFilterDto.getDevelopmentTypeDto() != null) {
-            if (quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
-              ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<DevelopmentTypeDto>();
-              for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
-                listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(i)));
-                i++;
-              }
-              quoteDto.setDevelopmentType(listDevelopment);
+          quoteDto.setIdQuote(rs.getString(inc));
+          inc++;
+          quoteDto.setQuoteDate(rs.getDate(inc).toLocalDate());
+          inc++;
+          quoteDto.setTotalAmount(rs.getBigDecimal(inc));
+          inc++;
+          quoteDto.setWorkDuration(rs.getInt(inc));
+          inc++;
+          quoteDto.setCustomer(customerDao.getCustomer(rs.getInt(inc)));
+          inc++;
+          quoteDto.setState(getStateById(rs.getInt(inc)));
+          inc++;
+          if (quotesFilterDto.getDevelopmentTypeDto() != null
+              && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
+            ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
+            for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
+              listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(inc)));
+              inc++;
             }
+            quoteDto.setDevelopmentType(listDevelopment);
           }
           quotesList.add(quoteDto);
         }
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
     }
 
     return quotesList;
@@ -202,8 +201,14 @@ public class QuoteDaoImpl implements QuoteDao {
     return customerQuotes;
   }
 
-  @Override
-  public QuoteDto createQuoteDto(ResultSet res) throws FatalException {
+  /**
+   * Create a new Quote with all the informations collected in the db.
+   *
+   * @param res the result from the query
+   * @return the quote collected as a dto object
+   * @throws FatalException if a problem occurred with the db
+   */
+  private QuoteDto createQuoteDto(ResultSet res) throws FatalException {
     QuoteDto quote = quoteDtoFactory.getQuote();
     try {
 

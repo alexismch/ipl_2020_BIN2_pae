@@ -5,7 +5,6 @@ import static be.ipl.pae.util.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.LinkCcUcc;
-import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 
@@ -18,9 +17,6 @@ public class LinkCcServlet extends AbstractServlet {
 
   @Injected
   private LinkCcUcc linkCcUcc;
-
-  @Injected
-  private UserUcc user;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
