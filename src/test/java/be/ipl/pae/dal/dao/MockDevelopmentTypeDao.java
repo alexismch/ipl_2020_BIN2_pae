@@ -35,9 +35,13 @@ public class MockDevelopmentTypeDao implements DevelopmentTypeDao {
   public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException {
     DevelopmentTypeDto developmentTypeDto = dtoFactory.getDevelopmentType();
     developmentTypeDto.setIdType(1);
-    List<DevelopmentTypeDto> listToReturn = new ArrayList<DevelopmentTypeDto>();
+    List<DevelopmentTypeDto> listToReturn = new ArrayList<>();
     listToReturn.add(developmentTypeDto);
     return listToReturn;
   }
 
+  @Override
+  public boolean exists(String title) throws FatalException {
+    return false;
+  }
 }

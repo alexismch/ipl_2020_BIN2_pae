@@ -40,7 +40,7 @@ public interface QuoteDao {
    * Link the quote to a development type.
    *
    * @param quoteId the quote id
-   * @param typeId the development type id
+   * @param typeId  the development type id
    * @throws FatalException if a problem occurred with the db
    */
   void linkToType(String quoteId, int typeId) throws FatalException;
@@ -56,7 +56,7 @@ public interface QuoteDao {
 
   /**
    * Get an idQuote object.
-   * 
+   *
    * @param idQuote id of the quote
    * @return an idQuote object
    * @throws FatalException if you had a problem with the db
@@ -73,7 +73,7 @@ public interface QuoteDao {
 
   /**
    * set the startdate in the db.
-   * 
+   *
    * @param quote a quote with an id and the startdate
    * @throws FatalException if you had an error with the db
    */
@@ -81,18 +81,19 @@ public interface QuoteDao {
 
   /**
    * change the state of the quote in the db.
-   * 
+   *
    * @param confirmedDate the new state
-   * @param quoteId the quote of the id
+   * @param quoteId       the quote of the id
    * @throws FatalException error with the db
    */
   void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
 
   /**
-   * 
+   * Get quotes via filters.
+   *
    * @param quotesFilterDto all the filters that the user chosed
    * @return a list of quotes depending on the user's filters
-   * @throws FatalException
+   * @throws FatalException error with the db
    */
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 

@@ -20,12 +20,10 @@ public class QuotesFilterImpl implements QuotesFilter {
   /**
    * Create a QuotesFilterImpl object.
    *
-   * @param customerName the name of the customer
-   * @param quoteDate the date of the quote
+   * @param customerName   the name of the customer
+   * @param quoteDate      the date of the quote
    * @param totalAmountMin the minimum of the amount range
    * @param totalAmountMax the maximum of the amount range
-   * @param developmentType the type of the development
-   * 
    */
   public QuotesFilterImpl(String customerName, LocalDate quoteDate, int totalAmountMin,
       int totalAmountMax, ArrayList<DevelopmentTypeDto> developmentTypeDto) {
@@ -76,7 +74,6 @@ public class QuotesFilterImpl implements QuotesFilter {
   public void setDevelopmentType(ArrayList<DevelopmentTypeDto> developmentTypeDto) {
     this.developmentTypeList = developmentTypeDto;
   }
-
 
 
 }

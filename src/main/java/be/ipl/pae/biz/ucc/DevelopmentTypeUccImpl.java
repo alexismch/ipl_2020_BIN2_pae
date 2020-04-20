@@ -84,7 +84,9 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     try {
       dalService.startTransaction();
       try {
-        //TODO: vérifier doublon
+        if (developmentTypeDao.exists(developmentType.getTitle())) {
+          throw new BizException("Type d'améngament déjà existant.");
+        }
         return developmentTypeDao.insert(developmentType);
       } catch (FatalException ex) {
         throw new BizException(ex);
