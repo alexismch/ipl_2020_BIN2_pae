@@ -1,12 +1,12 @@
 'use strict';
 
-import {router} from '../main.js';
-import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
-import {Page} from './page.js';
-import {isWorker} from '../utils/userUtils.js';
-import {onSubmitWithAjax} from '../utils/forms.js';
-import {createAlert} from '../utils/alerts.js';
-import {DateInputComponent} from './inputs/datepicker-input.js';
+import { router } from '../main.js';
+import { ajaxDELETE, ajaxGET, ajaxPUT } from '../utils/ajax.js';
+import { Page } from './page.js';
+import { isWorker } from '../utils/userUtils.js';
+import { onSubmitWithAjax } from '../utils/forms.js';
+import { createAlert } from '../utils/alerts.js';
+import { DateInputComponent } from './inputs/datepicker-input.js';
 
 /**
  * @module Components
@@ -106,10 +106,13 @@ export class QuoteDetailPage extends Page {
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'CONFIRMED_DATE':
-        this._createPartialInvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        if (quote.workDuration > 15) {
+          this._createPartialInvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        } else {
+          this._createTotal_InvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        }
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
-
     }
   }
 
@@ -142,7 +145,7 @@ export class QuoteDetailPage extends Page {
     });
 
     $formContainer.append($form);
-    
+
   }
 
   /**
@@ -213,7 +216,7 @@ export class QuoteDetailPage extends Page {
    * Delete the start date and hide the btn delete and the btn that allows to go to the CONFIRMED_DATE state
    * @param {*} quoteId 
    */
-  _deleteStartDate(quoteId){
+  _deleteStartDate(quoteId) {
     const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm deleteStartDate" type="button">Supprimer date des débuts de travaux</button>`);
 
     $deleteStartDateButton.on('click', () => {
@@ -270,9 +273,35 @@ export class QuoteDetailPage extends Page {
     }
   };
 
+
   //TODO
-  _createPartialInvoiceForm($formContainer, quoteId, stateId){
+  _createPartialInvoiceForm($formContainer, quoteId, stateId) {
+
   }
+
+  _createTotal_InvoiceForm($formContainer, quoteId, stateId) {
+    console.log("test = " + stateId);
+
+    const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+    <div class="form-group date-container"></div>
+    <input type="hidden" name="quoteId" value="${quoteId}"/>
+    <input type="hidden" name="stateId" value="${stateId}"/>
+    <div class="form-group mt-2 d-flex justify-content-end">
+      <button class="btn btn-primary">Confirmer la facture</button>
+    </div>
+  </form>`);
+
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La facture a bien été envoyée !');
+    }, () => {
+      createAlert('error', 'La facture n\'a pas été envoyée !');
+    });
+
+
+    $formContainer.append($form);
+  }
+
 
   /**
    * set the detail of the quote in the current page
@@ -332,7 +361,7 @@ export class QuoteDetailPage extends Page {
     $quoteDetailTypes.empty();
     $quoteDetailTypes.append(`<div class="card-header py-3"><h4 class="m-0 text-primary">Types d'aménagements</h4></div>`);
 
-    const $quoteDetailTypesList = $('<ul>', {class: 'list m-1'});
+    const $quoteDetailTypesList = $('<ul>', { class: 'list m-1' });
 
     typeList.forEach(type => {
       $quoteDetailTypesList.append($(`<li>${type.title}</li>`));
@@ -366,7 +395,7 @@ export class QuoteDetailPage extends Page {
     if (photoList.length == 0) {
       $cardBody.append(`<p class='empty'>Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
-      const $list = $('<div>', {class: 'list'});
+      const $list = $('<div>', { class: 'list' });
       photoList.forEach(photo => {
         const detail = `<img src="${photo.base64}" alt="${photo.title}">`;
         $list.append(detail);
