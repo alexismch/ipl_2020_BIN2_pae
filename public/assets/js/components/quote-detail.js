@@ -245,8 +245,11 @@ export class QuoteDetailPage extends Page {
     const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
                       <input type="hidden" name="quoteId" value="${quote.idQuote}"/>
                       <input type="hidden" name="stateId" value="${quote.state.id}"/>
+                      <div class="d-flex justify-content-end disable-msg">
+                        <small class="text-danger">Veuillez indiquer un date de début des travaux</small>
+                      </div>
                       <div class="form-group mt-2 d-flex justify-content-end">
-                        <button class="btn btn-primary">Confirmer la date de début des travaux</button>
+                        <button class="btn btn-primary" disabled>Confirmer la date de début des travaux</button>
                       </div>
                     </form>`);
 
@@ -262,11 +265,13 @@ export class QuoteDetailPage extends Page {
     const $changeStartDateButton = this._changeStartDate(quote).addClass("mt-1 mr-1");
     const $deleteStartDateButton = this._deleteStartDate(quote.idQuote, quote.state.id).addClass("mt-1 mb-1");
 
-    this._$view.find('.startDateControlButtons').append($changeStartDateButton).append($deleteStartDateButton);
+    const startDateControlButtons = this._$view.find('.startDateControlButtons');
+    startDateControlButtons.append($changeStartDateButton);
 
-    if (quote.quoteDate == null) {
-      $deleteStartDateButton.remove();
-      $form.remove();
+    if (quote.startDate !== null) {
+      $form.find('.disable-msg').remove();
+      $form.find('button').removeAttr('disabled');
+      startDateControlButtons.append($deleteStartDateButton);
     }
   };
 

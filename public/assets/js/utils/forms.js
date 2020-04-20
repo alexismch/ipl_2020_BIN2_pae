@@ -202,7 +202,6 @@ function serializeFormToJson($form) {
 }
 
 function convertDate(date) {
-  console.log(date);
   return moment(date, 'L').format('YYYY-MM-DD');
 }
 
