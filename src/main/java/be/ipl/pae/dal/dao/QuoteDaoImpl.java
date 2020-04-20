@@ -126,34 +126,34 @@ public class QuoteDaoImpl implements QuoteDao {
 
       try (ResultSet rs = ps.executeQuery()) {
         while (rs.next()) {
-          int i = 1;
+          int inc = 1;
           QuoteDto quoteDto = quoteDtoFactory.getQuote();
-          quoteDto.setIdQuote(rs.getString(i));
-          i++;
-          quoteDto.setQuoteDate(rs.getDate(i).toLocalDate());
-          i++;
-          quoteDto.setTotalAmount(rs.getBigDecimal(i));
-          i++;
-          quoteDto.setWorkDuration(rs.getInt(i));
-          i++;
-          quoteDto.setCustomer(customerDao.getCustomer(rs.getInt(i)));
-          i++;
-          quoteDto.setState(getStateById(rs.getInt(i)));
-          i++;
+          quoteDto.setIdQuote(rs.getString(inc));
+          inc++;
+          quoteDto.setQuoteDate(rs.getDate(inc).toLocalDate());
+          inc++;
+          quoteDto.setTotalAmount(rs.getBigDecimal(inc));
+          inc++;
+          quoteDto.setWorkDuration(rs.getInt(inc));
+          inc++;
+          quoteDto.setCustomer(customerDao.getCustomer(rs.getInt(inc)));
+          inc++;
+          quoteDto.setState(getStateById(rs.getInt(inc)));
+          inc++;
           if (quotesFilterDto.getDevelopmentTypeDto() != null
               && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
             ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
             for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
-              listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(i)));
-              i++;
+              listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(inc)));
+              inc++;
             }
             quoteDto.setDevelopmentType(listDevelopment);
           }
           quotesList.add(quoteDto);
         }
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
     }
 
     return quotesList;

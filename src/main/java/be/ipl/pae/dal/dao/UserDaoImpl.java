@@ -94,8 +94,8 @@ public class UserDaoImpl implements UserDao {
       }
 
       ps.close();
-    } catch (SQLException e) {
-      throw new FatalException(e);
+    } catch (SQLException ex) {
+      throw new FatalException(ex);
     }
     return userStatus;
   }

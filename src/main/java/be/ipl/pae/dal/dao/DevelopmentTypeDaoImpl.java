@@ -117,7 +117,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
     try {
       ps.setString(1, title);
       return ps.executeQuery().next();
-    } catch (SQLException e) {
+    } catch (SQLException ex) {
       throw new FatalException("error with the db");
     }
   }
