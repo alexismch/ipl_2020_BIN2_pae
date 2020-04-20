@@ -194,4 +194,18 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
+  @Override
+  public QuoteDto confirmTotalInvoice(String idQuote) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      quoteDao.setStateQuote(QuoteState.TOTAL_INVOICE, idQuote);
+      return getQuoteBis(idQuote);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
 }

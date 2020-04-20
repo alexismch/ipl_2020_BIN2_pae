@@ -127,10 +127,10 @@ public class QuoteServlet extends AbstractServlet {
   /**
    * Insert photos into the quote.
    *
-   * @param quoteDto     the quote
-   * @param photos       photos to insert
+   * @param quoteDto the quote
+   * @param photos photos to insert
    * @param photosTitles titles of photos
-   * @param photosTypes  types of photos
+   * @param photosTypes types of photos
    */
   private void insertPhotos(QuoteDto quoteDto, String[] photos, String[] photosTitles,
       Object[] photosTypes) {
@@ -180,6 +180,9 @@ public class QuoteServlet extends AbstractServlet {
         break;
       case PLACED_ORDERED:
         confirmStartDate(req, resp);
+        break;
+      case CONFIRMED_DATE:
+        confirmTotalInvoice(req, resp);
         break;
       case CANCELLED:
         cancelQuote(req, resp);
@@ -280,6 +283,29 @@ public class QuoteServlet extends AbstractServlet {
       try {
         sendSuccessWithJson(resp, "quote",
             genson.create().serialize(quoteUcc.cancelQuote(quote.getIdQuote())));
+      } catch (BizException ex) {
+        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      } catch (FatalException ex) {
+        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+      }
+    } else {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    }
+
+  }
+
+
+  private void confirmTotalInvoice(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+    String quoteId = req.getParameter("quoteId");
+
+    if (verifyNotEmpty(quoteId)) {
+      QuoteDto quote = dtoFactory.getQuote();
+      quote.setIdQuote(quoteId);
+
+      try {
+        sendSuccessWithJson(resp, "quote",
+            genson.create().serialize(quoteUcc.confirmTotalInvoice(quote.getIdQuote())));
       } catch (BizException ex) {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
       } catch (FatalException ex) {
