@@ -52,8 +52,9 @@ public class MockPhotoDao implements PhotoDao {
     return null;
   }
 
+
   @Override
-  public PhotoDto getPhotoById(String idPhoto) throws FatalException {
+  public PhotoDto getPhotoById(int idPhoto) throws FatalException {
     // TODO Auto-generated method stub
     return null;
   }

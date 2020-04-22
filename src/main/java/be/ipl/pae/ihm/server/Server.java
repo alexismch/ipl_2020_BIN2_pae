@@ -11,6 +11,7 @@ import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LinkCcServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
 import be.ipl.pae.ihm.servlets.LogoutServlet;
+import be.ipl.pae.ihm.servlets.PhotoPrincipalServlet;
 import be.ipl.pae.ihm.servlets.PhotoServlet;
 import be.ipl.pae.ihm.servlets.PhotosListServlet;
 import be.ipl.pae.ihm.servlets.QuoteServlet;
@@ -34,6 +35,7 @@ public class Server {
 
   @Injected
   private QuotesListServlet quotesListServlet;
+
 
   @Injected
   private LoginServlet loginServlet;
@@ -74,6 +76,9 @@ public class Server {
   @Injected
   private PhotoServlet photoServlet;
 
+  @Injected
+  private PhotoPrincipalServlet photoPrincipalServlet;
+
   public Server(int port) {
     this.port = port;
   }
@@ -86,7 +91,7 @@ public class Server {
   public void start() throws Exception {
     org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(this.port);
     ContextHandlerCollection context = new ContextHandlerCollection();
-    context.setHandlers(new Handler[]{createBackendHandler(), createFrontendHandler()});
+    context.setHandlers(new Handler[] {createBackendHandler(), createFrontendHandler()});
     server.setHandler(context);
     System.out.println("Server starting...");
     server.start();
@@ -118,14 +123,16 @@ public class Server {
     backendContext.addServlet(new ServletHolder(quoteServlet), "/quote");
     backendContext.addServlet(new ServletHolder(quotesListServlet), "/quotes-list");
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType");
-    backendContext
-        .addServlet(new ServletHolder(developmentTypesListServlet), "/developmentType-list");
+    backendContext.addServlet(new ServletHolder(developmentTypesListServlet),
+        "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
     backendContext.addServlet(new ServletHolder(customerDetailsServlet), "/customer-details");
     backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
     backendContext.addServlet(new ServletHolder(photoServlet), "/photo");
+    backendContext.addServlet(new ServletHolder(photoPrincipalServlet), "/photoPrincipal");
+
     return backendContext;
   }
 }

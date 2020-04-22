@@ -69,4 +69,22 @@ public class PhotoUccImpl implements PhotoUcc {
       dalService.commitTransaction();
     }
   }
+
+
+
+  public PhotoDto getPhotoById(int id) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      try {
+        return photoDao.getPhotoById(id);
+      } catch (FatalException ex) {
+        throw new BizException(ex);
+      }
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
+    }
+    return null;
+  }
 }

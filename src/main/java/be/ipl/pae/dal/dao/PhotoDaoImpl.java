@@ -142,13 +142,13 @@ public class PhotoDaoImpl implements PhotoDao {
     }
   }
 
-  public PhotoDto getPhotoById(String idPhoto) throws FatalException {
+  public PhotoDto getPhotoById(int idPhoto) throws FatalException {
     PhotoDto photoDtoToReturn = photoDtoFactory.getPhoto();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * " + "FROM mystherbe.photos WHERE id_photo =? ");
 
     try {
-      ps.setString(1, idPhoto);
+      ps.setInt(1, idPhoto);
       try (ResultSet resultSet = ps.executeQuery()) {
         while (resultSet.next()) {
           photoDtoToReturn.setId(resultSet.getInt(1));

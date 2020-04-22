@@ -59,5 +59,5 @@ public interface PhotoDao {
    * @param idPhoto the id of the photo to retrieve
    * @throws FatalException if you have an error with the db
    */
-  PhotoDto getPhotoById(String idPhoto) throws FatalException;
+  PhotoDto getPhotoById(int idPhoto) throws FatalException;
 }
