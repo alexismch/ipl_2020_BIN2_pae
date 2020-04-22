@@ -34,10 +34,9 @@ public class PhotoDaoImpl implements PhotoDao {
 
   @Override
   public void insert(PhotoDto photoDto) throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "INSERT INTO mystherbe.photos "
-            + "(title, base64, id_quote, is_visible, id_type, before_work) "
-            + "VALUES (?, ?, ?, ?, ?, ?)");
+    PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.photos "
+        + "(title, base64, id_quote, is_visible, id_type, before_work) "
+        + "VALUES (?, ?, ?, ?, ?, ?)");
 
     try {
       ps.setString(1, photoDto.getTitle());
@@ -102,8 +101,8 @@ public class PhotoDaoImpl implements PhotoDao {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT p.title title, p.base64 base64, dt.title dev_type "
+    PreparedStatement ps =
+        dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
             + "FROM mystherbe.photos p, mystherbe.development_types dt "
             + "WHERE p.id_type = dt.id_type AND p.is_visible = true");
     return getVisiblePhotosViaPs(ps);
@@ -111,8 +110,8 @@ public class PhotoDaoImpl implements PhotoDao {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws FatalException {
-    PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT p.title title, p.base64 base64, dt.title dev_type "
+    PreparedStatement ps =
+        dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
             + "FROM mystherbe.photos p, mystherbe.development_types dt "
             + "WHERE p.id_type = dt.id_type AND p.is_visible = true AND p.id_type = ?");
 
@@ -142,4 +141,31 @@ public class PhotoDaoImpl implements PhotoDao {
       throw new FatalException("error with the db!");
     }
   }
+
+  public PhotoDto getPhotoById(String idPhoto) throws FatalException {
+    PhotoDto photoDtoToReturn = photoDtoFactory.getPhoto();
+    PreparedStatement ps;
+    ps = dalService.getPreparedStatement("Select * " + "FROM mystherbe.photos WHERE id_photo =? ");
+
+    try {
+      ps.setString(1, idPhoto);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          photoDtoToReturn.setId(resultSet.getInt(1));
+          photoDtoToReturn.setTitle(resultSet.getString(2));
+          photoDtoToReturn.setBase64(resultSet.getString(3));
+          photoDtoToReturn.setIdQuote(resultSet.getString(4));
+          photoDtoToReturn.setVisible(resultSet.getBoolean(5));
+          photoDtoToReturn.setIdType(resultSet.getInt(6));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error in the db!");
+    }
+    return photoDtoToReturn;
+  }
+
+
+
 }

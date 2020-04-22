@@ -31,6 +31,8 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Injected
   CustomerDao customerDao;
+  @Injected
+  PhotoDao photoDao;
 
   @Override
   public List<QuoteDto> getAllQuote() throws FatalException {

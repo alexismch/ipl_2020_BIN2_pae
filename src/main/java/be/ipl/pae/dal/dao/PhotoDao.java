@@ -29,7 +29,7 @@ public interface PhotoDao {
    *
    * @param idQquote the id of the quote
    * @param isBefore if it's true it means that that you will get a list of photos before the
-   *                 development otherwise you will get the photos after the development
+   *        development otherwise you will get the photos after the development
    * @return list of photos
    * @throws FatalException if you had a problem with the db
    */
@@ -51,4 +51,13 @@ public interface PhotoDao {
    * @throws FatalException if an error occurred with the db
    */
   List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws FatalException;
+
+
+  /**
+   * retrieve a photo from the db with the id.
+   *
+   * @param idPhoto the id of the photo to retrieve
+   * @throws FatalException if you have an error with the db
+   */
+  PhotoDto getPhotoById(String idPhoto) throws FatalException;
 }

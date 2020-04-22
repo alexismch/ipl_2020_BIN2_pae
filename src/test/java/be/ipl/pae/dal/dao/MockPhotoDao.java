@@ -4,6 +4,7 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,12 @@ public class MockPhotoDao implements PhotoDao {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos(int typeId) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public PhotoDto getPhotoById(String idPhoto) throws FatalException {
     // TODO Auto-generated method stub
     return null;
   }
