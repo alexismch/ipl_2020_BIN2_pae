@@ -17,7 +17,8 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public List<QuoteDto> getAllQuote() {
-    return new ArrayList<>();
+    List<QuoteDto> liste = new ArrayList<>();
+    return liste;
   }
 
   @Override
