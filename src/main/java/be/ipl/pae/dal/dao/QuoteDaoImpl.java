@@ -31,8 +31,6 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Injected
   CustomerDao customerDao;
-  @Injected
-  PhotoDao photoDao;
 
   @Override
   public List<QuoteDto> getAllQuote() throws FatalException {
@@ -119,8 +117,8 @@ public class QuoteDaoImpl implements QuoteDao {
         indexSet++;
       }
       if (ref[4]) {
-        for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
-          ps.setInt(indexSet, developementType.getIdType());
+        for (DevelopmentTypeDto developmentType : quotesFilterDto.getDevelopmentTypeDto()) {
+          ps.setInt(indexSet, developmentType.getIdType());
           indexSet++;
         }
       }
@@ -139,7 +137,7 @@ public class QuoteDaoImpl implements QuoteDao {
           inc++;
           quoteDto.setCustomer(customerDao.getCustomer(rs.getInt(inc)));
           inc++;
-          quoteDto.setState(getStateById(rs.getInt(inc)));
+          quoteDto.setState(QuoteState.getById(rs.getInt(inc)));
           inc++;
           Date startDate = rs.getDate(inc);
           if (startDate != null) {
@@ -149,7 +147,7 @@ public class QuoteDaoImpl implements QuoteDao {
           if (quotesFilterDto.getDevelopmentTypeDto() != null
               && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
             ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
-            for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
+            for (DevelopmentTypeDto developmentType : quotesFilterDto.getDevelopmentTypeDto()) {
               listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(inc)));
               inc++;
             }
@@ -177,9 +175,8 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setInt(1, idCustomer);
       return getCustomerQuotesViaPs(ps);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new FatalException(ex);
     }
-    return new ArrayList<>();
   }
 
   private List<QuoteDto> getCustomerQuotesViaPs(PreparedStatement ps)
@@ -194,13 +191,15 @@ public class QuoteDaoImpl implements QuoteDao {
         quoteDto.setQuoteDate(resultSet.getDate(3).toLocalDate());
         quoteDto.setTotalAmount(resultSet.getBigDecimal(4));
         quoteDto.setWorkDuration(resultSet.getInt(5));
-        quoteDto.setState(getStateById(resultSet.getInt(6)));
+        quoteDto.setState(QuoteState.getById(resultSet.getInt(6)));
         Date startDate = resultSet.getDate(7);
         if (startDate != null) {
           quoteDto.setStartDate(startDate.toLocalDate());
         }
         customerQuotes.add(quoteDto);
       }
+    } catch (SQLException ex) {
+      throw new FatalException(ex);
     }
     ps.close();
 
@@ -228,7 +227,7 @@ public class QuoteDaoImpl implements QuoteDao {
       if (startDate != null) {
         quote.setStartDate(startDate.toLocalDate());
       }
-      quote.setState(getStateById(res.getInt(6)));
+      quote.setState(QuoteState.getById(res.getInt(6)));
 
       CustomerDto customer = customerDao.getCustomer(res.getInt(2));
       quote.setCustomer(customer);
@@ -259,15 +258,14 @@ public class QuoteDaoImpl implements QuoteDao {
   public QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.quotes "
         + "(id_quote, id_customer, quote_date, total_amount, work_duration, id_state)"
-        + " VALUES (?, ?, ?::DATE, ?::MONEY, ?, "
-        + "(SELECT id_state FROM mystherbe.states WHERE title = ?))");
+        + " VALUES (?, ?, ?::DATE, ?::MONEY, ?, ?)");
     try {
       ps.setString(1, quoteDto.getIdQuote());
       ps.setInt(2, quoteDto.getIdCustomer());
       ps.setDate(3, Date.valueOf(quoteDto.getQuoteDate()));
       ps.setBigDecimal(4, quoteDto.getTotalAmount());
       ps.setInt(5, quoteDto.getWorkDuration());
-      ps.setString(6, quoteDto.getState().getTitle());
+      ps.setInt(6, quoteDto.getState().getId());
 
       ps.execute();
       ps.close();
@@ -310,7 +308,7 @@ public class QuoteDaoImpl implements QuoteDao {
           quoteDtoToReturn.setQuoteDate(resultSet.getDate(3).toLocalDate());
           quoteDtoToReturn.setTotalAmount(resultSet.getBigDecimal(4));
           quoteDtoToReturn.setWorkDuration(resultSet.getInt(5));
-          quoteDtoToReturn.setState(getStateById(resultSet.getInt(6)));
+          quoteDtoToReturn.setState(QuoteState.getById(resultSet.getInt(6)));
           Date startDate = resultSet.getDate(7);
           if (startDate != null) {
             quoteDtoToReturn.setStartDate(startDate.toLocalDate());
@@ -322,25 +320,6 @@ public class QuoteDaoImpl implements QuoteDao {
       throw new FatalException("error in the db!");
     }
     return quoteDtoToReturn;
-  }
-
-  private QuoteState getStateById(int idState) throws FatalException {
-    PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.states WHERE id_state =? ");
-    QuoteState quoteState = null;
-
-    try {
-      ps.setInt(1, idState);
-      try (ResultSet resultSet = ps.executeQuery()) {
-        while (resultSet.next()) {
-          quoteState = QuoteState.getStateByName(resultSet.getString(2));
-        }
-      }
-    } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new FatalException("error with the db!");
-    }
-    return quoteState;
   }
 
   @Override
