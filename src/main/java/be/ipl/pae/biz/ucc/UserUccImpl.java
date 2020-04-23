@@ -121,9 +121,8 @@ public class UserUccImpl implements UserUcc {
       }
 
       if (!UserStatus.NOT_ACCEPTED.equals(status)) {
-        throw new BizException(
-            "Le status de l'utilisateur doit être égal à " + UserStatus.NOT_ACCEPTED.getName()
-                + " pour pouvoir être changé.");
+        throw new BizException("Le status de l'utilisateur doit être égal à "
+            + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
       }
 
       user = userDao.changeUserStatus(userId, newStatus);

@@ -1,6 +1,6 @@
 package be.ipl.pae.main;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.ucc.CustomerUcc;
@@ -9,6 +9,7 @@ import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.util.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ class CustommerUccTest {
   private DtoFactory dtoFactory;
 
   @Injected
-  private CustomerUcc qcc;
+  private CustomerUcc custcc;
 
   @BeforeEach
   public void setUp() {
@@ -33,9 +34,14 @@ class CustommerUccTest {
     injectionService.inject(this);
   }
 
+  @DisplayName("ucc test different from null")
   @Test
-  void test() {
-    fail("Not yet implemented");
+  public void testUcc() {
+    assertNotNull(custcc);
+  }
+
+  public void testInsertCustomer() {
+
   }
 
 
