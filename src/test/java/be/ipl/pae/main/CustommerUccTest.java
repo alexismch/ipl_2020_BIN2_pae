@@ -29,6 +29,7 @@ class CustommerUccTest {
       propertiesLoader.loadProperties("props/test.properties");
     } catch (IOException ex) {
       ex.printStackTrace();
+
     }
     InjectionService injectionService = new InjectionService(propertiesLoader);
     injectionService.inject(this);
