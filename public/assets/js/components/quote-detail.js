@@ -1,12 +1,13 @@
 'use strict';
 
-import { router } from '../main.js';
-import { ajaxDELETE, ajaxGET, ajaxPUT } from '../utils/ajax.js';
-import { Page } from './page.js';
-import { isWorker } from '../utils/userUtils.js';
-import { onSubmitWithAjax } from '../utils/forms.js';
-import { createAlert } from '../utils/alerts.js';
-import { DateInputComponent } from './inputs/datepicker-input.js';
+import {router} from '../main.js';
+import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
+import {Page} from './page.js';
+import {isWorker} from '../utils/userUtils.js';
+import {onSubmitWithAjax} from '../utils/forms.js';
+import {createAlert} from '../utils/alerts.js';
+import {DateInputComponent} from './inputs/datepicker-input.js';
+import {AddPictureComponent} from './inputs/picture-add.js';
 
 /**
  * @module Components
@@ -113,6 +114,20 @@ export class QuoteDetailPage extends Page {
         }
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
+      case 'PARTIAL_INVOICE':
+        // TODO
+        break;
+      case 'TOTAL_INVOICE':
+        // TODO
+        this._createAddPhotoButton(quote.idQuote, quote.developmentTypes);
+        break;
+      case 'PAID':
+        // TODO
+        this._createAddPhotoButton(quote.idQuote, quote.developmentTypes);
+        break;
+      case 'CANCELLED':
+        this._createCanceledMessage($formContainer);
+        break;
     }
   }
 
@@ -166,6 +181,13 @@ export class QuoteDetailPage extends Page {
       });
     });
     $cancelContainer.append($cancelButton);
+  }
+
+  /**
+   *
+   */
+  _createCanceledMessage($container) {
+    $container.append('<p class="text-danger">Ce devis a été annulé.</p>');
   }
 
   /**
@@ -303,10 +325,46 @@ export class QuoteDetailPage extends Page {
       createAlert('error', 'La facture n\'a pas été envoyée !');
     });
 
-
     $formContainer.append($form);
   }
 
+  _createAddPhotoButton(quoteId, developmentTypeList) {
+    const $btn = $('<button class="btn btn-sm btn-primary" type="button">Ajouter des photos</button>');
+
+    let $addPictureComponentContainer = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
+
+    $btn.on('click', () => {
+      if ($addPictureComponentContainer.length < 1) {
+        $addPictureComponentContainer = $(`<form class="photos-add card p-4 mb-2 align-items-end">
+  <p class="text-warning">This functionality this not working yet.</p>
+  <button class="btn btn-sm btn-primary" type="submit">Enregister les nouvelles photos</button>
+</form>`);
+        this._$view.find('.detail-quote-photos-after .card-body').prepend($addPictureComponentContainer);
+      }
+      const addPictureComponent = new AddPictureComponent();
+      addPictureComponent.setDevelopmentTypesList(developmentTypeList);
+      const addPictureComponentView = addPictureComponent.getView();
+      $addPictureComponentContainer.children('.empty').remove();
+
+      const $removeBtn = $(`<div class="floating-button-container-right">
+        <button class="btn btn-danger floating-button-right" type="button"><i class="fas fa-times"></i></button>
+      </div>`);
+
+      $removeBtn.on('click', () => {
+        $removeBtn.remove();
+        addPictureComponentView.remove();
+        console.log($addPictureComponentContainer.children('*:not(button)'));
+        if ($addPictureComponentContainer.children(':not(button)').length < 1) {
+          $addPictureComponentContainer.remove();
+          $addPictureComponentContainer = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
+        }
+      });
+
+      $addPictureComponentContainer.prepend($removeBtn, addPictureComponentView);
+    });
+
+    this._$view.find('.detail-quote-photos-after .card-header').append($btn);
+  }
 
   /**
    * set the detail of the quote in the current page
@@ -391,7 +449,7 @@ export class QuoteDetailPage extends Page {
    */
   _createQuoteDetailPhotoAfter(photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-after');
-    $quoteDetailPhoto.empty().append('<div class="card-header"><h4>Photos après aménagements</h4></div>');
+    $quoteDetailPhoto.empty().append('<div class="card-header d-flex justify-content-between"><h4>Photos après aménagements</h4></div>');
     this._createPhotoList($quoteDetailPhoto, photoList, false);
   }
 
