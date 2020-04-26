@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ParametersUtils {
 
   /**
-   * Check if the request has a parameter identified by {@code name}
+   * Check if the request has a parameter identified by {@code name}.
    *
    * @param req  the request
    * @param name the name of the parameter
@@ -18,7 +18,7 @@ public class ParametersUtils {
   }
 
   /**
-   * Get the parameter {@code name} in the request
+   * Get the parameter identified by {@code name} in the request.
    *
    * @param req  the request
    * @param name the name of the parameter
@@ -38,7 +38,7 @@ public class ParametersUtils {
   }
 
   /**
-   * Get the parameter {@code name} in the request
+   * Get the parameter identified by {@code name} in the request.
    *
    * @param req  the request
    * @param name the name of the parameter
@@ -59,13 +59,13 @@ public class ParametersUtils {
   }
 
   /**
-   * Get the parameter {@code name} in the request
+   * Get the parameter identified by {@code name} in the request.
    *
    * @param req  the request
    * @param name the name of the parameter
    * @return the value of the parameter
    * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
-   *                            {@code QuoteState}
+   *                            {@link QuoteState}
    */
   public static QuoteState getParamAsQuoteState(HttpServletRequest req, String name)
       throws ParameterException {

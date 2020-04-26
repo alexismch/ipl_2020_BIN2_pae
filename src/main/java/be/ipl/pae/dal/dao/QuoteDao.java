@@ -89,11 +89,14 @@ public interface QuoteDao {
 
 
   /*
+
+  DO NOT FIX THIS CHECKSTYLE ISSUE
+
    * Get the state of an quote by id.
    *
    * @param idQuote the id of the quote
    * @return an {@link QuoteState} or null if the quote do not exist
    * @throws FatalException if an error occurred with the database.
    */
-    //QuoteState getQuoteState(String idQuote) throws FatalException;
+  //QuoteState getQuoteState(String idQuote) throws FatalException;
 }
