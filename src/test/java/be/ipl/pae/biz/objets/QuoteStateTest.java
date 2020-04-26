@@ -2,12 +2,11 @@ package be.ipl.pae.biz.objets;
 
 import static be.ipl.pae.biz.objets.QuoteState.CANCELLED;
 import static be.ipl.pae.biz.objets.QuoteState.CONFIRMED_DATE;
-import static be.ipl.pae.biz.objets.QuoteState.PAID;
 import static be.ipl.pae.biz.objets.QuoteState.PARTIAL_INVOICE;
 import static be.ipl.pae.biz.objets.QuoteState.PLACED_ORDERED;
-import static be.ipl.pae.biz.objets.QuoteState.POSTPONED_DATE;
 import static be.ipl.pae.biz.objets.QuoteState.QUOTE_ENTERED;
 import static be.ipl.pae.biz.objets.QuoteState.TOTAL_INVOICE;
+import static be.ipl.pae.biz.objets.QuoteState.VISIBLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
@@ -26,10 +25,9 @@ class QuoteStateTest {
         Arguments.of(QUOTE_ENTERED, 1),
         Arguments.of(PLACED_ORDERED, 2),
         Arguments.of(CONFIRMED_DATE, 3),
-        Arguments.of(POSTPONED_DATE, 4),
         Arguments.of(PARTIAL_INVOICE, 5),
         Arguments.of(TOTAL_INVOICE, 6),
-        Arguments.of(PAID, 7),
+        Arguments.of(VISIBLE, 7),
         Arguments.of(CANCELLED, 8),
     };
 

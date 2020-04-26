@@ -208,4 +208,65 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
+  @Override
+  public QuoteDto makeQuoteVisible(String idQuote) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      //changeQuoteState(idQuote, QuoteState.VISIBLE);
+
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+
+    return null; // TODO
+  }
+
+/*  public void changeQuoteState(String idQuote, QuoteState newQuoteState)
+      throws BizException, FatalException {
+
+    QuoteState quoteState = quoteDao.getQuoteState(idQuote);
+
+    if (quoteState == null) {
+      throw new BizException("Il n'y a aucun devis avec l'id " + idQuote);
+    }
+
+    if (quoteState == newQuoteState) {
+      return;
+    }
+
+    switch (newQuoteState) {
+
+      case QUOTE_ENTERED:
+        break;
+      case PLACED_ORDERED:
+        break;
+      case CONFIRMED_DATE:
+        break;
+      case PARTIAL_INVOICE:
+        break;
+      case TOTAL_INVOICE:
+        if (CONFIRMED_DATE.equals(quoteState) || PARTIAL_INVOICE.equals(quoteState)) {
+          quoteDao.changeQuoteState(idQuote, newQuoteState);
+          return;
+        }
+        break;
+      case VISIBLE:
+        if (TOTAL_INVOICE.equals(quoteState)) {
+          quoteDao.changeQuoteState(idQuote, newQuoteState);
+          return;
+        }
+        break;
+      case CANCELLED:
+        if (QUOTE_ENTERED.equals(quoteState) || PLACED_ORDERED.equals(quoteState)
+            || CONFIRMED_DATE.equals(quoteState)) {
+          quoteDao.changeQuoteState(idQuote, newQuoteState);
+          return;
+        }
+        break;
+    }
+
+  }*/
 }

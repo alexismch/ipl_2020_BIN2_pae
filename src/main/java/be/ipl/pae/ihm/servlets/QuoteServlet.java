@@ -1,9 +1,11 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.hasAccess;
-import static be.ipl.pae.util.Util.isAllInside;
-import static be.ipl.pae.util.Util.verifyNotEmpty;
-import static be.ipl.pae.util.Util.verifySameLength;
+import static be.ipl.pae.ihm.Util.hasAccess;
+import static be.ipl.pae.ihm.Util.isAllInside;
+import static be.ipl.pae.ihm.Util.verifyNotEmpty;
+import static be.ipl.pae.ihm.Util.verifySameLength;
+import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParam;
+import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParamAsQuoteState;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
@@ -15,7 +17,8 @@ import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.Util;
+import be.ipl.pae.ihm.Util;
+import be.ipl.pae.ihm.servlets.utils.ParameterException;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -172,27 +175,42 @@ public class QuoteServlet extends AbstractServlet {
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("PUT /api/quote by " + req.getRemoteAddr());
-    String stateId = req.getParameter("stateId");
 
-    switch (QuoteState.valueOf(stateId)) {
-      case QUOTE_ENTERED:
-        confirmQuote(req, resp);
-        break;
-      case PLACED_ORDERED:
-        confirmStartDate(req, resp);
-        break;
-      case CONFIRMED_DATE:
-        confirmTotalInvoice(req, resp);
-        break;
-      case CANCELLED:
-        cancelQuote(req, resp);
-        break;
+    try {
+      QuoteState quoteState = getParamAsQuoteState(req, "stateId");
+      String idQuote = getParam(req, "quoteId");
 
-      default:
-        break;
+      switch (quoteState) {
+        case QUOTE_ENTERED:
+          confirmQuote(req, resp);
+          break;
+        case PLACED_ORDERED:
+          confirmStartDate(req, resp);
+          break;
+        case CONFIRMED_DATE:
+          confirmTotalInvoice(req, resp);
+          break;
+        case PARTIAL_INVOICE:
+          // TODO
+          break;
+        case TOTAL_INVOICE:
+          sendSuccessWithJson(resp, "quote",
+              genson.create().serialize(quoteUcc.makeQuoteVisible(idQuote)));
+          break;
+        case VISIBLE:
+          break;
+        case CANCELLED:
+          cancelQuote(req, resp);
+          break;
+      }
+
+    } catch (FatalException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    } catch (BizException | ParameterException ex) {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
     }
-  }
 
+  }
 
   @Override
   protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {

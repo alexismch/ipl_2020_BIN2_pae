@@ -1,9 +1,9 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.hasAccess;
-import static be.ipl.pae.util.Util.isAllInside;
-import static be.ipl.pae.util.Util.verifyNotEmpty;
-import static be.ipl.pae.util.Util.verifySameLength;
+import static be.ipl.pae.ihm.Util.hasAccess;
+import static be.ipl.pae.ihm.Util.isAllInside;
+import static be.ipl.pae.ihm.Util.verifyNotEmpty;
+import static be.ipl.pae.ihm.Util.verifySameLength;
 
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;

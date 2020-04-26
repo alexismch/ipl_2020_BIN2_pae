@@ -2,8 +2,8 @@ package be.ipl.pae.dal.services;
 
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.PropertiesLoader;
-import be.ipl.pae.util.PropertiesLoader.PropertiesLoaderException;
+import be.ipl.pae.main.PropertiesLoader;
+import be.ipl.pae.main.PropertiesLoader.PropertiesLoaderException;
 
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;

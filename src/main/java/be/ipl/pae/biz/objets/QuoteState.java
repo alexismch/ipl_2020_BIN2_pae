@@ -4,10 +4,10 @@ public enum QuoteState {
   QUOTE_ENTERED("Devis introduit", 1),
   PLACED_ORDERED("Commande passée", 2),
   CONFIRMED_DATE("Date confirmée", 3),
-  POSTPONED_DATE("Date repoussée", 4),
+  // POSTPONED_DATE("Date repoussée", 4), // Never used
   PARTIAL_INVOICE("Facturé partiellement", 5),
   TOTAL_INVOICE("Facturé totalement", 6),
-  PAID("Payé", 7),
+  VISIBLE("Visible", 7),
   CANCELLED("Annulé", 8);
 
   private String title;

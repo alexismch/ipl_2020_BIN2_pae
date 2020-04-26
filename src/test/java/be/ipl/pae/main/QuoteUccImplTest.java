@@ -16,7 +16,6 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

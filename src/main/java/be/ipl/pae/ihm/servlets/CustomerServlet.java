@@ -1,8 +1,8 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.createGensonBuilder;
-import static be.ipl.pae.util.Util.hasAccess;
-import static be.ipl.pae.util.Util.verifyNotEmpty;
+import static be.ipl.pae.ihm.Util.createGensonBuilder;
+import static be.ipl.pae.ihm.Util.hasAccess;
+import static be.ipl.pae.ihm.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.objets.DtoFactory;

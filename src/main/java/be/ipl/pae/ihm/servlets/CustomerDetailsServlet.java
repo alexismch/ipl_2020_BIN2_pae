@@ -7,7 +7,7 @@ import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.Util;
+import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 
