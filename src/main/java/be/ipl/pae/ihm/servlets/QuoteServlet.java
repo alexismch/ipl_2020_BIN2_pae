@@ -202,6 +202,8 @@ public class QuoteServlet extends AbstractServlet {
         case CANCELLED:
           cancelQuote(req, resp);
           break;
+        default:
+          break;
       }
 
     } catch (FatalException ex) {

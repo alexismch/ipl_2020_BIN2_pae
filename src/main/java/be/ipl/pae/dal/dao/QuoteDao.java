@@ -95,5 +95,5 @@ public interface QuoteDao {
    * @return an {@link QuoteState} or null if the quote do not exist
    * @throws FatalException if an error occurred with the database.
    */
-  //QuoteState getQuoteState(String idQuote) throws FatalException;
+    //QuoteState getQuoteState(String idQuote) throws FatalException;
 }

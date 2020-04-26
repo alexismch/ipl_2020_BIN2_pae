@@ -6,10 +6,25 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ParametersUtils {
 
+  /**
+   * Check if the request has a parameter identified by {@code name}
+   *
+   * @param req  the request
+   * @param name the name of the parameter
+   * @return true if the request has a parameter for the {@code name}
+   */
   public static boolean checkParamExist(HttpServletRequest req, String name) {
     return req.getParameter(name) != null;
   }
 
+  /**
+   * Get the parameter {@code name} in the request
+   *
+   * @param req  the request
+   * @param name the name of the parameter
+   * @return the value of the parameter
+   * @throws ParameterException thrown if the parameter do not exit or an empty text
+   */
   public static String getParam(HttpServletRequest req, String name)
       throws ParameterException {
 
@@ -22,6 +37,15 @@ public class ParametersUtils {
     throw new ParameterException(name + " est requis");
   }
 
+  /**
+   * Get the parameter {@code name} in the request
+   *
+   * @param req  the request
+   * @param name the name of the parameter
+   * @return the value of the parameter
+   * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
+   *                            integer
+   */
   public static int getParamAsInt(HttpServletRequest req, String name) throws ParameterException {
 
     String param = getParam(req, name);
@@ -29,11 +53,20 @@ public class ParametersUtils {
     try {
       return Integer.parseInt(param);
     } catch (NumberFormatException ignored) {
+      throw new ParameterException(name + ":" + param + " n'est pas un entier");
     }
 
-    throw new ParameterException(name + ":" + param + " n'est pas un entier");
   }
 
+  /**
+   * Get the parameter {@code name} in the request
+   *
+   * @param req  the request
+   * @param name the name of the parameter
+   * @return the value of the parameter
+   * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
+   *                            {@code QuoteState}
+   */
   public static QuoteState getParamAsQuoteState(HttpServletRequest req, String name)
       throws ParameterException {
 
@@ -42,9 +75,9 @@ public class ParametersUtils {
     try {
       return QuoteState.valueOf(param);
     } catch (NullPointerException ignored) {
+      throw new ParameterException(name + ":" + param + " n'est pas un état du devis");
     }
 
-    throw new ParameterException(name + ":" + param + " n'est pas un état du devis");
   }
 
 }
