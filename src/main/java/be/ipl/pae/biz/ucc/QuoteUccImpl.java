@@ -181,7 +181,7 @@ public class QuoteUccImpl implements QuoteUcc {
         // if != null it means that the user want to change the date
         if (quote.getStartDate() != null) {
           setStartDateQuoteInDb(quote);
-          quoteToReturn = setState(quote.getIdQuote(), QuoteState.PLACED_ORDERED);
+          quoteToReturn = getQuote(quote.getIdQuote());
         } else {
           quoteToReturn = setState(quote.getIdQuote(), QuoteState.CONFIRMED_DATE);
         }
