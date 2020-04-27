@@ -4,7 +4,7 @@ import {router} from '../main.js';
 import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
-import {onSubmitWithAjax} from '../utils/forms.js';
+import {onSubmitWithAjax, serializeFormToJson} from '../utils/forms.js';
 import {createAlert} from '../utils/alerts.js';
 import {DateInputComponent} from './inputs/datepicker-input.js';
 import {AddPictureComponent} from './inputs/picture-add.js';
@@ -352,20 +352,49 @@ export class QuoteDetailPage extends Page {
   _createAddPhotoButton(quoteId, developmentTypeList) {
     const $btn = $('<button class="btn btn-sm btn-primary" type="button">Ajouter des photos</button>');
 
-    let $addPictureComponentContainer = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
+    let $addPictureForm = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
 
     $btn.on('click', () => {
-      if ($addPictureComponentContainer.length < 1) {
-        $addPictureComponentContainer = $(`<form class="photos-add card p-4 mb-2 align-items-end">
-  <p class="text-warning">This functionality this not working yet.</p>
+      if ($addPictureForm.length < 1) {
+        $addPictureForm = $(`<form class="photos-add card p-4 mb-2 align-items-end" method="post" action="/api/photo" novalidate>
+  <input type="hidden" name="quoteId" value="${quoteId}" />
   <button class="btn btn-sm btn-primary" type="submit">Enregister les nouvelles photos</button>
 </form>`);
-        this._$view.find('.detail-quote-photos-after .card-body').prepend($addPictureComponentContainer);
+
+        onSubmitWithAjax($addPictureForm, () => {
+          const data = serializeFormToJson($addPictureForm);
+          const $list = this._$view.find('.detail-quote-photos-after .card-body .list');
+          if (Array.isArray(data['pictureData'])) {
+            for (let i = 0; i < data['pictureData'].length; i++) {
+              this._createPhotoItem($list, {
+                base64: data['pictureData'][i],
+                title: data['pictureTitle'][i]
+              });
+            }
+          } else {
+            this._createPhotoItem($list, {
+              base64: data['pictureData'],
+              title: data['pictureTitle']
+            });
+          }
+
+          $addPictureForm.remove();
+          $addPictureForm = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
+
+          createAlert('success', 'Les photos ont été ajoutées.');
+        }, () => {
+          createAlert('danger', 'Les photos n\'ont pas été ajoutées.');
+        });
+
+        this._$view.find('.detail-quote-photos-after .card-body').prepend($addPictureForm);
       }
-      const addPictureComponent = new AddPictureComponent();
+
+      const addPictureComponent = new AddPictureComponent(false);
       addPictureComponent.setDevelopmentTypesList(developmentTypeList);
       const addPictureComponentView = addPictureComponent.getView();
-      $addPictureComponentContainer.children('.empty').remove();
+      addPictureComponentView.addClass('w-100'
+          + ' no-shadow');
+      $addPictureForm.children('.empty').remove();
 
       const $removeBtn = $(`<div class="floating-button-container-right">
         <button class="btn btn-danger floating-button-right" type="button"><i class="fas fa-times"></i></button>
@@ -374,14 +403,13 @@ export class QuoteDetailPage extends Page {
       $removeBtn.on('click', () => {
         $removeBtn.remove();
         addPictureComponentView.remove();
-        console.log($addPictureComponentContainer.children('*:not(button)'));
-        if ($addPictureComponentContainer.children(':not(button)').length < 1) {
-          $addPictureComponentContainer.remove();
-          $addPictureComponentContainer = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
+        if ($addPictureForm.children(':not(button,input[name="quoteId"])').length < 1) {
+          $addPictureForm.remove();
+          $addPictureForm = this._$view.find('.detail-quote-photos-after .card-body .photos-add');
         }
       });
 
-      $addPictureComponentContainer.prepend($removeBtn, addPictureComponentView);
+      $addPictureForm.prepend($removeBtn, addPictureComponentView);
     });
 
     this._$view.find('.detail-quote-photos-after .card-header').append($btn);
@@ -479,14 +507,16 @@ export class QuoteDetailPage extends Page {
     if (photoList.length == 0) {
       $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
-      const $list = $('<div>', { class: 'list' });
-      photoList.forEach(photo => {
-        const detail = `<img src="${photo.base64}" alt="${photo.title}">`;
-        $list.append(detail);
-      });
+      const $list = $('<div>', {class: 'list'});
+      photoList.forEach(photo => this._createPhotoItem($list, photo));
       $cardBody.append($list);
     }
     $container.append($cardBody);
+  }
+
+  _createPhotoItem($container, photo) {
+    const $img = $(`<img src="${photo.base64}" alt="${photo.title}">`);
+    $container.append($img);
   }
 
 }

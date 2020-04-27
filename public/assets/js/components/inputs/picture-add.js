@@ -39,7 +39,9 @@ export class AddPictureComponent extends Component {
       </div>
       <div id="add-picutre-component-picutre-visibility-${this.getUniqueId()}" class="form-group">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="add-picutre-component-visible-${this.getUniqueId()}" name="pictureIsVisible">
+          <input type="hidden" name="pictureIsVisible" value="false" />
+          <input type="checkbox" class="custom-control-input" id="add-picutre-component-visible-${this.getUniqueId()}"
+              onchange="this.previousElementSibling.value = this.previousElementSibling.value === 'true' ? 'false' : 'true'" />
           <label class="custom-control-label" for="add-picutre-component-visible-${this.getUniqueId()}">Rendre visible</label>
         </div>
       </div>

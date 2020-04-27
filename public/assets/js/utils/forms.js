@@ -205,4 +205,4 @@ function convertDate(date) {
   return moment(date, 'L').format('YYYY-MM-DD');
 }
 
-export {checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation};
+export {checkFormValidity, checkInputValidity, onSubmitWithAjax, onSubmitWithNavigation, serializeFormToJson};

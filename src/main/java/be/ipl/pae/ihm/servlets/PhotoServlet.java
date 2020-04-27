@@ -64,15 +64,18 @@ public class PhotoServlet extends AbstractServlet {
         && verifySameLength(photos, photosTitles, photosDevelopmentTypes, photosIsVisible)) {
 
       try {
+        // TODO c'est pas du BIZ ?
         Object[] types = developmentTypeUcc.getDevelopmentTypes(quoteId).stream()
             .map(DevelopmentTypeDto::getIdType).toArray();
         Object[] photosTypesArray =
             Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
 
         if (isAllInside(types, photosTypesArray)) {
+          // TODO endof c'est pas du BIZ ?
           List<PhotoDto> photoDtos = createObjects(quoteId, photos, photosTitles, photosTypesArray,
               photosIsVisible);
           photoUcc.insert(photoDtos);
+          sendSuccess(resp);
         } else {
           throw new Exception();
         }
