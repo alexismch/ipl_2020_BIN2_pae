@@ -36,7 +36,6 @@ public class Server {
   @Injected
   private QuotesListServlet quotesListServlet;
 
-
   @Injected
   private LoginServlet loginServlet;
 

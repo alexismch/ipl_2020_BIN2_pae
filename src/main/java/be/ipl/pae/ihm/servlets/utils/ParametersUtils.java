@@ -1,6 +1,7 @@
 package be.ipl.pae.ihm.servlets.utils;
 
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.biz.objets.UserStatus;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,8 +53,8 @@ public class ParametersUtils {
 
     try {
       return Integer.parseInt(param);
-    } catch (NumberFormatException ignored) {
-      throw new ParameterException(name + ":" + param + " n'est pas un entier");
+    } catch (NumberFormatException ex) {
+      throw new ParameterException(name + ":" + param + " n'est pas un nombre entier");
     }
 
   }
@@ -74,8 +75,30 @@ public class ParametersUtils {
 
     try {
       return QuoteState.valueOf(param);
-    } catch (NullPointerException ignored) {
+    } catch (NullPointerException ex) {
       throw new ParameterException(name + ":" + param + " n'est pas un état du devis");
+    }
+
+  }
+
+  /**
+   * Get the parameter identified by {@code name} in the request.
+   *
+   * @param req  the request
+   * @param name the name of the parameter
+   * @return the value of the parameter
+   * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
+   *                            {@link UserStatus}
+   */
+  public static UserStatus getParamAsUserStatus(HttpServletRequest req, String name)
+      throws ParameterException {
+
+    String param = getParam(req, name);
+
+    try {
+      return UserStatus.valueOf(param);
+    } catch (NullPointerException ex) {
+      throw new ParameterException(name + ":" + param + " n'est pas un status d'utilisateur");
     }
 
   }

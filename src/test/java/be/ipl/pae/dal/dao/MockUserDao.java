@@ -73,6 +73,7 @@ public class MockUserDao implements UserDao {
       userDto.setId(idUtilisateur);
       userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
       userDto.setStatus(UserStatus.CUSTOMER);
+      return userDto;
     }
     return null;
   }
@@ -85,7 +86,7 @@ public class MockUserDao implements UserDao {
     if (id == 2) {
       return UserStatus.CUSTOMER;
     }
-    return UserStatus.NOT_ACCEPTED;
+    return null;
   }
 
   @Override
