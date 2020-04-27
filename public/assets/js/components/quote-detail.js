@@ -118,11 +118,10 @@ export class QuoteDetailPage extends Page {
         // TODO
         break;
       case 'TOTAL_INVOICE':
-        // TODO
+        this._createVisibleForm($formContainer, quote.idQuote, quote.state.id);
         this._createAddPhotoButton(quote.idQuote, quote.developmentTypes);
         break;
-      case 'PAID':
-        // TODO
+      case 'VISIBLE':
         this._createAddPhotoButton(quote.idQuote, quote.developmentTypes);
         break;
       case 'CANCELLED':
@@ -326,6 +325,28 @@ export class QuoteDetailPage extends Page {
     });
 
     $formContainer.append($form);
+  }
+
+  _createVisibleForm($formContainer, quoteId, stateId) {
+
+    const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+    <div class="form-group date-container"></div>
+    <input type="hidden" name="quoteId" value="${quoteId}"/>
+    <input type="hidden" name="stateId" value="${stateId}"/>
+    <div class="form-group mt-2 d-flex justify-content-end">
+      <button class="btn btn-primary">Rendre la réalisation visible</button>
+    </div>
+  </form>`);
+
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La réalisation a été rendue visible.');
+    }, () => {
+      createAlert('error', 'La réalisation n\'a pas été rendue visible.');
+    });
+
+    $formContainer.append($form);
+
   }
 
   _createAddPhotoButton(quoteId, developmentTypeList) {

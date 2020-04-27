@@ -152,23 +152,6 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
-
-  @Override
-  public QuoteDto makeQuoteVisible(String idQuote) throws BizException, FatalException {
-    try {
-      dalService.startTransaction();
-      // changeQuoteState(idQuote, QuoteState.VISIBLE);
-
-    } catch (FatalException ex) {
-      dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
-    } finally {
-      dalService.commitTransaction();
-    }
-
-    return null; // TODO
-  }
-
   @Override
   public QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException {
     QuoteDto quoteToReturn = null;
@@ -193,7 +176,7 @@ public class QuoteUccImpl implements QuoteUcc {
         // TODO
         break;
       case TOTAL_INVOICE:
-
+        quoteToReturn = setState(quote.getIdQuote(), QuoteState.VISIBLE);
         break;
       case VISIBLE:
         break;

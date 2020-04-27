@@ -67,17 +67,6 @@ public interface QuoteUcc {
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
   /**
-   * Set the state of the Quote to VISIBLE.
-   *
-   * @param idQuote id of the quote
-   * @return a quoteDto object
-   * @throws BizException if the quote doesn't exist or quote state can not be changed to VISIBLE
-   *         can not
-   * @throws FatalException if you had a problem with the db
-   */
-  QuoteDto makeQuoteVisible(String idQuote) throws BizException, FatalException;
-
-  /**
    * Redirect to the right method.
    * 
    * @param quote object Quote
