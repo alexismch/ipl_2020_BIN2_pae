@@ -2,6 +2,7 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 
@@ -55,37 +56,7 @@ public interface QuoteUcc {
    * @throws FatalException if you had a problem with the db
    * @throws BizException if the quote doesn't exist
    */
-  QuoteDto setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException;
-
-  /**
-   * change the state of the quote in PLACED_ORDERED.
-   * 
-   * @param quoteId id of the quote
-   * @return a quoteDto object
-   * @throws FatalException if you had a problem with the db
-   * @throws BizException if the quote doesn't exist
-   */
-  QuoteDto confirmQuote(String quoteId) throws FatalException, BizException;
-
-  /**
-   * change the state of the quote in CONFIRMED_DATE.
-   * 
-   * @param quoteId id of the quote
-   * @return a quoteDto object
-   * @throws FatalException if you had a problem with the db
-   * @throws BizException if the quote doesn't exist
-   */
-  QuoteDto confirmStartDate(String quoteId) throws FatalException, BizException;
-
-  /**
-   * Set the state of the quote to cancelled.
-   * 
-   * @param quoteId id of the quote
-   * @return a quoteDto object
-   * @throws BizException BizException if the quote doesn't exist
-   * @throws FatalException if you had a problem with the db
-   */
-  QuoteDto cancelQuote(String quoteId) throws BizException, FatalException;
+  void setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException;
 
   /**
    * Get quotes via filters.
@@ -97,23 +68,34 @@ public interface QuoteUcc {
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
   /**
-   * Set the state of the quote to TOTAL_INVOICE.
+   * Set the state of the Quote to VISIBLE.
    *
    * @param idQuote id of the quote
    * @return a quoteDto object
-   * @throws BizException   if the quote doesn't exist
-   * @throws FatalException if you had a problem with the db
-   */
-  QuoteDto confirmTotalInvoice(String idQuote) throws BizException, FatalException;
-
-  /**
-   * Set the state of the Quote to VISIBLE.
-   *
-   * @param idQuote if of the quote
-   * @return a quoteDto object
-   * @throws BizException   if the quote doesn't exist or quote state can not be changed to VISIBLE
-   *                        can not
+   * @throws BizException if the quote doesn't exist or quote state can not be changed to VISIBLE
+   *         can not
    * @throws FatalException if you had a problem with the db
    */
   QuoteDto makeQuoteVisible(String idQuote) throws BizException, FatalException;
+
+  /**
+   * Redirect to the right method.
+   * 
+   * @param quote object Quote
+   * @return an QuoteDto object
+   * @throws FatalException if problem with the db
+   * @throws BizException if idQuote or date isn't send by the user
+   */
+  QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException;
+
+  /**
+   * Set the state of the in the db.
+   * 
+   * @param idQuote id of the quote
+   * @param state state of the quote
+   * @return a new QuoteDto object
+   * @throws FatalException if problem with the db
+   * @throws BizException if idQuote or date isn't send by the user
+   */
+  QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException;
 }
