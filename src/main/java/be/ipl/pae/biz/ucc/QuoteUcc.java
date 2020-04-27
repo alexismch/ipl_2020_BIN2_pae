@@ -52,7 +52,6 @@ public interface QuoteUcc {
    * Add the start date of the quote.
    *
    * @param quote object quote with the id and date
-   * @return a quoteDto object
    * @throws FatalException if you had a problem with the db
    * @throws BizException if the quote doesn't exist
    */
