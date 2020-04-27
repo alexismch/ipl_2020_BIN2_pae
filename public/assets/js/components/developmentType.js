@@ -42,6 +42,9 @@ export class DevelopmentTypePage extends Page {
       } else {
         this._createPicturesList(data.photosList);
       }
+      $('.carousel').carousel({
+        interval: 5000
+      });
       this.isLoading = false;
     }, () => {
       this.isLoading = false;
