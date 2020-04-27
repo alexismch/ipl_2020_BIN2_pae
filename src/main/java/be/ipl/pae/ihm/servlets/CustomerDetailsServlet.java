@@ -40,8 +40,9 @@ public class CustomerDetailsServlet extends AbstractServlet {
       try {
 
         CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUtilisateur);
-        id = customerDto.getIdCustomer();
-
+        if (customerDto != null) {
+          id = customerDto.getIdCustomer();
+        }
       } catch (FatalException ex) {
         ex.printStackTrace();
       }
