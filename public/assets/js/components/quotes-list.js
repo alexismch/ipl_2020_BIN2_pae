@@ -113,10 +113,11 @@ export class QuotesListPage extends Page {
         } else {
           this._$view.find('.quotes-list-search-msg').addClass('d-none');
         }
+        this._createQuotesList(data.quotesList, 'Il n\'y a pas de devis pour votre recherche');
       } else {
         this._$view.find('.quotes-list-search-msg').addClass('d-none');
+        this._createQuotesList(data.quotesList, 'Il n\'y a pas encore de devis');
       }
-      this._createQuotesList(data.quotesList);
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -125,11 +126,15 @@ export class QuotesListPage extends Page {
 
   }
 
-  _createQuotesList(quotesList) {
+  _createQuotesList(quotes, emptyMsg) {
     const $quotesList = this._$view.find('.quotes-list');
     $quotesList.empty();
-    for (const quote of quotesList) {
-      this._createQuotesListItem($quotesList, quote);
+    if (quotes.length == 0) {
+      $quotesList.append('<li class="empty-list-item shadow border border-left-danger rounded mb-2"><p>' + emptyMsg + '</p></li>')
+    } else {
+      for (const quote of quotes) {
+        this._createQuotesListItem($quotesList, quote);
+      }
     }
   }
 

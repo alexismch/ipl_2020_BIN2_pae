@@ -1,17 +1,13 @@
 .amenagements-list {
 
-  & {
-    display: grid;
-    grid-gap: .5em;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-auto-rows: 1fr;
-  }
+  display: grid;
+  grid-gap: .5em;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 1fr;
 
   & .card {
 
-    & {
-      height: 100%;
-    }
+    height: 100%;
 
     & .card-body {
       display: flex;
@@ -23,27 +19,31 @@
 
 }
 
+@mixin element-list-item-base {
+
+  padding: .8em;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-gap: .3em;
+  align-items: center;
+
+  & p {
+    margin: 0;
+  }
+
+}
+
 @mixin elements-list($elements-name) {
 
   display: grid;
 
   .#{$elements-name}-list-item {
 
-    & {
-      padding: .8em;
-      grid-column: 1 / -1;
-      display: grid;
-      grid-gap: .3em;
-      align-items: center;
-      grid-template-columns: inherit;
-      //noinspection CssInvalidPropertyValue
-      @supports (grid-template-columns: subgrid) {
-        grid-template-columns: subgrid;
-      }
-    }
-
-    & p {
-      margin: 0;
+    @include element-list-item-base;
+    grid-template-columns: inherit;
+    //noinspection CssInvalidPropertyValue
+    @supports (grid-template-columns: subgrid) {
+      grid-template-columns: subgrid;
     }
 
     & a {
@@ -52,6 +52,10 @@
 
   }
 
+}
+
+.empty-list-item {
+  @include element-list-item-base;
 }
 
 .users-list {
