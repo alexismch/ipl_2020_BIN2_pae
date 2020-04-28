@@ -4,6 +4,7 @@ import {ajaxGET} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {DateInputComponent} from './inputs/datepicker-input.js';
 import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developmentType-input.js';
+import {isCustomer} from '../utils/userUtils.js';
 
 /**
  * @module Components
@@ -34,11 +35,12 @@ export class QuotesListPage extends Page {
 </div>`;
 
 _developmentTypeList = [];
+
   /**
    *
    */
-  constructor(query) {
-    super('Devis');
+  constructor(query, idCustomer) {
+    super(isCustomer() ? 'Mes devis' : idCustomer ? 'Devis du client n°' + idCustomer : 'Devis');
 
     this._$view = $(this._template);
 
@@ -65,7 +67,7 @@ _developmentTypeList = [];
       }
     });
 
-    ajaxGET('/api/quotes-list', query, (data) => {
+    ajaxGET('/api/quotes-list', query + (idCustomer ? 'idCustomer=' + idCustomer : ''), (data) => {
       if (query !== undefined && query !== null && query !== '') {
         let shouldHide = true;
         let researchMsg = 'Résultats de la recherche: ';
@@ -134,7 +136,8 @@ _developmentTypeList = [];
   _createQuotesListItem($quotesList, quote) {
 
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
-  <img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
+  ${quote.photo ? '<img src="' + quote.photo.base64 + '" alt="' + quote.photo.title + '" />'
+        : '<img src="/assets/img/img-placeholder.jpg" alt="pas de photo" />'}
   <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
   <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
   <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).format('L')}</p>
