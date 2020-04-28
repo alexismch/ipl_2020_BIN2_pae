@@ -34,7 +34,7 @@ export class QuotesListPage extends Page {
   <ul class="quotes-list m-2 p-0"></ul>
 </div>`;
 
-_developmentTypeList = [];
+  _developmentTypeList = [];
 
   /**
    *
