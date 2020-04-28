@@ -12,6 +12,7 @@ public interface QuoteDto {
   String getIdQuote();
 
 
+
   void setIdQuote(String idQuote);
 
 
@@ -86,5 +87,10 @@ public interface QuoteDto {
   void setListPhotoBefore(List<PhotoDto> listPhotoBefore);
 
   void setListPhotoAfter(List<PhotoDto> listPhotoAfter);
+
+  public PhotoDto getPhoto();
+
+
+  public void setPhoto(PhotoDto photo);
 
 }

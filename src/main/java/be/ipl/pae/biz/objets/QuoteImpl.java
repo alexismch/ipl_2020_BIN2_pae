@@ -23,6 +23,8 @@ public class QuoteImpl implements Quote {
   private List<PhotoDto> listPhotoAfter = new ArrayList<>();
   private CustomerDto customer;
   private List<DevelopmentTypeDto> developmentType = new ArrayList<>();
+  private PhotoDto photo;
+
 
 
   /**
@@ -184,6 +186,13 @@ public class QuoteImpl implements Quote {
     this.listPhotoAfter = listPhotoAfter;
   }
 
+  public PhotoDto getPhoto() {
+    return photo;
+  }
 
+
+  public void setPhoto(PhotoDto photo) {
+    this.photo = photo;
+  }
 
 }
