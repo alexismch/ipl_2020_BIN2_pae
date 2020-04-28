@@ -30,7 +30,7 @@ public interface QuoteDao {
    * Link the quote to a development type.
    *
    * @param quoteId the quote id
-   * @param typeId  the development type id
+   * @param typeId the development type id
    * @throws FatalException if a problem occurred with the db
    */
   void linkToType(String quoteId, int typeId) throws FatalException;
@@ -73,7 +73,7 @@ public interface QuoteDao {
    * change the state of the quote in the db.
    *
    * @param confirmedDate the new state
-   * @param quoteId       the quote of the id
+   * @param quoteId the quote of the id
    * @throws FatalException error with the db
    */
   void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
@@ -87,16 +87,29 @@ public interface QuoteDao {
    */
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
+  /**
+   * Get quotes via filters and the id of the customer
+   * 
+   * @param quotesFilterDto all the filters that the user chosed
+   * @param idCustomer the id of the customer
+   * @returna list of quotes depending on the user's filters
+   * @throws FatalException error with the db
+   */
+  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException;
+
 
   /*
-
-  DO NOT FIX THIS CHECKSTYLE ISSUE
-
+   * 
+   * DO NOT FIX THIS CHECKSTYLE ISSUE
+   * 
    * Get the state of an quote by id.
    *
    * @param idQuote the id of the quote
+   * 
    * @return an {@link QuoteState} or null if the quote do not exist
+   * 
    * @throws FatalException if an error occurred with the database.
    */
-  //QuoteState getQuoteState(String idQuote) throws FatalException;
+  // QuoteState getQuoteState(String idQuote) throws FatalException;
 }

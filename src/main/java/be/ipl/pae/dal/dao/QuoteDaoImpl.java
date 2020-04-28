@@ -56,8 +56,13 @@ public class QuoteDaoImpl implements QuoteDao {
 
   }
 
-  @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+    return getQuotesFiltered(quotesFilterDto, -1);
+  }
+
+  @Override
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException {
 
     ArrayList<QuoteDto> quotesList = new ArrayList<>();
 
@@ -66,31 +71,36 @@ public class QuoteDaoImpl implements QuoteDao {
 
     String queryFrom = "FROM mystherbe.quotes q, mystherbe.customers c ";
 
-    String queryWhere = "WHERE (q.id_customer = c.id_customer)";
+    String queryWhere = "WHERE (q.id_customer = c.id_customer) ";
 
     boolean[] ref = new boolean[5];
-    if (quotesFilterDto.getCustomerName() != null) {
-      queryWhere += " AND lower(c.lastname) LIKE lower(?)";
+
+    if (idCustomer > 0) {
+      queryWhere += "AND (c.id_customer = ?)";
       ref[0] = true;
+    }
+    if (quotesFilterDto.getCustomerName() != null) {
+      queryWhere += "AND lower(c.lastname) LIKE lower(?) ";
+      ref[1] = true;
     }
     if (quotesFilterDto.getTotalAmountMin() != -1) {
       queryWhere += "AND (q.total_amount::decimal > ?) ";
-      ref[1] = true;
+      ref[2] = true;
 
     }
     if (quotesFilterDto.getTotalAmountMax() != -1) {
       queryWhere += "AND (q.total_amount::decimal < ?) ";
-      ref[2] = true;
+      ref[3] = true;
 
     }
     if (quotesFilterDto.getQuoteDate() != null) {
       queryWhere += "AND (q.quote_date = ?) ";
-      ref[3] = true;
+      ref[4] = true;
     }
     int nbDevTypes = 0;
     if (quotesFilterDto.getDevelopmentTypeDto() != null
         && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
-      ref[4] = true;
+      ref[5] = true;
       for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
         nbDevTypes++;
         querySelect += ", qt" + nbDevTypes + ".id_type ";
@@ -105,23 +115,26 @@ public class QuoteDaoImpl implements QuoteDao {
     int indexSet = 1;
     try {
       if (ref[0]) {
+        ps.setInt(indexSet, idCustomer);
+      }
+      if (ref[1]) {
         String name = DalUtils.escapeSpecialLikeChar(quotesFilterDto.getCustomerName());
         ps.setString(indexSet, name + "%");
         indexSet++;
       }
-      if (ref[1]) {
+      if (ref[2]) {
         ps.setInt(indexSet, quotesFilterDto.getTotalAmountMin());
         indexSet++;
       }
-      if (ref[2]) {
+      if (ref[3]) {
         ps.setInt(indexSet, quotesFilterDto.getTotalAmountMax());
         indexSet++;
       }
-      if (ref[3]) {
+      if (ref[4]) {
         ps.setDate(indexSet, Date.valueOf(quotesFilterDto.getQuoteDate()));
         indexSet++;
       }
-      if (ref[4]) {
+      if (ref[5]) {
         for (DevelopmentTypeDto developmentType : quotesFilterDto.getDevelopmentTypeDto()) {
           ps.setInt(indexSet, developmentType.getIdType());
           indexSet++;

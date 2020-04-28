@@ -86,4 +86,15 @@ public interface QuoteUcc {
    * @throws BizException if idQuote or date isn't send by the user
    */
   QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException;
+
+  /**
+   * Get quotes via filters and the customer's id
+   * 
+   * @param quotesFilterDto all the filters that the user chosed
+   * @param idCustomer the id of the customer
+   * @return a list of quotes depending on the user's filters
+   * @throws FatalException error with the db
+   */
+  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException;
 }

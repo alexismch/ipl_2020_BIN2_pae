@@ -6,6 +6,7 @@ import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,13 @@ public class MockQuoteDao implements QuoteDao {
     // if(quotesFilterDto.getTotalAmountMin()!= null) {
     //
     // }
+    return null;
+  }
+
+  @Override
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException {
+    // TODO Auto-generated method stub
     return null;
   }
 

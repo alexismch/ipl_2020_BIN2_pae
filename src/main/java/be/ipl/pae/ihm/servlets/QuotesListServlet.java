@@ -4,9 +4,11 @@ package be.ipl.pae.ihm.servlets;
 import static be.ipl.pae.ihm.Util.hasAccess;
 
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
+import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
+import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
@@ -19,6 +21,7 @@ import com.owlike.genson.GensonBuilder;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +34,8 @@ public class QuotesListServlet extends AbstractServlet {
   @Injected
   private QuoteUcc quoteUcc;
   @Injected
+  private CustomerUcc customerUcc;
+  @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -42,6 +47,7 @@ public class QuotesListServlet extends AbstractServlet {
       return;
     }
 
+    // Managing the quotes filters
     String quoteDateString = req.getParameter("quoteDate");
     String[] types = req.getParameterValues("types"); // only one
     if (types == null) {
@@ -62,11 +68,11 @@ public class QuotesListServlet extends AbstractServlet {
       minAmount = Integer.parseInt(minAmountString);
     }
 
-
     String name = req.getParameter("name");
 
     QuotesFilterDto quotesFilterDto = dtoFactory.getQuotesFilter();
     quotesFilterDto.setCustomerName(name);
+
 
     ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
     if (types != null) {
@@ -88,7 +94,51 @@ public class QuotesListServlet extends AbstractServlet {
     quotesFilterDto.setQuoteDate(quoteDate);
     quotesFilterDto.setTotalAmountMax(maxAmount);
     quotesFilterDto.setTotalAmountMin(minAmount);
+    // end
 
+    // Handling the calls depending on the user
+    int id = 0;
+    List<QuoteDto> listToReturn;
+    String status =
+        Util.getUStatus(req.getSession().getAttribute("token").toString(), req.getRemoteAddr());
+
+    if (status.equals(UserStatus.CUSTOMER.getCode())) {
+      // A customer wants to get all of his quotes
+      int idUtilisateur =
+          Util.getUId(req.getSession().getAttribute("token").toString(), req.getRemoteAddr());
+
+      try {
+        listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto);
+      } catch (FatalException ex) {
+        // TODO Auto-generated catch block
+        ex.printStackTrace();
+      }
+
+    } else {
+      String idCustomerString = req.getParameter("idCustomer");
+
+      if (idCustomerString == null) {
+        // A worker wants to get all the quotes of all the users
+        try {
+          listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto);
+        } catch (FatalException ex) {
+          // TODO Auto-generated catch block
+          ex.printStackTrace();
+        }
+      } else {
+        // A worker wants to get the quotes of a specific user
+        try {
+          int idCustomer = Integer.parseInt(idCustomerString);
+          listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto, idCustomer);
+        } catch (FatalException ex) {
+          // TODO Auto-generated catch block
+          ex.printStackTrace();
+        }
+      }
+      if (idCustomerString != null) {
+        id = Integer.parseInt(idCustomerString);
+      }
+    }
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
     try {
