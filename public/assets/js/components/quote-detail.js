@@ -115,7 +115,6 @@ export class QuoteDetailPage extends Page {
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'PARTIAL_INVOICE':
-        // TODO
         this._createTotal_InvoiceForm($formContainer, quote.idQuote, quote.state.id);
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
