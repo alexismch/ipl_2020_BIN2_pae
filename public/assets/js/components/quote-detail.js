@@ -42,8 +42,8 @@ export class QuoteDetailPage extends Page {
       <div class="detail-quote-development-types card mb-3"></div>
     </div>
   </div>
-  <div class="detail-quote-photos-before card shadow mb-3"></div>
-  <div class="detail-quote-photos-after card shadow mb-3"></div>
+  <div class="detail-quote-photos-before card mb-3"></div>
+  <div class="detail-quote-photos-after card mb-3"></div>
 </div>`;
 
   /**
@@ -508,15 +508,28 @@ export class QuoteDetailPage extends Page {
       $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
       const $list = $('<div>', {class: 'list'});
-      photoList.forEach(photo => this._createPhotoItem($list, photo));
+      photoList.forEach(photo => this._createPhotoItem($list, photo, isBefore));
       $cardBody.append($list);
     }
     $container.append($cardBody);
   }
 
-  _createPhotoItem($container, photo) {
-    const $img = $(`<img src="${photo.base64}" alt="${photo.title}">`);
-    $container.append($img);
+  _createPhotoItem($container, photo, isBefore = true) {
+    const $div = $(`<div class="d-flex"><img src="${photo.base64}" alt="${photo.title}"></div>`);
+    if (!isBefore) {
+      const $icon = $('<i class="far fa-heart"></i>');
+      $icon.on('click', () => {
+        // TODO backend
+        // ajax()
+        const $likeIcons = $container.find('.fas').removeClass('fas').addClass('far');
+        $icon.removeClass('far').addClass('fas');
+        /*}, () => {
+          createAlert('danger', 'La photo préférée n\'a pas été changée.');
+        }*/
+      });
+      $div.prepend($icon);
+    }
+    $container.append($div);
   }
 
 }

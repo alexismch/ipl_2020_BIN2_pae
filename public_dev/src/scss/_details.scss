@@ -20,3 +20,20 @@ $detail-quote-image-min-height: 300px;
   }
 
 }
+
+.detail-quote-photos-after .list .far, .detail-quote-photos-after .list .fas {
+
+  cursor: pointer;
+  text-shadow: 0 0 50px aliceblue;
+
+  &::before {
+    position: absolute;
+    font-size: 2em;
+    margin: .2em;
+  }
+
+}
+
+.detail-quote-photos-after .list .fas::before {
+  color: hotpink;
+}

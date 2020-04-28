@@ -25,7 +25,7 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
    *
    */
   constructor(name = '', validator, required = true,
-      labelValue = 'Type d\'aménagement(s)<span class="text-danger">*</span>',
+      labelValue = 'Type(s) d\'aménagement(s)<span class="text-danger">*</span>',
       showLabel = true, showError = true, placeholder = 'Choisissez au moins un type d\'aménagement') {
     super();
     this.name = name;

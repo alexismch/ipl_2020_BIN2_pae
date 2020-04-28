@@ -36,7 +36,7 @@ export class QuoteFormPage extends Page {
       <small class="input-error form-text text-danger">Un montant correct est requis.</small>
     </div>
     <div class="form-group">
-      <label for="page-add-devis-duration">Durée estimé des travaux (en jours)<span class="text-danger">*</span></label>
+      <label for="page-add-devis-duration">Durée estimée des travaux (en jours)<span class="text-danger">*</span></label>
       <input class="form-control" id="page-add-devis-duration" name="duration" required type="number" min="0"/>
       <small class="input-error form-text text-danger">Une durée correcte est requise.</small>
     </div>
@@ -44,7 +44,7 @@ export class QuoteFormPage extends Page {
     <h4>Photos d'avant aménagement</h4>
     <div id="page-add-devis-photos">
     </div>
-    <button id="page-add-devis-btn-add-picture" class="btn btn-secondary" type="button">Ajouter une photo suplémentaire</button>
+    <button id="page-add-devis-btn-add-picture" class="btn btn-secondary" type="button">Ajouter une photo supplémentaire</button>
     <div class="form-group mt-2 d-flex justify-content-end">
       <button class="btn btn-primary">Ajouter le devis</button>
     </div>
