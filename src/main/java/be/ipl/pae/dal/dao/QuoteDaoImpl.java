@@ -2,6 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
+import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
@@ -32,12 +33,16 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   CustomerDao customerDao;
 
+  @Injected
+  PhotoDao photoDao;
+
+
   @Override
   public List<QuoteDto> getAllQuote() throws FatalException {
     List<QuoteDto> quotes = new ArrayList<>();
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT id_quote, id_customer, quote_date, "
-            + "total_amount::decimal, work_duration, id_state, start_date "
+            + "total_amount::decimal, work_duration, id_state, start_date,id_photo"
             + "FROM mystherbe.quotes");
     try (ResultSet res = ps.executeQuery()) {
       while (res.next()) {
@@ -220,7 +225,6 @@ public class QuoteDaoImpl implements QuoteDao {
       quote.setIdQuote(res.getString(1));
       quote.setIdCustomer(res.getInt(2));
       quote.setQuoteDate(res.getDate(3).toLocalDate());
-
       quote.setTotalAmount(res.getBigDecimal(4));
       quote.setWorkDuration(res.getInt(5));
       Date startDate = res.getDate(7);
@@ -229,8 +233,11 @@ public class QuoteDaoImpl implements QuoteDao {
       }
       quote.setState(QuoteState.getById(res.getInt(6)));
 
+
       CustomerDto customer = customerDao.getCustomer(res.getInt(2));
+      PhotoDto photo = photoDao.getPhotoById(res.getInt(8));
       quote.setCustomer(customer);
+      quote.setPhoto(photo);
     } catch (SQLException ex) {
       ex.printStackTrace();
       throw new FatalException(ex);

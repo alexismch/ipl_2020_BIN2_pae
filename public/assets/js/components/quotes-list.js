@@ -51,7 +51,7 @@ _developmentTypeList = [];
     const $selectMultipleDevelopemntType = this._$view.find('.select-multiple-developmentType');
     const mutltipleDevelopmentTypeInputComponent = new MutltipleDevelopmentTypeInputComponent('types', (developmentTypeList) => {
       this._developmentTypeList = developmentTypeList;
-    }, false, 'Type d\'aménagement(s)', false, false, 'Type d\'aménagement(s)');
+    }, false, 'Type d\'aménagement(s)', false, false, 'Type d\'aménagement(s)', false);
     const mutltipleDevelopmentTypeInputComponentView = mutltipleDevelopmentTypeInputComponent.getView();
     mutltipleDevelopmentTypeInputComponentView.find(
         '#multiple_developmentType_input_' + mutltipleDevelopmentTypeInputComponent.getUniqueId() + '_chosen .chosen-choices').css({

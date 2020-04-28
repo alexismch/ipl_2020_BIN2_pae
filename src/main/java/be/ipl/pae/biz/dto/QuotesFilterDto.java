@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public interface QuotesFilterDto {
 
+
+
   String getCustomerName();
 
   void setCustomerName(String customerName);
