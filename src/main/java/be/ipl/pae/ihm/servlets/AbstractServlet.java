@@ -10,10 +10,10 @@ public abstract class AbstractServlet extends HttpServlet {
   /**
    * Return a message to the request.
    *
-   * @param resp        the request that gonna recieve the message
+   * @param resp the request that gonna recieve the message
    * @param messageType returned message type
-   * @param status      returned request status
-   * @param msg         returned message
+   * @param status returned request status
+   * @param msg returned message
    * @throws IOException in case of problem with request writer
    */
   protected void sendMessage(HttpServletResponse resp, String messageType, int status, String msg)
@@ -22,15 +22,15 @@ public abstract class AbstractServlet extends HttpServlet {
     resp.setCharacterEncoding("UTF-8");
     resp.setStatus(status);
     resp.getWriter().write(msg);
-    System.out.println("\tRéponse : " + msg + "\n");
+    // System.out.println("\tRéponse : " + msg + "\n");
   }
 
   /**
    * Return an error message to the request.
    *
-   * @param resp   the request that gonna recieve the message
+   * @param resp the request that gonna recieve the message
    * @param status returned request status
-   * @param msg    returned message
+   * @param msg returned message
    * @throws IOException in case of problem with request writer
    */
   protected void sendError(HttpServletResponse resp, int status, String msg) throws IOException {
@@ -52,15 +52,14 @@ public abstract class AbstractServlet extends HttpServlet {
   /**
    * Return a success message to the request with a specific json.
    *
-   * @param resp     the request that gonna recieve the message
+   * @param resp the request that gonna recieve the message
    * @param jsonName the name of the additional json
-   * @param json     the json that is returned with the success
+   * @param json the json that is returned with the success
    * @throws IOException in case of problem with request writer
    */
   protected void sendSuccessWithJson(HttpServletResponse resp, String jsonName, String json)
       throws IOException {
-    json = "{\"" + "success\":true, "
-        + "\"" + jsonName + "\":" + json + "}";
+    json = "{\"" + "success\":true, " + "\"" + jsonName + "\":" + json + "}";
     sendMessage(resp, "application/json", 200, json);
   }
 }
