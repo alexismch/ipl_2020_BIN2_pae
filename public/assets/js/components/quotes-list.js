@@ -4,6 +4,7 @@ import {ajaxGET} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {DateInputComponent} from './inputs/datepicker-input.js';
 import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developmentType-input.js';
+import {isCustomer} from '../utils/userUtils.js';
 
 /**
  * @module Components
@@ -33,12 +34,13 @@ export class QuotesListPage extends Page {
   <ul class="quotes-list m-2 p-0"></ul>
 </div>`;
 
-_developmentTypeList = [];
+  _developmentTypeList = [];
+
   /**
    *
    */
-  constructor(query) {
-    super('Devis');
+  constructor(query, idCustomer) {
+    super(isCustomer() ? 'Mes devis' : idCustomer ? 'Devis du client n°' + idCustomer : 'Devis');
 
     this._$view = $(this._template);
 
@@ -51,7 +53,7 @@ _developmentTypeList = [];
     const $selectMultipleDevelopemntType = this._$view.find('.select-multiple-developmentType');
     const mutltipleDevelopmentTypeInputComponent = new MutltipleDevelopmentTypeInputComponent('types', (developmentTypeList) => {
       this._developmentTypeList = developmentTypeList;
-    }, false, 'Type d\'aménagement(s)', false, false, 'Type d\'aménagement(s)');
+    }, false, 'Type d\'aménagement(s)', false, false, 'Type d\'aménagement(s)', false);
     const mutltipleDevelopmentTypeInputComponentView = mutltipleDevelopmentTypeInputComponent.getView();
     mutltipleDevelopmentTypeInputComponentView.find(
         '#multiple_developmentType_input_' + mutltipleDevelopmentTypeInputComponent.getUniqueId() + '_chosen .chosen-choices').css({
@@ -65,7 +67,7 @@ _developmentTypeList = [];
       }
     });
 
-    ajaxGET('/api/quotes-list', query, (data) => {
+    ajaxGET('/api/quotes-list', query + (idCustomer ? 'idCustomer=' + idCustomer : ''), (data) => {
       if (query !== undefined && query !== null && query !== '') {
         let shouldHide = true;
         let researchMsg = 'Résultats de la recherche: ';
@@ -111,10 +113,11 @@ _developmentTypeList = [];
         } else {
           this._$view.find('.quotes-list-search-msg').addClass('d-none');
         }
+        this._createQuotesList(data.quotesList, 'Il n\'y a pas de devis pour votre recherche');
       } else {
         this._$view.find('.quotes-list-search-msg').addClass('d-none');
+        this._createQuotesList(data.quotesList, 'Il n\'y a pas encore de devis');
       }
-      this._createQuotesList(data.quotesList);
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -123,18 +126,23 @@ _developmentTypeList = [];
 
   }
 
-  _createQuotesList(quotesList) {
+  _createQuotesList(quotes, emptyMsg) {
     const $quotesList = this._$view.find('.quotes-list');
     $quotesList.empty();
-    for (const quote of quotesList) {
-      this._createQuotesListItem($quotesList, quote);
+    if (quotes.length == 0) {
+      $quotesList.append('<li class="empty-list-item shadow border border-left-danger rounded mb-2"><p>' + emptyMsg + '</p></li>')
+    } else {
+      for (const quote of quotes) {
+        this._createQuotesListItem($quotesList, quote);
+      }
     }
   }
 
   _createQuotesListItem($quotesList, quote) {
 
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
-  <img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
+  ${quote.photo ? '<img src="' + quote.photo.base64 + '" alt="' + quote.photo.title + '" />'
+        : '<img src="/assets/img/img-placeholder.jpg" alt="pas de photo" />'}
   <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
   <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
   <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).format('L')}</p>

@@ -98,4 +98,16 @@ public class MockQuoteDao implements QuoteDao {
     return null;
   }
 
+  @Override
+  public int getWorkduRation(String idQuote) throws FatalException {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public QuoteState getStateQuote(String idQuote) throws FatalException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

@@ -76,10 +76,12 @@ export class CustomersListPage extends Page {
         } else {
           this._$view.find('.customers-list-search-msg').addClass('d-none');
         }
+        this._createCustomersList(data.customers);
+        this._createCustomersList(data.customers, 'Il n\'y a pas de client pour votre recherche');
       } else {
         this._$view.find('.customers-list-search-msg').addClass('d-none');
+        this._createCustomersList(data.customers, 'Il n\'y a pas encore de client');
       }
-      this._createCustomersList(data.customers);
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -88,11 +90,15 @@ export class CustomersListPage extends Page {
 
   }
 
-  _createCustomersList(customers) {
+  _createCustomersList(customers, emptyMsg) {
     const $customersList = this._$view.find('.customers-list');
     $customersList.empty();
-    for (const customer of customers) {
-      this._createCustomersListItem($customersList, customer);
+    if (customers.length == 0) {
+      $customersList.append('<li class="empty-list-item shadow border border-left-danger rounded mb-2"><p>' + emptyMsg + '</p></li>')
+    } else {
+      for (const customer of customers) {
+        this._createCustomersListItem($customersList, customer);
+      }
     }
   }
 

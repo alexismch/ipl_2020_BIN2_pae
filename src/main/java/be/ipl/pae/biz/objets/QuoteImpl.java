@@ -4,6 +4,7 @@ package be.ipl.pae.biz.objets;
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
+import be.ipl.pae.biz.dto.QuoteDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -189,6 +190,12 @@ public class QuoteImpl implements Quote {
   public PhotoDto getPhoto() {
     return photo;
   }
+
+  @Override
+  public boolean checkStateQuote(QuoteDto quote, QuoteState state) {
+    return quote.getState() == state;
+  }
+
 
 
   public void setPhoto(PhotoDto photo) {

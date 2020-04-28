@@ -42,8 +42,8 @@ export class QuoteDetailPage extends Page {
       <div class="detail-quote-development-types card mb-3"></div>
     </div>
   </div>
-  <div class="detail-quote-photos-before card shadow mb-3"></div>
-  <div class="detail-quote-photos-after card shadow mb-3"></div>
+  <div class="detail-quote-photos-before card mb-3"></div>
+  <div class="detail-quote-photos-after card mb-3"></div>
 </div>`;
 
   /**
@@ -115,7 +115,8 @@ export class QuoteDetailPage extends Page {
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'PARTIAL_INVOICE':
-        // TODO
+        this._createTotal_InvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'TOTAL_INVOICE':
         this._createVisibleForm($formContainer, quote.idQuote, quote.state.id);
@@ -155,7 +156,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La commande a bien été confirmée !');
     }, () => {
-      createAlert('error', 'La commande n\'a pas été confirmée !');
+      createAlert('danger', 'La commande n\'a pas été confirmée !');
     });
 
     $formContainer.append($form);
@@ -223,7 +224,7 @@ export class QuoteDetailPage extends Page {
         this._changeView(data.quote);
         createAlert('success', 'La date de début des travaux a été modifiée !');
       }, () => {
-        createAlert('error', 'La date de début des travaux n\'a pas été modifiée !');
+        createAlert('danger', 'La date de début des travaux n\'a pas été modifiée !');
       });
 
       $(e.target).remove();
@@ -250,7 +251,7 @@ export class QuoteDetailPage extends Page {
         createAlert('success', 'La date de début des travaux a été supprimée !');
       }, () => {
         this.isLoading = false;
-        createAlert('error', 'La date de début des travaux n\'a pas pu être supprimée !');
+        createAlert('danger', 'La date de début des travaux n\'a pas pu être supprimée !');
       });
     });
 
@@ -281,7 +282,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La date a bien été confirmée !');
     }, () => {
-      createAlert('error', 'La date n\'a pas été confirmée !');
+      createAlert('danger', 'La date n\'a pas été confirmée !');
     });
 
     $formContainer.append($form);
@@ -300,13 +301,28 @@ export class QuoteDetailPage extends Page {
   };
 
 
-  //TODO
+  
   _createPartialInvoiceForm($formContainer, quoteId, stateId) {
+    const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+    <div class="form-group date-container"></div>
+    <input type="hidden" name="quoteId" value="${quoteId}"/>
+    <input type="hidden" name="stateId" value="${stateId}"/>
+    <div class="form-group mt-2 d-flex justify-content-end">
+      <button class="btn btn-primary">Confirmer la facture de mileu de chantier</button>
+    </div>
+  </form>`);
 
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La facture a bien été envoyée !');
+    }, () => {
+      createAlert('danger', 'La facture n\'a pas été envoyée !');
+    });
+
+    $formContainer.append($form);
   }
 
   _createTotal_InvoiceForm($formContainer, quoteId, stateId) {
-    console.log("test = " + stateId);
 
     const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
     <div class="form-group date-container"></div>
@@ -321,7 +337,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La facture a bien été envoyée !');
     }, () => {
-      createAlert('error', 'La facture n\'a pas été envoyée !');
+      createAlert('danger', 'La facture n\'a pas été envoyée !');
     });
 
     $formContainer.append($form);
@@ -342,7 +358,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La réalisation a été rendue visible.');
     }, () => {
-      createAlert('error', 'La réalisation n\'a pas été rendue visible.');
+      createAlert('danger', 'La réalisation n\'a pas été rendue visible.');
     });
 
     $formContainer.append($form);
@@ -508,15 +524,28 @@ export class QuoteDetailPage extends Page {
       $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
       const $list = $('<div>', {class: 'list'});
-      photoList.forEach(photo => this._createPhotoItem($list, photo));
+      photoList.forEach(photo => this._createPhotoItem($list, photo, isBefore));
       $cardBody.append($list);
     }
     $container.append($cardBody);
   }
 
-  _createPhotoItem($container, photo) {
-    const $img = $(`<img src="${photo.base64}" alt="${photo.title}">`);
-    $container.append($img);
+  _createPhotoItem($container, photo, isBefore = true) {
+    const $div = $(`<div class="d-flex"><img src="${photo.base64}" alt="${photo.title}"></div>`);
+    if (!isBefore) {
+      const $icon = $('<i class="far fa-heart"></i>');
+      $icon.on('click', () => {
+        // TODO backend
+        // ajax()
+        const $likeIcons = $container.find('.fas').removeClass('fas').addClass('far');
+        $icon.removeClass('far').addClass('fas');
+        /*}, () => {
+          createAlert('danger', 'La photo préférée n\'a pas été changée.');
+        }*/
+      });
+      $div.prepend($icon);
+    }
+    $container.append($div);
   }
 
 }

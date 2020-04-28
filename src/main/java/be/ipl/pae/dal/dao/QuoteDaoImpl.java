@@ -378,4 +378,46 @@ public class QuoteDaoImpl implements QuoteDao {
     }
   }
 
+  @Override
+  public int getWorkduRation(String idQuote) throws FatalException {
+    QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("Select work_duration " + "FROM mystherbe.quotes WHERE id_quote =? ");
+
+    try {
+      ps.setString(1, idQuote);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          quoteDtoToReturn.setWorkDuration(resultSet.getInt(1));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error in the db!");
+    }
+    return quoteDtoToReturn.getWorkDuration();
+  }
+
+  @Override
+  public QuoteState getStateQuote(String idQuote) throws FatalException {
+    QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("Select id_state " + "FROM mystherbe.quotes WHERE id_quote =? ");
+
+    try {
+      ps.setString(1, idQuote);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          quoteDtoToReturn.setState(QuoteState.getById(resultSet.getInt(1)));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error in the db!");
+    }
+    return quoteDtoToReturn.getState();
+  }
+
 }
