@@ -47,7 +47,9 @@ export class CustomerInputComponent extends Component {
       }
     });
 
-    this._retrieveCustomerList();
+    this._$selectClient.on('chosen:showing_dropdown', () => {
+      this._retrieveCustomerList();
+    });
   }
 
   get _template() {
@@ -57,9 +59,9 @@ export class CustomerInputComponent extends Component {
         <option value=""></option>
       </select>
       <small class="input-error form-text text-danger">Un client doit être sélectionné.</small>
-      <p class="d-flex align-items-center mx-3 mt-1">
-        Client inexistant ?
-        <a class="btn btn-sm btn-secondary ml-3" data-navigo href="clients/ajouter">Créer un nouveau client</a>
+      <p class="mx-3 mt-1">
+        Client inexistant ? 
+        <a href="/clients/ajouter" target="_blank">Créer un nouveau client</a>
       </p>
     </div>`;
   }
@@ -67,7 +69,9 @@ export class CustomerInputComponent extends Component {
   _retrieveCustomerList() {
     ajaxGET('/api/customers-list', this.onlyNotLinked ? 'onlyNotLinked=true' : '', (data) => {
       for (const customer of data.customers) {
-        $(`<option value="${customer.idCustomer}">${customer.lastName} ${customer.firstName}</option>`).appendTo(this._$selectClient);
+        if (this._$selectClient.find('option[value="' + customer.idCustomer + '"]').length == 0) {
+          $(`<option value="${customer.idCustomer}">${customer.lastName} ${customer.firstName}</option>`).appendTo(this._$selectClient);
+        }
       }
       this._$selectClient.trigger('chosen:updated');
     });

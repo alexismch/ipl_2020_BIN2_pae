@@ -26,7 +26,8 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
    */
   constructor(name = '', validator, required = true,
       labelValue = 'Type(s) d\'aménagement(s)<span class="text-danger">*</span>',
-      showLabel = true, showError = true, placeholder = 'Choisissez au moins un type d\'aménagement') {
+      showLabel = true, showError = true, placeholder = 'Choisissez au moins un type d\'aménagement',
+      addButton = true) {
     super();
     this.name = name;
     this.labelValue = labelValue;
@@ -34,6 +35,13 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
     this.placeholder = placeholder;
 
     this._$view = $(this._template);
+
+    if (addButton) {
+      this._$view.append(`<p class="mx-3 mt-1">
+        Aménagement inexistant ? 
+        <a href="/amenagements/ajouter" target="_blank">Créer un nouveau type d'aménagement</a>
+      </p>`);
+    }
 
     this._$selectTypes = this._$view.find('#multiple-developmentType-input-' + this.getUniqueId());
 
@@ -43,7 +51,9 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
       allow_single_deselect: true
     });
 
-    this._retriveDevelopmentTypeList();
+    this._$selectTypes.on('chosen:showing_dropdown', () => {
+      this._retriveDevelopmentTypeList();
+    });
 
     this.required = required;
     this.showLabel = showLabel;
@@ -116,7 +126,9 @@ export class MutltipleDevelopmentTypeInputComponent extends Component {
     ajaxGET('/api/developmentType-list', null, (data) => {
       this._developmentTypeList = data.developmentTypesList;
       for (const developmentType of this._developmentTypeList) {
-        $(`<option value="${developmentType.idType}">${developmentType.title}</option>`).appendTo(this._$selectTypes);
+        if (this._$selectTypes.find('option[value="' + developmentType.idType + '"]').length == 0) {
+          $(`<option value="${developmentType.idType}">${developmentType.title}</option>`).appendTo(this._$selectTypes);
+        }
       }
       this.update();
     });
