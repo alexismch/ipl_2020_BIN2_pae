@@ -23,29 +23,6 @@ VALUES (9, 'Terrasses en bois');
 INSERT INTO mystherbe.development_types (id_type, title)
 VALUES (10, 'Terrasses en pierres naturelles');
 
-
-/**
-  ÉTATS
- */
-
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (1, 'Devis introduit');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (2, 'Commande passée');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (3, 'Date confirmée');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (4, 'Date repoussée');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (5, 'Facturé partiellement');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (6, 'Facturé totalement');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (7, 'Payé');
-INSERT INTO mystherbe.states (id_state, title)
-VALUES (8, 'Annulé');
-
-
 /**
   UTILISATEURS
  */

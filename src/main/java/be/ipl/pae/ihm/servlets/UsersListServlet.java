@@ -1,6 +1,6 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.hasAccess;
+import static be.ipl.pae.ihm.Util.hasAccess;
 
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
@@ -8,7 +8,7 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.Util;
+import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 

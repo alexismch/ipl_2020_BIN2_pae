@@ -33,14 +33,6 @@ create table mystherbe.customers
             references mystherbe.users
 );
 
-create table mystherbe.states
-(
-    id_state serial      not null
-        constraint states_pkey
-            primary key,
-    title    varchar(25) not null
-);
-
 create table mystherbe.quotes
 (
     id_quote      varchar(25) not null
@@ -52,9 +44,7 @@ create table mystherbe.quotes
     quote_date    date        not null,
     total_amount  money       not null,
     work_duration integer     not null,
-    id_state      integer     not null
-        constraint quotes_id_state_fkey
-            references mystherbe.states,
+    id_state      integer     not null,
     start_date    date,
     id_photo      integer
 );

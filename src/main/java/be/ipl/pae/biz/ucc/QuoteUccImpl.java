@@ -125,54 +125,12 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
-  @Override
-  public QuoteDto confirmQuote(String quoteId) throws FatalException, BizException {
-    try {
-      dalService.startTransaction();
-      quoteDao.setStateQuote(QuoteState.PLACED_ORDERED, quoteId);
-      return getQuoteBis(quoteId);
-    } catch (FatalException ex) {
-      dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
-    } finally {
-      dalService.commitTransaction();
-    }
-  }
 
   @Override
-  public QuoteDto setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException {
+  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
-      return getQuoteBis(quote.getIdQuote());
-    } catch (FatalException ex) {
-      dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
-    } finally {
-      dalService.commitTransaction();
-    }
-  }
-
-  @Override
-  public QuoteDto confirmStartDate(String quoteId) throws FatalException, BizException {
-    try {
-      dalService.startTransaction();
-      quoteDao.setStateQuote(QuoteState.CONFIRMED_DATE, quoteId);
-      return getQuoteBis(quoteId);
-    } catch (FatalException ex) {
-      dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
-    } finally {
-      dalService.commitTransaction();
-    }
-  }
-
-  @Override
-  public QuoteDto cancelQuote(String quoteId) throws BizException, FatalException {
-    try {
-      dalService.startTransaction();
-      quoteDao.setStateQuote(QuoteState.CANCELLED, quoteId);
-      return getQuoteBis(quoteId);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
@@ -195,10 +153,47 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public QuoteDto confirmTotalInvoice(String idQuote) throws BizException, FatalException {
+  public QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException {
+    QuoteDto quoteToReturn = null;
+    switch (quote.getState()) {
+      case QUOTE_ENTERED:
+        setStartDateQuoteInDb(quote);
+        quoteToReturn = setState(quote.getIdQuote(), QuoteState.PLACED_ORDERED);
+        break;
+      case PLACED_ORDERED:
+        // if != null it means that the user want to change the date
+        if (quote.getStartDate() != null) {
+          setStartDateQuoteInDb(quote);
+          quoteToReturn = getQuote(quote.getIdQuote());
+        } else {
+          quoteToReturn = setState(quote.getIdQuote(), QuoteState.CONFIRMED_DATE);
+        }
+        break;
+      case CONFIRMED_DATE:
+        quoteToReturn = setState(quote.getIdQuote(), QuoteState.TOTAL_INVOICE);
+        break;
+      case PARTIAL_INVOICE:
+        // TODO
+        break;
+      case TOTAL_INVOICE:
+        quoteToReturn = setState(quote.getIdQuote(), QuoteState.VISIBLE);
+        break;
+      case VISIBLE:
+        break;
+      case CANCELLED:
+        quoteToReturn = setState(quote.getIdQuote(), QuoteState.CANCELLED);
+        break;
+      default:
+        break;
+    }
+    return quoteToReturn;
+  }
+
+  @Override
+  public QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException {
     try {
       dalService.startTransaction();
-      quoteDao.setStateQuote(QuoteState.TOTAL_INVOICE, idQuote);
+      quoteDao.setStateQuote(state, idQuote);
       return getQuoteBis(idQuote);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
@@ -208,4 +203,28 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
+  /*
+   * public void changeQuoteState(String idQuote, QuoteState newQuoteState) throws BizException,
+   * FatalException {
+   * 
+   * QuoteState quoteState = quoteDao.getQuoteState(idQuote);
+   * 
+   * if (quoteState == null) { throw new BizException("Il n'y a aucun devis avec l'id " + idQuote);
+   * }
+   * 
+   * if (quoteState == newQuoteState) { return; }
+   * 
+   * switch (newQuoteState) {
+   * 
+   * case QUOTE_ENTERED: break; case PLACED_ORDERED: break; case CONFIRMED_DATE: break; case
+   * PARTIAL_INVOICE: break; case TOTAL_INVOICE: if (CONFIRMED_DATE.equals(quoteState) ||
+   * PARTIAL_INVOICE.equals(quoteState)) { quoteDao.changeQuoteState(idQuote, newQuoteState);
+   * return; } break; case VISIBLE: if (TOTAL_INVOICE.equals(quoteState)) {
+   * quoteDao.changeQuoteState(idQuote, newQuoteState); return; } break; case CANCELLED: if
+   * (QUOTE_ENTERED.equals(quoteState) || PLACED_ORDERED.equals(quoteState) ||
+   * CONFIRMED_DATE.equals(quoteState)) { quoteDao.changeQuoteState(idQuote, newQuoteState); return;
+   * } break; }
+   * 
+   * }
+   */
 }

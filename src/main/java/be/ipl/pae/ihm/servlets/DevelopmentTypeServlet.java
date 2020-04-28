@@ -1,7 +1,7 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.hasAccess;
-import static be.ipl.pae.util.Util.verifyNotEmpty;
+import static be.ipl.pae.ihm.Util.hasAccess;
+import static be.ipl.pae.ihm.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.objets.DtoFactory;
@@ -10,7 +10,7 @@ import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.Util;
+import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 

@@ -1,9 +1,11 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.util.Util.hasAccess;
-import static be.ipl.pae.util.Util.isAllInside;
-import static be.ipl.pae.util.Util.verifyNotEmpty;
-import static be.ipl.pae.util.Util.verifySameLength;
+import static be.ipl.pae.ihm.Util.hasAccess;
+import static be.ipl.pae.ihm.Util.isAllInside;
+import static be.ipl.pae.ihm.Util.verifyNotEmpty;
+import static be.ipl.pae.ihm.Util.verifySameLength;
+import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParam;
+import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParamAsQuoteState;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
@@ -15,7 +17,8 @@ import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.Util;
+import be.ipl.pae.ihm.Util;
+import be.ipl.pae.ihm.servlets.utils.ParameterException;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -172,27 +175,30 @@ public class QuoteServlet extends AbstractServlet {
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("PUT /api/quote by " + req.getRemoteAddr());
-    String stateId = req.getParameter("stateId");
 
-    switch (QuoteState.valueOf(stateId)) {
-      case QUOTE_ENTERED:
-        confirmQuote(req, resp);
-        break;
-      case PLACED_ORDERED:
-        confirmStartDate(req, resp);
-        break;
-      case CONFIRMED_DATE:
-        confirmTotalInvoice(req, resp);
-        break;
-      case CANCELLED:
-        cancelQuote(req, resp);
-        break;
+    try {
+      QuoteDto quote = dtoFactory.getQuote();
+      QuoteState quoteState = getParamAsQuoteState(req, "stateId");
+      String idQuote = getParam(req, "quoteId");
+      String dateString = req.getParameter("date");
 
-      default:
-        break;
+      if (verifyNotEmpty(dateString)) {
+        LocalDate date = Date.valueOf(dateString).toLocalDate();
+        quote.setStartDate(date);
+      } else {
+        quote.setStartDate(null);
+      }
+      quote.setIdQuote(idQuote);
+      quote.setState(quoteState);
+      sendSuccessWithJson(resp, "quote",
+          genson.create().serialize(quoteUcc.useStateManager(quote)));
+    } catch (FatalException ex) {
+      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+    } catch (BizException | ParameterException ex) {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
     }
-  }
 
+  }
 
   @Override
   protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -202,10 +208,10 @@ public class QuoteServlet extends AbstractServlet {
     if (verifyNotEmpty(quoteId)) {
       QuoteDto quote = dtoFactory.getQuote();
       quote.setIdQuote(quoteId);
-      quote.setStartDate(null);
       try {
+        quoteUcc.setStartDateQuoteInDb(quote);
         sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
+            genson.create().serialize(quoteUcc.getQuote(quote.getIdQuote())));
       } catch (FatalException ex) {
         sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {
@@ -216,104 +222,5 @@ public class QuoteServlet extends AbstractServlet {
     }
   }
 
-  private void confirmQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    String quoteId = req.getParameter("quoteId");
-    String dateString = req.getParameter("date");
 
-    if (verifyNotEmpty(quoteId, dateString)) {
-      QuoteDto quote = dtoFactory.getQuote();
-      quote.setIdQuote(quoteId);
-      LocalDate date = Date.valueOf(dateString).toLocalDate();
-      quote.setStartDate(date);
-      try {
-        quoteUcc.confirmQuote(quoteId);
-        sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
-      } catch (FatalException ex) {
-        ex.printStackTrace();
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-      } catch (BizException ex) {
-        ex.printStackTrace();
-        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
-      }
-
-    } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
-    }
-  }
-
-  private void confirmStartDate(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
-
-    String quoteId = req.getParameter("quoteId");
-    String dateString = req.getParameter("date");
-
-    if (verifyNotEmpty(quoteId)) {
-
-      QuoteDto quote = dtoFactory.getQuote();
-      quote.setIdQuote(quoteId);
-
-      try {
-        if (verifyNotEmpty(dateString)) {
-          LocalDate date = Date.valueOf(dateString).toLocalDate();
-          quote.setStartDate(date);
-          sendSuccessWithJson(resp, "quote",
-              genson.create().serialize(quoteUcc.setStartDateQuoteInDb(quote)));
-        } else {
-          sendSuccessWithJson(resp, "quote",
-              genson.create().serialize(quoteUcc.confirmStartDate(quote.getIdQuote())));
-        }
-      } catch (FatalException ex) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-      } catch (BizException ex) {
-        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
-      }
-    } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
-    }
-  }
-
-  private void cancelQuote(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    String quoteId = req.getParameter("quoteId");
-
-    if (verifyNotEmpty(quoteId)) {
-      QuoteDto quote = dtoFactory.getQuote();
-      quote.setIdQuote(quoteId);
-
-      try {
-        sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.cancelQuote(quote.getIdQuote())));
-      } catch (BizException ex) {
-        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
-      } catch (FatalException ex) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-      }
-    } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
-    }
-
-  }
-
-
-  private void confirmTotalInvoice(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
-    String quoteId = req.getParameter("quoteId");
-
-    if (verifyNotEmpty(quoteId)) {
-      QuoteDto quote = dtoFactory.getQuote();
-      quote.setIdQuote(quoteId);
-
-      try {
-        sendSuccessWithJson(resp, "quote",
-            genson.create().serialize(quoteUcc.confirmTotalInvoice(quote.getIdQuote())));
-      } catch (BizException ex) {
-        sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
-      } catch (FatalException ex) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-      }
-    } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
-    }
-
-  }
 }

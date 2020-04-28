@@ -9,9 +9,6 @@ $$
         SELECT MAX(id_customer) FROM mystherbe.customers into maxid;
         execute 'alter SEQUENCE mystherbe.customers_id_customer_seq RESTART with ' || maxid + 1;
 
-        SELECT MAX(id_state) FROM mystherbe.states into maxid;
-        execute 'alter SEQUENCE mystherbe.states_id_state_seq RESTART with ' || maxid + 1;
-
         SELECT MAX(id_type) FROM mystherbe.development_types into maxid;
         execute 'alter SEQUENCE mystherbe.development_types_id_type_seq RESTART with ' || maxid + 1;
 

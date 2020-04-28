@@ -1,7 +1,7 @@
 package be.ipl.pae.dependencies;
 
-import be.ipl.pae.util.PropertiesLoader;
-import be.ipl.pae.util.PropertiesLoader.PropertiesLoaderException;
+import be.ipl.pae.main.PropertiesLoader;
+import be.ipl.pae.main.PropertiesLoader.PropertiesLoaderException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

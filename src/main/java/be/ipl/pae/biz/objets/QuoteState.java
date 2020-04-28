@@ -1,17 +1,14 @@
 package be.ipl.pae.biz.objets;
 
 public enum QuoteState {
-  QUOTE_ENTERED("Devis introduit",1),
-  PLACED_ORDERED("Commande passée",2),
-  CONFIRMED_DATE(
-      "Date confirmée",3),
-  POSTPONED_DATE("Date repoussée",4),
-  PARTIAL_INVOICE(
-      "Facturé partiellement",5),
-  TOTAL_INVOICE(
-      "Facturé totalement",6),
-  PAID("Payé",7),
-  CANCELLED("Annulé",8);
+  QUOTE_ENTERED("Devis introduit", 1),
+  PLACED_ORDERED("Commande passée", 2),
+  CONFIRMED_DATE("Date confirmée", 3),
+  // POSTPONED_DATE("Date repoussée", 4), // Never used
+  PARTIAL_INVOICE("Facturé partiellement", 5),
+  TOTAL_INVOICE("Facturé totalement", 6),
+  VISIBLE("Visible", 7),
+  CANCELLED("Annulé", 8);
 
   private String title;
   private int id;
@@ -24,21 +21,20 @@ public enum QuoteState {
   public String getTitle() {
     return title;
   }
-  
 
   public int getId() {
     return id;
   }
 
   /**
-   * get a StateQuote object when you give him the name of the state.
+   * get a StateQuote object when you give him the id of the state.
    *
-   * @param state the string that describe the status
+   * @param id the id of a StateQuote
    * @return a StateQuote object
    */
-  public static QuoteState getStateByName(String state) {
+  public static QuoteState getById(int id) {
     for (QuoteState quoteState : QuoteState.values()) {
-      if (quoteState.getTitle().equals(state)) {
+      if (quoteState.getId() == id) {
         return quoteState;
       }
     }

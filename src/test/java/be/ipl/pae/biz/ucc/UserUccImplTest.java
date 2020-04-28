@@ -1,5 +1,4 @@
-package be.ipl.pae.main;
-
+package be.ipl.pae.biz.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.ucc.UserUcc;
+import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.util.PropertiesLoader;
+import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -58,27 +57,27 @@ public class UserUccImplTest {
   @DisplayName("login test when we give a good pseudo and pwd")
 
   @Test
-  public void testloginok() throws BizException {
+  public void testLoginOk() throws BizException {
     assertNotNull(ucc.login("sousou", "123456"));
   }
 
   @DisplayName("login test when we give a good pseudo and a wrong pwd")
 
   @Test
-  public void testloginko1() {
+  public void testLoginKo1() {
     assertThrows(BizException.class, () -> ucc.login("sousou", "blabla"));
   }
 
   @DisplayName("login test when we give a wrong pseudo")
 
   @Test
-  public void testloginko2() {
+  public void testLoginKo2() {
     assertThrows(BizException.class, () -> ucc.login("blabla", "test"));
   }
 
   @DisplayName("register test when you give a good pseudo and a good mail")
   @Test
-  public void testregisterok() throws BizException, FatalException {
+  public void testRegisterOk() throws BizException, FatalException {
     UserDto userDto = dtoFactory.getUser();
     userDto.setEmail("goodmail@mail.mail");
     userDto.setPseudo("goodpseudo");
@@ -87,7 +86,7 @@ public class UserUccImplTest {
 
   @DisplayName("register test when you give a good pseudo and a mail already used")
   @Test
-  public void testregisterko1() {
+  public void testRegisterKo1() {
     UserDto userDto = dtoFactory.getUser();
     userDto.setEmail("badmail@badmail.badmail");
     userDto.setPseudo("goodpseudo");
@@ -96,7 +95,7 @@ public class UserUccImplTest {
 
   @DisplayName("register test when you give a pseudo already used and a good mail")
   @Test
-  public void testregisterko2() {
+  public void testRegisterKo2() {
     UserDto userDto = dtoFactory.getUser();
     userDto.setEmail("goodmail@mail.mail");
     userDto.setPseudo("badpseudo");
@@ -153,6 +152,29 @@ public class UserUccImplTest {
 
     for (UserDto userDto : users) {
       assertTrue(userDto.getCity().startsWith("2"));
+    }
+
+  }
+
+  @Test
+  void changeUserStatusWrongId() {
+
+    for (UserStatus userStatus : UserStatus.values()) {
+      assertThrows(BizException.class, () -> ucc.changeUserStatus(3, userStatus));
+    }
+
+  }
+
+
+  @Test
+  void changeUserStatusSameAsExisting() throws FatalException, BizException {
+
+    for (int i = 1; i <= 2; i++) {
+
+      UserDto userDto = ucc.getUser(i);
+      assertNotNull(userDto);
+      assertEquals(userDto.getPseudo(), ucc.changeUserStatus(i, userDto.getStatus()).getPseudo());
+
     }
 
   }

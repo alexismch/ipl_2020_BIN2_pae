@@ -3,7 +3,6 @@ package be.ipl.pae.main;
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.ihm.server.Server;
-import be.ipl.pae.util.PropertiesLoader;
 
 import java.util.Arrays;
 import java.util.List;
