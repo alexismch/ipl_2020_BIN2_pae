@@ -17,7 +17,6 @@ import {QuoteFormPage} from './components/quote-form.js';
 import {UsersListPage} from './components/users-list.js';
 import {UserDetailPage} from './components/user-detail.js';
 import {CustomersListPage} from './components/customers-list.js';
-import {CustomerDetailPage} from './components/customer-detail.js';
 import {CustomerFormPage} from './components/customer-form.js';
 import {LoadBarComponent} from './components/loadBar.js';
 
@@ -83,8 +82,8 @@ function initRouter() {
   .on('amenagements/:id', (params) => {
     loadPage(new DevelopmentTypePage(params.id));
   })
-  .on('mes-devis', () => {
-    loadPage(new CustomerDetailPage());
+  .on('mes-devis', (params, query) => {
+    loadPage(new QuotesListPage(query));
   }, routeCustomerChecker())
   .on('clients', (params, query) => {
     loadPage(new CustomersListPage(query));
@@ -92,8 +91,8 @@ function initRouter() {
   .on('clients/ajouter', () => {
     loadPage(new CustomerFormPage());
   }, routeWorkerChecker())
-  .on('clients/:id', (params) => {
-    loadPage(new CustomerDetailPage(params.id));
+  .on('clients/:id', (params, query) => {
+    loadPage(new QuotesListPage(query, params.id));
   }, routeWorkerChecker())
   .on('utilisateurs', (params, query) => {
     loadPage(new UsersListPage(query));
