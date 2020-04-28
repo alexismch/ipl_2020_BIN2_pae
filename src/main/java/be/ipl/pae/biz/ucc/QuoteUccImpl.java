@@ -4,6 +4,8 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
+import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.Quote;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.dao.DevelopmentTypeDao;
@@ -32,6 +34,9 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Injected
   private DalServiceTransaction dalService;
+
+  @Injected
+  DtoFactory quoteDtoFactory;
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws BizException {
@@ -154,7 +159,12 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException {
-    QuoteDto quoteToReturn = null;
+    QuoteDto quoteToReturn = quoteDtoFactory.getQuote();
+
+    if (!((Quote) quoteToReturn).checkStateQuote(quote, getStateQuote(quote))) {
+      throw new BizException("L'état du devis a déjà été modifié");
+    }
+
     switch (quote.getState()) {
       case QUOTE_ENTERED:
         setStartDateQuoteInDb(quote);
@@ -170,10 +180,15 @@ public class QuoteUccImpl implements QuoteUcc {
         }
         break;
       case CONFIRMED_DATE:
-        quoteToReturn = setState(quote.getIdQuote(), QuoteState.TOTAL_INVOICE);
+        int workDuartion = getWorkDuration(quote.getIdQuote());
+        if (workDuartion > 15) {
+          quoteToReturn = setState(quote.getIdQuote(), QuoteState.PARTIAL_INVOICE);
+        } else {
+          quoteToReturn = setState(quote.getIdQuote(), QuoteState.TOTAL_INVOICE);
+        }
         break;
       case PARTIAL_INVOICE:
-        // TODO
+        quoteToReturn = setState(quote.getIdQuote(), QuoteState.TOTAL_INVOICE);
         break;
       case TOTAL_INVOICE:
         quoteToReturn = setState(quote.getIdQuote(), QuoteState.VISIBLE);
@@ -187,6 +202,30 @@ public class QuoteUccImpl implements QuoteUcc {
         break;
     }
     return quoteToReturn;
+  }
+
+  private QuoteState getStateQuote(QuoteDto quote) throws FatalException {
+    try {
+      dalService.startTransaction();
+      return quoteDao.getStateQuote(quote.getIdQuote());
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  private int getWorkDuration(String idQuote) throws FatalException {
+    try {
+      dalService.startTransaction();
+      return quoteDao.getWorkduRation(idQuote);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
   }
 
   @Override

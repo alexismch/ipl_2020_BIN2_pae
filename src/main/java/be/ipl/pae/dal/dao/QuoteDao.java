@@ -30,7 +30,7 @@ public interface QuoteDao {
    * Link the quote to a development type.
    *
    * @param quoteId the quote id
-   * @param typeId  the development type id
+   * @param typeId the development type id
    * @throws FatalException if a problem occurred with the db
    */
   void linkToType(String quoteId, int typeId) throws FatalException;
@@ -73,7 +73,7 @@ public interface QuoteDao {
    * change the state of the quote in the db.
    *
    * @param confirmedDate the new state
-   * @param quoteId       the quote of the id
+   * @param quoteId the quote of the id
    * @throws FatalException error with the db
    */
   void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
@@ -87,16 +87,21 @@ public interface QuoteDao {
    */
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
-
-  /*
-
-  DO NOT FIX THIS CHECKSTYLE ISSUE
-
-   * Get the state of an quote by id.
-   *
-   * @param idQuote the id of the quote
-   * @return an {@link QuoteState} or null if the quote do not exist
-   * @throws FatalException if an error occurred with the database.
+  /**
+   * return the workDuration of a quote.
+   * 
+   * @param idQuote the quote of the id
+   * @return the workDuration
+   * @throws FatalException error with the db
    */
-  //QuoteState getQuoteState(String idQuote) throws FatalException;
+  int getWorkduRation(String idQuote) throws FatalException;
+
+  /**
+   * Get the current state of the quote.
+   * 
+   * @param idQuote the id of the quote
+   * @return the state of the quote
+   * @throws FatalException error with the db
+   */
+  QuoteState getStateQuote(String idQuote) throws FatalException;
 }
