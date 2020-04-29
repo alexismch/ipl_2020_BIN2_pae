@@ -101,11 +101,12 @@ public class PhotoDaoImpl implements PhotoDao {
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
     PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
+        dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type"
             + "FROM mystherbe.photos p, mystherbe.development_types dt, mystherbe.quotes q"
-            + "WHERE p.id_type = dt.id_type AND p.is_visible = true"
-            + "AND q.id_quote = p.id_quote"
-            + "AND q.id_state = 7");
+            + " WHERE p.id_type = dt.id_type AND p.is_visible = true"
+            + " AND q.id_quote = p.id_quote"
+            + " AND q.id_state = 7"
+            + " ORDER BY title");
     return getVisiblePhotosViaPs(ps);
   }
 
@@ -114,7 +115,8 @@ public class PhotoDaoImpl implements PhotoDao {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
             + "FROM mystherbe.photos p, mystherbe.development_types dt "
-            + "WHERE p.id_type = dt.id_type AND p.is_visible = true AND p.id_type = ?");
+            + "WHERE p.id_type = dt.id_type AND p.is_visible = true AND p.id_type = ?"
+            + " ORDER BY title");
 
     try {
       ps.setInt(1, typeId);
@@ -139,6 +141,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.close();
       return photos;
     } catch (SQLException sqlE) {
+      sqlE.printStackTrace();
       throw new FatalException("error with the db!");
     }
   }
@@ -147,7 +150,8 @@ public class PhotoDaoImpl implements PhotoDao {
   public PhotoDto getPhotoById(int idPhoto) throws FatalException {
     PhotoDto photoDtoToReturn = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * " + "FROM mystherbe.photos WHERE id_photo =? ");
+    ps = dalService.getPreparedStatement("Select * " + "FROM mystherbe.photos WHERE id_photo =? "
+        + " ORDER BY title");
 
     try {
 

@@ -44,7 +44,8 @@ public class QuoteDaoImpl implements QuoteDao {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT id_quote, id_customer, quote_date, "
             + "total_amount::decimal, work_duration, id_state, start_date,id_photo"
-            + "FROM mystherbe.quotes");
+            + "FROM mystherbe.quotes"
+            + " ORDER BY id_quote");
     try (ResultSet res = ps.executeQuery()) {
       while (res.next()) {
         quotes.add(createQuoteDto(res));
@@ -104,6 +105,7 @@ public class QuoteDaoImpl implements QuoteDao {
     }
 
     String query = querySelect + queryFrom + queryWhere;
+    query += " ORDER BY id_quote";
     PreparedStatement ps = dalService.getPreparedStatement(query);
     int indexSet = 1;
     try {
@@ -182,7 +184,8 @@ public class QuoteDaoImpl implements QuoteDao {
   public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
     String query = "Select id_quote, id_customer, quote_date, "
         + "total_amount::decimal, work_duration, id_state, start_date"
-        + " FROM mystherbe.quotes WHERE id_customer =?";
+        + " FROM mystherbe.quotes WHERE id_customer =?"
+        + " ORDER BY id_quote";
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
 
@@ -298,7 +301,8 @@ public class QuoteDaoImpl implements QuoteDao {
   @Override
   public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
     PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?");
+        dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?"
+            + " ORDER BY id_quote");
     try {
       ps.setString(1, quoteId);
       try (ResultSet resultSet = ps.executeQuery()) {
@@ -315,7 +319,8 @@ public class QuoteDaoImpl implements QuoteDao {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select id_quote, id_customer, quote_date, "
         + "total_amount::decimal, work_duration, id_state, start_date "
-        + "FROM mystherbe.quotes WHERE id_quote =? ");
+        + "FROM mystherbe.quotes WHERE id_quote =? "
+        + " ORDER BY id_quote");
 
     try {
       ps.setString(1, idQuote);
@@ -381,7 +386,8 @@ public class QuoteDaoImpl implements QuoteDao {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService
-        .getPreparedStatement("Select work_duration " + "FROM mystherbe.quotes WHERE id_quote =? ");
+        .getPreparedStatement("Select work_duration " + "FROM mystherbe.quotes WHERE id_quote =? "
+            + " ORDER BY id_quote");
 
     try {
       ps.setString(1, idQuote);
@@ -402,7 +408,8 @@ public class QuoteDaoImpl implements QuoteDao {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService
-        .getPreparedStatement("Select id_state " + "FROM mystherbe.quotes WHERE id_quote =? ");
+        .getPreparedStatement("Select id_state " + "FROM mystherbe.quotes WHERE id_quote =? "
+            + " ORDER BY id_quote");
 
     try {
       ps.setString(1, idQuote);

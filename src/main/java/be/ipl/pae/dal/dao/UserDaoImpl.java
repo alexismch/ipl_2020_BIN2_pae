@@ -31,7 +31,8 @@ public class UserDaoImpl implements UserDao {
 
     UserDto userDto = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE pseudo =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE pseudo =?"
+        + " ORDER BY lastname, firstname");
 
     try {
 
@@ -54,7 +55,8 @@ public class UserDaoImpl implements UserDao {
 
     UserDto userDto = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE id_user =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE id_user =?"
+        + " ORDER BY lastname, firstname");
 
     try {
       ps.setInt(1, idUtilisateur);
@@ -75,7 +77,8 @@ public class UserDaoImpl implements UserDao {
   public UserStatus getUserStatus(int userId) throws FatalException {
     UserStatus userStatus = null;
     PreparedStatement ps = dalService
-        .getPreparedStatement("SELECT status FROM mystherbe.users WHERE id_user = ?");
+        .getPreparedStatement("SELECT status FROM mystherbe.users WHERE id_user = ?"
+            + " ORDER BY lastname, firstname");
     try {
       ps.setInt(1, userId);
       ResultSet resultSet = ps.executeQuery();
@@ -102,6 +105,7 @@ public class UserDaoImpl implements UserDao {
     } else {
       query = "SELECT * FROM mystherbe.users";
     }
+    query += " ORDER BY lastname, firstname";
 
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(query);
@@ -154,7 +158,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean checkEmailInDb(String email) throws FatalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.email =?");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.email =?"
+        + " ORDER BY lastname, firstname");
 
     try {
 
@@ -174,7 +179,8 @@ public class UserDaoImpl implements UserDao {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
         "Select * FROM mystherbe.users usr WHERE REGEXP_REPLACE(LOWER(usr.pseudo), '\\s', '', 'g') "
-            + "=REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')");
+            + "=REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')"
+            + " ORDER BY lastname, firstname");
 
     try {
 
@@ -224,7 +230,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean isLinked(int userId) throws FatalException {
     PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_user = ?");
+        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_user = ?"
+            + " ORDER BY lastname, firstname");
     try {
       ps.setInt(1, userId);
       return ps.executeQuery().next();

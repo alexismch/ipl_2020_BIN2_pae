@@ -24,7 +24,8 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   public List<DevelopmentTypeDto> getdevelopmentTypes() {
     List<DevelopmentTypeDto> list = new ArrayList<>();
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.development_types");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.development_types"
+        + " ORDER BY title");
 
     try (ResultSet rs = ps.executeQuery()) {
       while (rs.next()) {
@@ -42,7 +43,8 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   @Override
   public DevelopmentTypeDto getDevelopmentType(int typeId) throws FatalException {
     PreparedStatement ps = dalService
-        .getPreparedStatement("SElECT * FROM mystherbe.development_types WHERE id_type = ?");
+        .getPreparedStatement("SElECT * FROM mystherbe.development_types WHERE id_type = ?"
+            + " ORDER BY title");
 
     try {
       ps.setInt(1, typeId);
@@ -64,7 +66,8 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SElECT dt.id_type, dt.title FROM mystherbe.development_types dt, mystherbe.quote_types qt "
-            + " WHERE qt.id_quote = ?" + " AND qt.id_type = dt.id_type");
+            + " WHERE qt.id_quote = ?" + " AND qt.id_type = dt.id_type"
+            + " ORDER BY title");
 
     try {
       ps.setString(1, quoteId);
@@ -113,7 +116,8 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   @Override
   public boolean exists(String title) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT * FROM mystherbe.development_types WHERE title = ?");
+        "SELECT * FROM mystherbe.development_types WHERE title = ?"
+            + " ORDER BY title");
     try {
       ps.setString(1, title);
       return ps.executeQuery().next();

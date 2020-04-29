@@ -42,6 +42,7 @@ public class CustomerDaoImpl implements CustomerDao {
         query += " AND id_user IS NULL";
       }
     }
+    query += " ORDER BY lastname, firstname";
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
     try {
@@ -129,7 +130,8 @@ public class CustomerDaoImpl implements CustomerDao {
   @Override
   public boolean exists(int customerId) throws FatalException {
     PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_customer = ?");
+        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_customer = ?"
+            + " ORDER BY lastname, firstname");
 
     try {
       ps.setInt(1, customerId);
@@ -142,7 +144,8 @@ public class CustomerDaoImpl implements CustomerDao {
   @Override
   public boolean isLinked(int customerId) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT * FROM mystherbe.customers WHERE id_customer = ? AND id_user IS NOT NULL");
+        "SELECT * FROM mystherbe.customers WHERE id_customer = ? AND id_user IS NOT NULL"
+            + " ORDER BY lastname, firstname");
     try {
       ps.setInt(1, customerId);
       return ps.executeQuery().next();
@@ -154,14 +157,16 @@ public class CustomerDaoImpl implements CustomerDao {
   @Override
   public CustomerDto getCustomer(int idCustomer) throws FatalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_customer =? ");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_customer =? "
+        + " ORDER BY lastname, firstname");
     return getCustomerViaPs(ps, idCustomer);
   }
 
   @Override
   public CustomerDto getCustomerByIdUser(int idUser) throws FatalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_user =? ");
+    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_user =? "
+        + " ORDER BY lastname, firstname");
     return getCustomerViaPs(ps, idUser);
   }
 
