@@ -62,7 +62,7 @@ export class QuotesListPage extends Page {
     $selectMultipleDevelopemntType.append(mutltipleDevelopmentTypeInputComponentView);
 
     const $form = this._$view.find('form');
-    $form.attr('method', isCustomer() ? '/mes-devis' : idCustomer ? '/client/' + idCustomer : 'devis');
+    $form.attr('action', isCustomer() ? 'mes-devis' : idCustomer ? 'clients/' + idCustomer : 'devis');
 
     onSubmitWithNavigation($form, (url, data) => {
       if (data !== query) {
@@ -70,7 +70,7 @@ export class QuotesListPage extends Page {
       }
     });
 
-    ajaxGET('/api/quotes-list', query + (idCustomer ? 'idCustomer=' + idCustomer : ''), (data) => {
+    ajaxGET('/api/quotes-list', query + (idCustomer ? '&idCustomer=' + idCustomer : ''), (data) => {
       if (query !== undefined && query !== null && query !== '') {
         let shouldHide = true;
         let researchMsg = 'Résultats de la recherche: ';
