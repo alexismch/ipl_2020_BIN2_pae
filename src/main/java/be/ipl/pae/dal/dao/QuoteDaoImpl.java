@@ -44,8 +44,7 @@ public class QuoteDaoImpl implements QuoteDao {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT id_quote, id_customer, quote_date, "
             + "total_amount::decimal, work_duration, id_state, start_date,id_photo"
-            + "FROM mystherbe.quotes"
-            + " ORDER BY id_quote");
+            + "FROM mystherbe.quotes" + " ORDER BY id_quote");
     try (ResultSet res = ps.executeQuery()) {
       while (res.next()) {
         quotes.add(createQuoteDto(res));
@@ -145,7 +144,7 @@ public class QuoteDaoImpl implements QuoteDao {
           inc++;
           quoteDto.setQuoteDate(rs.getDate(inc).toLocalDate());
           inc++;
-          quoteDto.setTotalAmount(rs.getBigDecimal(inc));
+          quoteDto.setTotalAmount(rs.getDouble(inc));
           inc++;
           quoteDto.setWorkDuration(rs.getInt(inc));
           inc++;
@@ -184,8 +183,7 @@ public class QuoteDaoImpl implements QuoteDao {
   public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
     String query = "Select id_quote, id_customer, quote_date, "
         + "total_amount::decimal, work_duration, id_state, start_date"
-        + " FROM mystherbe.quotes WHERE id_customer =?"
-        + " ORDER BY id_quote";
+        + " FROM mystherbe.quotes WHERE id_customer =?" + " ORDER BY id_quote";
 
     PreparedStatement ps = dalService.getPreparedStatement(query);
 
@@ -207,7 +205,7 @@ public class QuoteDaoImpl implements QuoteDao {
         quoteDto.setIdQuote(resultSet.getString(1));
         quoteDto.setIdCustomer(resultSet.getInt(2));
         quoteDto.setQuoteDate(resultSet.getDate(3).toLocalDate());
-        quoteDto.setTotalAmount(resultSet.getBigDecimal(4));
+        quoteDto.setTotalAmount(resultSet.getDouble(4));
         quoteDto.setWorkDuration(resultSet.getInt(5));
         quoteDto.setState(QuoteState.getById(resultSet.getInt(6)));
         Date startDate = resultSet.getDate(7);
@@ -240,7 +238,7 @@ public class QuoteDaoImpl implements QuoteDao {
       quote.setIdQuote(res.getString(1));
       quote.setIdCustomer(res.getInt(2));
       quote.setQuoteDate(res.getDate(3).toLocalDate());
-      quote.setTotalAmount(res.getBigDecimal(4));
+      quote.setTotalAmount(res.getDouble(4));
       quote.setWorkDuration(res.getInt(5));
       Date startDate = res.getDate(7);
       if (startDate != null) {
@@ -284,7 +282,7 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(1, quoteDto.getIdQuote());
       ps.setInt(2, quoteDto.getIdCustomer());
       ps.setDate(3, Date.valueOf(quoteDto.getQuoteDate()));
-      ps.setBigDecimal(4, quoteDto.getTotalAmount());
+      ps.setDouble(4, quoteDto.getTotalAmount());
       ps.setInt(5, quoteDto.getWorkDuration());
       ps.setInt(6, quoteDto.getState().getId());
 
@@ -300,9 +298,8 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
-    PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT * FROM mystherbe.quotes WHERE id_quote = ?"
-            + " ORDER BY id_quote");
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT * FROM mystherbe.quotes WHERE id_quote = ?" + " ORDER BY id_quote");
     try {
       ps.setString(1, quoteId);
       try (ResultSet resultSet = ps.executeQuery()) {
@@ -319,8 +316,7 @@ public class QuoteDaoImpl implements QuoteDao {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select id_quote, id_customer, quote_date, "
         + "total_amount::decimal, work_duration, id_state, start_date "
-        + "FROM mystherbe.quotes WHERE id_quote =? "
-        + " ORDER BY id_quote");
+        + "FROM mystherbe.quotes WHERE id_quote =? " + " ORDER BY id_quote");
 
     try {
       ps.setString(1, idQuote);
@@ -329,7 +325,7 @@ public class QuoteDaoImpl implements QuoteDao {
           quoteDtoToReturn.setIdQuote(resultSet.getString(1));
           quoteDtoToReturn.setIdCustomer(resultSet.getInt(2));
           quoteDtoToReturn.setQuoteDate(resultSet.getDate(3).toLocalDate());
-          quoteDtoToReturn.setTotalAmount(resultSet.getBigDecimal(4));
+          quoteDtoToReturn.setTotalAmount(resultSet.getDouble(4));
           quoteDtoToReturn.setWorkDuration(resultSet.getInt(5));
           quoteDtoToReturn.setState(QuoteState.getById(resultSet.getInt(6)));
           Date startDate = resultSet.getDate(7);
@@ -385,9 +381,8 @@ public class QuoteDaoImpl implements QuoteDao {
   public int getWorkduRation(String idQuote) throws FatalException {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
-    ps = dalService
-        .getPreparedStatement("Select work_duration " + "FROM mystherbe.quotes WHERE id_quote =? "
-            + " ORDER BY id_quote");
+    ps = dalService.getPreparedStatement("Select work_duration "
+        + "FROM mystherbe.quotes WHERE id_quote =? " + " ORDER BY id_quote");
 
     try {
       ps.setString(1, idQuote);
@@ -407,9 +402,8 @@ public class QuoteDaoImpl implements QuoteDao {
   public QuoteState getStateQuote(String idQuote) throws FatalException {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
-    ps = dalService
-        .getPreparedStatement("Select id_state " + "FROM mystherbe.quotes WHERE id_quote =? "
-            + " ORDER BY id_quote");
+    ps = dalService.getPreparedStatement(
+        "Select id_state " + "FROM mystherbe.quotes WHERE id_quote =? " + " ORDER BY id_quote");
 
     try {
       ps.setString(1, idQuote);

@@ -22,7 +22,6 @@ import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
 import com.owlike.genson.GensonBuilder;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.stream.Stream;
@@ -79,7 +78,7 @@ public class QuoteServlet extends AbstractServlet {
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)) {
       try {
         int customerId = Integer.parseInt(customerIdString);
-        BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountString));
+        Double amount = Double.parseDouble(amountString);
         int duration = Integer.parseInt(durationString);
 
         Date date = Date.valueOf(dateString);

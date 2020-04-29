@@ -6,7 +6,6 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ public class QuoteImpl implements Quote {
   private String idQuote;
   private int idCustomer;
   private LocalDate quoteDate;
-  private BigDecimal totalAmount;
+  private double totalAmount;
   private int workDuration;
   private QuoteState state;
   private LocalDate startDate;
@@ -40,7 +39,7 @@ public class QuoteImpl implements Quote {
    * @param startDate the start date of work
    * @param customer the customer that has asked a quote
    */
-  public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, BigDecimal totalAmount,
+  public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, double totalAmount,
       int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer,
       PhotoDto photo) {
     super();
@@ -91,12 +90,12 @@ public class QuoteImpl implements Quote {
   }
 
 
-  public BigDecimal getTotalAmount() {
+  public double getTotalAmount() {
     return totalAmount;
   }
 
 
-  public void setTotalAmount(BigDecimal totalAmount) {
+  public void setTotalAmount(double totalAmount) {
     this.totalAmount = totalAmount;
   }
 

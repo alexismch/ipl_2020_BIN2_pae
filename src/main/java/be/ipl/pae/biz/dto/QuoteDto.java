@@ -3,7 +3,6 @@ package be.ipl.pae.biz.dto;
 
 import be.ipl.pae.biz.objets.QuoteState;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,10 +27,10 @@ public interface QuoteDto {
   void setQuoteDate(LocalDate quoteDate);
 
 
-  BigDecimal getTotalAmount();
+  double getTotalAmount();
 
 
-  void setTotalAmount(BigDecimal totalAmount);
+  void setTotalAmount(double totalAmount);
 
 
   int getWorkDuration();

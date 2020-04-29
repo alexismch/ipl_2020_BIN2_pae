@@ -148,7 +148,6 @@ export class QuotesListPage extends Page {
   }
 
   _createQuotesListItem($quotesList, quote) {
-	  
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
   ${quote.photo ? '<img src="' + quote.photo.base64 + '" alt="' + quote.photo.title + '" />'
         : '<img src="/assets/img/img-placeholder.jpg" alt="pas de photo" />'}
@@ -158,7 +157,6 @@ export class QuotesListPage extends Page {
   <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
   <p class="quote-first-col">Montant: ${quote.totalAmount}€</p>
   <ul class="quote-development-types">
-    <li><span class="badge badge-primary font-size-100">A1 blabla</span></li>
     <li><span class="badge badge-primary font-size-100">A2 blablablabla</span></li>
     <li><span class="badge badge-primary font-size-100">A1 bla</span></li>
     <li><span class="badge badge-primary font-size-100">A1 blablablablablablablabla</span></li>
