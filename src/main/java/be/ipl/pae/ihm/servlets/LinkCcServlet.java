@@ -23,7 +23,7 @@ public class LinkCcServlet extends AbstractServlet {
     System.out.println("POST /api/link-cc by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+    if (!hasAccess(token, UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }

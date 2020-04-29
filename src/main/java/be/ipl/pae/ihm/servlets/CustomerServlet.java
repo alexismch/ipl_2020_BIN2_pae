@@ -29,7 +29,7 @@ public class CustomerServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
+    if (!hasAccess(token, UserStatus.CUSTOMER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
@@ -66,7 +66,7 @@ public class CustomerServlet extends AbstractServlet {
     System.out.println("POST /api/customer by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+    if (!hasAccess(token, UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }

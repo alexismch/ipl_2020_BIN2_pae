@@ -32,7 +32,7 @@ public class UserServlet extends AbstractServlet {
     System.out.println("POST /api/user by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+    if (!hasAccess(token, UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
@@ -57,7 +57,7 @@ public class UserServlet extends AbstractServlet {
     System.out.println("PUT /api/user by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+    if (!hasAccess(token, UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }

@@ -3,7 +3,6 @@ package be.ipl.pae.ihm;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.biz.objets.UserStatus;
-import be.ipl.pae.exceptions.WrongTokenException;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -141,12 +140,11 @@ public class Util {
   /**
    * Create a session key.
    *
-   * @param ip      ip of the request
    * @param userDto the user that asked the session
    * @return the session key
    */
-  public static String createToken(String ip, UserDto userDto) {
-    return JWT.create().withIssuer("auth0").withClaim("ip", ip)
+  public static String createToken(UserDto userDto) {
+    return JWT.create().withIssuer("auth0")
         .withClaim("uId", userDto.getId())
         .withClaim("uStatus", userDto.getStatus().getCode())
         .sign(JWTALGORITHM);
@@ -163,70 +161,59 @@ public class Util {
   }
 
   /**
-   * Check the decoded key with the ip and send the id of the user.
+   * Check the decoded key and send the id of the user.
    *
    * @param decodedToken the decoded key
-   * @param ip           the ip that you need to check
    * @return the user's id
    */
-  public static int getUId(DecodedJWT decodedToken, String ip) {
-    if (!ip.equals(decodedToken.getClaim("ip").asString())) {
-      throw new WrongTokenException("Mauvaise adresse IP");
-    }
+  public static int getUId(DecodedJWT decodedToken) {
     return decodedToken.getClaim("uId").asInt();
   }
 
   /**
-   * Decode the token, check the token with the ip, and send the user's id.
+   * Decode the token, check the token and send the user's id.
    *
    * @param token the token that you need to decode
-   * @param ip    the ip that you need to check
    * @return the user's id
    */
-  public static int getUId(String token, String ip) {
-    return getUId(decodeToken(token), ip);
+  public static int getUId(String token) {
+    return getUId(decodeToken(token));
   }
 
   /**
-   * Check the decoded key with the ip and send the state of the user.
+   * Check the decoded key and send the state of the user.
    *
    * @param decodedToken the decoded key
-   * @param ip           the ip that you need to check
    * @return the user's state
    */
-  public static String getUStatus(DecodedJWT decodedToken, String ip) {
-    if (!ip.equals(decodedToken.getClaim("ip").asString())) {
-      throw new WrongTokenException("Mauvaise adresse IP");
-    }
+  public static String getUStatus(DecodedJWT decodedToken) {
     return decodedToken.getClaim("uStatus").asString();
   }
 
   /**
-   * Decode the token, check the token with the ip, and send the user's state.
+   * Decode the token, check the token and send the user's state.
    *
    * @param token the token that you need to decode
-   * @param ip    the ip that you need to check
    * @return the user's state
    */
-  public static String getUStatus(String token, String ip) {
-    return getUStatus(decodeToken(token), ip);
+  public static String getUStatus(String token) {
+    return getUStatus(decodeToken(token));
   }
 
   /**
    * Verify if the access is autorized.
    *
    * @param token        the session token
-   * @param ip           the request ip
    * @param statusNeeded the status needed to access
    * @return true if access is autorized, false if not
    */
-  public static boolean hasAccess(String token, String ip, UserStatus statusNeeded) {
+  public static boolean hasAccess(String token, UserStatus statusNeeded) {
     System.out.println("\tUsed token : " + token);
     if (token == null) {
       return false;
     }
     try {
-      UserStatus status = UserStatus.getStatusByCode(getUStatus(token, ip));
+      UserStatus status = UserStatus.getStatusByCode(getUStatus(token));
 
       return hasAccess(statusNeeded, status);
     } catch (Exception ex) {
