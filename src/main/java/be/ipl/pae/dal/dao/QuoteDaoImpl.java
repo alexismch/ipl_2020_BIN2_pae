@@ -93,16 +93,13 @@ public class QuoteDaoImpl implements QuoteDao {
       queryWhere += "AND (q.quote_date = ?) ";
       ref[4] = true;
     }
-    int nbDevTypes = 0;
     if (quotesFilterDto.getDevelopmentTypeDto() != null
         && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
       ref[5] = true;
-      for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
-        nbDevTypes++;
-        querySelect += ", qt" + nbDevTypes + ".id_type ";
-        queryFrom += ", mystherbe.quote_types qt" + nbDevTypes + " ";
-        queryWhere += "AND (q.id_quote = qt" + nbDevTypes + ".id_quote) AND (qt" + nbDevTypes
-            + ".id_type = ?) ";
+      for (int i = 1; i <= quotesFilterDto.getDevelopmentTypeDto().size(); i++) {
+        querySelect += ", qt" + i + ".id_type ";
+        queryFrom += ", mystherbe.quote_types qt" + i + " ";
+        queryWhere += "AND (q.id_quote = qt" + i + ".id_quote) AND (qt" + i + ".id_type = ?) ";
       }
     }
 
@@ -162,7 +159,7 @@ public class QuoteDaoImpl implements QuoteDao {
           if (quotesFilterDto.getDevelopmentTypeDto() != null
               && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
             ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
-            for (DevelopmentTypeDto developmentType : quotesFilterDto.getDevelopmentTypeDto()) {
+            for (int i = 1; i <= quotesFilterDto.getDevelopmentTypeDto().size(); i++) {
               listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(inc)));
               inc++;
             }
