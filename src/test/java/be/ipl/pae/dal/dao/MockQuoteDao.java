@@ -98,7 +98,9 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public QuoteState getStateQuote(String idQuote) {
-    // TODO Auto-generated method stub
+    if (idQuote.equals("introduit")) {
+      return QuoteState.QUOTE_ENTERED;
+    }
     return null;
   }
 

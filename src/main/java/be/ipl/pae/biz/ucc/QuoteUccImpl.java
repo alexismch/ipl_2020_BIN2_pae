@@ -209,9 +209,12 @@ public class QuoteUccImpl implements QuoteUcc {
     return quoteToReturn;
   }
 
-  private QuoteState getStateQuote(QuoteDto quote) throws FatalException {
+  private QuoteState getStateQuote(QuoteDto quote) throws FatalException, BizException {
     try {
       dalService.startTransaction();
+      if (quote.getIdQuote() == null) {
+        throw new BizException("Aucune idée pour la quote n'a été envoyé");
+      }
       return quoteDao.getStateQuote(quote.getIdQuote());
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
