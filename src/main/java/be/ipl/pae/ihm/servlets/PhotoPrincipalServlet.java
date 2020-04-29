@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PhotoPrincipalServlet extends AbstractServlet {
 
   @Injected
-  PhotoUcc photoUcc;
+  private PhotoUcc photoUcc;
 
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/photos-Principal by " + req.getRemoteAddr());

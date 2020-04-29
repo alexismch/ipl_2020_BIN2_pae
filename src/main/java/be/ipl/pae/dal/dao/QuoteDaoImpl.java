@@ -23,19 +23,19 @@ import java.util.List;
 public class QuoteDaoImpl implements QuoteDao {
 
   @Injected
-  DalService dalService;
+  private DalService dalService;
 
   @Injected
-  DevelopmentTypeDao developmentTypeDao;
+  private DevelopmentTypeDao developmentTypeDao;
 
   @Injected
-  DtoFactory quoteDtoFactory;
+  private DtoFactory quoteDtoFactory;
 
   @Injected
-  CustomerDao customerDao;
+  private CustomerDao customerDao;
 
   @Injected
-  PhotoDao photoDao;
+  private PhotoDao photoDao;
 
 
   @Override
@@ -54,7 +54,6 @@ public class QuoteDaoImpl implements QuoteDao {
     }
 
     return quotes;
-
   }
 
   @Override

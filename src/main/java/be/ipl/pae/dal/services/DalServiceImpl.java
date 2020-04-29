@@ -43,11 +43,8 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       System.out.println("probleme prepareStatement");
       ex.printStackTrace();
     }
-
     return ps;
-
   }
-
 
   private DataSource setUpDataSource() {
     try {
@@ -144,7 +141,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       closeConnection();
       throw new FatalException(ex);
     }
-
   }
 
 
@@ -158,7 +154,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     } finally {
       closeConnection();
     }
-
   }
 
 
@@ -171,6 +166,4 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       throw new FatalException(ex);
     }
   }
-
-
 }

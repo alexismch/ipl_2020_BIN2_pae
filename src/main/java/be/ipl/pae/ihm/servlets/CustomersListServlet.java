@@ -21,6 +21,7 @@ public class CustomersListServlet extends AbstractServlet {
 
   @Injected
   private DtoFactory dtoFactory;
+
   @Injected
   private CustomerUcc customerUcc;
 

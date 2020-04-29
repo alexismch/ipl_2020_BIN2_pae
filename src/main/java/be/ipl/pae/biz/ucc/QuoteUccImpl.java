@@ -36,7 +36,7 @@ public class QuoteUccImpl implements QuoteUcc {
   private DalServiceTransaction dalService;
 
   @Injected
-  DtoFactory quoteDtoFactory;
+  private DtoFactory quoteDtoFactory;
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws BizException {
@@ -209,9 +209,12 @@ public class QuoteUccImpl implements QuoteUcc {
     return quoteToReturn;
   }
 
-  private QuoteState getStateQuote(QuoteDto quote) throws FatalException {
+  private QuoteState getStateQuote(QuoteDto quote) throws FatalException, BizException {
     try {
       dalService.startTransaction();
+      if (quote.getIdQuote() == null) {
+        throw new BizException("Aucune id pour le devis n'a été envoyé");
+      }
       return quoteDao.getStateQuote(quote.getIdQuote());
     } catch (FatalException ex) {
       dalService.rollbackTransaction();

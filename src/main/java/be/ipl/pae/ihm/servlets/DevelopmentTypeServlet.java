@@ -25,7 +25,7 @@ public class DevelopmentTypeServlet extends AbstractServlet {
   private DevelopmentTypeUcc developmentTypeUcc;
 
   @Injected
-  DtoFactory dtoFactory;
+  private DtoFactory dtoFactory;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

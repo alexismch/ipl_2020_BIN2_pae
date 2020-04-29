@@ -17,12 +17,12 @@ import java.util.List;
 public class CustomerDaoImpl implements CustomerDao {
 
   @Injected
-  DalService dalService;
+  private DalService dalService;
+
   @Injected
-  DtoFactory customerDtoFactory;
+  private DtoFactory customerDtoFactory;
 
   @Override
-
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
 
     String query;

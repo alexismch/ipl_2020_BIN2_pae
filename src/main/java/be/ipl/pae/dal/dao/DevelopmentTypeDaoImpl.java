@@ -15,10 +15,10 @@ import java.util.List;
 public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
 
   @Injected
-  DalService dalService;
+  private DalService dalService;
 
   @Injected
-  DtoFactory developmentTypeDtoFactory;
+  private DtoFactory developmentTypeDtoFactory;
 
   @Override
   public List<DevelopmentTypeDto> getdevelopmentTypes() {
