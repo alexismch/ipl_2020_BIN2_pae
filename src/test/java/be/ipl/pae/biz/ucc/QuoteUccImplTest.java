@@ -106,6 +106,20 @@ public class QuoteUccImplTest {
     assertThrows(BizException.class, () -> qcc.useStateManager(quote));
   }
 
+  @Test
+  @DisplayName("test setState when all is good")
+  public void testSetStateOk() throws BizException, FatalException {
+
+    assertNotNull(qcc.setState("ok", QuoteState.QUOTE_ENTERED));
+  }
+
+  @Test
+  @DisplayName("test setState when idQuote is null")
+  public void testSetStateKo1() throws BizException, FatalException {
+
+    assertThrows(BizException.class, () -> qcc.setState(null, QuoteState.CONFIRMED_DATE));
+  }
+
 
 
 }

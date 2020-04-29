@@ -213,7 +213,7 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       if (quote.getIdQuote() == null) {
-        throw new BizException("Aucune idée pour la quote n'a été envoyé");
+        throw new BizException("Aucune id pour le devis n'a été envoyé");
       }
       return quoteDao.getStateQuote(quote.getIdQuote());
     } catch (FatalException ex) {
