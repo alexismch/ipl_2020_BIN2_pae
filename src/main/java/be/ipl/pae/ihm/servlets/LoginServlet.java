@@ -35,7 +35,7 @@ public class LoginServlet extends AbstractServlet {
     System.out.println("\tUsed token : " + token);
 
     if (token != null) {
-      int id = getUId(token, req.getRemoteAddr());
+      int id = getUId(token);
       UserDto userDto;
       try {
         userDto = ucc.getUser(id);
@@ -66,7 +66,7 @@ public class LoginServlet extends AbstractServlet {
         UserDto userDto = ucc.login(pseudo, passwd);
 
         HttpSession session = req.getSession();
-        token = createToken(req.getRemoteAddr(), userDto);
+        token = createToken(userDto);
         session.setAttribute("token", token);
         System.out.println("\tGenerated token : " + token);
 

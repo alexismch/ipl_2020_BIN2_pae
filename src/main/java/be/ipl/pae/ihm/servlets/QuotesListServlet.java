@@ -43,7 +43,7 @@ public class QuotesListServlet extends AbstractServlet {
     System.out.println("GET /api/quotes-list by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
+    if (!hasAccess(token, UserStatus.CUSTOMER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
@@ -82,11 +82,7 @@ public class QuotesListServlet extends AbstractServlet {
         Integer id = (Integer) typeId;
         try {
           listDevelopment.add(developmentTypeUcc.getDevelopmentType(id));
-        } catch (BizException ex) {
-          // TODO Auto-generated catch block
-          ex.printStackTrace();
-        } catch (FatalException ex) {
-          // TODO Auto-generated catch block
+        } catch (BizException | FatalException ex) {
           ex.printStackTrace();
         }
       }
@@ -100,14 +96,14 @@ public class QuotesListServlet extends AbstractServlet {
 
 
     // Handling the calls depending on the user
-    int id = 0;
+    int id;
     List<QuoteDto> listToReturn = null;
-    String status = Util.getUStatus(token, req.getRemoteAddr());
+    String status = Util.getUStatus(token);
 
     if (status.equals(UserStatus.CUSTOMER.getCode())) {
       // A customer wants to get all of his quotes
       int idUser =
-          Util.getUId(req.getSession().getAttribute("token").toString(), req.getRemoteAddr());
+          Util.getUId(req.getSession().getAttribute("token").toString());
 
       try {
         CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUser);
