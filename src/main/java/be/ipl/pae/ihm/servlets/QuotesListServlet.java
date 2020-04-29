@@ -3,6 +3,7 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.ihm.Util.hasAccess;
 
+import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
@@ -42,7 +43,7 @@ public class QuotesListServlet extends AbstractServlet {
     System.out.println("GET /api/quotes-list by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
@@ -96,19 +97,26 @@ public class QuotesListServlet extends AbstractServlet {
     quotesFilterDto.setTotalAmountMin(minAmount);
     // end
 
+
+
     // Handling the calls depending on the user
     int id = 0;
-    List<QuoteDto> listToReturn;
-    String status =
-        Util.getUStatus(req.getSession().getAttribute("token").toString(), req.getRemoteAddr());
+    List<QuoteDto> listToReturn = null;
+    String status = Util.getUStatus(token, req.getRemoteAddr());
 
     if (status.equals(UserStatus.CUSTOMER.getCode())) {
       // A customer wants to get all of his quotes
-      int idUtilisateur =
+      int idUser =
           Util.getUId(req.getSession().getAttribute("token").toString(), req.getRemoteAddr());
 
       try {
-        listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto);
+        CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUser);
+        if (customerDto != null) {
+          int idCustomer = customerDto.getIdCustomer();
+          listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto, idCustomer);
+        } else {
+          listToReturn = new ArrayList<>();
+        }
       } catch (FatalException ex) {
         // TODO Auto-generated catch block
         ex.printStackTrace();
@@ -128,25 +136,16 @@ public class QuotesListServlet extends AbstractServlet {
       } else {
         // A worker wants to get the quotes of a specific user
         try {
-          int idCustomer = Integer.parseInt(idCustomerString);
-          listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto, idCustomer);
+          id = Integer.parseInt(idCustomerString);
+          listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto, id);
         } catch (FatalException ex) {
           // TODO Auto-generated catch block
           ex.printStackTrace();
         }
       }
-      if (idCustomerString != null) {
-        id = Integer.parseInt(idCustomerString);
-      }
     }
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
-    try {
-      sendSuccessWithJson(resp, "quotesList",
-          gensonBuilder.create().serialize(quoteUcc.getQuotesFiltered(quotesFilterDto)));
-    } catch (FatalException ex) {
-      // TODO Auto-generated catch block
-      ex.printStackTrace();
-    }
+    sendSuccessWithJson(resp, "quotesList", gensonBuilder.create().serialize(listToReturn));
   }
 }

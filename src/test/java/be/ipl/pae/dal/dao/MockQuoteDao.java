@@ -71,7 +71,7 @@ public class MockQuoteDao implements QuoteDao {
   }
 
   @Override
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer) {
     ArrayList<QuoteDto> testArray = new ArrayList<>();
     if (quotesFilterDto == null) {
       return testArray;
@@ -88,13 +88,6 @@ public class MockQuoteDao implements QuoteDao {
     // if(quotesFilterDto.getTotalAmountMin()!= null) {
     //
     // }
-    return null;
-  }
-
-  @Override
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
-      throws FatalException {
-    // TODO Auto-generated method stub
     return null;
   }
 

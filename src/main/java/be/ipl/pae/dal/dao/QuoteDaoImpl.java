@@ -56,10 +56,6 @@ public class QuoteDaoImpl implements QuoteDao {
 
   }
 
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
-    return getQuotesFiltered(quotesFilterDto, -1);
-  }
-
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
       throws FatalException {
@@ -73,7 +69,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
     String queryWhere = "WHERE (q.id_customer = c.id_customer) ";
 
-    boolean[] ref = new boolean[5];
+    boolean[] ref = new boolean[6];
 
     if (idCustomer > 0) {
       queryWhere += "AND (c.id_customer = ?)";

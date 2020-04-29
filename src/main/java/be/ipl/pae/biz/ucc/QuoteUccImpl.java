@@ -153,7 +153,7 @@ public class QuoteUccImpl implements QuoteUcc {
       throws FatalException {
     try {
       dalService.startTransaction();
-      return quoteDao.getQuotesFiltered(quotesFilterDto);
+      return quoteDao.getQuotesFiltered(quotesFilterDto, idCustomer);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
