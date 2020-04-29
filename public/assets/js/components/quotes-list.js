@@ -127,6 +127,10 @@ _developmentTypeList = [];
     const $quotesList = this._$view.find('.quotes-list');
     $quotesList.empty();
     for (const quote of quotesList) {
+    	  var tof = quote.photo;
+    	  if(tof != null){
+    		  alert(quote.photo);
+    	  }
       this._createQuotesListItem($quotesList, quote);
     }
   }
@@ -134,7 +138,9 @@ _developmentTypeList = [];
   _createQuotesListItem($quotesList, quote) {
 
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
-  <img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
+  
+  
+    	<img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
   <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
   <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
   <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).format('L')}</p>
