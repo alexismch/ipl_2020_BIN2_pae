@@ -88,9 +88,9 @@ public interface QuoteDto {
 
   void setListPhotoAfter(List<PhotoDto> listPhotoAfter);
 
-  public PhotoDto getPhoto();
+  PhotoDto getPhoto();
 
 
-  public void setPhoto(PhotoDto photo);
+  void setPhoto(PhotoDto photo);
 
 }

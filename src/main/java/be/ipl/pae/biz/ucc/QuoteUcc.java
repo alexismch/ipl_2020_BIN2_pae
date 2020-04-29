@@ -88,7 +88,7 @@ public interface QuoteUcc {
   QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException;
 
   /**
-   * Get quotes via filters and the customer's id
+   * Get quotes via filters and the customer's id.
    * 
    * @param quotesFilterDto all the filters that the user chosed
    * @param idCustomer the id of the customer

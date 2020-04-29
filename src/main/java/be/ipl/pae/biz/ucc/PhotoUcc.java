@@ -45,5 +45,5 @@ public interface PhotoUcc {
    * @throws BizException if an error occured with the db
    * @throws FatalException if an error occurred with transaction
    */
-  public PhotoDto getPhotoById(int id) throws BizException, FatalException;
+  PhotoDto getPhotoById(int id) throws BizException, FatalException;
 }

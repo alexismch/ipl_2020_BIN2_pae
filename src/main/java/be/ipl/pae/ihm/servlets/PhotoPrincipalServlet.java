@@ -22,12 +22,12 @@ public class PhotoPrincipalServlet extends AbstractServlet {
     System.out.println("GET /api/photos-Principal by " + req.getRemoteAddr());
 
     String id = req.getParameter("idPhotoPrincipal");
-    int id_photo = Integer.parseInt(id);
+    int idPhoto = Integer.parseInt(id);
 
     try {
       GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
       sendSuccessWithJson(resp, "photosPrincipal",
-          gensonBuilder.create().serialize(photoUcc.getPhotoById(id_photo)));
+          gensonBuilder.create().serialize(photoUcc.getPhotoById(idPhoto)));
     } catch (FatalException fatalE) {
       sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
     } catch (BizException bizE) {
