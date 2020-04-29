@@ -9,7 +9,8 @@ public interface Quote extends QuoteDto {
    * 
    * @param quote an object quote
    * @param state the state of the quote in the db
-   * @return true if the state in the db is the same that we received, otherwise false
+   * @return true if the state in the db is the same that we received or if the ste state ==
+   *         CANCELED, otherwise false
    */
   boolean checkStateQuote(QuoteDto quote, QuoteState state);
 }

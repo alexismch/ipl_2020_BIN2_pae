@@ -193,6 +193,9 @@ public class QuoteImpl implements Quote {
 
   @Override
   public boolean checkStateQuote(QuoteDto quote, QuoteState state) {
+    if (quote.getState() == QuoteState.CANCELLED) {
+      return true;
+    }
     return quote.getState() == state;
   }
 
