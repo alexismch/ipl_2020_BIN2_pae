@@ -17,30 +17,16 @@ import {isCustomer} from '../utils/userUtils.js';
  */
 export class QuotesListPage extends Page {
 
-  _template = `<div>
-  <form class="form-inline p-1 elevation-1 bg-light quotes-list-search" method="get">
-  <input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">
-  <div class="form-group select-date mx-1 mt-1"></div>
-  <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
-  <input class="form-control form-control-sm mx-1 mt-1" name="montantMax" placeholder="Montant maximum" type="number">
-
-  <div class="form-group select-multiple-developmentType mx-1 mt-1"></div>
-
-    <div class="input-group input-group-sm mx-1 mt-1">
-      <button class="btn btn-primary btn-sm w-100">Rechercher</button>
-    </div>
-  </form>
-  <p class="quotes-list-search-msg d-none m-0 p-2 alert alert-primary rounded-0"></p>
-  <ul class="quotes-list m-2 p-0"></ul>
-</div>`;
-
   _developmentTypeList = [];
+  _idCustoner;
 
   /**
    *
    */
   constructor(query, idCustomer) {
     super(isCustomer() ? 'Mes devis' : idCustomer ? 'Devis du client n°' + idCustomer : 'Devis');
+
+    this._idCustoner = idCustomer;
 
     this._$view = $(this._template);
 
@@ -127,6 +113,26 @@ export class QuotesListPage extends Page {
       this.isLoading = false;
     });
 
+  }
+
+  get _template() {
+    return `<div>
+  <form class="form-inline p-1 elevation-1 bg-light quotes-list-search" method="get">
+  ${isCustomer() || this._idCustoner ? ''
+        : '<input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">'}
+  <div class="form-group select-date mx-1 mt-1"></div>
+  <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
+  <input class="form-control form-control-sm mx-1 mt-1" name="montantMax" placeholder="Montant maximum" type="number">
+
+  <div class="form-group select-multiple-developmentType mx-1 mt-1"></div>
+
+    <div class="input-group input-group-sm mx-1 mt-1">
+      <button class="btn btn-primary btn-sm w-100">Rechercher</button>
+    </div>
+  </form>
+  <p class="quotes-list-search-msg d-none m-0 p-2 alert alert-primary rounded-0"></p>
+  <ul class="quotes-list m-2 p-0"></ul>
+</div>`;
   }
 
   _createQuotesList(quotes, emptyMsg) {
