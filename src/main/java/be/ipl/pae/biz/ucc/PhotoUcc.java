@@ -38,7 +38,7 @@ public interface PhotoUcc {
   void insert(List<PhotoDto> photoDtos) throws FatalException, BizException;
 
   /**
-   * Get a photo from the db with the id
+   * Get a photo from the db with the id.
    *
    * @param id the photo id
    * @return the photo retrieve with the id

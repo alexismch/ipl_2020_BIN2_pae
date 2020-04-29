@@ -142,6 +142,7 @@ public class PhotoDaoImpl implements PhotoDao {
     }
   }
 
+  @Override
   public PhotoDto getPhotoById(int idPhoto) throws FatalException {
     PhotoDto photoDtoToReturn = photoDtoFactory.getPhoto();
     PreparedStatement ps;

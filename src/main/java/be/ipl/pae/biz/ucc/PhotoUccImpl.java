@@ -71,7 +71,7 @@ public class PhotoUccImpl implements PhotoUcc {
   }
 
 
-
+  @Override
   public PhotoDto getPhotoById(int id) throws BizException, FatalException {
     try {
       dalService.startTransaction();
