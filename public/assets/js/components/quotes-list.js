@@ -18,7 +18,7 @@ import {isCustomer} from '../utils/userUtils.js';
 export class QuotesListPage extends Page {
 
   _template = `<div>
-  <form action="devis" class="form-inline p-1 elevation-1 bg-light quotes-list-search" method="get">
+  <form class="form-inline p-1 elevation-1 bg-light quotes-list-search" method="get">
   <input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">
   <div class="form-group select-date mx-1 mt-1"></div>
   <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
@@ -61,13 +61,16 @@ export class QuotesListPage extends Page {
     });
     $selectMultipleDevelopemntType.append(mutltipleDevelopmentTypeInputComponentView);
 
-    onSubmitWithNavigation(this._$view.find('form'), (url, data) => {
+    const $form = this._$view.find('form');
+    $form.attr('action', isCustomer() ? 'mes-devis' : idCustomer ? 'clients/' + idCustomer : 'devis');
+
+    onSubmitWithNavigation($form, (url, data) => {
       if (data !== query) {
         router.navigate(url + '?' + data);
       }
     });
 
-    ajaxGET('/api/quotes-list', query + (idCustomer ? 'idCustomer=' + idCustomer : ''), (data) => {
+    ajaxGET('/api/quotes-list', query + (idCustomer ? '&idCustomer=' + idCustomer : ''), (data) => {
       if (query !== undefined && query !== null && query !== '') {
         let shouldHide = true;
         let researchMsg = 'Résultats de la recherche: ';
@@ -108,7 +111,7 @@ export class QuotesListPage extends Page {
         }
         if (!shouldHide) {
           this._$view.find('.quotes-list-search-msg').html(researchMsg).removeClass('d-none');
-          this._$view.find('form').deserialize(query);
+          $form.deserialize(query);
           mutltipleDevelopmentTypeInputComponent.update();
         } else {
           this._$view.find('.quotes-list-search-msg').addClass('d-none');
