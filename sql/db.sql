@@ -42,7 +42,7 @@ create table mystherbe.quotes
         constraint quotes_id_customer_fkey
             references mystherbe.customers,
     quote_date    date        not null,
-    total_amount  money       not null,
+    total_amount  DOUBLE PRECISION       not null,
     work_duration integer     not null,
     id_state      integer     not null,
     start_date    date,
