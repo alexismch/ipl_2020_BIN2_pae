@@ -1,7 +1,7 @@
 package be.ipl.pae.ihm.server;
 
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.ihm.servlets.CustomerDetailsServlet;
+import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.CustomersListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypesListServlet;
@@ -63,7 +63,7 @@ public class Server {
   private LinkCcServlet linkCcServlet;
 
   @Injected
-  private CustomerDetailsServlet customerDetailsServlet;
+  private CustomerServlet customerServlet;
 
   @Injected
   private PhotosListServlet photosListServlet;
@@ -122,7 +122,7 @@ public class Server {
         "/developmentType-list");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
-    backendContext.addServlet(new ServletHolder(customerDetailsServlet), "/customer-details");
+    backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
     backendContext.addServlet(new ServletHolder(photoServlet), "/photo");
     backendContext.addServlet(new ServletHolder(photoPrincipalServlet), "/photoPrincipal");
