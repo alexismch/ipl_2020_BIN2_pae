@@ -112,6 +112,7 @@ public class QuoteDaoImpl implements QuoteDao {
     try {
       if (ref[0]) {
         ps.setInt(indexSet, idCustomer);
+        indexSet++;
       }
       if (ref[1]) {
         String name = DalUtils.escapeSpecialLikeChar(quotesFilterDto.getCustomerName());
