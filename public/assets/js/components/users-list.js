@@ -70,10 +70,11 @@ export class UsersListPage extends Page {
         } else {
           this._$view.find('.users-list-search-msg').addClass('d-none');
         }
+        this._createUsersList(data.users, 'Il n\'y a pas d\'utilisateur pour votre recherche');
       } else {
         this._$view.find('.users-list-search-msg').addClass('d-none');
+        this._createUsersList(data.users, 'Il n\'y a pas encore d\'utilisateur');
       }
-      this._createUsersList(data.users);
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -82,11 +83,15 @@ export class UsersListPage extends Page {
 
   }
 
-  _createUsersList(users) {
+  _createUsersList(users, emptyMsg) {
     const $usersList = this._$view.find('.users-list');
     $usersList.empty();
-    for (const user of users) {
-      this._createUsersListItem($usersList, user);
+    if (users.length == 0) {
+      $usersList.append('<li class="empty-list-item shadow border border-left-danger rounded mb-2"><p>' + emptyMsg + '</p></li>')
+    } else {
+      for (const user of users) {
+        this._createUsersListItem($usersList, user);
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
+import be.ipl.pae.biz.objets.PhotoImpl;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dal.util.DalUtils;
@@ -57,46 +58,49 @@ public class QuoteDaoImpl implements QuoteDao {
   }
 
   @Override
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException {
 
     ArrayList<QuoteDto> quotesList = new ArrayList<>();
 
     String querySelect = "SELECT q.id_quote, q.quote_date, q.total_amount::decimal, "
-        + "q.work_duration, c.id_customer, q.id_state, q.start_date ";
+        + "q.work_duration, c.id_customer, q.id_state, q.start_date,id_photo ";
 
     String queryFrom = "FROM mystherbe.quotes q, mystherbe.customers c ";
 
-    String queryWhere = "WHERE (q.id_customer = c.id_customer)";
+    String queryWhere = "WHERE (q.id_customer = c.id_customer) ";
 
-    boolean[] ref = new boolean[5];
-    if (quotesFilterDto.getCustomerName() != null) {
-      queryWhere += " AND lower(c.lastname) LIKE lower(?)";
+    boolean[] ref = new boolean[6];
+
+    if (idCustomer > 0) {
+      queryWhere += "AND (c.id_customer = ?)";
       ref[0] = true;
+    }
+    if (quotesFilterDto.getCustomerName() != null) {
+      queryWhere += "AND lower(c.lastname) LIKE lower(?) ";
+      ref[1] = true;
     }
     if (quotesFilterDto.getTotalAmountMin() != -1) {
       queryWhere += "AND (q.total_amount::decimal > ?) ";
-      ref[1] = true;
+      ref[2] = true;
 
     }
     if (quotesFilterDto.getTotalAmountMax() != -1) {
       queryWhere += "AND (q.total_amount::decimal < ?) ";
-      ref[2] = true;
+      ref[3] = true;
 
     }
     if (quotesFilterDto.getQuoteDate() != null) {
       queryWhere += "AND (q.quote_date = ?) ";
-      ref[3] = true;
+      ref[4] = true;
     }
-    int nbDevTypes = 0;
     if (quotesFilterDto.getDevelopmentTypeDto() != null
         && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
-      ref[4] = true;
-      for (DevelopmentTypeDto developementType : quotesFilterDto.getDevelopmentTypeDto()) {
-        nbDevTypes++;
-        querySelect += ", qt" + nbDevTypes + ".id_type ";
-        queryFrom += ", mystherbe.quote_types qt" + nbDevTypes + " ";
-        queryWhere += "AND (q.id_quote = qt" + nbDevTypes + ".id_quote) AND (qt" + nbDevTypes
-            + ".id_type = ?) ";
+      ref[5] = true;
+      for (int i = 1; i <= quotesFilterDto.getDevelopmentTypeDto().size(); i++) {
+        querySelect += ", qt" + i + ".id_type ";
+        queryFrom += ", mystherbe.quote_types qt" + i + " ";
+        queryWhere += "AND (q.id_quote = qt" + i + ".id_quote) AND (qt" + i + ".id_type = ?) ";
       }
     }
 
@@ -105,23 +109,27 @@ public class QuoteDaoImpl implements QuoteDao {
     int indexSet = 1;
     try {
       if (ref[0]) {
+        ps.setInt(indexSet, idCustomer);
+        indexSet++;
+      }
+      if (ref[1]) {
         String name = DalUtils.escapeSpecialLikeChar(quotesFilterDto.getCustomerName());
         ps.setString(indexSet, name + "%");
         indexSet++;
       }
-      if (ref[1]) {
+      if (ref[2]) {
         ps.setInt(indexSet, quotesFilterDto.getTotalAmountMin());
         indexSet++;
       }
-      if (ref[2]) {
+      if (ref[3]) {
         ps.setInt(indexSet, quotesFilterDto.getTotalAmountMax());
         indexSet++;
       }
-      if (ref[3]) {
+      if (ref[4]) {
         ps.setDate(indexSet, Date.valueOf(quotesFilterDto.getQuoteDate()));
         indexSet++;
       }
-      if (ref[4]) {
+      if (ref[5]) {
         for (DevelopmentTypeDto developmentType : quotesFilterDto.getDevelopmentTypeDto()) {
           ps.setInt(indexSet, developmentType.getIdType());
           indexSet++;
@@ -152,12 +160,15 @@ public class QuoteDaoImpl implements QuoteDao {
           if (quotesFilterDto.getDevelopmentTypeDto() != null
               && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
             ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
-            for (DevelopmentTypeDto developmentType : quotesFilterDto.getDevelopmentTypeDto()) {
+            for (int i = 1; i <= quotesFilterDto.getDevelopmentTypeDto().size(); i++) {
               listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(inc)));
               inc++;
             }
             quoteDto.setDevelopmentType(listDevelopment);
           }
+          PhotoDto photo = photoDao.getPhotoById(rs.getInt(8));
+          if (photo != null)
+            quoteDto.setPhoto(photo);
           quotesList.add(quoteDto);
         }
       }
@@ -220,6 +231,8 @@ public class QuoteDaoImpl implements QuoteDao {
    */
   private QuoteDto createQuoteDto(ResultSet res) throws FatalException {
     QuoteDto quote = quoteDtoFactory.getQuote();
+    PhotoDto pho = new PhotoImpl("test", 1, "test", "test", true, 1, true);
+    pho.setTitle("test photo");
     try {
 
       quote.setIdQuote(res.getString(1));
@@ -233,11 +246,10 @@ public class QuoteDaoImpl implements QuoteDao {
       }
       quote.setState(QuoteState.getById(res.getInt(6)));
 
-
       CustomerDto customer = customerDao.getCustomer(res.getInt(2));
       PhotoDto photo = photoDao.getPhotoById(res.getInt(8));
       quote.setCustomer(customer);
-      quote.setPhoto(photo);
+      quote.setPhoto(pho);
     } catch (SQLException ex) {
       ex.printStackTrace();
       throw new FatalException(ex);
@@ -365,4 +377,60 @@ public class QuoteDaoImpl implements QuoteDao {
     }
   }
 
+  @Override
+  public int getWorkduRation(String idQuote) throws FatalException {
+    QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("Select work_duration " + "FROM mystherbe.quotes WHERE id_quote =? ");
+
+    try {
+      ps.setString(1, idQuote);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          quoteDtoToReturn.setWorkDuration(resultSet.getInt(1));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error in the db!");
+    }
+    return quoteDtoToReturn.getWorkDuration();
+  }
+
+  @Override
+  public QuoteState getStateQuote(String idQuote) throws FatalException {
+    QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
+    PreparedStatement ps;
+    ps = dalService
+        .getPreparedStatement("Select id_state " + "FROM mystherbe.quotes WHERE id_quote =? ");
+
+    try {
+      ps.setString(1, idQuote);
+      try (ResultSet resultSet = ps.executeQuery()) {
+        while (resultSet.next()) {
+          quoteDtoToReturn.setState(QuoteState.getById(resultSet.getInt(1)));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error in the db!");
+    }
+    return quoteDtoToReturn.getState();
+  }
+
+  @Override
+  public void setFavoritePhoto(String quoteId, int photoId) throws FatalException {
+    PreparedStatement ps = dalService
+        .getPreparedStatement("UPDATE mystherbe.quotes SET id_photo = ? WHERE id_quote = ?");
+
+    try {
+      ps.setInt(1, photoId);
+      ps.setString(2, quoteId);
+      ps.executeUpdate();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+  }
 }

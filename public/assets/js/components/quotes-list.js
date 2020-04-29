@@ -4,6 +4,7 @@ import {ajaxGET} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {DateInputComponent} from './inputs/datepicker-input.js';
 import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developmentType-input.js';
+import {isCustomer} from '../utils/userUtils.js';
 
 /**
  * @module Components
@@ -16,29 +17,16 @@ import {MutltipleDevelopmentTypeInputComponent} from './inputs/multiple-developm
  */
 export class QuotesListPage extends Page {
 
-  _template = `<div>
-  <form action="devis" class="form-inline p-1 elevation-1 bg-light quotes-list-search" method="get">
-  <input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">
-  <div class="form-group select-date mx-1 mt-1"></div>
-  <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
-  <input class="form-control form-control-sm mx-1 mt-1" name="montantMax" placeholder="Montant maximum" type="number">
+  _developmentTypeList = [];
+  _idCustoner;
 
-  <div class="form-group select-multiple-developmentType mx-1 mt-1"></div>
-
-    <div class="input-group input-group-sm mx-1 mt-1">
-      <button class="btn btn-primary btn-sm w-100">Rechercher</button>
-    </div>
-  </form>
-  <p class="quotes-list-search-msg d-none m-0 p-2 alert alert-primary rounded-0"></p>
-  <ul class="quotes-list m-2 p-0"></ul>
-</div>`;
-
-_developmentTypeList = [];
   /**
    *
    */
-  constructor(query) {
-    super('Devis');
+  constructor(query, idCustomer) {
+    super(isCustomer() ? 'Mes devis' : idCustomer ? 'Devis du client n°' + idCustomer : 'Devis');
+
+    this._idCustoner = idCustomer;
 
     this._$view = $(this._template);
 
@@ -51,7 +39,7 @@ _developmentTypeList = [];
     const $selectMultipleDevelopemntType = this._$view.find('.select-multiple-developmentType');
     const mutltipleDevelopmentTypeInputComponent = new MutltipleDevelopmentTypeInputComponent('types', (developmentTypeList) => {
       this._developmentTypeList = developmentTypeList;
-    }, false, 'Type d\'aménagement(s)', false, false, 'Type d\'aménagement(s)');
+    }, false, 'Type d\'aménagement(s)', false, false, 'Type d\'aménagement(s)', false);
     const mutltipleDevelopmentTypeInputComponentView = mutltipleDevelopmentTypeInputComponent.getView();
     mutltipleDevelopmentTypeInputComponentView.find(
         '#multiple_developmentType_input_' + mutltipleDevelopmentTypeInputComponent.getUniqueId() + '_chosen .chosen-choices').css({
@@ -59,13 +47,16 @@ _developmentTypeList = [];
     });
     $selectMultipleDevelopemntType.append(mutltipleDevelopmentTypeInputComponentView);
 
-    onSubmitWithNavigation(this._$view.find('form'), (url, data) => {
+    const $form = this._$view.find('form');
+    $form.attr('action', isCustomer() ? 'mes-devis' : idCustomer ? 'clients/' + idCustomer : 'devis');
+
+    onSubmitWithNavigation($form, (url, data) => {
       if (data !== query) {
         router.navigate(url + '?' + data);
       }
     });
 
-    ajaxGET('/api/quotes-list', query, (data) => {
+    ajaxGET('/api/quotes-list', query + (idCustomer ? '&idCustomer=' + idCustomer : ''), (data) => {
       if (query !== undefined && query !== null && query !== '') {
         let shouldHide = true;
         let researchMsg = 'Résultats de la recherche: ';
@@ -106,15 +97,16 @@ _developmentTypeList = [];
         }
         if (!shouldHide) {
           this._$view.find('.quotes-list-search-msg').html(researchMsg).removeClass('d-none');
-          this._$view.find('form').deserialize(query);
+          $form.deserialize(query);
           mutltipleDevelopmentTypeInputComponent.update();
         } else {
           this._$view.find('.quotes-list-search-msg').addClass('d-none');
         }
+        this._createQuotesList(data.quotesList, 'Il n\'y a pas de devis pour votre recherche');
       } else {
         this._$view.find('.quotes-list-search-msg').addClass('d-none');
+        this._createQuotesList(data.quotesList, 'Il n\'y a pas encore de devis');
       }
-      this._createQuotesList(data.quotesList);
       router.updatePageLinks();
       this.isLoading = false;
     }, () => {
@@ -123,24 +115,43 @@ _developmentTypeList = [];
 
   }
 
-  _createQuotesList(quotesList) {
+  get _template() {
+    return `<div>
+  <form class="form-inline p-1 elevation-1 bg-light quotes-list-search" method="get">
+  ${isCustomer() || this._idCustoner ? ''
+        : '<input class="form-control form-control-sm mx-1 mt-1" name="name" placeholder="Nom du client" type="text">'}
+  <div class="form-group select-date mx-1 mt-1"></div>
+  <input class="form-control form-control-sm mx-1 mt-1" name="montantMin" placeholder="Montant minimum" type="number">
+  <input class="form-control form-control-sm mx-1 mt-1" name="montantMax" placeholder="Montant maximum" type="number">
+
+  <div class="form-group select-multiple-developmentType mx-1 mt-1"></div>
+
+    <div class="input-group input-group-sm mx-1 mt-1">
+      <button class="btn btn-primary btn-sm w-100">Rechercher</button>
+    </div>
+  </form>
+  <p class="quotes-list-search-msg d-none m-0 p-2 alert alert-primary rounded-0"></p>
+  <ul class="quotes-list m-2 p-0"></ul>
+</div>`;
+  }
+
+  _createQuotesList(quotes, emptyMsg) {
     const $quotesList = this._$view.find('.quotes-list');
     $quotesList.empty();
-    for (const quote of quotesList) {
-    	  var tof = quote.photo;
-    	  if(tof != null){
-    		  alert(quote.photo);
-    	  }
-      this._createQuotesListItem($quotesList, quote);
+    if (quotes.length == 0) {
+      $quotesList.append('<li class="empty-list-item shadow border border-left-danger rounded mb-2"><p>' + emptyMsg + '</p></li>')
+    } else {
+      for (const quote of quotes) {
+        this._createQuotesListItem($quotesList, quote);
+      }
     }
   }
 
   _createQuotesListItem($quotesList, quote) {
-
+	  
     const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
-  
-  
-    	<img src="/assets/img/img-placeholder.jpg" alt="devis n°${quote.idQuote}" />
+  ${quote.photo ? '<img src="' + quote.photo.base64 + '" alt="' + quote.photo.title + '" />'
+        : '<img src="/assets/img/img-placeholder.jpg" alt="pas de photo" />'}
   <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
   <p class="quote-first-col">Client: ${quote.customer.lastName} ${quote.customer.firstName}</p>
   <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).format('L')}</p>

@@ -4,8 +4,6 @@ import static be.ipl.pae.ihm.Util.hasAccess;
 import static be.ipl.pae.ihm.Util.isAllInside;
 import static be.ipl.pae.ihm.Util.verifyNotEmpty;
 import static be.ipl.pae.ihm.Util.verifySameLength;
-import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParam;
-import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParamAsQuoteState;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
@@ -19,6 +17,7 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.servlets.utils.ParameterException;
+import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -49,7 +48,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("POST /api/insertQuote by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.WORKER)) {
+    if (!hasAccess(token, UserStatus.WORKER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wong token.");
       return;
     }
@@ -156,7 +155,7 @@ public class QuoteServlet extends AbstractServlet {
     System.out.println("GET /api/quote by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
-    if (!hasAccess(token, req.getRemoteAddr(), UserStatus.CUSTOMER)) {
+    if (!hasAccess(token, UserStatus.CUSTOMER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
       return;
     }
@@ -178,8 +177,8 @@ public class QuoteServlet extends AbstractServlet {
 
     try {
       QuoteDto quote = dtoFactory.getQuote();
-      QuoteState quoteState = getParamAsQuoteState(req, "stateId");
-      String idQuote = getParam(req, "quoteId");
+      QuoteState quoteState = ParametersUtils.getParamAsQuoteState(req, "stateId");
+      String idQuote = ParametersUtils.getParam(req, "quoteId");
       String dateString = req.getParameter("date");
 
       if (verifyNotEmpty(dateString)) {

@@ -1,12 +1,12 @@
 package be.ipl.pae.ihm.server;
 
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.ihm.servlets.CustomerDetailsServlet;
 import be.ipl.pae.ihm.servlets.CustomerServlet;
 import be.ipl.pae.ihm.servlets.CustomersListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypesListServlet;
 import be.ipl.pae.ihm.servlets.ErrorHandler;
+import be.ipl.pae.ihm.servlets.FavoritePhotoServlet;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LinkCcServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
@@ -58,16 +58,13 @@ public class Server {
   private DevelopmentTypesListServlet developmentTypesListServlet;
 
   @Injected
-  private CustomerServlet customerServlet;
-
-  @Injected
   private CustomersListServlet customersListServlet;
 
   @Injected
   private LinkCcServlet linkCcServlet;
 
   @Injected
-  private CustomerDetailsServlet customerDetailsServlet;
+  private CustomerServlet customerServlet;
 
   @Injected
   private PhotosListServlet photosListServlet;
@@ -77,6 +74,9 @@ public class Server {
 
   @Injected
   private PhotoPrincipalServlet photoPrincipalServlet;
+
+  @Injected
+  private FavoritePhotoServlet favoritePhotoServlet;
 
   public Server(int port) {
     this.port = port;
@@ -124,13 +124,13 @@ public class Server {
     backendContext.addServlet(new ServletHolder(developmentTypeServlet), "/developmentType");
     backendContext.addServlet(new ServletHolder(developmentTypesListServlet),
         "/developmentType-list");
-    backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(customersListServlet), "/customers-list");
     backendContext.addServlet(new ServletHolder(linkCcServlet), "/link-cc");
-    backendContext.addServlet(new ServletHolder(customerDetailsServlet), "/customer-details");
+    backendContext.addServlet(new ServletHolder(customerServlet), "/customer");
     backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
     backendContext.addServlet(new ServletHolder(photoServlet), "/photo");
     backendContext.addServlet(new ServletHolder(photoPrincipalServlet), "/photoPrincipal");
+    backendContext.addServlet(new ServletHolder(favoritePhotoServlet), "/photo-fav");
 
     return backendContext;
   }

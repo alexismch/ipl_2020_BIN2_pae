@@ -101,7 +101,6 @@ public class UserUccImpl implements UserUcc {
     } finally {
       dalService.commitTransaction();
     }
-
   }
 
   @Override

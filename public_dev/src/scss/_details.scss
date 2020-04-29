@@ -20,3 +20,18 @@ $detail-quote-image-min-height: 300px;
   }
 
 }
+
+.detail-quote-photos-after .list .likeIcon {
+
+  display: flex;
+  cursor: pointer;
+  text-shadow: 0 0 50px aliceblue;
+  position: absolute;
+  margin: .2em;
+  font-size: 2em;
+
+  & .fas.fa-heart {
+    color: hotpink;
+  }
+
+}

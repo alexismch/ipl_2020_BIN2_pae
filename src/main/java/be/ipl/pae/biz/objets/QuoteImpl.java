@@ -4,6 +4,7 @@ package be.ipl.pae.biz.objets;
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
+import be.ipl.pae.biz.dto.QuoteDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -40,7 +41,8 @@ public class QuoteImpl implements Quote {
    * @param customer the customer that has asked a quote
    */
   public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, BigDecimal totalAmount,
-      int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer) {
+      int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer,
+      PhotoDto photo) {
     super();
     this.idQuote = iqQuote;
     this.idCustomer = idCustomer;
@@ -50,6 +52,7 @@ public class QuoteImpl implements Quote {
     this.state = state;
     this.startDate = startDate;
     this.customer = customer;
+    this.photo = photo;
   }
 
 
@@ -189,6 +192,15 @@ public class QuoteImpl implements Quote {
   public PhotoDto getPhoto() {
     return photo;
   }
+
+  @Override
+  public boolean checkStateQuote(QuoteDto quote, QuoteState state) {
+    if (quote.getState() == QuoteState.CANCELLED) {
+      return true;
+    }
+    return quote.getState() == state;
+  }
+
 
 
   public void setPhoto(PhotoDto photo) {

@@ -57,6 +57,7 @@ public class PhotoUccImpl implements PhotoUcc {
     try {
       dalService.startTransaction();
       try {
+        //TODO: verif état 6 || 7
         for (PhotoDto photo : photos) {
           photoDao.insert(photo);
         }
@@ -71,7 +72,7 @@ public class PhotoUccImpl implements PhotoUcc {
   }
 
 
-
+  @Override
   public PhotoDto getPhotoById(int id) throws BizException, FatalException {
     try {
       dalService.startTransaction();

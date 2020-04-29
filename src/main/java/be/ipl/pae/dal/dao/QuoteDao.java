@@ -30,7 +30,7 @@ public interface QuoteDao {
    * Link the quote to a development type.
    *
    * @param quoteId the quote id
-   * @param typeId  the development type id
+   * @param typeId the development type id
    * @throws FatalException if a problem occurred with the db
    */
   void linkToType(String quoteId, int typeId) throws FatalException;
@@ -73,30 +73,46 @@ public interface QuoteDao {
    * change the state of the quote in the db.
    *
    * @param confirmedDate the new state
-   * @param quoteId       the quote of the id
+   * @param quoteId the quote of the id
    * @throws FatalException error with the db
    */
   void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
 
   /**
-   * Get quotes via filters.
+   * Get quotes via filters and the id of the customer.
    *
    * @param quotesFilterDto all the filters that the user chosed
-   * @return a list of quotes depending on the user's filters
+   * @param idCustomer      the id of the customer
+   * @return list of quotes depending on the user's filters
    * @throws FatalException error with the db
    */
-  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
+  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException;
 
+  /**
+   * return the workDuration of a quote.
+   * 
+   * @param idQuote the quote of the id
+   * @return the workDuration
+   * @throws FatalException error with the db
+   */
+  int getWorkduRation(String idQuote) throws FatalException;
 
-  /*
-
-  DO NOT FIX THIS CHECKSTYLE ISSUE
-
-   * Get the state of an quote by id.
+  /**
+   * Get the current state of the quote.
    *
    * @param idQuote the id of the quote
-   * @return an {@link QuoteState} or null if the quote do not exist
-   * @throws FatalException if an error occurred with the database.
+   * @return the state of the quote
+   * @throws FatalException error with the db
    */
-  //QuoteState getQuoteState(String idQuote) throws FatalException;
+  QuoteState getStateQuote(String idQuote) throws FatalException;
+
+  /**
+   * Set the favorite photo to the quote.
+   *
+   * @param quoteId the id of the quote
+   * @param photoId the id of the photo
+   * @throws FatalException if an error occurred with transaction
+   */
+  void setFavoritePhoto(String quoteId, int photoId) throws FatalException;
 }

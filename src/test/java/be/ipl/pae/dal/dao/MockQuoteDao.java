@@ -70,7 +70,7 @@ public class MockQuoteDao implements QuoteDao {
   }
 
   @Override
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer) {
     ArrayList<QuoteDto> testArray = new ArrayList<>();
     if (quotesFilterDto == null) {
       return testArray;
@@ -90,4 +90,20 @@ public class MockQuoteDao implements QuoteDao {
     return null;
   }
 
+  @Override
+  public int getWorkduRation(String idQuote) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public QuoteState getStateQuote(String idQuote) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setFavoritePhoto(String quoteId, int photoId) {
+
+  }
 }

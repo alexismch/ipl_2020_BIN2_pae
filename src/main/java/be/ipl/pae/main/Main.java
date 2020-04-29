@@ -2,6 +2,7 @@ package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.server.Server;
 
 import java.util.Arrays;
@@ -40,6 +41,7 @@ public class Main {
     Server server = new Server(port);
     InjectionService injectionService = new InjectionService(propertiesLoader);
     injectionService.inject(server);
+    Util.setJwt(propertiesLoader.getProperty("jwt"));
     server.start();
   }
 }

@@ -42,8 +42,8 @@ export class QuoteDetailPage extends Page {
       <div class="detail-quote-development-types card mb-3"></div>
     </div>
   </div>
-  <div class="detail-quote-photos-before card shadow mb-3"></div>
-  <div class="detail-quote-photos-after card shadow mb-3"></div>
+  <div class="detail-quote-photos-before card mb-3"></div>
+  <div class="detail-quote-photos-after card mb-3"></div>
 </div>`;
 
   /**
@@ -80,8 +80,8 @@ export class QuoteDetailPage extends Page {
     this._createQuoteDetailQuote(quote);
     this._createQuoteDetailClient(quote.customer);
     this._createQuoteDetailDevelopmentTypeList(quote.developmentTypes);
-    this._createQuoteDetailPhotoBefore(quote.listPhotoBefore);
-    this._createQuoteDetailPhotoAfter(quote.listPhotoAfter);
+    this._createQuoteDetailPhotoBefore(quote.idQuote, quote.listPhotoBefore);
+    this._createQuoteDetailPhotoAfter(quote.idQuote, quote.listPhotoAfter);
     this._createWorkerButton(quote);
   }
 
@@ -115,7 +115,8 @@ export class QuoteDetailPage extends Page {
         this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'PARTIAL_INVOICE':
-        // TODO
+        this._createTotal_InvoiceForm($formContainer, quote.idQuote, quote.state.id);
+        this._createCancelQuoteButton($cancelContainer, quote.idQuote);
         break;
       case 'TOTAL_INVOICE':
         this._createVisibleForm($formContainer, quote.idQuote, quote.state.id);
@@ -155,7 +156,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La commande a bien été confirmée !');
     }, () => {
-      createAlert('error', 'La commande n\'a pas été confirmée !');
+      createAlert('danger', 'La commande n\'a pas été confirmée !');
     });
 
     $formContainer.append($form);
@@ -223,7 +224,7 @@ export class QuoteDetailPage extends Page {
         this._changeView(data.quote);
         createAlert('success', 'La date de début des travaux a été modifiée !');
       }, () => {
-        createAlert('error', 'La date de début des travaux n\'a pas été modifiée !');
+        createAlert('danger', 'La date de début des travaux n\'a pas été modifiée !');
       });
 
       $(e.target).remove();
@@ -250,7 +251,7 @@ export class QuoteDetailPage extends Page {
         createAlert('success', 'La date de début des travaux a été supprimée !');
       }, () => {
         this.isLoading = false;
-        createAlert('error', 'La date de début des travaux n\'a pas pu être supprimée !');
+        createAlert('danger', 'La date de début des travaux n\'a pas pu être supprimée !');
       });
     });
 
@@ -281,7 +282,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La date a bien été confirmée !');
     }, () => {
-      createAlert('error', 'La date n\'a pas été confirmée !');
+      createAlert('danger', 'La date n\'a pas été confirmée !');
     });
 
     $formContainer.append($form);
@@ -300,13 +301,28 @@ export class QuoteDetailPage extends Page {
   };
 
 
-  //TODO
+  
   _createPartialInvoiceForm($formContainer, quoteId, stateId) {
+    const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
+    <div class="form-group date-container"></div>
+    <input type="hidden" name="quoteId" value="${quoteId}"/>
+    <input type="hidden" name="stateId" value="${stateId}"/>
+    <div class="form-group mt-2 d-flex justify-content-end">
+      <button class="btn btn-primary">Confirmer la facture de mileu de chantier</button>
+    </div>
+  </form>`);
 
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La facture a bien été envoyée !');
+    }, () => {
+      createAlert('danger', 'La facture n\'a pas été envoyée !');
+    });
+
+    $formContainer.append($form);
   }
 
   _createTotal_InvoiceForm($formContainer, quoteId, stateId) {
-    console.log("test = " + stateId);
 
     const $form = $(`<form action="/api/quote" class="w-100 mb-3" method="put" novalidate>
     <div class="form-group date-container"></div>
@@ -321,7 +337,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La facture a bien été envoyée !');
     }, () => {
-      createAlert('error', 'La facture n\'a pas été envoyée !');
+      createAlert('danger', 'La facture n\'a pas été envoyée !');
     });
 
     $formContainer.append($form);
@@ -342,7 +358,7 @@ export class QuoteDetailPage extends Page {
       this._changeView(data.quote);
       createAlert('success', 'La réalisation a été rendue visible.');
     }, () => {
-      createAlert('error', 'La réalisation n\'a pas été rendue visible.');
+      createAlert('danger', 'La réalisation n\'a pas été rendue visible.');
     });
 
     $formContainer.append($form);
@@ -366,13 +382,13 @@ export class QuoteDetailPage extends Page {
           const $list = this._$view.find('.detail-quote-photos-after .card-body .list');
           if (Array.isArray(data['pictureData'])) {
             for (let i = 0; i < data['pictureData'].length; i++) {
-              this._createPhotoItem($list, {
+              this._createPhotoItem($list, quoteId, {
                 base64: data['pictureData'][i],
                 title: data['pictureTitle'][i]
               });
             }
           } else {
-            this._createPhotoItem($list, {
+            this._createPhotoItem($list, quoteId, {
               base64: data['pictureData'],
               title: data['pictureTitle']
             });
@@ -486,37 +502,55 @@ export class QuoteDetailPage extends Page {
    * give all the photos of the quote before development
    * @param {*} typeList
    */
-  _createQuoteDetailPhotoBefore(photoList) {
+  _createQuoteDetailPhotoBefore(quoteId, photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-before');
     $quoteDetailPhoto.empty().append('<div class="card-header"><h4>Photos avant aménagements</h4></div>');
-    this._createPhotoList($quoteDetailPhoto, photoList);
+    this._createPhotoList($quoteDetailPhoto, quoteId, photoList);
   }
 
   /**
    * give all the photos of the quote after development
    * @param {*} typeList
    */
-  _createQuoteDetailPhotoAfter(photoList) {
+  _createQuoteDetailPhotoAfter(quoteId, photoList) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-after');
     $quoteDetailPhoto.empty().append('<div class="card-header d-flex justify-content-between"><h4>Photos après aménagements</h4></div>');
-    this._createPhotoList($quoteDetailPhoto, photoList, false);
+    this._createPhotoList($quoteDetailPhoto, quoteId, photoList, false);
   }
 
-  _createPhotoList($container, photoList, isBefore = true) {
+  _createPhotoList($container, quoteId, photoList, isBefore = true) {
     const $cardBody = $('<div class="card-body"></div>');
     if (photoList.length == 0) {
       $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
       const $list = $('<div>', {class: 'list'});
-      photoList.forEach(photo => this._createPhotoItem($list, photo));
+      photoList.forEach(photo => this._createPhotoItem($list, quoteId, photo, isBefore));
       $cardBody.append($list);
     }
     $container.append($cardBody);
   }
 
-  _createPhotoItem($container, photo) {
-    const $img = $(`<img src="${photo.base64}" alt="${photo.title}">`);
-    $container.append($img);
+  _createPhotoItem($container, quoteId, photo, isBefore = true) {
+    const $div = $(`<div class="d-flex"><img src="${photo.base64}" alt="${photo.title}"></div>`);
+    if (!isBefore) {
+      const $iconContainer = $('<div class="likeIcon">');
+      const $icon = $('<i class="far fa-heart"></i>');
+      $icon.on('click', () => {
+        if ($icon.hasClass('far')) {
+          $icon.removeClass('far fa-heart').addClass('fas fa-circle-notch fa-spin');
+          ajaxPUT('/api/photo-fav', 'quoteId=' + quoteId + "&photoId=" + photo.id, () => {
+            const $likeIcons = $container.find('.fas.fa-heart').not($icon).removeClass('fas').addClass('far');
+            $icon.removeClass('fas fa-circle-notch fa-spin').addClass('fas fa-heart');
+          }, () => {
+            $icon.removeClass('fas fa-circle-notch fa-spin').addClass('far fa-heart');
+            createAlert('danger', 'La photo préférée n\'a pas été changée.');
+          });
+        }
+      });
+      $iconContainer.append($icon);
+      $div.prepend($iconContainer);
+    }
+    $container.append($div);
   }
 
 }
