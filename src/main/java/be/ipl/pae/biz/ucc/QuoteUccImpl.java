@@ -132,7 +132,7 @@ public class QuoteUccImpl implements QuoteUcc {
 
 
   @Override
-  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException {
+  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
@@ -239,6 +239,30 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.startTransaction();
       quoteDao.setStateQuote(state, idQuote);
       return getQuoteBis(idQuote);
+    } catch (FatalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex.getMessage());
+    } finally {
+      dalService.commitTransaction();
+    }
+  }
+
+  @Override
+  public void setFavoritePhoto(String quoteId, int photoId) throws BizException, FatalException {
+    try {
+      dalService.startTransaction();
+      if (quoteDao.getQuote(quoteId) == null) {
+        throw new BizException("Devis non existant!");
+      }
+      PhotoDto photoDto = photoDao.getPhotoById(photoId);
+      if (photoDto == null) {
+        throw new BizException("Photo inexistante!");
+      }
+      if (!photoDto.getIdQuote().equals(quoteId)) {
+        throw new BizException("Photo non liée au devis!");
+      }
+
+      quoteDao.setFavoritePhoto(quoteId, photoId);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());

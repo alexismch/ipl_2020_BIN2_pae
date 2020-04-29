@@ -240,7 +240,6 @@ public class QuoteDaoImpl implements QuoteDao {
       }
       quote.setState(QuoteState.getById(res.getInt(6)));
 
-
       CustomerDto customer = customerDao.getCustomer(res.getInt(2));
       PhotoDto photo = photoDao.getPhotoById(res.getInt(8));
       quote.setCustomer(customer);
@@ -414,4 +413,18 @@ public class QuoteDaoImpl implements QuoteDao {
     return quoteDtoToReturn.getState();
   }
 
+  @Override
+  public void setFavoritePhoto(String quoteId, int photoId) throws FatalException {
+    PreparedStatement ps = dalService
+        .getPreparedStatement("UPDATE mystherbe.quotes SET id_photo = ? WHERE id_quote = ?");
+
+    try {
+      ps.setInt(1, photoId);
+      ps.setString(2, quoteId);
+      ps.executeUpdate();
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new FatalException("error with the db!");
+    }
+  }
 }

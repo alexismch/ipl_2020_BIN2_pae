@@ -6,6 +6,7 @@ import be.ipl.pae.ihm.servlets.CustomersListServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypeServlet;
 import be.ipl.pae.ihm.servlets.DevelopmentTypesListServlet;
 import be.ipl.pae.ihm.servlets.ErrorHandler;
+import be.ipl.pae.ihm.servlets.FavoritePhotoServlet;
 import be.ipl.pae.ihm.servlets.FrontendServlet;
 import be.ipl.pae.ihm.servlets.LinkCcServlet;
 import be.ipl.pae.ihm.servlets.LoginServlet;
@@ -74,6 +75,9 @@ public class Server {
   @Injected
   private PhotoPrincipalServlet photoPrincipalServlet;
 
+  @Injected
+  private FavoritePhotoServlet favoritePhotoServlet;
+
   public Server(int port) {
     this.port = port;
   }
@@ -126,6 +130,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
     backendContext.addServlet(new ServletHolder(photoServlet), "/photo");
     backendContext.addServlet(new ServletHolder(photoPrincipalServlet), "/photoPrincipal");
+    backendContext.addServlet(new ServletHolder(favoritePhotoServlet), "/favPhoto");
 
     return backendContext;
   }

@@ -80,10 +80,10 @@ public interface QuoteDao {
 
   /**
    * Get quotes via filters and the id of the customer.
-   * 
+   *
    * @param quotesFilterDto all the filters that the user chosed
-   * @param idCustomer the id of the customer
-   * @returna list of quotes depending on the user's filters
+   * @param idCustomer      the id of the customer
+   * @return list of quotes depending on the user's filters
    * @throws FatalException error with the db
    */
   List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
@@ -100,10 +100,19 @@ public interface QuoteDao {
 
   /**
    * Get the current state of the quote.
-   * 
+   *
    * @param idQuote the id of the quote
    * @return the state of the quote
    * @throws FatalException error with the db
    */
   QuoteState getStateQuote(String idQuote) throws FatalException;
+
+  /**
+   * Set the favorite photo to the quote.
+   *
+   * @param quoteId the id of the quote
+   * @param photoId the id of the photo
+   * @throws FatalException if an error occurred with transaction
+   */
+  void setFavoritePhoto(String quoteId, int photoId) throws FatalException;
 }

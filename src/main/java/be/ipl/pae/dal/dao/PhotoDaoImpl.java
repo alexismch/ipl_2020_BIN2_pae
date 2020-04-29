@@ -101,6 +101,7 @@ public class PhotoDaoImpl implements PhotoDao {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
+    //TODO: verif état quote 7
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
             + "FROM mystherbe.photos p, mystherbe.development_types dt "

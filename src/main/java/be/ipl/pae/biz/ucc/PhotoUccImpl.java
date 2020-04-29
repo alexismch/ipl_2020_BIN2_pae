@@ -57,6 +57,7 @@ public class PhotoUccImpl implements PhotoUcc {
     try {
       dalService.startTransaction();
       try {
+        //TODO: verif état 6 || 7
         for (PhotoDto photo : photos) {
           photoDao.insert(photo);
         }
