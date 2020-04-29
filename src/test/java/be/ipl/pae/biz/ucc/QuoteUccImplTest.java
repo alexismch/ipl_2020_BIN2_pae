@@ -95,6 +95,18 @@ public class QuoteUccImplTest {
   }
 
   @Test
+  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE")
+  public void testUseStateManagerOk2() throws BizException, FatalException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("dateConfirme");
+    quote.setState(QuoteState.CONFIRMED_DATE);
+    quote.setIdCustomer(1);
+
+    assertNotNull(qcc.useStateManager(quote));
+  }
+
+  @Test
   @DisplayName("test useStateManager when idQuote == null")
   public void testUseStateManagerko1() throws BizException, FatalException {
     QuoteDto quote = dtoFactory.getQuote();

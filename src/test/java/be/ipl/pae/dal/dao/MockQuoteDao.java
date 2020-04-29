@@ -92,7 +92,9 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public int getWorkduRation(String idQuote) {
-    // TODO Auto-generated method stub
+    if (idQuote.equals("dateConfirme")) {
+      return 20;
+    }
     return 0;
   }
 
@@ -100,6 +102,8 @@ public class MockQuoteDao implements QuoteDao {
   public QuoteState getStateQuote(String idQuote) {
     if (idQuote.equals("introduit")) {
       return QuoteState.QUOTE_ENTERED;
+    } else if (idQuote.equals("dateConfirme")) {
+      return QuoteState.CONFIRMED_DATE;
     }
     return null;
   }
