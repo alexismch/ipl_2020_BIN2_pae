@@ -102,7 +102,7 @@ public class PhotoDaoImpl implements PhotoDao {
   public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type"
-            + "FROM mystherbe.photos p, mystherbe.development_types dt, mystherbe.quotes q"
+            + " FROM mystherbe.photos p, mystherbe.development_types dt, mystherbe.quotes q"
             + " WHERE p.id_type = dt.id_type AND p.is_visible = true"
             + " AND q.id_quote = p.id_quote"
             + " AND q.id_state = 7"
