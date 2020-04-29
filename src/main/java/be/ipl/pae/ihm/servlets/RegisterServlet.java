@@ -32,10 +32,10 @@ public class RegisterServlet extends AbstractServlet {
   GensonBuilder genson = Util.createGensonBuilder();
 
   @Injected
-  UserUcc userUcc;
+  private UserUcc userUcc;
 
   @Injected
-  DtoFactory dtoFactory;
+  private DtoFactory dtoFactory;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

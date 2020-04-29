@@ -23,9 +23,9 @@ import javax.servlet.http.HttpSession;
 public class LoginServlet extends AbstractServlet {
 
   @Injected
-  UserUcc ucc;
+  private UserUcc ucc;
 
-  GensonBuilder genson = Util.createGensonBuilder();
+  private GensonBuilder genson = Util.createGensonBuilder();
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

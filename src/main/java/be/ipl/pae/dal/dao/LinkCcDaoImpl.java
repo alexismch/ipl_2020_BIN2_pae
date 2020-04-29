@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class LinkCcDaoImpl implements LinkCcDao {
 
   @Injected
-  DalService dalService;
+  private DalService dalService;
 
   @Override
   public void link(int customerId, int userId) throws FatalException {

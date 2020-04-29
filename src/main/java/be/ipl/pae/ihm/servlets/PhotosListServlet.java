@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PhotosListServlet extends AbstractServlet {
 
   @Injected
-  PhotoUcc photoUcc;
+  private PhotoUcc photoUcc;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

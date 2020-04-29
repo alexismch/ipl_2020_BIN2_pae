@@ -32,10 +32,13 @@ public class QuotesListServlet extends AbstractServlet {
 
   @Injected
   private DtoFactory dtoFactory;
+
   @Injected
   private QuoteUcc quoteUcc;
+
   @Injected
   private CustomerUcc customerUcc;
+
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
 
@@ -114,7 +117,6 @@ public class QuotesListServlet extends AbstractServlet {
           listToReturn = new ArrayList<>();
         }
       } catch (FatalException ex) {
-        // TODO Auto-generated catch block
         ex.printStackTrace();
       }
 
@@ -126,7 +128,6 @@ public class QuotesListServlet extends AbstractServlet {
         try {
           listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto);
         } catch (FatalException ex) {
-          // TODO Auto-generated catch block
           ex.printStackTrace();
         }
       } else {
@@ -135,7 +136,6 @@ public class QuotesListServlet extends AbstractServlet {
           id = Integer.parseInt(idCustomerString);
           listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto, id);
         } catch (FatalException ex) {
-          // TODO Auto-generated catch block
           ex.printStackTrace();
         }
       }

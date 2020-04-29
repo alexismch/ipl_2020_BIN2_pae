@@ -33,15 +33,15 @@ import javax.servlet.http.HttpServletResponse;
 public class QuoteServlet extends AbstractServlet {
 
   @Injected
-  QuoteUcc quoteUcc;
+  private QuoteUcc quoteUcc;
 
   @Injected
-  DtoFactory dtoFactory;
+  private DtoFactory dtoFactory;
 
   @Injected
-  DevelopmentTypeUcc developmentTypeUcc;
+  private DevelopmentTypeUcc developmentTypeUcc;
 
-  GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
+  private GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {

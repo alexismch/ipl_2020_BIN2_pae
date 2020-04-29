@@ -24,7 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 public class UsersListServlet extends AbstractServlet {
 
   @Injected
-  DtoFactory dtoFactory;
+  private DtoFactory dtoFactory;
+
   @Injected
   private UserUcc userUcc;
 

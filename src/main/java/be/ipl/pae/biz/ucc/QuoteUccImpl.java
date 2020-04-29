@@ -36,7 +36,7 @@ public class QuoteUccImpl implements QuoteUcc {
   private DalServiceTransaction dalService;
 
   @Injected
-  DtoFactory quoteDtoFactory;
+  private DtoFactory quoteDtoFactory;
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws BizException {

@@ -31,7 +31,7 @@ public class Server {
   private int port;
 
   @Injected
-  QuoteServlet quoteServlet;
+  private QuoteServlet quoteServlet;
 
   @Injected
   private QuotesListServlet quotesListServlet;

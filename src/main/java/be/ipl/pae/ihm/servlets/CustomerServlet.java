@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 public class CustomerServlet extends AbstractServlet {
 
   @Injected
-  CustomerUcc customerUcc;
+  private CustomerUcc customerUcc;
 
   @Injected
-  DtoFactory dtoFactory;
+  private DtoFactory dtoFactory;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

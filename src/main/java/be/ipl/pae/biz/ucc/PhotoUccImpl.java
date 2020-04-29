@@ -2,7 +2,9 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
+import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.dao.PhotoDao;
+import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -17,6 +19,9 @@ public class PhotoUccImpl implements PhotoUcc {
 
   @Injected
   private PhotoDao photoDao;
+
+  @Injected
+  private QuoteDao quoteDao;
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException, BizException {
@@ -57,7 +62,11 @@ public class PhotoUccImpl implements PhotoUcc {
     try {
       dalService.startTransaction();
       try {
-        //TODO: verif état 6 || 7
+        QuoteState quoteState = quoteDao.getQuote(photos.get(0).getIdQuote()).getState();
+        if (quoteState.getId() != 6 && quoteState.getId() != 7) {
+          throw new BizException("Devis non éligible.");
+        }
+
         for (PhotoDto photo : photos) {
           photoDao.insert(photo);
         }
