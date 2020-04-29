@@ -130,7 +130,7 @@ public class Server {
     backendContext.addServlet(new ServletHolder(photosListServlet), "/photos-list");
     backendContext.addServlet(new ServletHolder(photoServlet), "/photo");
     backendContext.addServlet(new ServletHolder(photoPrincipalServlet), "/photoPrincipal");
-    backendContext.addServlet(new ServletHolder(favoritePhotoServlet), "/favPhoto");
+    backendContext.addServlet(new ServletHolder(favoritePhotoServlet), "/photo-fav");
 
     return backendContext;
   }

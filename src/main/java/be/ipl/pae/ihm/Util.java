@@ -21,8 +21,18 @@ import java.time.format.DateTimeFormatter;
 
 public class Util {
 
-  private static final String JWTSECRET = "mystherbePAE";
-  private static final Algorithm JWTALGORITHM = Algorithm.HMAC256(JWTSECRET);
+  private static String JWTSECRET;
+  private static Algorithm JWTALGORITHM;
+
+  /**
+   * Set JWTSECRET and JWTALGORITHM.
+   *
+   * @param jwt the scret key
+   */
+  public static void setJwt(String jwt) {
+    JWTSECRET = jwt;
+    JWTALGORITHM = Algorithm.HMAC256(JWTSECRET);
+  }
 
   /**
    * Check if the string is not empty.
