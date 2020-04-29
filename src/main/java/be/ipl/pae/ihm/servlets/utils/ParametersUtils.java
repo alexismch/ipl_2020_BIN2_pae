@@ -10,7 +10,7 @@ public class ParametersUtils {
   /**
    * Check if the request has a parameter identified by {@code name}.
    *
-   * @param req  the request
+   * @param req the request
    * @param name the name of the parameter
    * @return true if the request has a parameter for the {@code name}
    */
@@ -21,13 +21,12 @@ public class ParametersUtils {
   /**
    * Get the parameter identified by {@code name} in the request.
    *
-   * @param req  the request
+   * @param req the request
    * @param name the name of the parameter
    * @return the value of the parameter
    * @throws ParameterException thrown if the parameter do not exit or an empty text
    */
-  public static String getParam(HttpServletRequest req, String name)
-      throws ParameterException {
+  public static String getParam(HttpServletRequest req, String name) throws ParameterException {
 
     String param = req.getParameter(name);
 
@@ -41,11 +40,11 @@ public class ParametersUtils {
   /**
    * Get the parameter identified by {@code name} in the request.
    *
-   * @param req  the request
+   * @param req the request
    * @param name the name of the parameter
    * @return the value of the parameter
    * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
-   *                            integer
+   *         integer
    */
   public static int getParamAsInt(HttpServletRequest req, String name) throws ParameterException {
 
@@ -62,11 +61,11 @@ public class ParametersUtils {
   /**
    * Get the parameter identified by {@code name} in the request.
    *
-   * @param req  the request
+   * @param req the request
    * @param name the name of the parameter
    * @return the value of the parameter
    * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
-   *                            {@link QuoteState}
+   *         {@link QuoteState}
    */
   public static QuoteState getParamAsQuoteState(HttpServletRequest req, String name)
       throws ParameterException {
@@ -75,7 +74,7 @@ public class ParametersUtils {
 
     try {
       return QuoteState.valueOf(param);
-    } catch (NullPointerException ex) {
+    } catch (IllegalArgumentException ex) {
       throw new ParameterException(name + ":" + param + " n'est pas un état du devis");
     }
 
@@ -84,11 +83,11 @@ public class ParametersUtils {
   /**
    * Get the parameter identified by {@code name} in the request.
    *
-   * @param req  the request
+   * @param req the request
    * @param name the name of the parameter
    * @return the value of the parameter
    * @throws ParameterException thrown if the parameter do not exit or the value is not a valid
-   *                            {@link UserStatus}
+   *         {@link UserStatus}
    */
   public static UserStatus getParamAsUserStatus(HttpServletRequest req, String name)
       throws ParameterException {
@@ -97,7 +96,7 @@ public class ParametersUtils {
 
     try {
       return UserStatus.valueOf(param);
-    } catch (NullPointerException ex) {
+    } catch (IllegalArgumentException ex) {
       throw new ParameterException(name + ":" + param + " n'est pas un status d'utilisateur");
     }
 

@@ -51,9 +51,10 @@ public interface QuoteUcc {
    * Add the start date of the quote.
    *
    * @param quote object quote with the id and date
+   * @return true if it has changed in the db
    * @throws FatalException if you had a problem with the db
    */
-  void setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
+  boolean setStartDateQuoteInDb(QuoteDto quote) throws FatalException;
 
 
   /**

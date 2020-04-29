@@ -106,6 +106,7 @@ public class QuoteUccImplTest {
     assertThrows(BizException.class, () -> qcc.useStateManager(quote));
   }
 
+
   @Test
   @DisplayName("test setState when all is good")
   public void testSetStateOk() throws BizException, FatalException {
@@ -121,5 +122,11 @@ public class QuoteUccImplTest {
   }
 
 
+  @Test
+  @DisplayName("test setStartDateQuoteInDb when all is good")
+  public void testSetStartDateQuoteInDbOk() throws BizException, FatalException {
+    QuoteDto quote = dtoFactory.getQuote();
+    assertTrue(qcc.setStartDateQuoteInDb(quote));
+  }
 
 }
