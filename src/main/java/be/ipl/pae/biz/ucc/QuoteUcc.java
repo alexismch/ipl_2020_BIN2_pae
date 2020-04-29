@@ -57,14 +57,6 @@ public interface QuoteUcc {
    */
   void setStartDateQuoteInDb(QuoteDto quote) throws FatalException, BizException;
 
-  /**
-   * Get quotes via filters.
-   *
-   * @param quotesFilterDto all the filters that the user chosed
-   * @return a list of quotes depending on the user's filters
-   * @throws FatalException if you had a problem with the db
-   */
-  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
   /**
    * Redirect to the right method.
@@ -86,6 +78,15 @@ public interface QuoteUcc {
    * @throws BizException if idQuote or date isn't send by the user
    */
   QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException;
+
+  /**
+   * Get quotes via filters.
+   *
+   * @param quotesFilterDto all the filters that the user chosed
+   * @return a list of quotes depending on the user's filters
+   * @throws FatalException if you had a problem with the db
+   */
+  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
 
   /**
    * Get quotes via filters and the customer's id.
