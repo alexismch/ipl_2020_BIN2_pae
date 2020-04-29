@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FavoritePhotoServlet extends AbstractServlet {
 
   @Injected
-  QuoteUcc quoteUcc;
+  private QuoteUcc quoteUcc;
 
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {

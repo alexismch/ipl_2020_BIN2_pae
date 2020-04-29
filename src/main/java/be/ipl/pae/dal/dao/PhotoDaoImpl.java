@@ -16,10 +16,10 @@ import java.util.List;
 public class PhotoDaoImpl implements PhotoDao {
 
   @Injected
-  DalService dalService;
+  private DalService dalService;
 
   @Injected
-  DtoFactory photoDtoFactory;
+  private DtoFactory photoDtoFactory;
 
   @Override
   public PhotoDto getPhotoPerDevelopmentType() {
@@ -29,7 +29,6 @@ public class PhotoDaoImpl implements PhotoDao {
     // ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE ");
     // TODO: méthode + javadoc
     return null;
-
   }
 
   @Override
@@ -101,11 +100,12 @@ public class PhotoDaoImpl implements PhotoDao {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
-    //TODO: verif état quote 7
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
-            + "FROM mystherbe.photos p, mystherbe.development_types dt "
-            + "WHERE p.id_type = dt.id_type AND p.is_visible = true");
+            + "FROM mystherbe.photos p, mystherbe.development_types dt, mystherbe.quotes q"
+            + "WHERE p.id_type = dt.id_type AND p.is_visible = true"
+            + "AND q.id_quote = p.id_quote"
+            + "AND q.id_state = 7");
     return getVisiblePhotosViaPs(ps);
   }
 
@@ -167,7 +167,4 @@ public class PhotoDaoImpl implements PhotoDao {
     }
     return photoDtoToReturn;
   }
-
-
-
 }
