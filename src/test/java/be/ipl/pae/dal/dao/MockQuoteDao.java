@@ -71,7 +71,7 @@ public class MockQuoteDao implements QuoteDao {
   }
 
   @Override
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer) {
     ArrayList<QuoteDto> testArray = new ArrayList<>();
     if (quotesFilterDto == null) {
       return testArray;

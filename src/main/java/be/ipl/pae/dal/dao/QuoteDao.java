@@ -79,13 +79,15 @@ public interface QuoteDao {
   void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException;
 
   /**
-   * Get quotes via filters.
-   *
+   * Get quotes via filters and the id of the customer
+   * 
    * @param quotesFilterDto all the filters that the user chosed
-   * @return a list of quotes depending on the user's filters
+   * @param idCustomer the id of the customer
+   * @returna list of quotes depending on the user's filters
    * @throws FatalException error with the db
    */
-  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException;
+  List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException;
 
   /**
    * return the workDuration of a quote.

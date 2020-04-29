@@ -144,11 +144,16 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
-  @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+    return getQuotesFiltered(quotesFilterDto, -1);
+  }
+
+  @Override
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
+      throws FatalException {
     try {
       dalService.startTransaction();
-      return quoteDao.getQuotesFiltered(quotesFilterDto);
+      return quoteDao.getQuotesFiltered(quotesFilterDto, idCustomer);
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
