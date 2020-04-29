@@ -132,10 +132,11 @@ public class QuoteUccImpl implements QuoteUcc {
 
 
   @Override
-  public void setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
+  public boolean setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
+      return true;
     } catch (FatalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex.getMessage());
