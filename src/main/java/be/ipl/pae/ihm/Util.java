@@ -288,7 +288,8 @@ public class Util {
    */
   public static GensonBuilder createGensonBuilder() {
     GensonBuilder gensonBuilder =
-        new GensonBuilder().exclude("password").useMethods(true).useRuntimeType(true);
+        new GensonBuilder().exclude("password").useMethods(true).useRuntimeType(true)
+            .setHtmlSafe(true);
 
     Util.addSerializer(gensonBuilder, LocalDate.class,
         (value, writer, ctx) -> writer.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE)));
