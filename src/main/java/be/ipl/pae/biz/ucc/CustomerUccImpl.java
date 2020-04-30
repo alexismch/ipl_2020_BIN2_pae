@@ -21,52 +21,47 @@ public class CustomerUccImpl implements CustomerUcc {
 
   @Override
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
+    CustomerDto customer = null;
     try {
-      try {
+      dalService.startTransaction();
+      customer = customerDao.insertCustomer(customerDto);
 
-        dalService.startTransaction();
-        return customerDao.insertCustomer(customerDto);
-
-      } catch (DalException fx) {
-        dalService.rollbackTransaction();
-        throw new BizException(fx);
-      } finally {
-        dalService.commitTransaction();
-      }
-    } catch (DalException ex) {
-      throw new BizException(ex);
+    } catch (DalException fx) {
+      dalService.rollbackTransaction();
+      throw new FatalException(fx);
     }
+
+    dalService.commitTransaction();
+    return customer;
   }
 
   @Override
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
+    List<CustomerDto> list = null;
     try {
       dalService.startTransaction();
-      return customerDao.getCustomers(customersFilterDto);
-
+      list = customerDao.getCustomers(customersFilterDto);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
-    } finally {
-      dalService.commitTransaction();
     }
+    dalService.commitTransaction();
+    return list;
   }
 
   @Override
   public CustomerDto getCustomerByIdUser(int idUser) {
+    CustomerDto customer = null;
     try {
-
       dalService.startTransaction();
-      return customerDao.getCustomerByIdUser(idUser);
+      customer = customerDao.getCustomerByIdUser(idUser);
 
     } catch (DalException ex) {
-
       dalService.rollbackTransaction();
-
-      throw new DalException(ex);
-    } finally {
-
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
+
+    dalService.commitTransaction();
+    return customer;
   }
 }

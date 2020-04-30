@@ -9,6 +9,7 @@ import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
+import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
@@ -25,76 +26,71 @@ public class PhotoUccImpl implements PhotoUcc {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws BizException {
+
+    List<PhotoVisibleDto> list = null;
     try {
       dalService.startTransaction();
-      try {
-        return photoDao.getVisiblePhotos();
-      } catch (DalException ex) {
-        throw new BizException(ex);
-      }
+      list = photoDao.getVisiblePhotos();
     } catch (DalException ex) {
       dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
-    return null;
+
+    dalService.commitTransaction();
+    return list;
   }
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
+
+    List<PhotoVisibleDto> list = null;
     try {
       dalService.startTransaction();
-      try {
-        return photoDao.getVisiblePhotos(typeId);
-      } catch (DalException ex) {
-        throw new BizException(ex);
-      }
+      list = photoDao.getVisiblePhotos(typeId);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
-    return null;
+
+    dalService.commitTransaction();
+    return list;
   }
 
   @Override
   public void insert(List<PhotoDto> photos) throws BizException {
     try {
       dalService.startTransaction();
-      try {
-        QuoteState quoteState = quoteDao.getQuote(photos.get(0).getIdQuote()).getState();
-        if (quoteState.getId() != 6 && quoteState.getId() != 7) {
-          throw new BizException("Devis non éligible.");
-        }
+      QuoteState quoteState = quoteDao.getQuote(photos.get(0).getIdQuote()).getState();
+      if (quoteState.getId() != 6 && quoteState.getId() != 7) {
+        throw new BizException("Devis non éligible.");
+      }
 
-        for (PhotoDto photo : photos) {
-          photoDao.insert(photo);
-        }
-      } catch (DalException ex) {
-        throw new BizException(ex);
+      for (PhotoDto photo : photos) {
+        photoDao.insert(photo);
       }
     } catch (DalException ex) {
       dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
+
+    dalService.commitTransaction();
+
   }
 
 
   @Override
   public PhotoDto getPhotoById(int id) throws BizException {
+    PhotoDto photo = null;
     try {
       dalService.startTransaction();
-      try {
-        return photoDao.getPhotoById(id);
-      } catch (DalException ex) {
-        throw new BizException(ex);
-      }
+      photo = photoDao.getPhotoById(id);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
-    return null;
+
+    dalService.commitTransaction();
+
+    return photo;
   }
 }

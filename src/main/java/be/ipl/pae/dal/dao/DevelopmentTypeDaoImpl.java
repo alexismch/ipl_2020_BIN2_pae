@@ -21,11 +21,11 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   private DtoFactory developmentTypeDtoFactory;
 
   @Override
-  public List<DevelopmentTypeDto> getdevelopmentTypes() {
+  public List<DevelopmentTypeDto> getdevelopmentTypes() throws DalException {
     List<DevelopmentTypeDto> list = new ArrayList<>();
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.development_types"
-        + " ORDER BY title");
+    ps = dalService
+        .getPreparedStatement("Select * FROM mystherbe.development_types" + " ORDER BY title");
 
     try (ResultSet rs = ps.executeQuery()) {
       while (rs.next()) {
@@ -35,16 +35,15 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
         list.add(developmentType);
       }
     } catch (SQLException sqlE) {
-      sqlE.printStackTrace();
+      throw new DalException(sqlE);
     }
     return list;
   }
 
   @Override
   public DevelopmentTypeDto getDevelopmentType(int typeId) throws DalException {
-    PreparedStatement ps = dalService
-        .getPreparedStatement("SElECT * FROM mystherbe.development_types WHERE id_type = ?"
-            + " ORDER BY title");
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SElECT * FROM mystherbe.development_types WHERE id_type = ?" + " ORDER BY title");
 
     try {
       ps.setInt(1, typeId);
@@ -66,8 +65,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SElECT dt.id_type, dt.title FROM mystherbe.development_types dt, mystherbe.quote_types qt "
-            + " WHERE qt.id_quote = ?" + " AND qt.id_type = dt.id_type"
-            + " ORDER BY title");
+            + " WHERE qt.id_quote = ?" + " AND qt.id_type = dt.id_type" + " ORDER BY title");
 
     try {
       ps.setString(1, quoteId);
@@ -116,8 +114,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   @Override
   public boolean exists(String title) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
-        "SELECT * FROM mystherbe.development_types WHERE title = ?"
-            + " ORDER BY title");
+        "SELECT * FROM mystherbe.development_types WHERE title = ?" + " ORDER BY title");
     try {
       ps.setString(1, title);
       return ps.executeQuery().next();
