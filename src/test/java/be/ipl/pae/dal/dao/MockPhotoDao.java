@@ -15,12 +15,6 @@ public class MockPhotoDao implements PhotoDao {
   private DtoFactory dtoFactory;
 
   @Override
-  public PhotoDto getPhotoPerDevelopmentType() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
   public void insert(PhotoDto photoDto) {
 
   }
