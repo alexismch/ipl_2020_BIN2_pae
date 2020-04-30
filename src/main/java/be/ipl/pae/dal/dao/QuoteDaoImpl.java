@@ -80,12 +80,12 @@ public class QuoteDaoImpl implements QuoteDao {
       ref[1] = true;
     }
     if (quotesFilterDto.getTotalAmountMin() != -1) {
-      queryWhere += "AND (q.total_amount::decimal > ?) ";
+      queryWhere += "AND (q.total_amount > ?) ";
       ref[2] = true;
 
     }
     if (quotesFilterDto.getTotalAmountMax() != -1) {
-      queryWhere += "AND (q.total_amount::decimal < ?) ";
+      queryWhere += "AND (q.total_amount < ?) ";
       ref[3] = true;
 
     }
