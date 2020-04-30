@@ -1,6 +1,6 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 public interface LinkCcDao {
 
@@ -9,7 +9,7 @@ public interface LinkCcDao {
    *
    * @param customerId the customer id
    * @param userId     the user id
-   * @throws FatalException if you have an error with the db
+   * @throws DalException if you have an error with the db
    */
-  void link(int customerId, int userId) throws FatalException;
+  void link(int customerId, int userId) throws DalException;
 }

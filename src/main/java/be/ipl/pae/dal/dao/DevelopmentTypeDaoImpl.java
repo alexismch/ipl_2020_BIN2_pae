@@ -4,7 +4,7 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +41,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   }
 
   @Override
-  public DevelopmentTypeDto getDevelopmentType(int typeId) throws FatalException {
+  public DevelopmentTypeDto getDevelopmentType(int typeId) throws DalException {
     PreparedStatement ps = dalService
         .getPreparedStatement("SElECT * FROM mystherbe.development_types WHERE id_type = ?"
             + " ORDER BY title");
@@ -58,12 +58,12 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
         return null;
       }
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws FatalException {
+  public List<DevelopmentTypeDto> getDevelopmentTypeList(String quoteId) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SElECT dt.id_type, dt.title FROM mystherbe.development_types dt, mystherbe.quote_types qt "
             + " WHERE qt.id_quote = ?" + " AND qt.id_type = dt.id_type"
@@ -73,7 +73,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
       ps.setString(1, quoteId);
       return getDevelopmentTypeDtoViaPs(ps);
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db!");
     }
   }
 
@@ -95,7 +95,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
   }
 
   @Override
-  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws FatalException {
+  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "INSERT INTO mystherbe.development_types (title) VALUES (?) returning id_type");
 
@@ -106,15 +106,15 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
         developmentType.setIdType(rs.getInt(1));
         return developmentType;
       } else {
-        throw new FatalException("error with the db");
+        throw new DalException("error with the db");
       }
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public boolean exists(String title) throws FatalException {
+  public boolean exists(String title) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SELECT * FROM mystherbe.development_types WHERE title = ?"
             + " ORDER BY title");
@@ -122,7 +122,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
       ps.setString(1, title);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 }

@@ -6,6 +6,7 @@ import be.ipl.pae.dal.dao.CustomerDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
@@ -26,13 +27,13 @@ public class CustomerUccImpl implements CustomerUcc {
         dalService.startTransaction();
         return customerDao.insertCustomer(customerDto);
 
-      } catch (FatalException fx) {
+      } catch (DalException fx) {
         dalService.rollbackTransaction();
         throw new BizException(fx);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
@@ -43,7 +44,7 @@ public class CustomerUccImpl implements CustomerUcc {
       dalService.startTransaction();
       return customerDao.getCustomers(customersFilterDto);
 
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
@@ -58,11 +59,11 @@ public class CustomerUccImpl implements CustomerUcc {
       dalService.startTransaction();
       return customerDao.getCustomerByIdUser(idUser);
 
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
 
       dalService.rollbackTransaction();
 
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
 
       dalService.commitTransaction();

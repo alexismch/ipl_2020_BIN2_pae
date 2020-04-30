@@ -9,7 +9,7 @@ import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dal.util.DalUtils;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -49,7 +49,7 @@ public class QuoteDaoImpl implements QuoteDao {
 
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
-      throws FatalException {
+      throws DalException {
 
     ArrayList<QuoteDto> quotesList = new ArrayList<>();
 
@@ -167,7 +167,7 @@ public class QuoteDaoImpl implements QuoteDao {
   }
 
   @Override
-  public List<QuoteDto> getCustomerQuotes(int idCustomer) throws FatalException {
+  public List<QuoteDto> getCustomerQuotes(int idCustomer) throws DalException {
     String query = "Select id_quote, id_customer, quote_date, "
         + "total_amount, work_duration, id_state, start_date"
         + " FROM mystherbe.quotes WHERE id_customer =?" + " ORDER BY id_quote";
@@ -178,12 +178,12 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setInt(1, idCustomer);
       return getCustomerQuotesViaPs(ps);
     } catch (SQLException ex) {
-      throw new FatalException(ex);
+      throw new DalException(ex);
     }
   }
 
   private List<QuoteDto> getCustomerQuotesViaPs(PreparedStatement ps)
-      throws SQLException, FatalException {
+      throws SQLException, DalException {
 
     List<QuoteDto> customerQuotes = new ArrayList<>();
     try (ResultSet resultSet = ps.executeQuery()) {
@@ -202,7 +202,7 @@ public class QuoteDaoImpl implements QuoteDao {
         customerQuotes.add(quoteDto);
       }
     } catch (SQLException ex) {
-      throw new FatalException(ex);
+      throw new DalException(ex);
     }
     ps.close();
 
@@ -237,7 +237,7 @@ public class QuoteDaoImpl implements QuoteDao {
    */
 
   @Override
-  public void linkToType(String quoteId, int typeId) throws FatalException {
+  public void linkToType(String quoteId, int typeId) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "INSERT INTO mystherbe.quote_types (id_quote, id_type) VALUES (?, ?)");
 
@@ -246,12 +246,12 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setInt(2, typeId);
       ps.execute();
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public QuoteDto insertQuote(QuoteDto quoteDto) throws FatalException {
+  public QuoteDto insertQuote(QuoteDto quoteDto) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.quotes "
         + "(id_quote, id_customer, quote_date, total_amount, work_duration, id_state)"
         + " VALUES (?, ?, ?::DATE, ?, ?, ?)");
@@ -267,14 +267,14 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.close();
     } catch (SQLException sqlE) {
       sqlE.printStackTrace();
-      throw new FatalException("Db error!");
+      throw new DalException("Db error!");
     }
 
     return quoteDto;
   }
 
   @Override
-  public boolean checkQuoteIdInDb(String quoteId) throws FatalException {
+  public boolean checkQuoteIdInDb(String quoteId) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SELECT * FROM mystherbe.quotes WHERE id_quote = ?" + " ORDER BY id_quote");
     try {
@@ -283,12 +283,12 @@ public class QuoteDaoImpl implements QuoteDao {
         return resultSet.next();
       }
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public QuoteDto getQuote(String idQuote) throws FatalException {
+  public QuoteDto getQuote(String idQuote) throws DalException {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select id_quote, id_customer, quote_date, "
@@ -316,13 +316,13 @@ public class QuoteDaoImpl implements QuoteDao {
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new FatalException("error in the db!");
+      throw new DalException("error in the db!");
     }
     return quoteDtoToReturn;
   }
 
   @Override
-  public void setStartDate(QuoteDto quote) throws FatalException {
+  public void setStartDate(QuoteDto quote) throws DalException {
     PreparedStatement ps;
     ps = dalService
         .getPreparedStatement("UPDATE mystherbe.quotes SET start_date = ? WHERE id_quote = ? ");
@@ -337,12 +337,12 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.executeUpdate();
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db!");
     }
   }
 
   @Override
-  public void setStateQuote(QuoteState confirmedDate, String quoteId) throws FatalException {
+  public void setStateQuote(QuoteState confirmedDate, String quoteId) throws DalException {
     PreparedStatement ps;
     ps = dalService
         .getPreparedStatement("UPDATE mystherbe.quotes SET id_state = ? WHERE id_quote = ?");
@@ -353,12 +353,12 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.executeUpdate();
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db!");
     }
   }
 
   @Override
-  public int getWorkduRation(String idQuote) throws FatalException {
+  public int getWorkduRation(String idQuote) throws DalException {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select work_duration "
@@ -373,13 +373,13 @@ public class QuoteDaoImpl implements QuoteDao {
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new FatalException("error in the db!");
+      throw new DalException("error in the db!");
     }
     return quoteDtoToReturn.getWorkDuration();
   }
 
   @Override
-  public QuoteState getStateQuote(String idQuote) throws FatalException {
+  public QuoteState getStateQuote(String idQuote) throws DalException {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
@@ -394,13 +394,13 @@ public class QuoteDaoImpl implements QuoteDao {
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new FatalException("error in the db!");
+      throw new DalException("error in the db!");
     }
     return quoteDtoToReturn.getState();
   }
 
   @Override
-  public void setFavoritePhoto(String quoteId, int photoId) throws FatalException {
+  public void setFavoritePhoto(String quoteId, int photoId) throws DalException {
     PreparedStatement ps = dalService
         .getPreparedStatement("UPDATE mystherbe.quotes SET id_photo = ? WHERE id_quote = ?");
 
@@ -410,7 +410,7 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.executeUpdate();
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db!");
     }
   }
 }

@@ -14,7 +14,7 @@ import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -54,13 +54,13 @@ public class QuoteUccImpl implements QuoteUcc {
           photoDao.insert(photoDto);
         }
         return quoteDto;
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         dalService.rollbackTransaction();
         throw new BizException(ex);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
 
@@ -79,7 +79,7 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       return getQuoteBis(idQuote);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -109,13 +109,13 @@ public class QuoteUccImpl implements QuoteUcc {
       try {
         dalService.startTransaction();
         return quoteDao.getCustomerQuotes(customerId);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         dalService.rollbackTransaction();
         throw new BizException(ex);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
@@ -127,9 +127,9 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
       return true;
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
@@ -141,13 +141,13 @@ public class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
-      throws FatalException {
+      throws DalException {
     try {
       dalService.startTransaction();
       return quoteDao.getQuotesFiltered(quotesFilterDto, idCustomer);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
@@ -207,9 +207,9 @@ public class QuoteUccImpl implements QuoteUcc {
         throw new BizException("Aucune id pour le devis n'a été envoyé");
       }
       return quoteDao.getStateQuote(quote.getIdQuote());
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
@@ -219,9 +219,9 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       return quoteDao.getWorkduRation(idQuote);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
@@ -233,9 +233,9 @@ public class QuoteUccImpl implements QuoteUcc {
       dalService.startTransaction();
       quoteDao.setStateQuote(state, idQuote);
       return getQuoteBis(idQuote);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
@@ -257,9 +257,9 @@ public class QuoteUccImpl implements QuoteUcc {
       }
 
       quoteDao.setFavoritePhoto(quoteId, photoId);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }

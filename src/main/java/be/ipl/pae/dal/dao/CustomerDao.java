@@ -2,7 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.CustomersFilterDto;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -22,36 +22,36 @@ public interface CustomerDao {
    *
    * @param customerId the customer id to check
    * @return true if it exists, false if not
-   * @throws FatalException if you have an error with the db
+   * @throws DalException if you have an error with the db
    */
-  boolean exists(int customerId) throws FatalException;
+  boolean exists(int customerId) throws DalException;
 
-  CustomerDto insertCustomer(CustomerDto customerDto) throws FatalException;
+  CustomerDto insertCustomer(CustomerDto customerDto) throws DalException;
 
   /**
    * Verify if the customer is linked to a user.
    *
    * @param customerId the customer id
    * @return true if the customer is linked to a user, false if not
-   * @throws FatalException if you have an error with the db
+   * @throws DalException if you have an error with the db
    */
-  boolean isLinked(int customerId) throws FatalException;
+  boolean isLinked(int customerId) throws DalException;
 
   /**
    * get a customer thanks to his id.
-   * 
+   *
    * @param idCustomer id of the customer
    * @return an customeDto object
-   * @throws FatalException if you had a problem with the db
+   * @throws DalException if you had a problem with the db
    */
-  CustomerDto getCustomer(int idCustomer) throws FatalException;
+  CustomerDto getCustomer(int idCustomer) throws DalException;
 
   /**
    * Get a customer from his user id.
    *
    * @param idUser Id of the user used to get the customer
    * @return an CustomerDto object
-   * @throws FatalException If error with the database.
+   * @throws DalException If error with the database.
    */
-  CustomerDto getCustomerByIdUser(int idUser) throws FatalException;
+  CustomerDto getCustomerByIdUser(int idUser) throws DalException;
 }

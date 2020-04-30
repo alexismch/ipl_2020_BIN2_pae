@@ -1,7 +1,7 @@
 package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.InjectionService;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.server.Server;
 
@@ -32,10 +32,10 @@ public class Main {
     try {
       port = Integer.parseInt(propertiesLoader.getProperty("port"));
     } catch (NumberFormatException ex) {
-      throw new FatalException("Specified server port is invalid [min=1,max=65535]", ex);
+      throw new DalException("Specified server port is invalid [min=1,max=65535]", ex);
     }
     if (port <= 0 || port >= 65535) {
-      throw new FatalException("Specified server port is invalid [min=1,max=65535]");
+      throw new DalException("Specified server port is invalid [min=1,max=65535]");
     }
 
     Server server = new Server(port);

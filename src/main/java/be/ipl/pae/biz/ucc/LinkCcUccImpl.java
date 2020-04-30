@@ -6,7 +6,7 @@ import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 public class LinkCcUccImpl implements LinkCcUcc {
 
@@ -42,13 +42,13 @@ public class LinkCcUccImpl implements LinkCcUcc {
         }
 
         linkCcDao.link(customerId, userId);
-      } catch (FatalException fx) {
+      } catch (DalException fx) {
         dalService.rollbackTransaction();
         throw new BizException(fx);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }

@@ -8,7 +8,7 @@ import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -29,10 +29,10 @@ public class PhotoUccImpl implements PhotoUcc {
       dalService.startTransaction();
       try {
         return photoDao.getVisiblePhotos();
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -46,10 +46,10 @@ public class PhotoUccImpl implements PhotoUcc {
       dalService.startTransaction();
       try {
         return photoDao.getVisiblePhotos(typeId);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -70,10 +70,10 @@ public class PhotoUccImpl implements PhotoUcc {
         for (PhotoDto photo : photos) {
           photoDao.insert(photo);
         }
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -87,10 +87,10 @@ public class PhotoUccImpl implements PhotoUcc {
       dalService.startTransaction();
       try {
         return photoDao.getPhotoById(id);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();

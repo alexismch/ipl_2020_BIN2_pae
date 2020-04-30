@@ -8,7 +8,7 @@ import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class UserUccImpl implements UserUcc {
 
       return userDto;
 
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
 
@@ -66,13 +66,13 @@ public class UserUccImpl implements UserUcc {
 
         return userDao.insertUser(userDto);
 
-      } catch (FatalException fx) {
+      } catch (DalException fx) {
         dalService.rollbackTransaction();
         throw new BizException(fx);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
@@ -82,9 +82,9 @@ public class UserUccImpl implements UserUcc {
     try {
       dalService.startTransaction();
       return userDao.getUser(id);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
       dalService.commitTransaction();
     }
@@ -95,9 +95,9 @@ public class UserUccImpl implements UserUcc {
     try {
       dalService.startTransaction();
       return userDao.getUsers(usersFilterDto);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
       dalService.commitTransaction();
     }
@@ -124,9 +124,9 @@ public class UserUccImpl implements UserUcc {
       }
 
       user = userDao.changeUserStatus(userId, newStatus);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
       dalService.commitTransaction();
     }
