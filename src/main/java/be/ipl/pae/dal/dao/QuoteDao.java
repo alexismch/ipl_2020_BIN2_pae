@@ -15,7 +15,7 @@ public interface QuoteDao {
    * @return the quote list collected
    * @throws FatalException if a problem occurred with the db
    */
-  List<QuoteDto> getAllQuote() throws FatalException;
+  // List<QuoteDto> getAllQuote() throws FatalException;
 
   /**
    * Insert a new quote into the database.
@@ -82,7 +82,7 @@ public interface QuoteDao {
    * Get quotes via filters and the id of the customer.
    *
    * @param quotesFilterDto all the filters that the user chosed
-   * @param idCustomer      the id of the customer
+   * @param idCustomer the id of the customer
    * @return list of quotes depending on the user's filters
    * @throws FatalException error with the db
    */

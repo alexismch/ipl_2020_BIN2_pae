@@ -25,7 +25,7 @@ public interface QuoteUcc {
    * @return the quotes list.
    * @throws BizException if you have a problem with the db
    */
-  List<QuoteDto> getQuotes() throws BizException;
+  // List<QuoteDto> getQuotes() throws BizException;
 
   /**
    * Get a quote from the database thanks to its id.
@@ -33,7 +33,7 @@ public interface QuoteUcc {
    * @param idQuote id of the quote
    * @return an object quoteDto
    * @throws FatalException if you have a problem with the db
-   * @throws BizException   if the quote doesn't exist
+   * @throws BizException if the quote doesn't exist
    */
   QuoteDto getQuote(String idQuote) throws FatalException, BizException;
 
@@ -63,7 +63,7 @@ public interface QuoteUcc {
    * @param quote object Quote
    * @return an QuoteDto object
    * @throws FatalException if problem with the db
-   * @throws BizException   if idQuote or date isn't send by the user
+   * @throws BizException if idQuote or date isn't send by the user
    */
   QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException;
 
@@ -71,10 +71,10 @@ public interface QuoteUcc {
    * Set the state of the in the db.
    *
    * @param idQuote id of the quote
-   * @param state   state of the quote
+   * @param state state of the quote
    * @return a new QuoteDto object
    * @throws FatalException if problem with the db
-   * @throws BizException   if idQuote or date isn't send by the user
+   * @throws BizException if idQuote or date isn't send by the user
    */
   QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException;
 
@@ -91,7 +91,7 @@ public interface QuoteUcc {
    * Get quotes via filters and the customer's id.
    *
    * @param quotesFilterDto all the filters that the user chosed
-   * @param idCustomer      the id of the customer
+   * @param idCustomer the id of the customer
    * @return a list of quotes depending on the user's filters
    * @throws FatalException error with the db
    */
@@ -103,7 +103,7 @@ public interface QuoteUcc {
    *
    * @param quoteId the id of the quote
    * @param photoId the id of the photo
-   * @throws BizException   if an error occurred with the db
+   * @throws BizException if an error occurred with the db
    * @throws FatalException if an error occurred with transaction
    */
   void setFavoritePhoto(String quoteId, int photoId) throws BizException, FatalException;

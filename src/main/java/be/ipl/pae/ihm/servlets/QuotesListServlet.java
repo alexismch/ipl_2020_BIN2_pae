@@ -141,7 +141,7 @@ public class QuotesListServlet extends AbstractServlet {
     }
 
     for (QuoteDto quoteDto2 : listToReturn) {
-      System.out.println("teeeeeeeest 1 ");
+      // System.out.println("teeeeeeeest 1 ");
       for (DevelopmentTypeDto dev : quoteDto2.getDevelopmentTypes()) {
         System.out.println("test dev : " + dev.getTitle());
 
