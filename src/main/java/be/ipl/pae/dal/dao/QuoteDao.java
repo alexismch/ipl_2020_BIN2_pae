@@ -10,14 +10,6 @@ import java.util.List;
 public interface QuoteDao {
 
   /**
-   * collect all quotes from the database.
-   *
-   * @return the quote list collected
-   * @throws DalException if a problem occurred with the db
-   */
-  // List<QuoteDto> getAllQuote() throws FatalException;
-
-  /**
    * Insert a new quote into the database.
    *
    * @param quoteDto the quote to insert
@@ -96,7 +88,7 @@ public interface QuoteDao {
    * @return the workDuration
    * @throws DalException error with the db
    */
-  int getWorkduRation(String idQuote) throws DalException;
+  int getWorkDuration(String idQuote) throws DalException;
 
   /**
    * Get the current state of the quote.

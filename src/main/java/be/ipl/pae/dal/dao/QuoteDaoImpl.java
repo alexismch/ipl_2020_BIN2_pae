@@ -35,18 +35,6 @@ public class QuoteDaoImpl implements QuoteDao {
   @Injected
   private PhotoDao photoDao;
 
-
-  /*
-   * @Override public List<QuoteDto> getAllQuote() throws FatalException { List<QuoteDto> quotes =
-   * new ArrayList<>(); PreparedStatement ps =
-   * dalService.getPreparedStatement("SELECT id_quote, id_customer, quote_date, " +
-   * "total_amount, work_duration, id_state, start_date,id_photo" + "FROM mystherbe.quotes" +
-   * " ORDER BY id_quote"); try (ResultSet res = ps.executeQuery()) { while (res.next()) {
-   * quotes.add(createQuoteDto(res)); } } catch (SQLException sqlE) { sqlE.printStackTrace(); }
-   * 
-   * return quotes; }
-   */
-
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
       throws DalException {
@@ -358,7 +346,7 @@ public class QuoteDaoImpl implements QuoteDao {
   }
 
   @Override
-  public int getWorkduRation(String idQuote) throws DalException {
+  public int getWorkDuration(String idQuote) throws DalException {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select work_duration "

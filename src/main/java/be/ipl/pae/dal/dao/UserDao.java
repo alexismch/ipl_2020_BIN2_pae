@@ -24,8 +24,9 @@ public interface UserDao {
    *
    * @param pseudo the pseudo of the user
    * @return An object UserDto with the information from the db or return null
+   * @throws DalException thrown if a database error has occurred
    */
-  UserDto getUserByPseudo(String pseudo);
+  UserDto getUserByPseudo(String pseudo) throws DalException;
 
   /**
    * Get the data of an user thanks to his id.
@@ -33,7 +34,7 @@ public interface UserDao {
    * @param userId id of the user
    * @return An userDto object with all the informations that the db gave you or null
    */
-  UserDto getUser(int userId);
+  UserDto getUser(int userId) throws DalException;
 
   /**
    * Get the status of the user by id.
@@ -50,7 +51,7 @@ public interface UserDao {
    * @param usersFilterDto a filter applied to the results or null if no filter should be applied
    * @return A list of all users
    */
-  List<UserDto> getUsers(UsersFilterDto usersFilterDto);
+  List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws DalException;
 
   /**
    * check if an email is already used.

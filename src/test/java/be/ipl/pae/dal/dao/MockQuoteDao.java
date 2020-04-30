@@ -90,7 +90,7 @@ public class MockQuoteDao implements QuoteDao {
   }
 
   @Override
-  public int getWorkduRation(String idQuote) {
+  public int getWorkDuration(String idQuote) {
     if (idQuote.equals("dateConfirme")) {
       return 20;
     }

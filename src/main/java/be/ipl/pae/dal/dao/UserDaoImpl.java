@@ -51,9 +51,9 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUser(int idUtilisateur) {
+  public UserDto getUser(int idUtilisateur) throws DalException {
 
-    UserDto userDto = null;
+    UserDto userDto;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE id_user =?"
         + " ORDER BY lastname, firstname");
@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 
       userDto = users.get(0);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException(ex);
     }
     return userDto;
   }
@@ -95,7 +95,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws DalException {
 
     String query;
 
@@ -120,9 +120,8 @@ public class UserDaoImpl implements UserDao {
 
       return getUsersViaPs(ps);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException(ex);
     }
-    return new ArrayList<>();
   }
 
   /**
