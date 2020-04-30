@@ -14,7 +14,6 @@ import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.servlets.utils.ParameterException;
 import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
@@ -78,7 +77,7 @@ public class QuoteServlet extends AbstractServlet {
     if (verifyNotEmpty(quoteId, customerIdString, dateString, amountString, durationString)) {
       try {
         int customerId = Integer.parseInt(customerIdString);
-        Double amount = Double.parseDouble(amountString);
+        double amount = Double.parseDouble(amountString);
         int duration = Integer.parseInt(durationString);
 
         Date date = Date.valueOf(dateString);
@@ -113,8 +112,6 @@ public class QuoteServlet extends AbstractServlet {
         quoteUcc.insert(quoteToInsert);
 
         sendSuccess(resp);
-      } catch (FatalException fatalE) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (Exception ex) {
@@ -163,8 +160,6 @@ public class QuoteServlet extends AbstractServlet {
     try {
       QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
       sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteDto));
-    } catch (FatalException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     } catch (BizException be) {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, be.getMessage());
     }
@@ -190,8 +185,6 @@ public class QuoteServlet extends AbstractServlet {
       quote.setState(quoteState);
       sendSuccessWithJson(resp, "quote",
           genson.create().serialize(quoteUcc.useStateManager(quote)));
-    } catch (FatalException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     } catch (BizException | ParameterException ex) {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
     }
@@ -210,8 +203,6 @@ public class QuoteServlet extends AbstractServlet {
         quoteUcc.setStartDateQuoteInDb(quote);
         sendSuccessWithJson(resp, "quote",
             genson.create().serialize(quoteUcc.getQuote(quote.getIdQuote())));
-      } catch (FatalException ex) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
       } catch (BizException ex) {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
       }

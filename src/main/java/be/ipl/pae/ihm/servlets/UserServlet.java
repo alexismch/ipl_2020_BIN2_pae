@@ -9,7 +9,6 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.servlets.utils.ParameterException;
 
@@ -43,8 +42,6 @@ public class UserServlet extends AbstractServlet {
       int id = getParamAsInt(req, "id");
       sendSuccessWithJson(resp, "user",
           gensonBuilder.create().serialize(userUcc.getUser(id)));
-    } catch (FatalException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     } catch (ParameterException ex) {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
     }
@@ -73,8 +70,6 @@ public class UserServlet extends AbstractServlet {
       sendSuccessWithJson(resp, "user", gensonBuilder.create().serialize(userDb));
     } catch (BizException | ParameterException ex) {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
-    } catch (FatalException fe) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fe.getMessage());
     }
   }
 }

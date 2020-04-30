@@ -8,7 +8,6 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
@@ -75,8 +74,6 @@ public class RegisterServlet extends AbstractServlet {
         sendSuccessWithJson(resp, "user", genson.create().serialize(userDb));
       } catch (BizException be) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, be.getMessage());
-      } catch (FatalException fe) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fe.getMessage());
       }
 
     } else {
