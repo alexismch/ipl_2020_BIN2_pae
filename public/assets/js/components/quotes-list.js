@@ -157,10 +157,6 @@ export class QuotesListPage extends Page {
   <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
   <p class="quote-first-col">Montant: ${quote.totalAmount}€</p>
   <ul class="quote-development-types">
-    <li><span class="badge badge-primary font-size-100">A2 blablablabla</span></li>
-    <li><span class="badge badge-primary font-size-100">A1 bla</span></li>
-    <li><span class="badge badge-primary font-size-100">A1 blablablablablablablabla</span></li>
-    <li><span class="badge badge-primary font-size-100">A1 blablablablablabla</span></li>
   </ul>
   <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
   <a class="quote-details-btn btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>

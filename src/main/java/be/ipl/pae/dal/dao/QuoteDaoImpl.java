@@ -148,15 +148,11 @@ public class QuoteDaoImpl implements QuoteDao {
             quoteDto.setStartDate(startDate.toLocalDate());
           }
           inc++;
-          if (quotesFilterDto.getDevelopmentTypeDto() != null
-              && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
-            ArrayList<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
-            for (int i = 1; i <= quotesFilterDto.getDevelopmentTypeDto().size(); i++) {
-              listDevelopment.add(developmentTypeDao.getDevelopmentType(rs.getInt(inc)));
-              inc++;
-            }
-            quoteDto.setDevelopmentType(listDevelopment);
-          }
+
+          List<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
+          listDevelopment = developmentTypeDao.getDevelopmentTypeList(rs.getString(1));
+          quoteDto.setDevelopmentType(listDevelopment);
+
           PhotoDto photo = photoDao.getPhotoById(rs.getInt(8));
           if (photo != null) {
             quoteDto.setPhoto(photo);
