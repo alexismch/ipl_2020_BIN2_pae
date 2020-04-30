@@ -10,13 +10,6 @@ import java.util.List;
 public interface PhotoDao {
 
   /**
-   * ???.
-   *
-   * @return ???
-   */
-  PhotoDto getPhotoPerDevelopmentType();
-
-  /**
    * Insert a photo to the db.
    *
    * @param photoDto the photo to insert

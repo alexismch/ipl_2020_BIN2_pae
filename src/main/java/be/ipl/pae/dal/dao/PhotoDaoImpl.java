@@ -22,16 +22,6 @@ public class PhotoDaoImpl implements PhotoDao {
   private DtoFactory photoDtoFactory;
 
   @Override
-  public PhotoDto getPhotoPerDevelopmentType() {
-    // autre uce case, pour plus tard
-    // PhotoDto photoDto;
-    // PreparedStatement ps;
-    // ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE ");
-    // TODO: méthode + javadoc
-    return null;
-  }
-
-  @Override
   public void insert(PhotoDto photoDto) throws FatalException {
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.photos "
         + "(title, base64, id_quote, is_visible, id_type, before_work) "
