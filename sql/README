@@ -5,4 +5,6 @@ Pour initialiser la db, exécuter les fichiers ci-dessous dans l'ordre donné :
 3° tous les fichiers photoX.sql dans le dossier "photos"
 4° photos.sql
 5° seq.sql
+
+Et si pour tests :
 6° test.sql
