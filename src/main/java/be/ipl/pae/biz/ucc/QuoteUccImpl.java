@@ -74,7 +74,7 @@ public class QuoteUccImpl implements QuoteUcc {
    */
 
   @Override
-  public QuoteDto getQuote(String idQuote) throws FatalException, BizException {
+  public QuoteDto getQuote(String idQuote) throws BizException {
 
     try {
       dalService.startTransaction();
@@ -87,7 +87,7 @@ public class QuoteUccImpl implements QuoteUcc {
     return null;
   }
 
-  private QuoteDto getQuoteBis(String idQuote) throws FatalException, BizException {
+  private QuoteDto getQuoteBis(String idQuote) throws BizException {
     QuoteDto quoteDto;
     quoteDto = quoteDao.getQuote(idQuote);
     if (quoteDto.getIdQuote() == null) {
@@ -122,7 +122,7 @@ public class QuoteUccImpl implements QuoteUcc {
 
 
   @Override
-  public boolean setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
+  public boolean setStartDateQuoteInDb(QuoteDto quote) {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
@@ -135,7 +135,7 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
     return getQuotesFiltered(quotesFilterDto, -1);
   }
 
@@ -154,7 +154,7 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException {
+  public QuoteDto useStateManager(QuoteDto quote) throws BizException {
     QuoteDto quoteToReturn = quoteDtoFactory.getQuote();
 
     if (!((Quote) quoteToReturn).checkStateQuote(quote, getStateQuote(quote))) {
@@ -200,7 +200,7 @@ public class QuoteUccImpl implements QuoteUcc {
     return quoteToReturn;
   }
 
-  private QuoteState getStateQuote(QuoteDto quote) throws FatalException, BizException {
+  private QuoteState getStateQuote(QuoteDto quote) throws BizException {
     try {
       dalService.startTransaction();
       if (quote.getIdQuote() == null) {
@@ -215,7 +215,7 @@ public class QuoteUccImpl implements QuoteUcc {
     }
   }
 
-  private int getWorkDuration(String idQuote) throws FatalException {
+  private int getWorkDuration(String idQuote) {
     try {
       dalService.startTransaction();
       return quoteDao.getWorkduRation(idQuote);
@@ -228,7 +228,7 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException {
+  public QuoteDto setState(String idQuote, QuoteState state) throws BizException {
     try {
       dalService.startTransaction();
       quoteDao.setStateQuote(state, idQuote);
@@ -242,7 +242,7 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public void setFavoritePhoto(String quoteId, int photoId) throws BizException, FatalException {
+  public void setFavoritePhoto(String quoteId, int photoId) throws BizException {
     try {
       dalService.startTransaction();
       if (quoteDao.getQuote(quoteId) == null) {
