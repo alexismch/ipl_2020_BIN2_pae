@@ -58,7 +58,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   }
 
   @Override
-  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException {
+  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException {
     try {
       dalService.startTransaction();
       try {
@@ -79,8 +79,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   }
 
   @Override
-  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType)
-      throws BizException, FatalException {
+  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws BizException {
     try {
       dalService.startTransaction();
       try {

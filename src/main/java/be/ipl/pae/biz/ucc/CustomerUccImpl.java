@@ -38,8 +38,7 @@ public class CustomerUccImpl implements CustomerUcc {
   }
 
   @Override
-  public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto)
-      throws FatalException {
+  public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
     try {
       dalService.startTransaction();
       return customerDao.getCustomers(customersFilterDto);
@@ -53,7 +52,7 @@ public class CustomerUccImpl implements CustomerUcc {
   }
 
   @Override
-  public CustomerDto getCustomerByIdUser(int idUser) throws FatalException {
+  public CustomerDto getCustomerByIdUser(int idUser) {
     try {
 
       dalService.startTransaction();

@@ -78,7 +78,7 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto getUser(int id) throws FatalException {
+  public UserDto getUser(int id) {
     try {
       dalService.startTransaction();
       return userDao.getUser(id);
@@ -91,7 +91,7 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
     try {
       dalService.startTransaction();
       return userDao.getUsers(usersFilterDto);
@@ -104,8 +104,7 @@ public class UserUccImpl implements UserUcc {
   }
 
   @Override
-  public UserDto changeUserStatus(int userId, UserStatus newStatus)
-      throws FatalException, BizException {
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws BizException {
     UserDto user;
     try {
       dalService.startTransaction();
