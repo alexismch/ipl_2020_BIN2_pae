@@ -1,0 +1,8 @@
+Pour initialiser la db, exécuter les fichiers ci-dessous dans l'ordre donné :
+
+1° db.sql
+2° init.sql
+3° tous les fichiers photoX.sql dans le dossier "photos"
+4° photos.sql
+5° seq.sql
+6° test.sql
