@@ -14,8 +14,9 @@ public interface CustomerDao {
    * @param customersFilterDto a filter applied to the results or null if no filter should be
    *        applied
    * @return a list of all customers
+   * @throws DalException if you have an error with the db
    */
-  List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto);
+  List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) throws DalException;
 
   /**
    * Verify if the customer exists in the db.

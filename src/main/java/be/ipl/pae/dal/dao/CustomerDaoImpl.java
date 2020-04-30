@@ -23,7 +23,7 @@ public class CustomerDaoImpl implements CustomerDao {
   private DtoFactory customerDtoFactory;
 
   @Override
-  public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
+  public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) throws DalException {
 
     String query;
 
@@ -59,10 +59,8 @@ public class CustomerDaoImpl implements CustomerDao {
       }
       return getCustomersViaPs(ps);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException("error with the db");
     }
-
-    return new ArrayList<>();
   }
 
   /**
@@ -165,8 +163,8 @@ public class CustomerDaoImpl implements CustomerDao {
   @Override
   public CustomerDto getCustomerByIdUser(int idUser) throws DalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_user =? "
-        + " ORDER BY lastname, firstname");
+    ps = dalService.getPreparedStatement(
+        "Select * FROM mystherbe.customers WHERE id_user =? " + " ORDER BY lastname, firstname");
     return getCustomerViaPs(ps, idUser);
   }
 

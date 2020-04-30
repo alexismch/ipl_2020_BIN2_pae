@@ -12,8 +12,9 @@ public interface DevelopmentTypeDao {
    * Get the entire list of development types.
    *
    * @return the list of development types.
+   * @throws DalException if an error occurred with the db.
    */
-  List<DevelopmentTypeDto> getdevelopmentTypes();
+  List<DevelopmentTypeDto> getdevelopmentTypes() throws DalException;
 
   /**
    * Get the development type with his id.
