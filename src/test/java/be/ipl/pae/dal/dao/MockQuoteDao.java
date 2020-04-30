@@ -15,11 +15,10 @@ public class MockQuoteDao implements QuoteDao {
   @Injected
   private DtoFactory dtoFactory;
 
-  @Override
-  public List<QuoteDto> getAllQuote() {
-    List<QuoteDto> liste = new ArrayList<>();
-    return liste;
-  }
+  /*
+   * @Override public List<QuoteDto> getAllQuote() { List<QuoteDto> liste = new ArrayList<>();
+   * return liste; }
+   */
 
   @Override
   public QuoteDto insertQuote(QuoteDto quoteDto) {

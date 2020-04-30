@@ -1,12 +1,10 @@
 package be.ipl.pae.dal.dao;
 
-import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
-import be.ipl.pae.biz.objets.PhotoImpl;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dal.util.DalUtils;
@@ -38,23 +36,16 @@ public class QuoteDaoImpl implements QuoteDao {
   private PhotoDao photoDao;
 
 
-  @Override
-  public List<QuoteDto> getAllQuote() throws FatalException {
-    List<QuoteDto> quotes = new ArrayList<>();
-    PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT id_quote, id_customer, quote_date, "
-            + "total_amount, work_duration, id_state, start_date,id_photo" + "FROM mystherbe.quotes"
-            + " ORDER BY id_quote");
-    try (ResultSet res = ps.executeQuery()) {
-      while (res.next()) {
-        quotes.add(createQuoteDto(res));
-      }
-    } catch (SQLException sqlE) {
-      sqlE.printStackTrace();
-    }
-
-    return quotes;
-  }
+  /*
+   * @Override public List<QuoteDto> getAllQuote() throws FatalException { List<QuoteDto> quotes =
+   * new ArrayList<>(); PreparedStatement ps =
+   * dalService.getPreparedStatement("SELECT id_quote, id_customer, quote_date, " +
+   * "total_amount, work_duration, id_state, start_date,id_photo" + "FROM mystherbe.quotes" +
+   * " ORDER BY id_quote"); try (ResultSet res = ps.executeQuery()) { while (res.next()) {
+   * quotes.add(createQuoteDto(res)); } } catch (SQLException sqlE) { sqlE.printStackTrace(); }
+   * 
+   * return quotes; }
+   */
 
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
@@ -167,8 +158,9 @@ public class QuoteDaoImpl implements QuoteDao {
             quoteDto.setDevelopmentType(listDevelopment);
           }
           PhotoDto photo = photoDao.getPhotoById(rs.getInt(8));
-          if (photo != null)
+          if (photo != null) {
             quoteDto.setPhoto(photo);
+          }
           quotesList.add(quoteDto);
         }
       }
@@ -229,35 +221,25 @@ public class QuoteDaoImpl implements QuoteDao {
    * @return the quote collected as a dto object
    * @throws FatalException if a problem occurred with the db
    */
-  private QuoteDto createQuoteDto(ResultSet res) throws FatalException {
-    QuoteDto quote = quoteDtoFactory.getQuote();
-    PhotoDto pho = new PhotoImpl("test", 1, "test", "test", true, 1, true);
-    pho.setTitle("test photo");
-    try {
-
-      quote.setIdQuote(res.getString(1));
-      quote.setIdCustomer(res.getInt(2));
-      quote.setQuoteDate(res.getDate(3).toLocalDate());
-      quote.setTotalAmount(res.getDouble(4));
-      quote.setWorkDuration(res.getInt(5));
-      Date startDate = res.getDate(7);
-      if (startDate != null) {
-        quote.setStartDate(startDate.toLocalDate());
-      }
-      quote.setState(QuoteState.getById(res.getInt(6)));
-
-      CustomerDto customer = customerDao.getCustomer(res.getInt(2));
-      PhotoDto photo = photoDao.getPhotoById(res.getInt(8));
-      quote.setCustomer(customer);
-      quote.setPhoto(pho);
-    } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new FatalException(ex);
-
-    }
-
-    return quote;
-  }
+  /*
+   * private QuoteDto createQuoteDto(ResultSet res) throws FatalException { QuoteDto quote =
+   * quoteDtoFactory.getQuote(); PhotoDto pho = new PhotoImpl("test", 1, "test", "test", true, 1,
+   * true); pho.setTitle("test photo"); try {
+   * 
+   * quote.setIdQuote(res.getString(1)); quote.setIdCustomer(res.getInt(2));
+   * quote.setQuoteDate(res.getDate(3).toLocalDate()); quote.setTotalAmount(res.getDouble(4));
+   * quote.setWorkDuration(res.getInt(5)); Date startDate = res.getDate(7); if (startDate != null) {
+   * quote.setStartDate(startDate.toLocalDate()); }
+   * quote.setState(QuoteState.getById(res.getInt(6)));
+   * 
+   * CustomerDto customer = customerDao.getCustomer(res.getInt(2)); PhotoDto photo =
+   * photoDao.getPhotoById(res.getInt(8)); quote.setCustomer(customer); quote.setPhoto(pho); } catch
+   * (SQLException ex) { ex.printStackTrace(); throw new FatalException(ex);
+   * 
+   * }
+   * 
+   * return quote; }
+   */
 
   @Override
   public void linkToType(String quoteId, int typeId) throws FatalException {

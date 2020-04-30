@@ -70,11 +70,12 @@ public class QuoteUccImplTest {
   }
 
 
-  @Test
-  @DisplayName("test getQuotes")
-  public void testGetQuotes() throws BizException {
-    assertNotNull(qcc.getQuotes());
-  }
+  /*
+   * @Test
+   * 
+   * @DisplayName("test getQuotes") public void testGetQuotes() throws BizException {
+   * assertNotNull(qcc.getQuotes()); }
+   */
 
   @Test
   @DisplayName("test getQuotesFiltered with null parameter")

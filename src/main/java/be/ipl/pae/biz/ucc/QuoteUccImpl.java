@@ -66,22 +66,12 @@ public class QuoteUccImpl implements QuoteUcc {
 
   }
 
-  @Override
-  public List<QuoteDto> getQuotes() throws BizException {
-    try {
-      try {
-        dalService.startTransaction();
-        return quoteDao.getAllQuote();
-      } catch (FatalException ex) {
-        dalService.rollbackTransaction();
-        throw new BizException(ex);
-      } finally {
-        dalService.commitTransaction();
-      }
-    } catch (FatalException ex) {
-      throw new BizException(ex);
-    }
-  }
+  /*
+   * @Override public List<QuoteDto> getQuotes() throws BizException { try { try {
+   * dalService.startTransaction(); return quoteDao.getAllQuote(); } catch (FatalException ex) {
+   * dalService.rollbackTransaction(); throw new BizException(ex); } finally {
+   * dalService.commitTransaction(); } } catch (FatalException ex) { throw new BizException(ex); } }
+   */
 
   @Override
   public QuoteDto getQuote(String idQuote) throws FatalException, BizException {
