@@ -102,19 +102,22 @@ public class UserUccImpl implements UserUcc {
       UserStatus status = userDao.getUserStatus(userId);
 
       if (status == null) {
+        dalService.commitTransaction();
         throw new BizException("Il n'y a aucun utilisateur avec l'id " + userId);
       }
 
       if (status == newStatus) {
-        return userDao.getUser(userId);
-      }
+        user = userDao.getUser(userId);
+      } else {
 
-      if (!UserStatus.NOT_ACCEPTED.equals(status)) {
-        throw new BizException("Le status de l'utilisateur doit être égal à "
-            + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
-      }
+        if (!UserStatus.NOT_ACCEPTED.equals(status)) {
+          dalService.commitTransaction();
+          throw new BizException("Le status de l'utilisateur doit être égal à "
+              + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
+        }
 
-      user = userDao.changeUserStatus(userId, newStatus);
+        user = userDao.changeUserStatus(userId, newStatus);
+      }
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
