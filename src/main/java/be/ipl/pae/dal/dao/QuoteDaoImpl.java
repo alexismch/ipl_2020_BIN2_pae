@@ -147,9 +147,8 @@ public class QuoteDaoImpl implements QuoteDao {
           if (startDate != null) {
             quoteDto.setStartDate(startDate.toLocalDate());
           }
-          inc++;
 
-          List<DevelopmentTypeDto> listDevelopment = new ArrayList<>();
+          List<DevelopmentTypeDto> listDevelopment;
           listDevelopment = developmentTypeDao.getDevelopmentTypeList(rs.getString(1));
           quoteDto.setDevelopmentType(listDevelopment);
 
@@ -210,7 +209,7 @@ public class QuoteDaoImpl implements QuoteDao {
     return customerQuotes;
   }
 
-  /**
+  /*
    * Create a new Quote with all the informations collected in the db.
    *
    * @param res the result from the query
@@ -293,7 +292,7 @@ public class QuoteDaoImpl implements QuoteDao {
     QuoteDto quoteDtoToReturn = quoteDtoFactory.getQuote();
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select id_quote, id_customer, quote_date, "
-        + "total_amount, work_duration, id_state, start_date "
+        + "total_amount, work_duration, id_state, start_date, id_photo "
         + "FROM mystherbe.quotes WHERE id_quote =? " + " ORDER BY id_quote");
 
     try {
@@ -307,6 +306,9 @@ public class QuoteDaoImpl implements QuoteDao {
           quoteDtoToReturn.setWorkDuration(resultSet.getInt(5));
           quoteDtoToReturn.setState(QuoteState.getById(resultSet.getInt(6)));
           Date startDate = resultSet.getDate(7);
+          PhotoDto photoDto = quoteDtoFactory.getPhoto();
+          photoDto.setId(resultSet.getInt(8));
+          quoteDtoToReturn.setPhoto(photoDto);
           if (startDate != null) {
             quoteDtoToReturn.setStartDate(startDate.toLocalDate());
           }
