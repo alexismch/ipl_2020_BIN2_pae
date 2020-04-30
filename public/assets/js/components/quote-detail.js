@@ -385,13 +385,13 @@ export class QuoteDetailPage extends Page {
               this._createPhotoItem($list, quoteId, {
                 base64: data['pictureData'][i],
                 title: data['pictureTitle'][i]
-              });
+              }, false);
             }
           } else {
             this._createPhotoItem($list, quoteId, {
               base64: data['pictureData'],
               title: data['pictureTitle']
-            });
+            }, false);
           }
 
           $addPictureForm.remove();
