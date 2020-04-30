@@ -14,7 +14,7 @@ import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -54,13 +54,13 @@ public class QuoteUccImpl implements QuoteUcc {
           photoDao.insert(photoDto);
         }
         return quoteDto;
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         dalService.rollbackTransaction();
         throw new BizException(ex);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
 
@@ -74,12 +74,12 @@ public class QuoteUccImpl implements QuoteUcc {
    */
 
   @Override
-  public QuoteDto getQuote(String idQuote) throws FatalException, BizException {
+  public QuoteDto getQuote(String idQuote) throws BizException {
 
     try {
       dalService.startTransaction();
       return getQuoteBis(idQuote);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -87,7 +87,7 @@ public class QuoteUccImpl implements QuoteUcc {
     return null;
   }
 
-  private QuoteDto getQuoteBis(String idQuote) throws FatalException, BizException {
+  private QuoteDto getQuoteBis(String idQuote) throws BizException {
     QuoteDto quoteDto;
     quoteDto = quoteDao.getQuote(idQuote);
     if (quoteDto.getIdQuote() == null) {
@@ -109,52 +109,52 @@ public class QuoteUccImpl implements QuoteUcc {
       try {
         dalService.startTransaction();
         return quoteDao.getCustomerQuotes(customerId);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         dalService.rollbackTransaction();
         throw new BizException(ex);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
 
 
   @Override
-  public boolean setStartDateQuoteInDb(QuoteDto quote) throws FatalException {
+  public boolean setStartDateQuoteInDb(QuoteDto quote) {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
       return true;
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
   }
 
-  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) throws FatalException {
+  public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
     return getQuotesFiltered(quotesFilterDto, -1);
   }
 
   @Override
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto, int idCustomer)
-      throws FatalException {
+      throws DalException {
     try {
       dalService.startTransaction();
       return quoteDao.getQuotesFiltered(quotesFilterDto, idCustomer);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
   }
 
   @Override
-  public QuoteDto useStateManager(QuoteDto quote) throws BizException, FatalException {
+  public QuoteDto useStateManager(QuoteDto quote) throws BizException {
     QuoteDto quoteToReturn = quoteDtoFactory.getQuote();
 
     if (!((Quote) quoteToReturn).checkStateQuote(quote, getStateQuote(quote))) {
@@ -200,49 +200,49 @@ public class QuoteUccImpl implements QuoteUcc {
     return quoteToReturn;
   }
 
-  private QuoteState getStateQuote(QuoteDto quote) throws FatalException, BizException {
+  private QuoteState getStateQuote(QuoteDto quote) throws BizException {
     try {
       dalService.startTransaction();
       if (quote.getIdQuote() == null) {
         throw new BizException("Aucune id pour le devis n'a été envoyé");
       }
       return quoteDao.getStateQuote(quote.getIdQuote());
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
   }
 
-  private int getWorkDuration(String idQuote) throws FatalException {
+  private int getWorkDuration(String idQuote) {
     try {
       dalService.startTransaction();
       return quoteDao.getWorkduRation(idQuote);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
   }
 
   @Override
-  public QuoteDto setState(String idQuote, QuoteState state) throws BizException, FatalException {
+  public QuoteDto setState(String idQuote, QuoteState state) throws BizException {
     try {
       dalService.startTransaction();
       quoteDao.setStateQuote(state, idQuote);
       return getQuoteBis(idQuote);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }
   }
 
   @Override
-  public void setFavoritePhoto(String quoteId, int photoId) throws BizException, FatalException {
+  public void setFavoritePhoto(String quoteId, int photoId) throws BizException {
     try {
       dalService.startTransaction();
       if (quoteDao.getQuote(quoteId) == null) {
@@ -257,9 +257,9 @@ public class QuoteUccImpl implements QuoteUcc {
       }
 
       quoteDao.setFavoritePhoto(quoteId, photoId);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     } finally {
       dalService.commitTransaction();
     }

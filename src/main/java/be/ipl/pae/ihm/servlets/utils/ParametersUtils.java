@@ -21,7 +21,29 @@ public class ParametersUtils {
   /**
    * Get the parameter identified by {@code name} in the request.
    *
-   * @param req the request
+   * @param req       the request
+   * @param name      the name of the parameter
+   * @param maxLength the maximum length allowed
+   * @return the value of the parameter
+   * @throws ParameterException thrown if the parameter do not exit or an empty text
+   */
+  public static String getParam(HttpServletRequest req, String name, int maxLength)
+      throws ParameterException {
+
+    String param = getParam(req, name);
+
+    if (param.length() > maxLength) {
+      throw new ParameterException(
+          "La longueur de " + name + " ne peut pas être supérieur à " + maxLength);
+    }
+
+    return param;
+  }
+
+  /**
+   * Get the parameter identified by {@code name} in the request.
+   *
+   * @param req  the request
    * @param name the name of the parameter
    * @return the value of the parameter
    * @throws ParameterException thrown if the parameter do not exit or an empty text

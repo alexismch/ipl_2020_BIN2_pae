@@ -13,7 +13,7 @@ import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +53,7 @@ public class QuoteUccImplTest {
 
   @DisplayName("test get quote when you give him a good idQuote")
   @Test
-  public void testGetQuoteOk() throws FatalException, BizException {
+  public void testGetQuoteOk() throws DalException, BizException {
     QuoteDto quote = qcc.getQuote("ok");
     assertAll(() -> assertNotNull(quote), () -> assertEquals(1, quote.getIdCustomer()),
         () -> assertFalse(quote.getListPhotoBefore().isEmpty()),
@@ -79,13 +79,13 @@ public class QuoteUccImplTest {
 
   @Test
   @DisplayName("test getQuotesFiltered with null parameter")
-  public void testGetQuotesFiltered() throws FatalException {
+  public void testGetQuotesFiltered() throws DalException {
     assertNotNull(qcc.getQuotesFiltered(null));
   }
 
   @Test
   @DisplayName("test useStateManager when all is good")
-  public void testUseStateManagerOk() throws BizException, FatalException {
+  public void testUseStateManagerOk() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
 
     quote.setIdQuote("introduit");
@@ -97,7 +97,7 @@ public class QuoteUccImplTest {
 
   @Test
   @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE")
-  public void testUseStateManagerOk2() throws BizException, FatalException {
+  public void testUseStateManagerOk2() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
 
     quote.setIdQuote("dateConfirme");
@@ -109,7 +109,7 @@ public class QuoteUccImplTest {
 
   @Test
   @DisplayName("test useStateManager when idQuote == null")
-  public void testUseStateManagerko1() throws BizException, FatalException {
+  public void testUseStateManagerko1() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
 
     quote.setIdQuote(null);
@@ -122,14 +122,14 @@ public class QuoteUccImplTest {
 
   @Test
   @DisplayName("test setState when all is good")
-  public void testSetStateOk() throws BizException, FatalException {
+  public void testSetStateOk() throws BizException, DalException {
 
     assertNotNull(qcc.setState("ok", QuoteState.QUOTE_ENTERED));
   }
 
   @Test
   @DisplayName("test setState when idQuote is null")
-  public void testSetStateKo1() throws BizException, FatalException {
+  public void testSetStateKo1() throws BizException, DalException {
 
     assertThrows(BizException.class, () -> qcc.setState(null, QuoteState.CONFIRMED_DATE));
   }
@@ -137,7 +137,7 @@ public class QuoteUccImplTest {
 
   @Test
   @DisplayName("test setStartDateQuoteInDb when all is good")
-  public void testSetStartDateQuoteInDbOk() throws BizException, FatalException {
+  public void testSetStartDateQuoteInDbOk() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
     assertTrue(qcc.setStartDateQuoteInDb(quote));
   }

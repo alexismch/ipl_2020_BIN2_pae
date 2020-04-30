@@ -8,7 +8,7 @@ import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -24,15 +24,15 @@ public class PhotoUccImpl implements PhotoUcc {
   private QuoteDao quoteDao;
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException, BizException {
+  public List<PhotoVisibleDto> getVisiblePhotos() throws BizException {
     try {
       dalService.startTransaction();
       try {
         return photoDao.getVisiblePhotos();
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -41,15 +41,15 @@ public class PhotoUccImpl implements PhotoUcc {
   }
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException, FatalException {
+  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
     try {
       dalService.startTransaction();
       try {
         return photoDao.getVisiblePhotos(typeId);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -58,7 +58,7 @@ public class PhotoUccImpl implements PhotoUcc {
   }
 
   @Override
-  public void insert(List<PhotoDto> photos) throws FatalException, BizException {
+  public void insert(List<PhotoDto> photos) throws BizException {
     try {
       dalService.startTransaction();
       try {
@@ -70,10 +70,10 @@ public class PhotoUccImpl implements PhotoUcc {
         for (PhotoDto photo : photos) {
           photoDao.insert(photo);
         }
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -82,15 +82,15 @@ public class PhotoUccImpl implements PhotoUcc {
 
 
   @Override
-  public PhotoDto getPhotoById(int id) throws BizException, FatalException {
+  public PhotoDto getPhotoById(int id) throws BizException {
     try {
       dalService.startTransaction();
       try {
         return photoDao.getPhotoById(id);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();

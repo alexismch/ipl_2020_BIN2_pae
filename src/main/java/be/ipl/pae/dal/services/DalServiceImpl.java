@@ -149,7 +149,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     try {
       threadLocal.get().commit();
     } catch (SQLException ex) {
-      rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       closeConnection();

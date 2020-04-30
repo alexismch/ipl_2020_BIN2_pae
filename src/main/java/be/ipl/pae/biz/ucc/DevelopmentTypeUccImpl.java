@@ -5,7 +5,7 @@ import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
 
       return listToReturn;
 
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
@@ -52,13 +52,13 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
 
       return listToReturn;
 
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
 
   @Override
-  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException {
+  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException {
     try {
       dalService.startTransaction();
       try {
@@ -67,10 +67,10 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
           throw new BizException("Type d'améngament inexistant.");
         }
         return developmentType;
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();
@@ -79,8 +79,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   }
 
   @Override
-  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType)
-      throws BizException, FatalException {
+  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws BizException {
     try {
       dalService.startTransaction();
       try {
@@ -88,10 +87,10 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
           throw new BizException("Type d'améngament déjà existant.");
         }
         return developmentTypeDao.insert(developmentType);
-      } catch (FatalException ex) {
+      } catch (DalException ex) {
         throw new BizException(ex);
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
     } finally {
       dalService.commitTransaction();

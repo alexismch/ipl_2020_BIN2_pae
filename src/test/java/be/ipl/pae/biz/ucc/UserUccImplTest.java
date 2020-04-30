@@ -12,7 +12,7 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +77,7 @@ public class UserUccImplTest {
 
   @DisplayName("register test when you give a good pseudo and a good mail")
   @Test
-  public void testRegisterOk() throws BizException, FatalException {
+  public void testRegisterOk() throws BizException, DalException {
     UserDto userDto = dtoFactory.getUser();
     userDto.setEmail("goodmail@mail.mail");
     userDto.setPseudo("goodpseudo");
@@ -104,13 +104,13 @@ public class UserUccImplTest {
 
   @DisplayName("users list with no filter")
   @Test
-  public void usersList() throws FatalException {
+  public void usersList() throws DalException {
     assertEquals(4, ucc.getUsers(null).size());
   }
 
   @DisplayName("users list with filter on name")
   @Test
-  public void usersListFilterName() throws FatalException {
+  public void usersListFilterName() throws DalException {
     UsersFilterDto usersFilterDto = dtoFactory.getUsersFilterDto();
 
     usersFilterDto.setName("A");
@@ -126,7 +126,7 @@ public class UserUccImplTest {
 
   @DisplayName("users list with filter on name case insensitive")
   @Test
-  public void usersListFilterNameIgnoreCase() throws FatalException {
+  public void usersListFilterNameIgnoreCase() throws DalException {
     UsersFilterDto usersFilterDto = dtoFactory.getUsersFilterDto();
 
     usersFilterDto.setName("a");
@@ -142,7 +142,7 @@ public class UserUccImplTest {
 
   @DisplayName("users list with filter on city")
   @Test
-  public void usersListFilterCity() throws FatalException {
+  public void usersListFilterCity() throws DalException {
     UsersFilterDto usersFilterDto = dtoFactory.getUsersFilterDto();
 
     usersFilterDto.setCity("2");
@@ -167,7 +167,7 @@ public class UserUccImplTest {
 
 
   @Test
-  void changeUserStatusSameAsExisting() throws FatalException, BizException {
+  void changeUserStatusSameAsExisting() throws DalException, BizException {
 
     for (int i = 1; i <= 2; i++) {
 

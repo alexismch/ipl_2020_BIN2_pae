@@ -520,13 +520,13 @@ export class QuoteDetailPage extends Page {
 
   _createPhotoList($container, quoteId, photoList, isBefore = true) {
     const $cardBody = $('<div class="card-body"></div>');
+    const $list = $('<div>', {class: 'list'});
     if (photoList.length == 0) {
       $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
-      const $list = $('<div>', {class: 'list'});
       photoList.forEach(photo => this._createPhotoItem($list, quoteId, photo, isBefore));
-      $cardBody.append($list);
     }
+    $cardBody.append($list);
     $container.append($cardBody);
   }
 
@@ -550,6 +550,7 @@ export class QuoteDetailPage extends Page {
       $iconContainer.append($icon);
       $div.prepend($iconContainer);
     }
+    $container.parent().find('.empty').remove();
     $container.append($div);
   }
 

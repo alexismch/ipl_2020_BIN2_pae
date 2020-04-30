@@ -8,7 +8,7 @@ import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class UserUccImpl implements UserUcc {
 
       return userDto;
 
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
 
@@ -66,46 +66,45 @@ public class UserUccImpl implements UserUcc {
 
         return userDao.insertUser(userDto);
 
-      } catch (FatalException fx) {
+      } catch (DalException fx) {
         dalService.rollbackTransaction();
         throw new BizException(fx);
       } finally {
         dalService.commitTransaction();
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       throw new BizException(ex);
     }
   }
 
   @Override
-  public UserDto getUser(int id) throws FatalException {
+  public UserDto getUser(int id) {
     try {
       dalService.startTransaction();
       return userDao.getUser(id);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
       dalService.commitTransaction();
     }
   }
 
   @Override
-  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
     try {
       dalService.startTransaction();
       return userDao.getUsers(usersFilterDto);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
       dalService.commitTransaction();
     }
   }
 
   @Override
-  public UserDto changeUserStatus(int userId, UserStatus newStatus)
-      throws FatalException, BizException {
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws BizException {
     UserDto user;
     try {
       dalService.startTransaction();
@@ -125,9 +124,9 @@ public class UserUccImpl implements UserUcc {
       }
 
       user = userDao.changeUserStatus(userId, newStatus);
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-      throw new FatalException(ex);
+      throw new DalException(ex);
     } finally {
       dalService.commitTransaction();
     }
