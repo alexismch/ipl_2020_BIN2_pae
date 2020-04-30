@@ -7,7 +7,6 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 
 import java.io.IOException;
 
@@ -41,8 +40,6 @@ public class FavoritePhotoServlet extends AbstractServlet {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
-      } catch (FatalException fatalE) {
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       }
     } else {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
