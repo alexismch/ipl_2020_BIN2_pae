@@ -158,10 +158,8 @@ public class UserUccImplTest {
   @Test
   void changeUserStatusWrongId() {
 
-    int i = 0;
     for (UserStatus userStatus : UserStatus.values()) {
       assertThrows(BizException.class, () -> ucc.changeUserStatus(3, userStatus));
-      i++;
     }
 
   }
@@ -172,10 +170,9 @@ public class UserUccImplTest {
 
     for (int i = 1; i <= 2; i++) {
 
-      //System.out.println(i);
-      //UserDto userDto = ucc.getUser(i);
-      //assertNotNull(userDto);
-      //assertEquals(userDto.getPseudo(), ucc.changeUserStatus(i, userDto.getStatus()).getPseudo());
+      UserDto userDto = ucc.getUser(i);
+      assertNotNull(userDto);
+      assertEquals(userDto.getPseudo(), ucc.changeUserStatus(i, userDto.getStatus()).getPseudo());
 
     }
 
