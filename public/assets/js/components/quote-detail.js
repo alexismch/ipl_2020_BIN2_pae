@@ -550,6 +550,7 @@ export class QuoteDetailPage extends Page {
       $iconContainer.append($icon);
       $div.prepend($iconContainer);
     }
+    $container.parent().find('.empty').remove();
     $container.append($div);
   }
 
