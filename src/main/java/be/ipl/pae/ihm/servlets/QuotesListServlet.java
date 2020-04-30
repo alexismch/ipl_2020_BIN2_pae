@@ -16,9 +16,13 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.ihm.Util;
 
+import com.owlike.genson.Converter;
+import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
+import com.owlike.genson.convert.ChainedFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,6 +139,15 @@ public class QuotesListServlet extends AbstractServlet {
     }
 
     GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+
+    gensonBuilder.withConverterFactory(new ChainedFactory() {
+      @Override
+      protected Converter<?> create(Type type, Genson genson, Converter<?> nextConverter) {
+        System.out.println(type);
+        return nextConverter;
+      }
+    });
+
     sendSuccessWithJson(resp, "quotesList", gensonBuilder.create().serialize(listToReturn));
   }
 }

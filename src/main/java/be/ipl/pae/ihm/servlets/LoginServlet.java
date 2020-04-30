@@ -2,13 +2,14 @@ package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.ihm.Util.createToken;
 import static be.ipl.pae.ihm.Util.getUId;
-import static be.ipl.pae.ihm.Util.verifyNotEmpty;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.ihm.Util;
+import be.ipl.pae.ihm.servlets.utils.ParameterException;
+import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -24,28 +25,27 @@ public class LoginServlet extends AbstractServlet {
   @Injected
   private UserUcc ucc;
 
-  private GensonBuilder genson = Util.createGensonBuilder();
-
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    System.out.println("GET /api/login by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
     System.out.println("\tUsed token : " + token);
 
-    if (token != null) {
-      int id = getUId(token);
-      UserDto userDto;
-      userDto = ucc.getUser(id);
-      sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
-    } else {
+    if (token == null) {
       sendSuccessWithJson(resp, "user", null);
+      return;
     }
+
+    int id = getUId(token);
+    UserDto userDto;
+    userDto = ucc.getUser(id);
+
+    GensonBuilder genson = Util.createGensonBuilder();
+    sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    System.out.println("POST /api/login by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
     if (token != null) {
@@ -53,24 +53,31 @@ public class LoginServlet extends AbstractServlet {
       return;
     }
 
-    String pseudo = req.getParameter("pseudo");
-    String passwd = req.getParameter("password");
-
-    if (verifyNotEmpty(pseudo, passwd)) {
-      try {
-        UserDto userDto = ucc.login(pseudo, passwd);
-
-        HttpSession session = req.getSession();
-        token = createToken(userDto);
-        session.setAttribute("token", token);
-        System.out.println("\tGenerated token : " + token);
-
-        sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
-      } catch (BizException ex) {
-        sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-      }
-    } else {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
+    String pseudo;
+    String password;
+    try {
+      pseudo = ParametersUtils.getParam(req, "pseudo");
+      password = ParametersUtils.getParam(req, "password");
+    } catch (ParameterException ex) {
+      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
+      return;
     }
+
+    UserDto userDto;
+    try {
+      userDto = ucc.login(pseudo, password);
+    } catch (BizException ex) {
+      sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+      return;
+    }
+
+    HttpSession session = req.getSession();
+    token = createToken(userDto);
+    session.setAttribute("token", token);
+    System.out.println("\tGenerated token : " + token);
+
+    GensonBuilder genson = Util.createGensonBuilder();
+    sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
+
   }
 }
