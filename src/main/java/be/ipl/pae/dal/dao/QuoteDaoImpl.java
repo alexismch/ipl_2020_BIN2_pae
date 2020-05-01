@@ -276,7 +276,7 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      throw new DalException("error in the db!");
+      throw new DalException("error in the db");
     }
     return quoteDtoToReturn;
   }
@@ -296,7 +296,7 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(2, quote.getIdQuote());
       ps.executeUpdate();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -311,7 +311,7 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(2, quoteId);
       ps.executeUpdate();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -330,7 +330,7 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      throw new DalException("error in the db!");
+      throw new DalException("error in the db");
     }
     return quoteDtoToReturn.getWorkDuration();
   }
@@ -350,7 +350,7 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      throw new DalException("error in the db!");
+      throw new DalException("error in the db");
     }
     return quoteDtoToReturn.getState();
   }
@@ -365,7 +365,7 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(2, quoteId);
       ps.executeUpdate();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 }

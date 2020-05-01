@@ -45,7 +45,7 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       if (quoteDao.checkQuoteIdInDb(quoteDto.getIdQuote())) {
-        throw new BizException("Id de devis déjà utilisé!");
+        throw new BizException("Id de devis déjà utilisé");
       }
       quoteDto = quoteDao.insertQuote(quoteDto);
       for (DevelopmentTypeDto developmentType : quoteDto.getDevelopmentTypes()) {
@@ -82,7 +82,7 @@ public class QuoteUccImpl implements QuoteUcc {
     QuoteDto quoteDto;
     quoteDto = quoteDao.getQuote(idQuote);
     if (quoteDto.getIdQuote() == null) {
-      throw new BizException("Devis non existant!");
+      throw new BizException("Devis non existant");
     }
 
     quoteDto.setCustomer(customerDao.getCustomer(quoteDto.getIdCustomer()));
@@ -227,14 +227,14 @@ public class QuoteUccImpl implements QuoteUcc {
     try {
       dalService.startTransaction();
       if (quoteDao.getQuote(quoteId) == null) {
-        throw new BizException("Devis non existant!");
+        throw new BizException("Devis non existant");
       }
       PhotoDto photoDto = photoDao.getPhotoById(photoId);
       if (photoDto == null) {
-        throw new BizException("Photo inexistante!");
+        throw new BizException("Photo inexistante");
       }
       if (!photoDto.getIdQuote().equals(quoteId)) {
-        throw new BizException("Photo non liée au devis!");
+        throw new BizException("Photo non liée au devis");
       }
 
       quoteDao.setFavoritePhoto(quoteId, photoId);

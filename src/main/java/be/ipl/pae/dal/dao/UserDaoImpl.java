@@ -219,7 +219,7 @@ public class UserDaoImpl implements UserDao {
       }
 
     } catch (Exception ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -231,7 +231,7 @@ public class UserDaoImpl implements UserDao {
       ps.setInt(1, userId);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -245,7 +245,7 @@ public class UserDaoImpl implements UserDao {
 
       ps.executeUpdate();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
     return getUser(userId);
   }

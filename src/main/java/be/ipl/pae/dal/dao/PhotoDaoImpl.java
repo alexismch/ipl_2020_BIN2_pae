@@ -51,7 +51,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setBoolean(2, isBefore);
       return getPhotosViaPs(ps);
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -109,7 +109,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setInt(1, typeId);
       return getVisiblePhotosViaPs(ps);
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -128,7 +128,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.close();
       return photos;
     } catch (SQLException sqlE) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -154,7 +154,7 @@ public class PhotoDaoImpl implements PhotoDao {
         }
       }
     } catch (SQLException ex) {
-      throw new DalException("error in the db!");
+      throw new DalException("error in the db");
     }
     return photoDtoToReturn;
   }

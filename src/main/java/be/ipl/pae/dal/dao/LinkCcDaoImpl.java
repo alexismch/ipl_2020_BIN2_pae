@@ -22,7 +22,7 @@ public class LinkCcDaoImpl implements LinkCcDao {
       ps.setInt(2, customerId);
       ps.execute();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 }
