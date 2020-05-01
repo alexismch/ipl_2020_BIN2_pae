@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
+import {ajaxGET, ajaxPUT} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
 import {onSubmitWithAjax, serializeFormToJson} from '../utils/forms.js';
@@ -239,24 +239,18 @@ export class QuoteDetailPage extends Page {
    * @param {*} quoteId 
    */
   _deleteStartDate(quoteId) {
-    const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm deleteStartDate" type="button">Supprimer date des débuts de travaux</button>`);
+    const $form = $(`<form action="/api/quote?quoteId=${quoteId}" class="w-100" method="delete" novalidate>
+                      <button class="btn btn-danger btn-sm deleteStartDate">Supprimer date des débuts de travaux</button>
+                    </form>`);
 
-    $deleteStartDateButton.on('click', () => {
-
-      this.isLoading = true;
-
-      ajaxDELETE(`/api/quote?quoteId=${quoteId}`, null, (data) => {
-        this._changeView(data.quote);
-        this.isLoading = false;
-        createAlert('success', 'La date de début des travaux a été supprimée !');
-      }, () => {
-        this.isLoading = false;
-        createAlert('danger', 'La date de début des travaux n\'a pas pu être supprimée !');
-      });
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La date de début des travaux a été supprimée');
+    }, () => {
+      createAlert('danger', 'La date de début des travaux n\'a pas pu être supprimée');
     });
 
-
-    return $deleteStartDateButton;
+    return $form;
   }
 
   /**
