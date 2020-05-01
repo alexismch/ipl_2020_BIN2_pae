@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.biz.dto.QuoteDto;
+import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dependencies.Injected;
@@ -30,6 +31,8 @@ public class QuoteUccImplTest {
   @Injected
   private QuoteUcc qcc;
 
+  private QuotesFilterDto quotesFilter;
+
   /**
    * Allows you to make the necessary injections.
    */
@@ -43,6 +46,8 @@ public class QuoteUccImplTest {
     }
     InjectionService injectionService = new InjectionService(propertiesLoader);
     injectionService.inject(this);
+
+    quotesFilter = dtoFactory.getQuotesFilter();
   }
 
   @DisplayName("qcc test different from null")
@@ -79,8 +84,21 @@ public class QuoteUccImplTest {
 
   @Test
   @DisplayName("test getQuotesFiltered with null parameter")
-  public void testGetQuotesFiltered() throws DalException {
+  public void testGetQuotesFiltered1() throws DalException {
     assertNotNull(qcc.getQuotesFiltered(null));
+  }
+
+  @Test
+  @DisplayName("test getQuotesFiltered with empty filter")
+  public void testGetQuotesFiltered2() throws DalException {
+    assertNotNull(qcc.getQuotesFiltered(quotesFilter));
+  }
+
+  @Test
+  @DisplayName("test getQuotesFiltered with a filter")
+  public void testGetQuotesFiltered3() throws DalException {
+    quotesFilter.setCustomerName("James");
+    assertNotNull(qcc.getQuotesFiltered(quotesFilter));
   }
 
   @Test
