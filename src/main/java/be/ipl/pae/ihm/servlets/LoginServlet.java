@@ -7,7 +7,6 @@ import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.servlets.utils.ParameterException;
 import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
 
@@ -40,7 +39,7 @@ public class LoginServlet extends AbstractServlet {
     UserDto userDto;
     userDto = ucc.getUser(id);
 
-    GensonBuilder genson = Util.createGensonBuilder();
+    GensonBuilder genson = createGensonBuilder();
     sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
   }
 
@@ -76,7 +75,7 @@ public class LoginServlet extends AbstractServlet {
     session.setAttribute("token", token);
     System.out.println("\tGenerated token : " + token);
 
-    GensonBuilder genson = Util.createGensonBuilder();
+    GensonBuilder genson = createGensonBuilder();
     sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
 
   }

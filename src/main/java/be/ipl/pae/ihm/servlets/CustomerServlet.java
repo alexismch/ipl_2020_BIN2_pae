@@ -1,6 +1,5 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.ihm.Util.createGensonBuilder;
 import static be.ipl.pae.ihm.Util.hasAccess;
 import static be.ipl.pae.ihm.Util.verifyNotEmpty;
 

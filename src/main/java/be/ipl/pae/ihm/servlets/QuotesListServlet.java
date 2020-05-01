@@ -134,7 +134,7 @@ public class QuotesListServlet extends AbstractServlet {
       }
     }
 
-    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+    GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
 
     sendSuccessWithJson(resp, "quotesList", gensonBuilder.create().serialize(listToReturn));
   }

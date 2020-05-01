@@ -7,7 +7,6 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -54,7 +53,7 @@ public class CustomersListServlet extends AbstractServlet {
     }
     customersFilterDto.setOnlyNotLinked(onlyNotLinked);
 
-    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+    GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
 
     sendSuccessWithJson(resp, "customers",
         gensonBuilder.create().serialize(customerUcc.getCustomers(customersFilterDto)));

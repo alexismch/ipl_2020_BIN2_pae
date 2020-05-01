@@ -14,7 +14,6 @@ import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.servlets.utils.ParameterException;
 import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
 
@@ -39,7 +38,7 @@ public class QuoteServlet extends AbstractServlet {
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
 
-  private GensonBuilder genson = Util.createGensonBuilder().exclude("idQuote", PhotoDto.class);
+  private GensonBuilder genson = createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -157,6 +156,7 @@ public class QuoteServlet extends AbstractServlet {
     }
 
     String quoteId = req.getParameter("quoteId");
+
     try {
       QuoteDto quoteDto = quoteUcc.getQuote(quoteId);
       sendSuccessWithJson(resp, "quote", genson.create().serialize(quoteDto));

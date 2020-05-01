@@ -9,7 +9,6 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -45,7 +44,7 @@ public class DevelopmentTypeServlet extends AbstractServlet {
       try {
         developmentType = developmentTypeUcc.insert(developmentType);
 
-        GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+        GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
 
         sendSuccessWithJson(resp, "developmentType",
             gensonBuilder.create().serialize(developmentType));

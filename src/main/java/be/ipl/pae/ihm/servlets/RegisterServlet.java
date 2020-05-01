@@ -85,7 +85,7 @@ public class RegisterServlet extends AbstractServlet {
       return;
     }
 
-    GensonBuilder genson = Util.createGensonBuilder();
+    GensonBuilder genson = createGensonBuilder();
     sendSuccessWithJson(resp, "user", genson.create().serialize(userDb));
   }
 }

@@ -7,7 +7,6 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -45,7 +44,7 @@ public class UsersListServlet extends AbstractServlet {
     usersFilterDto.setName(name);
     usersFilterDto.setCity(city);
 
-    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+    GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
 
     sendSuccessWithJson(resp, "users",
         gensonBuilder.create().serialize(userUcc.getUsers(usersFilterDto)));
