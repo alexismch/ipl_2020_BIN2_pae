@@ -58,8 +58,9 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return quoteDtoRet;
   }
 
@@ -71,8 +72,9 @@ public class QuoteUccImpl implements QuoteUcc {
       quoteDto = getQuoteBis(idQuote);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return quoteDto;
   }
 
@@ -101,8 +103,9 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return true;
   }
 
@@ -119,8 +122,9 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return quoteDtoList;
   }
 
@@ -182,8 +186,9 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return quoteState;
   }
 
@@ -195,8 +200,9 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return workDuration;
   }
 
@@ -210,8 +216,9 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return quoteDto;
   }
 
@@ -234,7 +241,8 @@ public class QuoteUccImpl implements QuoteUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
   }
 }

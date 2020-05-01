@@ -46,8 +46,9 @@ public class LinkCcUccImpl implements LinkCcUcc {
     } catch (DalException fx) {
       dalService.rollbackTransaction();
       throw new FatalException(fx);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
 
   }
 }
