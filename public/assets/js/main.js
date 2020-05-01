@@ -64,7 +64,7 @@ function initRouter() {
     ajaxPOST('/api/logout', null, () => {
       changeMenuForUser(null);
       router.navigate('connexion');
-      createAlert('success', 'Vous avez été deconnecté !');
+      createAlert('success', 'Vous avez été déconnecté');
     });
   })
   .on('connexion', () => {
