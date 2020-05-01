@@ -120,7 +120,6 @@ public class CustomerDaoImpl implements CustomerDao {
       }
 
     } catch (Exception ex) {
-      ex.printStackTrace();
       throw new DalException("error with the db!");
     }
   }

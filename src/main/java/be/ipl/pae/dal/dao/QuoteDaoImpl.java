@@ -148,7 +148,7 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException("error with the db");
     }
 
     return quotesList;
@@ -197,32 +197,6 @@ public class QuoteDaoImpl implements QuoteDao {
     return customerQuotes;
   }
 
-  /*
-   * Create a new Quote with all the informations collected in the db.
-   *
-   * @param res the result from the query
-   * @return the quote collected as a dto object
-   * @throws FatalException if a problem occurred with the db
-   */
-  /*
-   * private QuoteDto createQuoteDto(ResultSet res) throws FatalException { QuoteDto quote =
-   * quoteDtoFactory.getQuote(); PhotoDto pho = new PhotoImpl("test", 1, "test", "test", true, 1,
-   * true); pho.setTitle("test photo"); try {
-   * 
-   * quote.setIdQuote(res.getString(1)); quote.setIdCustomer(res.getInt(2));
-   * quote.setQuoteDate(res.getDate(3).toLocalDate()); quote.setTotalAmount(res.getDouble(4));
-   * quote.setWorkDuration(res.getInt(5)); Date startDate = res.getDate(7); if (startDate != null) {
-   * quote.setStartDate(startDate.toLocalDate()); }
-   * quote.setState(QuoteState.getById(res.getInt(6)));
-   * 
-   * CustomerDto customer = customerDao.getCustomer(res.getInt(2)); PhotoDto photo =
-   * photoDao.getPhotoById(res.getInt(8)); quote.setCustomer(customer); quote.setPhoto(pho); } catch
-   * (SQLException ex) { ex.printStackTrace(); throw new FatalException(ex);
-   * 
-   * }
-   * 
-   * return quote; }
-   */
 
   @Override
   public void linkToType(String quoteId, int typeId) throws DalException {
@@ -254,7 +228,6 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.execute();
       ps.close();
     } catch (SQLException sqlE) {
-      sqlE.printStackTrace();
       throw new DalException("Db error!");
     }
 
@@ -303,7 +276,6 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DalException("error in the db!");
     }
     return quoteDtoToReturn;
@@ -324,7 +296,6 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(2, quote.getIdQuote());
       ps.executeUpdate();
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DalException("error with the db!");
     }
   }
@@ -340,7 +311,6 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(2, quoteId);
       ps.executeUpdate();
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DalException("error with the db!");
     }
   }
@@ -360,7 +330,6 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DalException("error in the db!");
     }
     return quoteDtoToReturn.getWorkDuration();
@@ -381,7 +350,6 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DalException("error in the db!");
     }
     return quoteDtoToReturn.getState();
@@ -397,7 +365,6 @@ public class QuoteDaoImpl implements QuoteDao {
       ps.setString(2, quoteId);
       ps.executeUpdate();
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DalException("error with the db!");
     }
   }
