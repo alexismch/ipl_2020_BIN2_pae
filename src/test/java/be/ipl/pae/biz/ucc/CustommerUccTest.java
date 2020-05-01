@@ -1,11 +1,14 @@
 package be.ipl.pae.biz.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.biz.dto.CustomerDto;
+import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
+import be.ipl.pae.exceptions.FatalException;
 import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +27,8 @@ class CustommerUccTest {
 
   private CustomerDto custo;
 
+  private CustomersFilterDto custoFilt;
+
   @BeforeEach
   public void setUp() {
     PropertiesLoader propertiesLoader = new PropertiesLoader();
@@ -35,6 +40,7 @@ class CustommerUccTest {
     }
     InjectionService injectionService = new InjectionService(propertiesLoader);
     injectionService.inject(this);
+
     custo = dtoFactory.getCustomer();
     custo.setIdCustomer(1);
     custo.setCity("Bruxelles");
@@ -45,12 +51,77 @@ class CustommerUccTest {
     custo.setPhoneNumber("0489895774");
     custo.setPostalCode(1140);
 
+    custoFilt = dtoFactory.getCustomersFilter();
   }
 
   @DisplayName("ucc test different from null")
   @Test
   public void testUcc() {
     assertNotNull(custcc);
+  }
+
+  @DisplayName("list not null")
+  @Test
+  public void testGetCustomers1() throws FatalException {
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("list not empty without filter")
+  @Test
+  public void testGetCustomers2() throws FatalException {
+    assertTrue(custcc.getCustomers(custoFilt).size() > 0);
+  }
+
+  @DisplayName("filter null")
+  @Test
+  public void testGetCustomers3() throws FatalException {
+    assertNotNull(custcc.getCustomers(null));
+  }
+
+  @DisplayName("with name in filter")
+  @Test
+  public void testGetCustomers4() throws FatalException {
+    custoFilt.setName("Bernard");
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("with city in filter")
+  @Test
+  public void testGetCustomers5() throws FatalException {
+    custoFilt.setCity("Bruxelles");
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("with postalCode")
+  @Test
+  public void testGetCustomers6() throws FatalException {
+    custoFilt.setPostalCode(1000);
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("with city and name")
+  @Test
+  public void testGetCustomers7() throws FatalException {
+
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("with city and postalcode")
+  @Test
+  public void testGetCustomers8() throws FatalException {
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("with postalcode and name")
+  @Test
+  public void testGetCustomers9() throws FatalException {
+    assertNotNull(custcc.getCustomers(custoFilt));
+  }
+
+  @DisplayName("with city and name and postalCode")
+  @Test
+  public void testGetCustomers10() throws FatalException {
+    assertNotNull(custcc.getCustomers(custoFilt));
   }
 
   /*
