@@ -34,9 +34,10 @@ public class PhotoUccImpl implements PhotoUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
     return list;
   }
 
@@ -50,9 +51,10 @@ public class PhotoUccImpl implements PhotoUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
     return list;
   }
 
@@ -71,9 +73,9 @@ public class PhotoUccImpl implements PhotoUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-
-    dalService.commitTransaction();
 
   }
 
@@ -87,9 +89,10 @@ public class PhotoUccImpl implements PhotoUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
 
     return photo;
   }

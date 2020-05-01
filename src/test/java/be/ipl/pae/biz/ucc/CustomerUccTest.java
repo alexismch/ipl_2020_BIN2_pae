@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-class CustommerUccTest {
+class CustomerUccTest {
 
   @Injected
   private DtoFactory dtoFactory;
@@ -28,9 +28,6 @@ class CustommerUccTest {
 
   private CustomersFilterDto custoFilt;
 
-  /**
-   * Allows you to make the necessary injections.
-   */
   @BeforeEach
   public void setUp() {
     PropertiesLoader propertiesLoader = new PropertiesLoader();

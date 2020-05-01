@@ -29,9 +29,10 @@ public class CustomerUccImpl implements CustomerUcc {
     } catch (DalException fx) {
       dalService.rollbackTransaction();
       throw new FatalException(fx);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
     return customer;
   }
 
@@ -44,8 +45,9 @@ public class CustomerUccImpl implements CustomerUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return list;
   }
 
@@ -59,9 +61,10 @@ public class CustomerUccImpl implements CustomerUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
     return customer;
   }
 }

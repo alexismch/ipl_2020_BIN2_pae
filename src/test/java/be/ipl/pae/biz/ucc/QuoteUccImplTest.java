@@ -91,14 +91,14 @@ public class QuoteUccImplTest {
   @Test
   @DisplayName("test getQuotesFiltered with empty filter")
   public void testGetQuotesFiltered2() throws DalException {
-    assertNotNull(qcc.getQuotesFiltered(quotesFilter));
+    assertTrue(!(qcc.getQuotesFiltered(quotesFilter).isEmpty()));
   }
 
   @Test
   @DisplayName("test getQuotesFiltered with a filter")
   public void testGetQuotesFiltered3() throws DalException {
     quotesFilter.setCustomerName("James");
-    assertNotNull(qcc.getQuotesFiltered(quotesFilter));
+    assertTrue(qcc.getQuotesFiltered(quotesFilter).size() > 0);
   }
 
   @Test

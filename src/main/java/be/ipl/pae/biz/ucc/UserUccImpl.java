@@ -30,8 +30,9 @@ public class UserUccImpl implements UserUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
 
     if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
       throw new BizException("Pseudo ou mot de passe incorrect !");
@@ -61,8 +62,9 @@ public class UserUccImpl implements UserUcc {
     } catch (DalException fx) {
       dalService.rollbackTransaction();
       throw new FatalException(fx);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return userDtoRet;
   }
 
@@ -75,8 +77,9 @@ public class UserUccImpl implements UserUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return userDto;
   }
 
@@ -89,8 +92,9 @@ public class UserUccImpl implements UserUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return userDtoList;
   }
 
@@ -102,7 +106,6 @@ public class UserUccImpl implements UserUcc {
       UserStatus status = userDao.getUserStatus(userId);
 
       if (status == null) {
-        dalService.commitTransaction();
         throw new BizException("Il n'y a aucun utilisateur avec l'id " + userId);
       }
 
@@ -111,7 +114,6 @@ public class UserUccImpl implements UserUcc {
       } else {
 
         if (!UserStatus.NOT_ACCEPTED.equals(status)) {
-          dalService.commitTransaction();
           throw new BizException("Le status de l'utilisateur doit être égal à "
               + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
         }
@@ -121,8 +123,9 @@ public class UserUccImpl implements UserUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return user;
   }
 
