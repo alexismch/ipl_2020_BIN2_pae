@@ -80,13 +80,9 @@ public class MockQuoteDao implements QuoteDao {
       customerDto.setLastName(quotesFilterDto.getCustomerName());
       quoteDto.setCustomer(customerDto);
     }
-    // if(quotesFilterDto.getTotalAmountMin()!= null) {
-    // quoteDto.setTotalAmount(quotesFilterDto.getTotalAmountMin());
-    // }
-    // if(quotesFilterDto.getTotalAmountMin()!= null) {
-    //
-    // }
-    return null;
+    testArray.add(quoteDto);
+
+    return testArray;
   }
 
   @Override
