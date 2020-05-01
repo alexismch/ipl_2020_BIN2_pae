@@ -19,7 +19,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   private DalServiceTransaction dalService;
 
   @Override
-  public List<DevelopmentTypeDto> getDevelopmentTypes() throws BizException {
+  public List<DevelopmentTypeDto> getDevelopmentTypes() {
 
     List<DevelopmentTypeDto> listToReturn = null;
     try {
@@ -28,15 +28,16 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return listToReturn;
 
 
   }
 
   @Override
-  public List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) throws BizException {
+  public List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) {
 
     List<DevelopmentTypeDto> listToReturn = null;
     try {
@@ -45,8 +46,9 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
-    dalService.commitTransaction();
     return listToReturn;
 
 
@@ -65,9 +67,10 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
     return developmentType;
   }
 
@@ -85,9 +88,10 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-    dalService.commitTransaction();
     return type;
   }
 }

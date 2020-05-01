@@ -141,6 +141,11 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
   @Override
   public void commitTransaction() throws FatalException {
+
+    if (threadLocal.get() == null) {
+      return;
+    }
+
     try {
       threadLocal.get().commit();
     } catch (SQLException ex) {
@@ -153,6 +158,11 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
 
   @Override
   public void rollbackTransaction() throws FatalException {
+
+    if (threadLocal.get() == null) {
+      return;
+    }
+
     try {
       threadLocal.get().rollback();
     } catch (SQLException ex) {

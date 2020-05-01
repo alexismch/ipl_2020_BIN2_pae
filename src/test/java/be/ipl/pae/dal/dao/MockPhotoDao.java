@@ -25,11 +25,10 @@ public class MockPhotoDao implements PhotoDao {
     PhotoDto photoDto = dtoFactory.getPhoto();
     if (isBefore) {
       photoDto.setId(1);
-      photoDto.setBeforeWork(isBefore);
     } else {
       photoDto.setId(2);
-      photoDto.setBeforeWork(isBefore);
     }
+    photoDto.setBeforeWork(isBefore);
     listToReturn.add(photoDto);
     return listToReturn;
   }
