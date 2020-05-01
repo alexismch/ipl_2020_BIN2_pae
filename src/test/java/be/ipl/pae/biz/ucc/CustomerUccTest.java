@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-class CustommerUccTest {
+class CustomerUccTest {
 
   @Injected
   private DtoFactory dtoFactory;
