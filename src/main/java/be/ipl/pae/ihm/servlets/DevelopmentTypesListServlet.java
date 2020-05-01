@@ -3,7 +3,6 @@ package be.ipl.pae.ihm.servlets;
 import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -21,7 +20,7 @@ public class DevelopmentTypesListServlet extends AbstractServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     System.out.println("GET /api/developmentType-list by " + req.getRemoteAddr());
 
-    GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+    GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
     try {
       sendSuccessWithJson(resp, "developmentTypesList",
           gensonBuilder.create().serialize(developmentTypeUcc.getDevelopmentTypes()));

@@ -2,8 +2,6 @@ package be.ipl.pae.dal.services;
 
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.main.PropertiesLoader;
-import be.ipl.pae.main.PropertiesLoader.PropertiesLoaderException;
 
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
@@ -27,7 +25,7 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
   private static volatile DataSource dataSource;
 
   @Injected
-  private PropertiesLoader propertiesLoader;
+  private DatabaseConfig databaseConfig;
 
   @Override
   public PreparedStatement getPreparedStatement(String request) {
@@ -36,41 +34,33 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
           "You must call startTransaction() before calling getPreparedStatement()");
     }
 
-    PreparedStatement ps = null;
+    PreparedStatement ps;
     try {
       ps = threadLocal.get().prepareStatement(request);
     } catch (SQLException ex) {
-      System.out.println("probleme prepareStatement");
-      ex.printStackTrace();
+      throw new FatalException(ex);
     }
     return ps;
   }
 
   private DataSource setUpDataSource() {
     try {
-      Class.forName("org.postgresql.Driver");
+      Class.forName(databaseConfig.getDiverName());
     } catch (ClassNotFoundException ex) {
       System.out.println("Driver PostgreSQL manquant !");
       System.exit(1);
     }
 
-    String url = null;
-    String user = null;
-    String pwd = null;
-    try {
-      url = propertiesLoader.getProperty("url");
-      user = propertiesLoader.getProperty("user");
-      pwd = propertiesLoader.getProperty("password");
-    } catch (PropertiesLoaderException ex) {
-      ex.printStackTrace();
-    }
+    String url = databaseConfig.getUrl();
+    String user = databaseConfig.getUser();
+    String password = databaseConfig.getPassword();
 
     //
     // First, we'll create a ConnectionFactory that the
     // pool will use to create Connections.
     // We'll use the DriverManagerConnectionFactory.
     //
-    ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, pwd);
+    ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, user, password);
 
     //
     // Next we'll create the PoolableConnectionFactory, which wraps
@@ -109,25 +99,30 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
       try {
         threadLocal.set(dataSource.getConnection());
       } catch (SQLException ex) {
-        ex.printStackTrace();
         throw new FatalException(ex);
       }
     }
   }
 
   private void closeConnection() throws FatalException {
+    Connection connection = threadLocal.get();
+
+    if (connection == null) {
+      return;
+    }
+
     try {
-      threadLocal.get().setAutoCommit(true);
-    } catch (SQLException se) {
-      throw new FatalException(se);
-    } finally {
       try {
-        threadLocal.get().close();
-      } catch (SQLException ex) {
-        throw new FatalException(ex);
+        connection.setAutoCommit(true);
+      } catch (SQLException se) {
+        throw new FatalException(se);
       } finally {
-        threadLocal.remove();
+        connection.close();
       }
+    } catch (SQLException ex) {
+      throw new FatalException(ex);
+    } finally {
+      threadLocal.remove();
     }
   }
 
@@ -149,7 +144,6 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     try {
       threadLocal.get().commit();
     } catch (SQLException ex) {
-      rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       closeConnection();
@@ -162,8 +156,9 @@ public class DalServiceImpl implements DalService, DalServiceTransaction {
     try {
       threadLocal.get().rollback();
     } catch (SQLException ex) {
-      closeConnection();
       throw new FatalException(ex);
+    } finally {
+      closeConnection();
     }
   }
 }

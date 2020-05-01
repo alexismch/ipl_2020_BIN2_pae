@@ -5,6 +5,7 @@ import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
@@ -19,83 +20,74 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
 
   @Override
   public List<DevelopmentTypeDto> getDevelopmentTypes() throws BizException {
+
+    List<DevelopmentTypeDto> listToReturn = null;
     try {
-      List<DevelopmentTypeDto> listToReturn = null;
-      try {
-        dalService.startTransaction();
-        listToReturn = developmentTypeDao.getdevelopmentTypes();
-      } catch (Exception ex) {
-        dalService.rollbackTransaction();
-      } finally {
-        dalService.commitTransaction();
-      }
-
-      return listToReturn;
-
-    } catch (FatalException ex) {
-      throw new BizException(ex);
+      dalService.startTransaction();
+      listToReturn = developmentTypeDao.getdevelopmentTypes();
+    } catch (DalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex);
     }
+    dalService.commitTransaction();
+    return listToReturn;
+
+
   }
 
   @Override
   public List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) throws BizException {
+
+    List<DevelopmentTypeDto> listToReturn = null;
     try {
-      List<DevelopmentTypeDto> listToReturn = null;
-      try {
-        dalService.startTransaction();
-        listToReturn = developmentTypeDao.getDevelopmentTypeList(quoteId);
-      } catch (Exception ex) {
-        dalService.rollbackTransaction();
-      } finally {
-        dalService.commitTransaction();
-      }
-
-      return listToReturn;
-
-    } catch (FatalException ex) {
-      throw new BizException(ex);
+      dalService.startTransaction();
+      listToReturn = developmentTypeDao.getDevelopmentTypeList(quoteId);
+    } catch (DalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex);
     }
+    dalService.commitTransaction();
+    return listToReturn;
+
+
   }
 
   @Override
-  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException, FatalException {
+  public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException {
+    DevelopmentTypeDto developmentType = null;
+
     try {
       dalService.startTransaction();
-      try {
-        DevelopmentTypeDto developmentType = developmentTypeDao.getDevelopmentType(typeId);
-        if (developmentType == null) {
-          throw new BizException("Type d'améngament inexistant.");
-        }
-        return developmentType;
-      } catch (FatalException ex) {
-        throw new BizException(ex);
+      developmentType = developmentTypeDao.getDevelopmentType(typeId);
+      if (developmentType == null) {
+        throw new BizException("Type d'améngament inexistant.");
       }
-    } catch (FatalException ex) {
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
-    return null;
+
+    dalService.commitTransaction();
+    return developmentType;
   }
 
   @Override
-  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType)
-      throws BizException, FatalException {
+  public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws BizException {
+    DevelopmentTypeDto type = null;
     try {
       dalService.startTransaction();
-      try {
-        if (developmentTypeDao.exists(developmentType.getTitle())) {
-          throw new BizException("Type d'améngament déjà existant.");
-        }
-        return developmentTypeDao.insert(developmentType);
-      } catch (FatalException ex) {
-        throw new BizException(ex);
+
+      if (developmentTypeDao.exists(developmentType.getTitle())) {
+        throw new BizException("Type d'améngament déjà existant.");
       }
-    } catch (FatalException ex) {
+
+      type = developmentTypeDao.insert(developmentType);
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
-    } finally {
-      dalService.commitTransaction();
+      throw new FatalException(ex);
     }
-    return null;
+
+    dalService.commitTransaction();
+    return type;
   }
 }

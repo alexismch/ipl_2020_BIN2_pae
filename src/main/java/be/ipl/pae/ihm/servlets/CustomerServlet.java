@@ -1,6 +1,5 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.ihm.Util.createGensonBuilder;
 import static be.ipl.pae.ihm.Util.hasAccess;
 import static be.ipl.pae.ihm.Util.verifyNotEmpty;
 
@@ -10,7 +9,6 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
 
 import java.io.IOException;
 
@@ -51,13 +49,9 @@ public class CustomerServlet extends AbstractServlet {
       return;
     }
 
-    try {
-      System.out.println("idUser=" + idUser);
-      CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUser);
-      sendSuccessWithJson(resp, "customer", createGensonBuilder().create().serialize(customerDto));
-    } catch (FatalException ex) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-    }
+    System.out.println("idUser=" + idUser);
+    CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUser);
+    sendSuccessWithJson(resp, "customer", createGensonBuilder().create().serialize(customerDto));
 
   }
 
@@ -96,9 +90,6 @@ public class CustomerServlet extends AbstractServlet {
         customerUcc.insert(customerToInsert);
 
         sendSuccess(resp);
-      } catch (FatalException fatalE) {
-        fatalE.printStackTrace();
-        sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
       } catch (BizException bizE) {
         bizE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
