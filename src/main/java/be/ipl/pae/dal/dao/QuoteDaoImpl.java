@@ -148,7 +148,7 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      throw new DalException();
+      throw new DalException("error with the db");
     }
 
     return quotesList;

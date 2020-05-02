@@ -85,7 +85,7 @@ public class QuotesListServlet extends AbstractServlet {
         try {
           listDevelopment.add(developmentTypeUcc.getDevelopmentType(id));
         } catch (BizException ex) {
-          ex.printStackTrace();
+          sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
         }
       }
     }

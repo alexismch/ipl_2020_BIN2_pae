@@ -91,7 +91,6 @@ public class CustomerServlet extends AbstractServlet {
 
         sendSuccess(resp);
       } catch (BizException bizE) {
-        bizE.printStackTrace();
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (NumberFormatException ex) {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Code postal invalide");
