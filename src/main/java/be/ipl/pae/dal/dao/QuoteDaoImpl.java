@@ -301,13 +301,13 @@ public class QuoteDaoImpl implements QuoteDao {
   }
 
   @Override
-  public void setStateQuote(QuoteState confirmedDate, String quoteId) throws DalException {
+  public void setStateQuote(QuoteState state, String quoteId) throws DalException {
     PreparedStatement ps;
     ps = dalService
         .getPreparedStatement("UPDATE mystherbe.quotes SET id_state = ? WHERE id_quote = ?");
 
     try {
-      ps.setInt(1, confirmedDate.getId());
+      ps.setInt(1, state.getId());
       ps.setString(2, quoteId);
       ps.executeUpdate();
     } catch (SQLException ex) {

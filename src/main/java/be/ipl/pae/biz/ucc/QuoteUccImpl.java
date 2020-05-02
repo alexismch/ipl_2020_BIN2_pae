@@ -95,8 +95,7 @@ public class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public boolean setStartDateQuoteInDb(QuoteDto quote) {
-    // TODO void
+  public void setStartDateQuoteInDb(QuoteDto quote) {
     try {
       dalService.startTransaction();
       quoteDao.setStartDate(quote);
@@ -106,7 +105,6 @@ public class QuoteUccImpl implements QuoteUcc {
     } finally {
       dalService.commitTransaction();
     }
-    return true;
   }
 
   public List<QuoteDto> getQuotesFiltered(QuotesFilterDto quotesFilterDto) {
@@ -206,8 +204,16 @@ public class QuoteUccImpl implements QuoteUcc {
     return workDuration;
   }
 
-  @Override
-  public QuoteDto setState(String idQuote, QuoteState state) throws BizException {
+
+  /**
+   * Set the state of the in the db.
+   *
+   * @param idQuote id of the quote
+   * @param state state of the quote
+   * @return a new QuoteDto object
+   * @throws BizException if idQuote or date isn't send by the user
+   */
+  private QuoteDto setState(String idQuote, QuoteState state) throws BizException {
     QuoteDto quoteDto;
     try {
       dalService.startTransaction();

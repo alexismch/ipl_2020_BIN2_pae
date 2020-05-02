@@ -110,11 +110,14 @@ public class QuoteUccImplTest {
     quote.setState(QuoteState.QUOTE_ENTERED);
     quote.setIdCustomer(1);
 
-    assertNotNull(qcc.useStateManager(quote));
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest), () -> assertNotNull(quoteToTest.getStartDate()),
+        () -> assertTrue(QuoteState.PLACED_ORDERED == quoteToTest.getState()));
   }
 
   @Test
-  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE")
+  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE but workduration > 15")
   public void testUseStateManagerOk2() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
 
@@ -122,8 +125,29 @@ public class QuoteUccImplTest {
     quote.setState(QuoteState.CONFIRMED_DATE);
     quote.setIdCustomer(1);
 
-    assertNotNull(qcc.useStateManager(quote));
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertTrue(QuoteState.PARTIAL_INVOICE == quoteToTest.getState()));
+
   }
+
+  @Test
+  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE  but workduration <= 15")
+  public void testUseStateManagerOk3() throws BizException, DalException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("Total");
+    quote.setState(QuoteState.CONFIRMED_DATE);
+    quote.setIdCustomer(1);
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertTrue(QuoteState.TOTAL_INVOICE == quoteToTest.getState()));
+
+  }
+
 
   @Test
   @DisplayName("test useStateManager when idQuote == null")
@@ -137,27 +161,5 @@ public class QuoteUccImplTest {
     assertThrows(BizException.class, () -> qcc.useStateManager(quote));
   }
 
-
-  @Test
-  @DisplayName("test setState when all is good")
-  public void testSetStateOk() throws BizException, DalException {
-
-    assertNotNull(qcc.setState("ok", QuoteState.QUOTE_ENTERED));
-  }
-
-  @Test
-  @DisplayName("test setState when idQuote is null")
-  public void testSetStateKo1() throws BizException, DalException {
-
-    assertThrows(BizException.class, () -> qcc.setState(null, QuoteState.CONFIRMED_DATE));
-  }
-
-
-  @Test
-  @DisplayName("test setStartDateQuoteInDb when all is good")
-  public void testSetStartDateQuoteInDbOk() throws BizException, DalException {
-    QuoteDto quote = dtoFactory.getQuote();
-    assertTrue(qcc.setStartDateQuoteInDb(quote));
-  }
 
 }
