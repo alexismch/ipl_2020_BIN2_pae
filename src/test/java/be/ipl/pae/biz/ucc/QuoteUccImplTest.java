@@ -117,7 +117,8 @@ public class QuoteUccImplTest {
   }
 
   @Test
-  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE but workduration > 15")
+  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE"
+      + " but workduration > 15")
   public void testUseStateManagerOk2() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
 
@@ -133,7 +134,8 @@ public class QuoteUccImplTest {
   }
 
   @Test
-  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE  but workduration <= 15")
+  @DisplayName("test useStateManager when all is good  and state == CONFIRMED DATE"
+      + "  but workduration <= 15")
   public void testUseStateManagerOk3() throws BizException, DalException {
     QuoteDto quote = dtoFactory.getQuote();
 

@@ -23,11 +23,12 @@ public class MockQuoteDao implements QuoteDao {
       QuoteDto quoteDto1 = dtoFactory.getQuote();
       QuoteDto quoteDto2 = dtoFactory.getQuote();
       QuoteDto quoteDto3 = dtoFactory.getQuote();
-      QuoteDto quoteDto4 = dtoFactory.getQuote();
 
       quoteDto1.setIdQuote("introduit");
       quoteDto2.setIdQuote("ok");
       quoteDto3.setIdQuote("dateConfirme");
+
+      QuoteDto quoteDto4 = dtoFactory.getQuote();
       quoteDto4.setIdQuote("Total");
 
       quoteDto2.setIdCustomer(1);
