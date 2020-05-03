@@ -9,7 +9,7 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
 
-public class LinkCcUccImpl implements LinkCcUcc {
+class LinkCcUccImpl implements LinkCcUcc {
 
   @Injected
   private UserDao userDao;

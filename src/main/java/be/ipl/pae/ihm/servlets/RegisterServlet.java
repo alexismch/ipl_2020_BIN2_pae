@@ -6,9 +6,9 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.UserUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.servlets.utils.ParameterException;
 import be.ipl.pae.ihm.servlets.utils.ParametersUtils;
+import be.ipl.pae.ihm.servlets.utils.Util;
 
 import com.owlike.genson.GensonBuilder;
 

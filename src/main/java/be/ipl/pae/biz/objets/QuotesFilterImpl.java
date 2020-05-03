@@ -5,7 +5,7 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class QuotesFilterImpl implements QuotesFilter {
+class QuotesFilterImpl implements QuotesFilter {
 
   private String customerName;
   private LocalDate quoteDate;

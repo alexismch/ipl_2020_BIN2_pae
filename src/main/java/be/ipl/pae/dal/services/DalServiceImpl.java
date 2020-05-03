@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 
-public class DalServiceImpl implements DalService, DalServiceTransaction {
+class DalServiceImpl implements DalService, DalServiceTransaction {
 
   private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 

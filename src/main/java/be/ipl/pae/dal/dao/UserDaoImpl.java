@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserDaoImpl implements UserDao {
+class UserDaoImpl implements UserDao {
 
   @Injected
   private DalService dalService;
@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto getUserByPseudo(String pseudo) throws DalException {
 
-    UserDto userDto = null;
+    UserDto userDto;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
         "Select * FROM mystherbe.users WHERE pseudo =?" + " ORDER BY lastname, firstname");

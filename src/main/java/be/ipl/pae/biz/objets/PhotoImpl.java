@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.objets;
 
-public class PhotoImpl implements Photo {
+class PhotoImpl implements Photo {
 
   private String base64;
   private int id;

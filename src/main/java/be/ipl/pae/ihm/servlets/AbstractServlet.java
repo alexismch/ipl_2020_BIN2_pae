@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class AbstractServlet extends HttpServlet {
+abstract class AbstractServlet extends HttpServlet {
 
   /**
    * Create a Genson Builder.

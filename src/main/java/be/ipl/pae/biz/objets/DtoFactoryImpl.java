@@ -10,7 +10,7 @@ import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.dto.UsersFilterDto;
 
-public class DtoFactoryImpl implements DtoFactory {
+class DtoFactoryImpl implements DtoFactory {
 
   @Override
   public UserDto getUser() {
@@ -19,7 +19,7 @@ public class DtoFactoryImpl implements DtoFactory {
 
   @Override
   public UsersFilterDto getUsersFilterDto() {
-    return new UsersFilter();
+    return new UsersFilterImpl();
   }
 
   @Override

@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
-import static be.ipl.pae.ihm.Util.isInside;
+import static be.ipl.pae.ihm.servlets.utils.Util.isInside;
 
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
@@ -17,7 +17,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-public class PhotoUccImpl implements PhotoUcc {
+class PhotoUccImpl implements PhotoUcc {
 
   @Injected
   private DalServiceTransaction dalService;

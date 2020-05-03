@@ -1,7 +1,7 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.ihm.Util.createToken;
-import static be.ipl.pae.ihm.Util.getUId;
+import static be.ipl.pae.ihm.servlets.utils.Util.createToken;
+import static be.ipl.pae.ihm.servlets.utils.Util.getUId;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.ucc.UserUcc;

@@ -1,4 +1,4 @@
-package be.ipl.pae.ihm;
+package be.ipl.pae.ihm.servlets.utils;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.UserStatus;

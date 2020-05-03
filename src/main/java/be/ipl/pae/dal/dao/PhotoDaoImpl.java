@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoDaoImpl implements PhotoDao {
+class PhotoDaoImpl implements PhotoDao {
 
   @Injected
   private DalService dalService;

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuoteDaoImpl implements QuoteDao {
+class QuoteDaoImpl implements QuoteDao {
 
   @Injected
   private DalService dalService;
@@ -41,48 +41,50 @@ public class QuoteDaoImpl implements QuoteDao {
 
     ArrayList<QuoteDto> quotesList = new ArrayList<>();
 
-    String querySelect = "SELECT q.id_quote, q.quote_date, q.total_amount, "
-        + "q.work_duration, c.id_customer, q.id_state, q.start_date,id_photo ";
+    StringBuilder querySelect = new StringBuilder(
+        "SELECT q.id_quote, q.quote_date, q.total_amount, "
+            + "q.work_duration, c.id_customer, q.id_state, q.start_date,id_photo ");
 
-    String queryFrom = "FROM mystherbe.quotes q, mystherbe.customers c ";
+    StringBuilder queryFrom = new StringBuilder("FROM mystherbe.quotes q, mystherbe.customers c ");
 
-    String queryWhere = "WHERE (q.id_customer = c.id_customer) ";
+    StringBuilder queryWhere = new StringBuilder("WHERE (q.id_customer = c.id_customer) ");
 
     boolean[] ref = new boolean[6];
 
     if (idCustomer > 0) {
-      queryWhere += "AND (c.id_customer = ?)";
+      queryWhere.append("AND (c.id_customer = ?)");
       ref[0] = true;
     }
     if (quotesFilterDto.getCustomerName() != null) {
-      queryWhere += "AND lower(c.lastname) LIKE lower(?) ";
+      queryWhere.append("AND lower(c.lastname) LIKE lower(?) ");
       ref[1] = true;
     }
     if (quotesFilterDto.getTotalAmountMin() != -1) {
-      queryWhere += "AND (q.total_amount > ?) ";
+      queryWhere.append("AND (q.total_amount > ?) ");
       ref[2] = true;
 
     }
     if (quotesFilterDto.getTotalAmountMax() != -1) {
-      queryWhere += "AND (q.total_amount < ?) ";
+      queryWhere.append("AND (q.total_amount < ?) ");
       ref[3] = true;
 
     }
     if (quotesFilterDto.getQuoteDate() != null) {
-      queryWhere += "AND (q.quote_date = ?) ";
+      queryWhere.append("AND (q.quote_date = ?) ");
       ref[4] = true;
     }
     if (quotesFilterDto.getDevelopmentTypeDto() != null
         && quotesFilterDto.getDevelopmentTypeDto().size() > 0) {
       ref[5] = true;
       for (int i = 1; i <= quotesFilterDto.getDevelopmentTypeDto().size(); i++) {
-        querySelect += ", qt" + i + ".id_type ";
-        queryFrom += ", mystherbe.quote_types qt" + i + " ";
-        queryWhere += "AND (q.id_quote = qt" + i + ".id_quote) AND (qt" + i + ".id_type = ?) ";
+        querySelect.append(", qt").append(i).append(".id_type ");
+        queryFrom.append(", mystherbe.quote_types qt").append(i).append(" ");
+        queryWhere.append("AND (q.id_quote = qt").append(i).append(".id_quote) AND (qt").append(i)
+            .append(".id_type = ?) ");
       }
     }
 
-    String query = querySelect + queryFrom + queryWhere;
+    String query = querySelect.toString() + queryFrom.toString() + queryWhere.toString();
     query += " ORDER BY id_quote";
     PreparedStatement ps = dalService.getPreparedStatement(query);
     int indexSet = 1;
