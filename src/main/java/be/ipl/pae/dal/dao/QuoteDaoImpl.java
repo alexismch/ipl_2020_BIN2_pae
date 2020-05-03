@@ -148,7 +148,7 @@ public class QuoteDaoImpl implements QuoteDao {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException("error with the db");
     }
 
     return quotesList;
@@ -201,7 +201,9 @@ public class QuoteDaoImpl implements QuoteDao {
    * Create a new Quote with all the informations collected in the db.
    *
    * @param res the result from the query
+   * 
    * @return the quote collected as a dto object
+   * 
    * @throws FatalException if a problem occurred with the db
    */
   /*

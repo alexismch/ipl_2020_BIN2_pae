@@ -35,11 +35,11 @@ public class UserUccImpl implements UserUcc {
     }
 
     if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
-      throw new BizException("Pseudo ou mot de passe incorrect !");
+      throw new BizException("Pseudo ou mot de passe incorrect ");
     }
 
     if (UserStatus.NOT_ACCEPTED.equals(userDto.getStatus())) {
-      throw new BizException("Votre inscription est en attente de validation!");
+      throw new BizException("Votre inscription est en attente de validation");
     }
 
     return userDto;
@@ -51,10 +51,10 @@ public class UserUccImpl implements UserUcc {
     try {
       dalService.startTransaction();
       if (userDao.checkPseudoInDb(userDto.getPseudo())) {
-        throw new BizException("Pseudo déjà utilisé!");
+        throw new BizException("Pseudo déjà utilisé");
       }
       if (userDao.checkEmailInDb(userDto.getEmail())) {
-        throw new BizException("Email déjà utilisé!");
+        throw new BizException("Email déjà utilisé");
       }
 
       userDtoRet = userDao.insertUser(userDto);

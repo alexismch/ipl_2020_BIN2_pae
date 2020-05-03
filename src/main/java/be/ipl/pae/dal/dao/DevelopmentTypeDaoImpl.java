@@ -71,7 +71,7 @@ public class DevelopmentTypeDaoImpl implements DevelopmentTypeDao {
       ps.setString(1, quoteId);
       return getDevelopmentTypeDtoViaPs(ps);
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 

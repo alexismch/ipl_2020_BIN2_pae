@@ -120,7 +120,6 @@ public class CustomerDaoImpl implements CustomerDao {
       }
 
     } catch (Exception ex) {
-      ex.printStackTrace();
       throw new DalException("error with the db!");
     }
   }
@@ -135,7 +134,7 @@ public class CustomerDaoImpl implements CustomerDao {
       ps.setInt(1, customerId);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -148,7 +147,7 @@ public class CustomerDaoImpl implements CustomerDao {
       ps.setInt(1, customerId);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -196,7 +195,7 @@ public class CustomerDaoImpl implements CustomerDao {
         }
       }
     } catch (SQLException ex) {
-      throw new DalException("error with the db!");
+      throw new DalException("error with the db");
     }
     return customerDto;
   }

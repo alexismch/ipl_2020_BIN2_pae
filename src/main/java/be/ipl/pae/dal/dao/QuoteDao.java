@@ -22,7 +22,7 @@ public interface QuoteDao {
    * Link the quote to a development type.
    *
    * @param quoteId the quote id
-   * @param typeId  the development type id
+   * @param typeId the development type id
    * @throws DalException if a problem occurred with the db
    */
   void linkToType(String quoteId, int typeId) throws DalException;
@@ -64,17 +64,17 @@ public interface QuoteDao {
   /**
    * change the state of the quote in the db.
    *
-   * @param confirmedDate the new state
-   * @param quoteId       the quote of the id
+   * @param state the new state
+   * @param quoteId the quote of the id
    * @throws DalException error with the db
    */
-  void setStateQuote(QuoteState confirmedDate, String quoteId) throws DalException;
+  void setStateQuote(QuoteState state, String quoteId) throws DalException;
 
   /**
    * Get quotes via filters and the id of the customer.
    *
    * @param quotesFilterDto all the filters that the user chosed
-   * @param idCustomer      the id of the customer
+   * @param idCustomer the id of the customer
    * @return list of quotes depending on the user's filters
    * @throws DalException error with the db
    */
