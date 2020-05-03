@@ -37,41 +37,21 @@ class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   }
 
   @Override
-  public List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) {
-
-    List<DevelopmentTypeDto> listToReturn;
-    try {
-      dalService.startTransaction();
-      listToReturn = developmentTypeDao.getDevelopmentTypeList(quoteId);
-    } catch (DalException ex) {
-      dalService.rollbackTransaction();
-      throw new FatalException(ex);
-    } finally {
-      dalService.commitTransaction();
-    }
-    return listToReturn;
-
-
-  }
-
-  @Override
   public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException {
-    DevelopmentTypeDto developmentType;
 
     try {
       dalService.startTransaction();
-      developmentType = developmentTypeDao.getDevelopmentType(typeId);
+      DevelopmentTypeDto developmentType = developmentTypeDao.getDevelopmentType(typeId);
       if (developmentType == null) {
         throw new BizException("Type d'améngament inexistant.");
       }
+      return developmentType;
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
-
-    return developmentType;
   }
 
   @Override

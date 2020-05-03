@@ -3,6 +3,7 @@ package be.ipl.pae.biz.ucc;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.ipl.pae.biz.dto.PhotoDto;
@@ -45,19 +46,19 @@ public class PhotoUccImplTest {
 
   @DisplayName("get visible photos with existant typeId's")
   @Test
-  public void getVisiblesPhotosOk() throws BizException {
+  public void testGetVisiblesPhotosOk() throws BizException {
     assertEquals(5, photoUcc.getVisiblePhotos().size());
   }
 
   @DisplayName("get visible photos with non-existant typeId")
   @Test
-  public void getVisiblesPhotosByDevTypeKo() {
+  public void testGetVisiblesPhotosByDevTypeKo() {
     assertThrows(BizException.class, () -> photoUcc.getVisiblePhotos(3));
   }
 
   @DisplayName("get visible photos with existant typeId's")
   @Test
-  public void getVisiblesPhotosByDevTypeOk() {
+  public void testGetVisiblesPhotosByDevTypeOk() {
     assertAll(
         () -> assertEquals(2, photoUcc.getVisiblePhotos(1).size()),
         () -> assertEquals(3, photoUcc.getVisiblePhotos(2).size())
@@ -66,7 +67,7 @@ public class PhotoUccImplTest {
 
   @DisplayName("insert photo with wrong type")
   @Test
-  public void insertKo1() {
+  public void testInsertKo1() {
     PhotoDto photoDto = dtoFactory.getPhoto();
     photoDto.setIdType(5);
     List<PhotoDto> list = new ArrayList<>();
@@ -76,7 +77,7 @@ public class PhotoUccImplTest {
 
   @DisplayName("insert photo with wrong quote state")
   @Test
-  public void insertKo2() {
+  public void testInsertKo2() {
     PhotoDto photoDto = dtoFactory.getPhoto();
     photoDto.setIdType(1);
     photoDto.setIdQuote("introduit");
@@ -87,7 +88,7 @@ public class PhotoUccImplTest {
 
   @DisplayName("insert photos with right infos")
   @Test
-  public void insertOk() {
+  public void testInsertOk() {
     PhotoDto photoDto1 = dtoFactory.getPhoto();
     photoDto1.setIdType(1);
     photoDto1.setIdQuote("Total");
@@ -100,5 +101,20 @@ public class PhotoUccImplTest {
     list.add(photoDto2);
 
     assertDoesNotThrow(() -> photoUcc.insert(list));
+  }
+
+  @DisplayName("get photo with non-existent id")
+  @Test
+  public void testGetPhotoByIdKo() throws BizException {
+    assertNull(photoUcc.getPhotoById(7));
+  }
+
+  @DisplayName("get photo with existent ids")
+  @Test
+  public void testGetPhotoByIdOk() throws BizException {
+    for (int i = 1; i <= 6; i++) {
+      assertEquals(i%2 == 0 ? "ok" : "introduit",
+          photoUcc.getPhotoById(i).getIdQuote());
+    }
   }
 }

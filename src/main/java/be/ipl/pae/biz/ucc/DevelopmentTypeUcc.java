@@ -17,15 +17,6 @@ public interface DevelopmentTypeUcc {
   List<DevelopmentTypeDto> getDevelopmentTypes() throws BizException;
 
   /**
-   * Get all the development types of a specific quote.
-   *
-   * @param quoteId the id of the quote
-   * @return a list of DevelopmentTypeDto
-   * @throws BizException * @throws BizException if an error occured
-   */
-  List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) throws BizException;
-
-  /**
    * Get the development type with his id.
    *
    * @param typeId the development type id

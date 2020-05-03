@@ -23,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class QuoteUccImplTest {
 
@@ -201,6 +202,51 @@ public class QuoteUccImplTest {
   @DisplayName("test set favorite photo with linked photo")
   @Test
   public void testSetFavoritePhotoOk() {
-    assertThrows(BizException.class, () -> qcc.setFavoritePhoto("ok", 4));
+    assertDoesNotThrow(() -> qcc.setFavoritePhoto("ok", 4));
+  }
+
+  @DisplayName("test set start date with wrong state")
+  @Test
+  public void testSetStartDateQuoteKo() {
+    QuoteDto quoteDto = dtoFactory.getQuote();
+    assertAll(
+        () -> {
+          quoteDto.setIdQuote("dateConfirme");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("partiel");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("Total");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("ok");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("annule");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        }
+    );
+  }
+
+  @DisplayName("test set start date with good state")
+  @Test
+  public void testSetStartDateQuoteOk() {
+    QuoteDto quoteDto = dtoFactory.getQuote();
+    quoteDto.setStartDate(LocalDate.now());
+    assertAll(
+        () -> {
+          quoteDto.setIdQuote("introduit");
+          assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("commandePassee");
+          assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
+        }
+    );
   }
 }

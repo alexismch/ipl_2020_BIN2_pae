@@ -115,8 +115,6 @@ class PhotoUccImpl implements PhotoUcc {
     } finally {
       dalService.commitTransaction();
     }
-
-
     return photo;
   }
 }

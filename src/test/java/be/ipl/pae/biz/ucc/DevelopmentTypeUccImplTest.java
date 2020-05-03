@@ -88,4 +88,21 @@ public class DevelopmentTypeUccImplTest {
     developmentType.setTitle("Aménagement de parc paysagiste");
     assertEquals(3, developmentTypeUcc.insert(developmentType).getIdType());
   }
+
+  @DisplayName("test get development type via non-existent id")
+  @Test
+  public void testGetDevelopmentTypeKo() {
+    assertThrows(BizException.class, () -> developmentTypeUcc.getDevelopmentType(3));
+  }
+
+  @DisplayName("test get development type via existent ids")
+  @Test
+  public void testGetDevelopmentTypeOk() {
+    assertAll(
+        () -> assertEquals("Aménagement de jardin de ville",
+            developmentTypeUcc.getDevelopmentType(1).getTitle()),
+        () -> assertEquals("Aménagement de jardin",
+            developmentTypeUcc.getDevelopmentType(2).getTitle())
+    );
+  }
 }

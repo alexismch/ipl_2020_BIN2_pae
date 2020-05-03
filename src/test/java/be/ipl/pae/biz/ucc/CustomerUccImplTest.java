@@ -1,8 +1,10 @@
 package be.ipl.pae.biz.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -88,14 +90,12 @@ class CustomerUccImplTest {
     assertNotNull(custcc.getCustomers(custoFilt));
   }
 
-
   @DisplayName("empty parameter 1")
   @Test
   public void testInsertCustomer1() {
     custo.setFirstName("");
     assertThrows(BizException.class, () -> custcc.insert(custo));
   }
-
 
   @DisplayName("empty parameter 2")
   @Test
@@ -104,14 +104,12 @@ class CustomerUccImplTest {
     assertThrows(BizException.class, () -> custcc.insert(custo));
   }
 
-
   @DisplayName("empty parameter 3")
   @Test
   public void testInsertCustomer3() {
     custo.setCity("");
     assertThrows(BizException.class, () -> custcc.insert(custo));
   }
-
 
   @DisplayName("empty parameter 4")
   @Test
@@ -145,7 +143,6 @@ class CustomerUccImplTest {
     assertFalse(custcc.getCustomers(custoFilt).isEmpty());
   }
 
-
   @DisplayName("list customer with name filter")
   @Test
   public void customerListFiltered3() {
@@ -153,6 +150,19 @@ class CustomerUccImplTest {
     assertTrue(custcc.getCustomers(custoFilt).size() > 0);
   }
 
+  @DisplayName("get customer via non-linked users")
+  @Test
+  public void testGetCustomerByIdUserKo() {
+    assertAll(
+        () -> assertNull(custcc.getCustomerByIdUser(1)),
+        () -> assertNull(custcc.getCustomerByIdUser(3))
+    );
+  }
 
+  @DisplayName("get customer via linked user")
+  @Test
+  public void testGetCustomerByIdUserOk() {
+    assertEquals(1, custcc.getCustomerByIdUser(2).getIdCustomer());
+  }
 }
 

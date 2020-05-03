@@ -92,13 +92,13 @@ public class MockPhotoDao implements PhotoDao {
     return listToReturn;
   }
 
-
   @Override
   public PhotoDto getPhotoById(int idPhoto) {
     if (idPhoto >= 1 && idPhoto <= 6) {
       PhotoDto photoDto = dtoFactory.getPhoto();
       photoDto.setId(idPhoto);
       photoDto.setIdQuote(idPhoto % 2 == 0 ? "ok" : "introduit");
+      return photoDto;
     }
     return null;
   }

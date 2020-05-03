@@ -30,8 +30,9 @@ public interface QuoteUcc {
    * Add the start date of the quote.
    *
    * @param quote object quote with the id and date
+   * @throws BizException if quote state doesn't accept start date change
    */
-  void setStartDateQuoteInDb(QuoteDto quote);
+  void setStartDateQuoteInDb(QuoteDto quote) throws BizException;
 
   /**
    * Redirect to the right method.
@@ -41,8 +42,6 @@ public interface QuoteUcc {
    * @throws BizException if idQuote or date isn't send by the user
    */
   QuoteDto useStateManager(QuoteDto quote) throws BizException;
-
-
 
   /**
    * Get quotes via filters.

@@ -17,6 +17,7 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 class QuoteUccImpl implements QuoteUcc {
@@ -95,9 +96,19 @@ class QuoteUccImpl implements QuoteUcc {
   }
 
   @Override
-  public void setStartDateQuoteInDb(QuoteDto quote) {
+  public void setStartDateQuoteInDb(QuoteDto quote) throws BizException {
     try {
       dalService.startTransaction();
+
+      if (quote.getState() == null) {
+        LocalDate startDate = quote.getStartDate();
+        quote = quoteDao.getQuote(quote.getIdQuote());
+        quote.setStartDate(startDate);
+      }
+      if (quote.getState().getId() >= 3) {
+        throw new BizException("Impossible de modifier la date");
+      }
+
       quoteDao.setStartDate(quote);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
