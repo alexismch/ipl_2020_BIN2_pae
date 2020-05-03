@@ -14,7 +14,7 @@ import {ajaxGET} from '../utils/ajax.js';
  */
 export class DevelopmentTypePage extends Page {
 
-  _template = `<div class="carousel slide d-block" data-ride="carousel" id="template-carousel">
+  _template = `<div class="carousel slide d-block" id="template-carousel">
   <div class="carousel-inner"></div>
   <a class="carousel-control-prev" data-slide="prev" href="#template-carousel" role="button">
     <i aria-hidden="true" class="fas fa-angle-left"></i>
@@ -42,8 +42,10 @@ export class DevelopmentTypePage extends Page {
       } else {
         this._createPicturesList(data.photosList);
       }
-      $('.carousel').carousel({
-        interval: 5000
+      this._$view.carousel({
+        interval: 5000,
+        pause: false,
+        ride: 'carousel'
       });
       this.isLoading = false;
     }, () => {
