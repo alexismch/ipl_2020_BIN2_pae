@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MockPhotoDao implements PhotoDao {
 
-//  private List<PhotoVisibleDto> photoVisibleDtoList = new ArrayList<>();
+  //  private List<PhotoVisibleDto> photoVisibleDtoList = new ArrayList<>();
 
   @Injected
   private DtoFactory dtoFactory;

@@ -36,8 +36,7 @@ class PhotoDaoImpl implements PhotoDao {
       ps.setInt(5, photoDto.getIdType());
       ps.setBoolean(6, photoDto.isBeforeWork());
       ResultSet rs = ps.executeQuery();
-      rs.next();
-      return rs.getInt(1);
+      return rs.next() ? rs.getInt(1) : null;
     } catch (SQLException ex) {
       throw new DalException("error with the db");
     }
