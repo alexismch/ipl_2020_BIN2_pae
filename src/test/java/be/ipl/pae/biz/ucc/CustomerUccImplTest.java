@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -125,6 +126,18 @@ class CustomerUccImplTest {
     assertThrows(BizException.class, () -> custcc.insert(custo));
   }
 
+  @DisplayName("list customer without filter")
+  @Test
+  public void usersList() {
+    assertEquals(2, custcc.getCustomers(null).size());
+  }
+
+  @DisplayName("list customer with name filter")
+  @Test
+  public void usersListFiltered() {
+    custoFilt.setName("A");
+    assertEquals(2, custcc.getCustomers(null).size());
+  }
 
 
 }
