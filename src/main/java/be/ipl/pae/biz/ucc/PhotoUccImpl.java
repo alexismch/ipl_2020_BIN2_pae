@@ -77,7 +77,7 @@ class PhotoUccImpl implements PhotoUcc {
 
       for (PhotoDto photo : photos) {
         if (!isInside(types, photo.getIdType())) {
-          throw new IllegalArgumentException();
+          throw new BizException("Certaines photos ont un type de dévelopmment inconnu.");
         }
       }
 

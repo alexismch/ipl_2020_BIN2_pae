@@ -1,6 +1,9 @@
 package be.ipl.pae.biz.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
@@ -64,4 +67,25 @@ public class DevelopmentTypeUccImplTest {
     assertTrue(developmentTypeUcc.getDevelopmentTypes().size() > 0);
   }
 
+  @DisplayName("Insert with existent names")
+  @Test
+  public void testInsertDevelopmentTypeKo() {
+    DevelopmentTypeDto developmentType1 = dtoFactory.getDevelopmentType();
+    developmentType1.setTitle("Aménagement de jardin de ville");
+    DevelopmentTypeDto developmentType2 = dtoFactory.getDevelopmentType();
+    developmentType2.setTitle("Aménagement de jardin");
+
+    assertAll(
+        () -> assertThrows(BizException.class, () -> developmentTypeUcc.insert(developmentType1)),
+        () -> assertThrows(BizException.class, () -> developmentTypeUcc.insert(developmentType2))
+    );
+  }
+
+  @DisplayName("Insert with non-existent name")
+  @Test
+  public void testInsertDevelopmentTypeOk() throws BizException {
+    DevelopmentTypeDto developmentType = dtoFactory.getDevelopmentType();
+    developmentType.setTitle("Aménagement de parc paysagiste");
+    assertEquals(3, developmentTypeUcc.insert(developmentType).getIdType());
+  }
 }
