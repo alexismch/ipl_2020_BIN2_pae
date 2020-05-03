@@ -20,6 +20,7 @@ class PhotoVisibleImpl implements PhotoVisible {
    * @param developmentType the development type of the photo
    */
   public PhotoVisibleImpl(int id, String title, String base64, String developmentType) {
+    this.id = id;
     this.title = title;
     this.base64 = base64;
     this.developmentType = developmentType;
