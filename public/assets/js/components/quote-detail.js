@@ -531,20 +531,24 @@ export class QuoteDetailPage extends Page {
     if (!isBefore) {
       const $iconContainer = $('<div class="likeIcon">');
       const $icon = $('<i class="far fa-heart"></i>');
-      $icon.on('click', () => {
-        if ($icon.hasClass('far')) {
-          $icon.removeClass('far fa-heart').addClass('fas fa-circle-notch fa-spin');
-          ajaxPUT('/api/photo-fav', 'quoteId=' + quoteId + "&photoId=" + photo.id, () => {
-            const $likeIcons = $container.find('.fas.fa-heart').not($icon).removeClass('fas').addClass('far');
-            $icon.removeClass('fas fa-circle-notch fa-spin').addClass('fas fa-heart');
-          }, () => {
-            $icon.removeClass('fas fa-circle-notch fa-spin').addClass('far fa-heart');
-            createAlert('danger', 'La photo préférée n\'a pas été changée.');
-          });
-        }
-      });
-      $iconContainer.append($icon);
-      $div.prepend($iconContainer);
+      if (isWorker()) {
+        $icon.on('click', () => {
+          if ($icon.hasClass('far')) {
+            $icon.removeClass('far fa-heart').addClass('fas fa-circle-notch fa-spin');
+            ajaxPUT('/api/photo-fav', 'quoteId=' + quoteId + "&photoId=" + photo.id, () => {
+              const $likeIcons = $container.find('.fas.fa-heart').not($icon).removeClass('fas').addClass('far');
+              $icon.removeClass('fas fa-circle-notch fa-spin').addClass('fas fa-heart');
+            }, () => {
+              $icon.removeClass('fas fa-circle-notch fa-spin').addClass('far fa-heart');
+              createAlert('danger', 'La photo préférée n\'a pas été changée.');
+            });
+          }
+        });
+      }
+      if (isWorker() || photoFavId === photo.id) {
+        $iconContainer.append($icon);
+        $div.prepend($iconContainer);
+      }
       if (photoFavId === photo.id) {
         $icon.removeClass('far').addClass('fas');
       }
