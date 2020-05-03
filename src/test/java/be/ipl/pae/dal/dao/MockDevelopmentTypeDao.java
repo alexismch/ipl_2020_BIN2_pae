@@ -35,10 +35,12 @@ public class MockDevelopmentTypeDao implements DevelopmentTypeDao {
       DevelopmentTypeDto developmentType = dtoFactory.getDevelopmentType();
       developmentType.setIdType(typeId);
       developmentType.setTitle("Aménagement de jardin de ville");
+      return developmentType;
     } else if (typeId == 2) {
       DevelopmentTypeDto developmentType = dtoFactory.getDevelopmentType();
       developmentType.setIdType(typeId);
       developmentType.setTitle("Aménagement de jardin");
+      return developmentType;
     }
     return null;
   }

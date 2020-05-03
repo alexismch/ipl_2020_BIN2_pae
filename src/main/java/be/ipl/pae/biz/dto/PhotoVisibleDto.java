@@ -2,6 +2,10 @@ package be.ipl.pae.biz.dto;
 
 public interface PhotoVisibleDto {
 
+  int getId();
+
+  void setId(int id);
+
   String getTitle();
 
   void setTitle(String title);

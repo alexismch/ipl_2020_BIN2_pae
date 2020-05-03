@@ -2,6 +2,7 @@ package be.ipl.pae.biz.objets;
 
 class PhotoVisibleImpl implements PhotoVisible {
 
+  private int id;
   private String title;
   private String base64;
   private String developmentType;
@@ -17,10 +18,20 @@ class PhotoVisibleImpl implements PhotoVisible {
    * @param base64          the base64 of the photo
    * @param developmentType the development type of the photo
    */
-  public PhotoVisibleImpl(String title, String base64, String developmentType) {
+  public PhotoVisibleImpl(int id, String title, String base64, String developmentType) {
     this.title = title;
     this.base64 = base64;
     this.developmentType = developmentType;
+  }
+
+  @Override
+  public int getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String getTitle() {

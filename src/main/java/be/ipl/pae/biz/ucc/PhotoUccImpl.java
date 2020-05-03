@@ -49,11 +49,14 @@ class PhotoUccImpl implements PhotoUcc {
   }
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) {
+  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
 
     List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
+      if (developmentTypeDao.getDevelopmentType(typeId) == null) {
+        throw new BizException("Type d'aménagement inexistant.");
+      }
       list = photoDao.getVisiblePhotos(typeId);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
@@ -96,7 +99,6 @@ class PhotoUccImpl implements PhotoUcc {
     }
 
   }
-
 
   @Override
   public PhotoDto getPhotoById(int id) {
