@@ -5,6 +5,7 @@ import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.dependencies.AfterInjection;
 import be.ipl.pae.dependencies.Injected;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class MockQuoteDao implements QuoteDao {
 
   private ArrayList<QuoteDto> liste = new ArrayList<>();
 
+  @AfterInjection
   private void setList() {
     if (liste.isEmpty()) {
       QuoteDto quoteDto1 = dtoFactory.getQuote();
@@ -63,7 +65,6 @@ public class MockQuoteDao implements QuoteDao {
   @Override
   public QuoteDto getQuote(String idQuote) {
     if (idQuote != null) {
-      setList();
       for (QuoteDto quoteDto : liste) {
         if (quoteDto.getIdQuote().equals(idQuote)) {
           return quoteDto;
@@ -81,7 +82,6 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public void setStartDate(QuoteDto quote) {
-    setList();
     for (QuoteDto quoteDto : liste) {
       if (quoteDto.getIdQuote().equals(quote.getIdQuote())) {
         quoteDto.setStartDate(LocalDate.now());
@@ -92,7 +92,6 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public void setStateQuote(QuoteState state, String quoteId) {
-    setList();
     for (QuoteDto quoteDto : liste) {
       if (quoteDto.getIdQuote().equals(quoteId)) {
         quoteDto.setState(state);

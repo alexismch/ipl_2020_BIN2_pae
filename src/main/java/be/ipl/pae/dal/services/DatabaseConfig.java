@@ -1,6 +1,8 @@
 package be.ipl.pae.dal.services;
 
+import be.ipl.pae.dependencies.AfterInjection;
 import be.ipl.pae.dependencies.Injected;
+import be.ipl.pae.exceptions.FatalException;
 
 class DatabaseConfig {
 
@@ -16,8 +18,13 @@ class DatabaseConfig {
   @Injected("password")
   private String password;
 
-  public String getDiverName() {
-    return diverName;
+  @AfterInjection
+  private void checkDriver() {
+    try {
+      Class.forName(this.diverName);
+    } catch (ClassNotFoundException ex) {
+      throw new FatalException("Database driver manquant !");
+    }
   }
 
   public String getUrl() {
