@@ -60,7 +60,7 @@ VALUES (6, 'caro', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu
         'Caroline', 'Stoumont', 'caro.line@hotmail.com', now(), 'c');
 INSERT INTO mystherbe.users (id_user, pseudo, passwd, lastname, firstname, city, email,
                              register_date, status)
-VALUES (7, 'theo', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu', 'Ile',
+VALUES (7, 'theo', '$2a$10$8JHTIKEMaoowEKJo8BRFeuYJMlv4cSq.E0EPTV6u435zKzfct7NdW', 'Ile',
         'Théophile', 'Verviers', 'theo.phile@proximus.be', now(), 'c');
 
 
