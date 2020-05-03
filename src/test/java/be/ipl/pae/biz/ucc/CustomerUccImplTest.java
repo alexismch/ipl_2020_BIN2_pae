@@ -1,6 +1,7 @@
 package be.ipl.pae.biz.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -132,11 +133,24 @@ class CustomerUccImplTest {
     assertEquals(2, custcc.getCustomers(null).size());
   }
 
+  @DisplayName("list customer with null filter")
+  @Test
+  public void customerListFiltered() {
+    assertNotNull(custcc.getCustomers(null));
+  }
+
+  @DisplayName("list customer with empty filter")
+  @Test
+  public void customerListFiltered2() {
+    assertFalse(custcc.getCustomers(custoFilt).isEmpty());
+  }
+
+
   @DisplayName("list customer with name filter")
   @Test
-  public void usersListFiltered() {
-    custoFilt.setName("A");
-    assertEquals(2, custcc.getCustomers(null).size());
+  public void customerListFiltered3() {
+    custoFilt.setName("Bruxelles");
+    assertTrue(custcc.getCustomers(custoFilt).size() > 0);
   }
 
 
