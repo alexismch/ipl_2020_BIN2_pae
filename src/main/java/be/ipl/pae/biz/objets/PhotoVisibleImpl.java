@@ -14,6 +14,7 @@ class PhotoVisibleImpl implements PhotoVisible {
   /**
    * Create a new PhotoVisibleImpl object.
    *
+   * @param id              the if of the photo
    * @param title           the title of the photo
    * @param base64          the base64 of the photo
    * @param developmentType the development type of the photo
