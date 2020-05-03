@@ -5,7 +5,6 @@ import static be.ipl.pae.ihm.servlets.utils.Util.isAllInside;
 import static be.ipl.pae.ihm.servlets.utils.Util.verifyNotEmpty;
 import static be.ipl.pae.ihm.servlets.utils.Util.verifySameLength;
 
-import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
@@ -64,21 +63,13 @@ public class PhotoServlet extends AbstractServlet {
         && verifySameLength(photos, photosTitles, photosDevelopmentTypes, photosIsVisible)) {
 
       try {
-        // TODO c'est pas du BIZ ?
-        Object[] types = developmentTypeUcc.getDevelopmentTypes(quoteId).stream()
-            .map(DevelopmentTypeDto::getIdType).toArray();
         Object[] photosTypesArray =
             Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
 
-        if (isAllInside(types, photosTypesArray)) {
-          // TODO endof c'est pas du BIZ ?
           List<PhotoDto> photoDtos = createObjects(quoteId, photos, photosTitles, photosTypesArray,
               photosIsVisible);
           photoUcc.insert(photoDtos);
           sendSuccess(resp);
-        } else {
-          throw new Exception();
-        }
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (Exception ex) {

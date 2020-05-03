@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-class CustomerUccTest {
+class CustomerUccImplTest {
 
   @Injected
   private DtoFactory dtoFactory;
@@ -86,27 +86,27 @@ class CustomerUccTest {
 
   /*
    * @DisplayName("ucc test different from null")
-   * 
+   *
    * @Test public void testInsertCustomer1() { custo.setFirstName("");
    * assertThrows(BizException.class, () -> custcc.insert(custo)); }
-   * 
+   *
    * @DisplayName("ucc test different from null")
-   * 
+   *
    * @Test public void testInsertCustomer2() { custo.setLastName("");
    * assertThrows(BizException.class, () -> custcc.insert(custo)); }
-   * 
+   *
    * @DisplayName("ucc test different from null")
-   * 
+   *
    * @Test public void testInsertCustomer3() { custo.setCity(""); assertThrows(BizException.class,
    * () -> custcc.insert(custo)); }
-   * 
+   *
    * @DisplayName("ucc test different from null")
-   * 
+   *
    * @Test public void testInsertCustomer4() { custo.setEmail(""); assertThrows(BizException.class,
    * () -> custcc.insert(custo)); }
-   * 
+   *
    * @DisplayName("ucc test different from null")
-   * 
+   *
    * @Test public void testInsertCustomer5() { custo.setPhoneNumber("");
    * assertThrows(BizException.class, () -> custcc.insert(custo)); }
    */

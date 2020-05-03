@@ -1,8 +1,12 @@
 package be.ipl.pae.biz.ucc;
 
+import static be.ipl.pae.ihm.servlets.utils.Util.isInside;
+
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
@@ -24,8 +28,11 @@ class PhotoUccImpl implements PhotoUcc {
   @Injected
   private QuoteDao quoteDao;
 
+  @Injected
+  private DevelopmentTypeDao developmentTypeDao;
+
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos() throws BizException {
+  public List<PhotoVisibleDto> getVisiblePhotos() {
 
     List<PhotoVisibleDto> list;
     try {
@@ -42,7 +49,7 @@ class PhotoUccImpl implements PhotoUcc {
   }
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
+  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) {
 
     List<PhotoVisibleDto> list;
     try {
@@ -63,6 +70,17 @@ class PhotoUccImpl implements PhotoUcc {
     try {
       dalService.startTransaction();
       QuoteState quoteState = quoteDao.getQuote(photos.get(0).getIdQuote()).getState();
+
+      Object[] types = developmentTypeDao.getDevelopmentTypeList(photos.get(0).getIdQuote())
+          .stream()
+          .map(DevelopmentTypeDto::getIdType).toArray();
+
+      for (PhotoDto photo : photos) {
+        if (!isInside(types, photo.getIdType())) {
+          throw new IllegalArgumentException();
+        }
+      }
+
       if (quoteState.getId() != 6 && quoteState.getId() != 7) {
         throw new BizException("Devis non éligible.");
       }
@@ -81,7 +99,7 @@ class PhotoUccImpl implements PhotoUcc {
 
 
   @Override
-  public PhotoDto getPhotoById(int id) throws BizException {
+  public PhotoDto getPhotoById(int id) {
     PhotoDto photo;
     try {
       dalService.startTransaction();

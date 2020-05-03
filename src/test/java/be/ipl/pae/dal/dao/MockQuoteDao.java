@@ -57,7 +57,7 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public boolean checkQuoteIdInDb(String quoteId) {
-    return quoteId != null;
+    return "false".equals(quoteId);
   }
 
   @Override
@@ -128,12 +128,12 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public QuoteState getStateQuote(String idQuote) {
-    if (idQuote.equals("introduit")) {
-      return QuoteState.QUOTE_ENTERED;
-    } else if (idQuote.equals("dateConfirme")) {
-      return QuoteState.CONFIRMED_DATE;
-    } else if (idQuote.equals("Total")) {
-      return QuoteState.CONFIRMED_DATE;
+    switch (idQuote) {
+      case "introduit":
+        return QuoteState.QUOTE_ENTERED;
+      case "dateConfirme":
+      case "Total":
+        return QuoteState.CONFIRMED_DATE;
     }
     return null;
   }
