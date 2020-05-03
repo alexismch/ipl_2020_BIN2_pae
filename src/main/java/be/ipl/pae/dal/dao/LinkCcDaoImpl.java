@@ -7,7 +7,7 @@ import be.ipl.pae.exceptions.DalException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class LinkCcDaoImpl implements LinkCcDao {
+class LinkCcDaoImpl implements LinkCcDao {
 
   @Injected
   private DalService dalService;

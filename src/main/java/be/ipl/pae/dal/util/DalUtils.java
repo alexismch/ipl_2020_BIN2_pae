@@ -14,7 +14,7 @@ public class DalUtils {
       return "";
     }
 
-    return string.replace("_", "\\_").replace("%", "\\%");
+    return string.replace("\\", "\\\\").replace("_", "\\_").replace("%", "\\%");
 
   }
 

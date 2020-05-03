@@ -19,7 +19,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-public class QuoteUccImpl implements QuoteUcc {
+class QuoteUccImpl implements QuoteUcc {
 
   @Injected
   private QuoteDao quoteDao;

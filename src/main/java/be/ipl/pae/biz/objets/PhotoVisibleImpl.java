@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.objets;
 
-public class PhotoVisibleImpl implements PhotoVisible {
+class PhotoVisibleImpl implements PhotoVisible {
 
   private String title;
   private String base64;

@@ -1,7 +1,7 @@
 
 package be.ipl.pae.biz.objets;
 
-public class DevelopmentTypeImpl implements DevelopmentType {
+class DevelopmentTypeImpl implements DevelopmentType {
 
   private int idType;
   private String title;

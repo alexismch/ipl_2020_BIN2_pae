@@ -13,7 +13,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-public class PhotoUccImpl implements PhotoUcc {
+class PhotoUccImpl implements PhotoUcc {
 
   @Injected
   private DalServiceTransaction dalService;
@@ -27,7 +27,7 @@ public class PhotoUccImpl implements PhotoUcc {
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() throws BizException {
 
-    List<PhotoVisibleDto> list = null;
+    List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
       list = photoDao.getVisiblePhotos();
@@ -44,7 +44,7 @@ public class PhotoUccImpl implements PhotoUcc {
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
 
-    List<PhotoVisibleDto> list = null;
+    List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
       list = photoDao.getVisiblePhotos(typeId);
@@ -82,7 +82,7 @@ public class PhotoUccImpl implements PhotoUcc {
 
   @Override
   public PhotoDto getPhotoById(int id) throws BizException {
-    PhotoDto photo = null;
+    PhotoDto photo;
     try {
       dalService.startTransaction();
       photo = photoDao.getPhotoById(id);

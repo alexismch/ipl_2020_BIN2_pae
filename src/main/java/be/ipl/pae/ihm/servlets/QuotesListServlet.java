@@ -1,7 +1,7 @@
 package be.ipl.pae.ihm.servlets;
 
 
-import static be.ipl.pae.ihm.Util.hasAccess;
+import static be.ipl.pae.ihm.servlets.utils.Util.hasAccess;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
@@ -14,7 +14,7 @@ import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.QuoteUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.ihm.Util;
+import be.ipl.pae.ihm.servlets.utils.Util;
 
 import com.owlike.genson.GensonBuilder;
 

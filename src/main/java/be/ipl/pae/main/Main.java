@@ -2,8 +2,8 @@ package be.ipl.pae.main;
 
 import be.ipl.pae.dependencies.InjectionService;
 import be.ipl.pae.exceptions.DalException;
-import be.ipl.pae.ihm.Util;
 import be.ipl.pae.ihm.server.Server;
+import be.ipl.pae.ihm.servlets.utils.Util;
 
 import java.util.Arrays;
 import java.util.List;

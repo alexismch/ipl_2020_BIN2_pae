@@ -10,7 +10,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
+class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
 
   @Injected
   private DevelopmentTypeDao developmentTypeDao;
@@ -21,7 +21,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   @Override
   public List<DevelopmentTypeDto> getDevelopmentTypes() {
 
-    List<DevelopmentTypeDto> listToReturn = null;
+    List<DevelopmentTypeDto> listToReturn;
     try {
       dalService.startTransaction();
       listToReturn = developmentTypeDao.getdevelopmentTypes();
@@ -39,7 +39,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
   @Override
   public List<DevelopmentTypeDto> getDevelopmentTypes(String quoteId) {
 
-    List<DevelopmentTypeDto> listToReturn = null;
+    List<DevelopmentTypeDto> listToReturn;
     try {
       dalService.startTransaction();
       listToReturn = developmentTypeDao.getDevelopmentTypeList(quoteId);
@@ -56,7 +56,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
 
   @Override
   public DevelopmentTypeDto getDevelopmentType(int typeId) throws BizException {
-    DevelopmentTypeDto developmentType = null;
+    DevelopmentTypeDto developmentType;
 
     try {
       dalService.startTransaction();
@@ -76,7 +76,7 @@ public class DevelopmentTypeUccImpl implements DevelopmentTypeUcc {
 
   @Override
   public DevelopmentTypeDto insert(DevelopmentTypeDto developmentType) throws BizException {
-    DevelopmentTypeDto type = null;
+    DevelopmentTypeDto type;
     try {
       dalService.startTransaction();
 

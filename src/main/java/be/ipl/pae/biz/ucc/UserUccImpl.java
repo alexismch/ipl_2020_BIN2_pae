@@ -13,7 +13,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-public class UserUccImpl implements UserUcc {
+class UserUccImpl implements UserUcc {
 
   @Injected
   private UserDao userDao;

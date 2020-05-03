@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.objets;
 
-public class CustomersFilterImpl implements CustomersFilter {
+class CustomersFilterImpl implements CustomersFilter {
 
   private String name;
   private int postalCode;

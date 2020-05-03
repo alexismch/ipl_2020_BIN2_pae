@@ -1,8 +1,8 @@
 package be.ipl.pae.ihm.servlets;
 
-import static be.ipl.pae.ihm.Util.hasAccess;
 import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParamAsInt;
 import static be.ipl.pae.ihm.servlets.utils.ParametersUtils.getParamAsUserStatus;
+import static be.ipl.pae.ihm.servlets.utils.Util.hasAccess;
 
 import be.ipl.pae.biz.dto.UserDto;
 import be.ipl.pae.biz.objets.UserStatus;

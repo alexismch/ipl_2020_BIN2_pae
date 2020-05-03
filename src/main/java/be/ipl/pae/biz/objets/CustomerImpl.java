@@ -1,6 +1,6 @@
 package be.ipl.pae.biz.objets;
 
-public class CustomerImpl implements Customer {
+class CustomerImpl implements Customer {
 
   private int idCustomer;
   private String lastname;

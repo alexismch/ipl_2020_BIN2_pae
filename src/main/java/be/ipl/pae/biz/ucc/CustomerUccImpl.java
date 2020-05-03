@@ -11,7 +11,7 @@ import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
 
-public class CustomerUccImpl implements CustomerUcc {
+class CustomerUccImpl implements CustomerUcc {
 
   @Injected
   private CustomerDao customerDao;
@@ -21,7 +21,7 @@ public class CustomerUccImpl implements CustomerUcc {
 
   @Override
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
-    CustomerDto customer = null;
+    CustomerDto customer;
     try {
       dalService.startTransaction();
       customer = customerDao.insertCustomer(customerDto);
@@ -38,7 +38,7 @@ public class CustomerUccImpl implements CustomerUcc {
 
   @Override
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
-    List<CustomerDto> list = null;
+    List<CustomerDto> list;
     try {
       dalService.startTransaction();
       list = customerDao.getCustomers(customersFilterDto);
@@ -53,7 +53,7 @@ public class CustomerUccImpl implements CustomerUcc {
 
   @Override
   public CustomerDto getCustomerByIdUser(int idUser) {
-    CustomerDto customer = null;
+    CustomerDto customer;
     try {
       dalService.startTransaction();
       customer = customerDao.getCustomerByIdUser(idUser);

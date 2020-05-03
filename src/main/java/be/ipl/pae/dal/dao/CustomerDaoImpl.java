@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDaoImpl implements CustomerDao {
+class CustomerDaoImpl implements CustomerDao {
 
   @Injected
   private DalService dalService;
