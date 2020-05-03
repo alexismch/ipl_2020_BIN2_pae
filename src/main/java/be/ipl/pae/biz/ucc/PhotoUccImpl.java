@@ -81,7 +81,7 @@ class PhotoUccImpl implements PhotoUcc {
 
       for (PhotoDto photo : photos) {
         if (!isInside(types, photo.getIdType())) {
-          throw new BizException("Certaines photos ont un type de dévelopmment invalide.");
+          throw new BizException("Certaines photos ont un type de développement invalide.");
         }
       }
 

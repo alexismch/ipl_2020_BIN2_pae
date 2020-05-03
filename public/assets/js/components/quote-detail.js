@@ -371,18 +371,20 @@ export class QuoteDetailPage extends Page {
   <button class="btn btn-sm btn-primary" type="submit">Enregister les nouvelles photos</button>
 </form>`);
 
-        onSubmitWithAjax($addPictureForm, () => {
+        onSubmitWithAjax($addPictureForm, (respData) => {
           const data = serializeFormToJson($addPictureForm);
           const $list = this._$view.find('.detail-quote-photos-after .card-body .list');
           if (Array.isArray(data['pictureData'])) {
             for (let i = 0; i < data['pictureData'].length; i++) {
               this._createPhotoItem($list, quoteId, {
+                id: respData.photosIds[i],
                 base64: data['pictureData'][i],
                 title: data['pictureTitle'][i]
               }, false);
             }
           } else {
             this._createPhotoItem($list, quoteId, {
+              id: respData.photosIds[0],
               base64: data['pictureData'],
               title: data['pictureTitle']
             }, false);
