@@ -44,12 +44,6 @@ class DalServiceImpl implements DalService, DalServiceTransaction {
   }
 
   private DataSource setUpDataSource() {
-    try {
-      Class.forName(databaseConfig.getDiverName());
-    } catch (ClassNotFoundException ex) {
-      System.out.println("Driver PostgreSQL manquant !");
-      System.exit(1);
-    }
 
     String url = databaseConfig.getUrl();
     String user = databaseConfig.getUser();

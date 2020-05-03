@@ -6,6 +6,7 @@ import be.ipl.pae.main.PropertiesLoader.PropertiesLoaderException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,12 +81,27 @@ public class InjectionService {
         }
       }
     }
+
+    for (Method method : ob.getClass().getDeclaredMethods()) {
+      AfterInjection afterInjection = method.getAnnotation(AfterInjection.class);
+
+      if (afterInjection != null) {
+        try {
+          method.setAccessible(true);
+          method.invoke(ob);
+        } catch (IllegalAccessException | InvocationTargetException ex) {
+          throw new InjectionException(
+              "AfterInjectionError can not call " + method.getName() + " on " + ob.getClass()
+                  + " !", ex);
+        }
+
+      }
+
+    }
+
   }
 
-  public class InjectionException extends RuntimeException {
-
-    public InjectionException() {
-    }
+  public static class InjectionException extends RuntimeException {
 
     public InjectionException(String message) {
       super(message);
@@ -99,10 +115,6 @@ public class InjectionService {
       super(cause);
     }
 
-    public InjectionException(String message, Throwable cause, boolean enableSuppression,
-        boolean writableStackTrace) {
-      super(message, cause, enableSuppression, writableStackTrace);
-    }
   }
 
 }
