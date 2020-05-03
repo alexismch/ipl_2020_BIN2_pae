@@ -11,6 +11,8 @@ import be.ipl.pae.biz.ucc.PhotoUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 
+import com.owlike.genson.GensonBuilder;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +65,12 @@ public class PhotoServlet extends AbstractServlet {
 
         List<PhotoDto> photoDtos = createObjects(quoteId, photos, photosTitles, photosTypesArray,
             photosIsVisible);
-        photoUcc.insert(photoDtos);
-        sendSuccess(resp);
+
+        List<Integer> list = photoUcc.insert(photoDtos);
+
+        GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
+
+        sendSuccessWithJson(resp, "photosIds", gensonBuilder.create().serialize(list));
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (Exception ex) {

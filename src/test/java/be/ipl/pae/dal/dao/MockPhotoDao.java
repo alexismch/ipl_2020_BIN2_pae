@@ -10,12 +10,38 @@ import java.util.List;
 
 public class MockPhotoDao implements PhotoDao {
 
+//  private List<PhotoVisibleDto> photoVisibleDtoList = new ArrayList<>();
+
   @Injected
   private DtoFactory dtoFactory;
 
-  @Override
-  public void insert(PhotoDto photoDto) {
+  /*private void setList() {
+    if (photoVisibleDtoList.isEmpty()) {
+      PhotoVisibleDto photoDto1 = dtoFactory.getPhotoVisible();
+      photoDto1.setId(1);
+      photoVisibleDtoList.add(photoDto1);
 
+      PhotoVisibleDto photoDto2 = dtoFactory.getPhotoVisible();
+      photoDto2.setId(2);
+      photoVisibleDtoList.add(photoDto2);
+
+      PhotoVisibleDto photoDto3 = dtoFactory.getPhotoVisible();
+      photoDto3.setId(3);
+      photoVisibleDtoList.add(photoDto3);
+
+      PhotoVisibleDto photoDto4 = dtoFactory.getPhotoVisible();
+      photoDto4.setId(4);
+      photoVisibleDtoList.add(photoDto4);
+
+      PhotoVisibleDto photoDto5 = dtoFactory.getPhotoVisible();
+      photoDto5.setId(5);
+      photoVisibleDtoList.add(photoDto5);
+    }
+  }*/
+
+  @Override
+  public Integer insert(PhotoDto photoDto) {
+    return null;
   }
 
   @Override

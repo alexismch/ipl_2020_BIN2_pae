@@ -61,11 +61,14 @@ public class QuoteUccImplTest {
   @Test
   public void testGetQuoteOk() throws BizException {
     QuoteDto quote = qcc.getQuote("ok");
-    assertAll(() -> assertNotNull(quote), () -> assertEquals(1, quote.getIdCustomer()),
+    assertAll(
+        () -> assertNotNull(quote),
+        () -> assertEquals(1, quote.getIdCustomer()),
         () -> assertFalse(quote.getListPhotoBefore().isEmpty()),
         () -> assertFalse(quote.getListPhotoAfter().isEmpty()),
         () -> assertTrue(quote.getListPhotoBefore().get(0).isBeforeWork()),
-        () -> assertFalse(quote.getListPhotoAfter().get(0).isBeforeWork()));
+        () -> assertFalse(quote.getListPhotoAfter().get(0).isBeforeWork())
+    );
 
   }
 

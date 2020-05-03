@@ -13,9 +13,10 @@ public interface PhotoDao {
    * Insert a photo to the db.
    *
    * @param photoDto the photo to insert
+   * @return the id of the photo inserted
    * @throws DalException if you have an error with the db
    */
-  void insert(PhotoDto photoDto) throws DalException;
+  Integer insert(PhotoDto photoDto) throws DalException;
 
   /**
    * get a list of photos.

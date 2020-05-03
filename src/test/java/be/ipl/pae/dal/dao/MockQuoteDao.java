@@ -20,23 +20,42 @@ public class MockQuoteDao implements QuoteDao {
 
   private void setList() {
     if (liste.isEmpty()) {
+
       QuoteDto quoteDto1 = dtoFactory.getQuote();
-      QuoteDto quoteDto2 = dtoFactory.getQuote();
-      QuoteDto quoteDto3 = dtoFactory.getQuote();
-
       quoteDto1.setIdQuote("introduit");
-      quoteDto2.setIdQuote("ok");
-      quoteDto3.setIdQuote("dateConfirme");
-
-      QuoteDto quoteDto4 = dtoFactory.getQuote();
-      quoteDto4.setIdQuote("Total");
-
-      quoteDto2.setIdCustomer(1);
-
+      quoteDto1.setState(QuoteState.QUOTE_ENTERED);
       liste.add(quoteDto1);
+
+      QuoteDto quoteDto2 = dtoFactory.getQuote();
+      quoteDto2.setIdQuote("commandePassee");
+      quoteDto2.setState(QuoteState.PLACED_ORDERED);
       liste.add(quoteDto2);
+
+      QuoteDto quoteDto3 = dtoFactory.getQuote();
+      quoteDto3.setIdQuote("dateConfirme");
+      quoteDto3.setState(QuoteState.CONFIRMED_DATE);
       liste.add(quoteDto3);
-      liste.add(quoteDto4);
+
+      QuoteDto quoteDto5 = dtoFactory.getQuote();
+      quoteDto5.setIdQuote("partiel");
+      quoteDto5.setState(QuoteState.PARTIAL_INVOICE);
+      liste.add(quoteDto5);
+
+      QuoteDto quoteDto6 = dtoFactory.getQuote();
+      quoteDto6.setIdQuote("Total");
+      quoteDto6.setState(QuoteState.TOTAL_INVOICE);
+      liste.add(quoteDto6);
+
+      QuoteDto quoteDto7 = dtoFactory.getQuote();
+      quoteDto7.setIdQuote("ok");
+      quoteDto7.setState(QuoteState.VISIBLE);
+      quoteDto7.setIdCustomer(1);
+      liste.add(quoteDto7);
+
+      QuoteDto quoteDto8 = dtoFactory.getQuote();
+      quoteDto8.setIdQuote("annule");
+      quoteDto8.setState(QuoteState.VISIBLE);
+      liste.add(quoteDto8);
     }
   }
 

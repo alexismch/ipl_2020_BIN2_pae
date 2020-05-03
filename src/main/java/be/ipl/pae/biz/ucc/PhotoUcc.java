@@ -29,9 +29,10 @@ public interface PhotoUcc {
    * Insert photos into the db.
    *
    * @param photoDtos the photos to insert
+   * @return the list of ids of inserted photos
    * @throws BizException if an error occured with the db
    */
-  void insert(List<PhotoDto> photoDtos) throws BizException;
+  List<Integer> insert(List<PhotoDto> photoDtos) throws BizException;
 
   /**
    * Get a photo from the db with the id.

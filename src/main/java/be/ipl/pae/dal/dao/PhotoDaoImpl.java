@@ -22,10 +22,11 @@ class PhotoDaoImpl implements PhotoDao {
   private DtoFactory photoDtoFactory;
 
   @Override
-  public void insert(PhotoDto photoDto) throws DalException {
+  public Integer insert(PhotoDto photoDto) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.photos "
         + "(title, base64, id_quote, is_visible, id_type, before_work) "
-        + "VALUES (?, ?, ?, ?, ?, ?)");
+        + "VALUES (?, ?, ?, ?, ?, ?) "
+        + "returning id_photo");
 
     try {
       ps.setString(1, photoDto.getTitle());
@@ -34,7 +35,9 @@ class PhotoDaoImpl implements PhotoDao {
       ps.setBoolean(4, photoDto.isVisible());
       ps.setInt(5, photoDto.getIdType());
       ps.setBoolean(6, photoDto.isBeforeWork());
-      ps.execute();
+      ResultSet rs = ps.executeQuery();
+      rs.next();
+      return rs.getInt(1);
     } catch (SQLException ex) {
       throw new DalException("error with the db");
     }

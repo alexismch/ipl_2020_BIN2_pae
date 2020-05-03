@@ -15,6 +15,7 @@ import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class PhotoUccImpl implements PhotoUcc {
@@ -69,7 +70,7 @@ class PhotoUccImpl implements PhotoUcc {
   }
 
   @Override
-  public void insert(List<PhotoDto> photos) throws BizException {
+  public List<Integer> insert(List<PhotoDto> photos) throws BizException {
     try {
       dalService.startTransaction();
       QuoteState quoteState = quoteDao.getQuote(photos.get(0).getIdQuote()).getState();
@@ -80,7 +81,7 @@ class PhotoUccImpl implements PhotoUcc {
 
       for (PhotoDto photo : photos) {
         if (!isInside(types, photo.getIdType())) {
-          throw new BizException("Certaines photos ont un type de dévelopmment inconnu.");
+          throw new BizException("Certaines photos ont un type de dévelopmment invalide.");
         }
       }
 
@@ -88,9 +89,11 @@ class PhotoUccImpl implements PhotoUcc {
         throw new BizException("Devis non éligible.");
       }
 
+      List<Integer> photosIds = new ArrayList<>();
       for (PhotoDto photo : photos) {
-        photoDao.insert(photo);
+        photosIds.add(photoDao.insert(photo));
       }
+      return photosIds;
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
