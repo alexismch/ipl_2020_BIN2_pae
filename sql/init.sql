@@ -95,7 +95,7 @@ INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, w
 VALUES ('2', 1, '2018-12-15', 18306, 25, 7, '2019-03-15', null);
 INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
                               id_state, start_date, id_photo)
-VALUES ('3', 1, '2019-11-12', 8540, 10, 3, '2020-03-30', null);
+VALUES ('3', 1, '2019-11-12', 8540, 10, 2, '2020-03-30', null);
 INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
                               id_state, start_date, id_photo)
 VALUES ('4', 2, '2020-01-10', 6123, 7, 6, '2020-03-02', null);
