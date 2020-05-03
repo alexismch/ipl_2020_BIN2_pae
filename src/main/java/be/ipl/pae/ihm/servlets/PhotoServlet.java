@@ -1,14 +1,12 @@
 package be.ipl.pae.ihm.servlets;
 
 import static be.ipl.pae.ihm.servlets.utils.Util.hasAccess;
-import static be.ipl.pae.ihm.servlets.utils.Util.isAllInside;
 import static be.ipl.pae.ihm.servlets.utils.Util.verifyNotEmpty;
 import static be.ipl.pae.ihm.servlets.utils.Util.verifySameLength;
 
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
-import be.ipl.pae.biz.ucc.DevelopmentTypeUcc;
 import be.ipl.pae.biz.ucc.PhotoUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
@@ -22,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PhotoServlet extends AbstractServlet {
-
-  @Injected
-  private DevelopmentTypeUcc developmentTypeUcc;
 
   @Injected
   private DtoFactory dtoFactory;
@@ -66,10 +61,10 @@ public class PhotoServlet extends AbstractServlet {
         Object[] photosTypesArray =
             Stream.of(photosDevelopmentTypes).map(Integer::valueOf).toArray();
 
-          List<PhotoDto> photoDtos = createObjects(quoteId, photos, photosTitles, photosTypesArray,
-              photosIsVisible);
-          photoUcc.insert(photoDtos);
-          sendSuccess(resp);
+        List<PhotoDto> photoDtos = createObjects(quoteId, photos, photosTitles, photosTypesArray,
+            photosIsVisible);
+        photoUcc.insert(photoDtos);
+        sendSuccess(resp);
       } catch (BizException bizE) {
         sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (Exception ex) {

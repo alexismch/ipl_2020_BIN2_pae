@@ -134,8 +134,9 @@ public class MockQuoteDao implements QuoteDao {
       case "dateConfirme":
       case "Total":
         return QuoteState.CONFIRMED_DATE;
+      default:
+        return null;
     }
-    return null;
   }
 
   @Override
