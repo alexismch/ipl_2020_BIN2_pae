@@ -21,9 +21,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
-
 public class UserUccImplTest {
-
 
   @Injected
   private DtoFactory dtoFactory;
@@ -52,23 +50,19 @@ public class UserUccImplTest {
     assertNotNull(ucc);
   }
 
-
   @DisplayName("login test when we give a good pseudo and pwd")
-
   @Test
   public void testLoginOk() throws BizException {
     assertNotNull(ucc.login("sousou", "123456"));
   }
 
   @DisplayName("login test when we give a good pseudo and a wrong pwd")
-
   @Test
   public void testLoginKo1() {
     assertThrows(BizException.class, () -> ucc.login("sousou", "blabla"));
   }
 
   @DisplayName("login test when we give a wrong pseudo")
-
   @Test
   public void testLoginKo2() {
     assertThrows(BizException.class, () -> ucc.login("blabla", "test"));
@@ -164,18 +158,12 @@ public class UserUccImplTest {
 
   }
 
-
   @Test
   void changeUserStatusSameAsExisting() throws BizException {
-
     for (int i = 1; i <= 2; i++) {
-
       UserDto userDto = ucc.getUser(i);
       assertNotNull(userDto);
       assertEquals(userDto.getPseudo(), ucc.changeUserStatus(i, userDto.getStatus()).getPseudo());
-
     }
-
   }
-
 }

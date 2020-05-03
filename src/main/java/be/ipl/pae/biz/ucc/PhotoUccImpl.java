@@ -1,8 +1,12 @@
 package be.ipl.pae.biz.ucc;
 
+import static be.ipl.pae.ihm.Util.isInside;
+
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.objets.QuoteState;
+import be.ipl.pae.dal.dao.DevelopmentTypeDao;
 import be.ipl.pae.dal.dao.PhotoDao;
 import be.ipl.pae.dal.dao.QuoteDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
@@ -24,10 +28,13 @@ public class PhotoUccImpl implements PhotoUcc {
   @Injected
   private QuoteDao quoteDao;
 
-  @Override
-  public List<PhotoVisibleDto> getVisiblePhotos() throws BizException {
+  @Injected
+  private DevelopmentTypeDao developmentTypeDao;
 
-    List<PhotoVisibleDto> list = null;
+  @Override
+  public List<PhotoVisibleDto> getVisiblePhotos() {
+
+    List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
       list = photoDao.getVisiblePhotos();
@@ -42,9 +49,9 @@ public class PhotoUccImpl implements PhotoUcc {
   }
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
+  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) {
 
-    List<PhotoVisibleDto> list = null;
+    List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
       list = photoDao.getVisiblePhotos(typeId);
@@ -63,6 +70,17 @@ public class PhotoUccImpl implements PhotoUcc {
     try {
       dalService.startTransaction();
       QuoteState quoteState = quoteDao.getQuote(photos.get(0).getIdQuote()).getState();
+
+      Object[] types = developmentTypeDao.getDevelopmentTypeList(photos.get(0).getIdQuote())
+          .stream()
+          .map(DevelopmentTypeDto::getIdType).toArray();
+
+      for (PhotoDto photo : photos) {
+        if (!isInside(types, photo.getIdType())) {
+          throw new IllegalArgumentException();
+        }
+      }
+
       if (quoteState.getId() != 6 && quoteState.getId() != 7) {
         throw new BizException("Devis non éligible.");
       }
@@ -81,8 +99,8 @@ public class PhotoUccImpl implements PhotoUcc {
 
 
   @Override
-  public PhotoDto getPhotoById(int id) throws BizException {
-    PhotoDto photo = null;
+  public PhotoDto getPhotoById(int id) {
+    PhotoDto photo;
     try {
       dalService.startTransaction();
       photo = photoDao.getPhotoById(id);
