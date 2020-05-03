@@ -21,25 +21,23 @@ public class MockQuoteDao implements QuoteDao {
 
   @AfterInjection
   private void setList() {
-    if (liste.isEmpty()) {
-      QuoteDto quoteDto1 = dtoFactory.getQuote();
-      QuoteDto quoteDto2 = dtoFactory.getQuote();
-      QuoteDto quoteDto3 = dtoFactory.getQuote();
+    QuoteDto quoteDto1 = dtoFactory.getQuote();
+    QuoteDto quoteDto2 = dtoFactory.getQuote();
+    QuoteDto quoteDto3 = dtoFactory.getQuote();
 
-      quoteDto1.setIdQuote("introduit");
-      quoteDto2.setIdQuote("ok");
-      quoteDto3.setIdQuote("dateConfirme");
+    quoteDto1.setIdQuote("introduit");
+    quoteDto2.setIdQuote("ok");
+    quoteDto3.setIdQuote("dateConfirme");
 
-      QuoteDto quoteDto4 = dtoFactory.getQuote();
-      quoteDto4.setIdQuote("Total");
+    QuoteDto quoteDto4 = dtoFactory.getQuote();
+    quoteDto4.setIdQuote("Total");
 
-      quoteDto2.setIdCustomer(1);
+    quoteDto2.setIdCustomer(1);
 
-      liste.add(quoteDto1);
-      liste.add(quoteDto2);
-      liste.add(quoteDto3);
-      liste.add(quoteDto4);
-    }
+    liste.add(quoteDto1);
+    liste.add(quoteDto2);
+    liste.add(quoteDto3);
+    liste.add(quoteDto4);
   }
 
   /*
