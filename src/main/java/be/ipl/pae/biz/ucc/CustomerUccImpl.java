@@ -8,7 +8,7 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.ihm.Util;
+import be.ipl.pae.ihm.servlets.utils.Util;
 
 import java.util.List;
 
