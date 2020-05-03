@@ -46,7 +46,11 @@ export class Page extends Component {
 
   set isLoading(isLoading) {
     this._isLoading = isLoading;
-    $('#load-bar').hide();
+    if (this._isLoading) {
+      $('#load-bar').show();
+    } else {
+      $('#load-bar').hide();
+    }
   }
 
 }
