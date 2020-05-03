@@ -68,13 +68,10 @@ public class DevelopmentTypeImpl implements DevelopmentType {
       return false;
     }
     if (title == null) {
-      if (other.title != null) {
-        return false;
-      }
-    } else if (!title.equals(other.title)) {
-      return false;
+      return other.title == null;
+    } else {
+      return title.equals(other.title);
     }
-    return true;
   }
 
 

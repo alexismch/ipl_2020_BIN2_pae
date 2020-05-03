@@ -23,6 +23,7 @@ VALUES (9, 'Terrasses en bois');
 INSERT INTO mystherbe.development_types (id_type, title)
 VALUES (10, 'Terrasses en pierres naturelles');
 
+
 /**
   UTILISATEURS
  */
@@ -42,10 +43,13 @@ VALUES (3, 'chri', '$2a$10$kEsiHqH8wmjoLNCSDF7cMOH2QuARvrVDTqRKypB5Wj9LyaRdmCCrC
         'Christophe', 'Bruxelles', 'christophe.damas@vinci.be', now(), 'o');
 
 --CLIENTS
+--NON CONNECTÉ
 INSERT INTO mystherbe.users (id_user, pseudo, passwd, lastname, firstname, city, email,
                              register_date, status)
 VALUES (4, 'achil', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu', 'Ile',
         'Achille', 'Verviers', 'ach.ile@gmail.com', now(), 'c');
+
+--CONNECTÉS
 INSERT INTO mystherbe.users (id_user, pseudo, passwd, lastname, firstname, city, email,
                              register_date, status)
 VALUES (5, 'bazz', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu', 'Ile', 'Basile',
@@ -54,6 +58,10 @@ INSERT INTO mystherbe.users (id_user, pseudo, passwd, lastname, firstname, city,
                              register_date, status)
 VALUES (6, 'caro', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu', 'Line',
         'Caroline', 'Stoumont', 'caro.line@hotmail.com', now(), 'c');
+INSERT INTO mystherbe.users (id_user, pseudo, passwd, lastname, firstname, city, email,
+                             register_date, status)
+VALUES (7, 'theo', '$2a$10$Nihl2oM4JtE6g/sB8UbDE.27L7LFNGthEtJG68KLPJd2EZPDXdXdu', 'Ile',
+        'Théophile', 'Verviers', 'theo.phile@proximus.be', now(), 'c');
 
 
 /**
@@ -67,7 +75,11 @@ VALUES (1, 'Line', 'Caroline', 'Rue de l’Eglise, 11', 4987, 'Stoumont', 'caro.
 INSERT INTO mystherbe.customers (id_customer, lastname, firstname, address, postal_code, city,
                                  email, tel_nbr, id_user)
 VALUES (2, 'Ile', 'Théophile', 'Rue de Renkin, 7', 4800, 'Verviers', 'theo.phile@proximus.be',
-        '087.25.69.74', null);
+        '087.25.69.74', 7);
+INSERT INTO mystherbe.customers (id_customer, lastname, firstname, address, postal_code, city,
+                                 email, tel_nbr, id_user)
+VALUES (3, 'Ile', 'Basile', 'Rue des Minières, 45', 4800, 'Verviers', 'bas.ile@gmail.com',
+        '087.12.34.56', 5);
 
 
 /**
@@ -83,10 +95,16 @@ INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, w
 VALUES ('2', 1, '2018-12-15', 18306, 25, 7, '2019-03-15', null);
 INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
                               id_state, start_date, id_photo)
-VALUES ('3', 1, '2019-11-12', 8540, 10, 2, '2020-03-30', null);
+VALUES ('3', 1, '2019-11-12', 8540, 10, 3, '2020-03-30', null);
 INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
                               id_state, start_date, id_photo)
 VALUES ('4', 2, '2020-01-10', 6123, 7, 6, '2020-03-02', null);
+INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
+                              id_state, start_date, id_photo)
+VALUES ('5', 3, '2020-03-30', 895, 1, 1, null, null);
+INSERT INTO mystherbe.quotes (id_quote, id_customer, quote_date, total_amount, work_duration,
+                              id_state, start_date, id_photo)
+VALUES ('6', 3, '2018-12-19', 1500, 2, 7, '2019-03-20', null);
 
 --TYPES
 INSERT INTO mystherbe.quote_types (id_quote, id_type)
@@ -99,3 +117,7 @@ INSERT INTO mystherbe.quote_types (id_quote, id_type)
 VALUES ('4', 1);
 INSERT INTO mystherbe.quote_types (id_quote, id_type)
 VALUES ('4', 8);
+INSERT INTO mystherbe.quote_types (id_quote, id_type)
+VALUES ('5', 1);
+INSERT INTO mystherbe.quote_types (id_quote, id_type)
+VALUES ('6', 5);

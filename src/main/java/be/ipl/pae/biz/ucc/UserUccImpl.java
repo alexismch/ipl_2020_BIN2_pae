@@ -8,6 +8,7 @@ import be.ipl.pae.dal.dao.UserDao;
 import be.ipl.pae.dal.services.DalServiceTransaction;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
+import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
 
 import java.util.List;
@@ -20,92 +21,85 @@ public class UserUccImpl implements UserUcc {
   @Injected
   private DalServiceTransaction dalService;
 
-
   @Override
   public UserDto login(String pseudo, String mdp) throws BizException {
+    UserDto userDto;
     try {
-      UserDto userDto;
-      try {
-        dalService.startTransaction();
-        userDto = userDao.getUserByPseudo(pseudo);
-      } catch (Exception ex) {
-        dalService.rollbackTransaction();
-        throw new BizException(ex);
-      } finally {
-        dalService.commitTransaction();
-      }
-
-      if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
-        throw new BizException("Pseudo ou mot de passe incorrect !");
-      }
-
-      if (UserStatus.NOT_ACCEPTED.equals(userDto.getStatus())) {
-        throw new BizException("Votre inscription est en attente de validation!");
-      }
-
-      return userDto;
-
-    } catch (FatalException ex) {
-      throw new BizException(ex);
+      dalService.startTransaction();
+      userDto = userDao.getUserByPseudo(pseudo);
+    } catch (DalException ex) {
+      dalService.rollbackTransaction();
+      throw new FatalException(ex);
+    } finally {
+      dalService.commitTransaction();
     }
 
-  }
+    if (userDto == null || !((User) userDto).verifierMdp(mdp)) {
+      throw new BizException("Pseudo ou mot de passe incorrect ");
+    }
 
+    if (UserStatus.NOT_ACCEPTED.equals(userDto.getStatus())) {
+      throw new BizException("Votre inscription est en attente de validation");
+    }
+
+    return userDto;
+  }
 
   @Override
   public UserDto register(UserDto userDto) throws BizException {
+    UserDto userDtoRet;
     try {
-      try {
-        dalService.startTransaction();
-        if (userDao.checkPseudoInDb(userDto.getPseudo())) {
-          throw new BizException("Pseudo déjà utilisé!");
-        }
-        if (userDao.checkEmailInDb(userDto.getEmail())) {
-          throw new BizException("Email déjà utilisé!");
-        }
-
-        return userDao.insertUser(userDto);
-
-      } catch (FatalException fx) {
-        dalService.rollbackTransaction();
-        throw new BizException(fx);
-      } finally {
-        dalService.commitTransaction();
+      dalService.startTransaction();
+      if (userDao.checkPseudoInDb(userDto.getPseudo())) {
+        throw new BizException("Pseudo déjà utilisé");
       }
-    } catch (FatalException ex) {
-      throw new BizException(ex);
+      if (userDao.checkEmailInDb(userDto.getEmail())) {
+        throw new BizException("Email déjà utilisé");
+      }
+
+      userDtoRet = userDao.insertUser(userDto);
+
+    } catch (DalException fx) {
+      dalService.rollbackTransaction();
+      throw new FatalException(fx);
+    } finally {
+      dalService.commitTransaction();
     }
+    return userDtoRet;
   }
 
   @Override
-  public UserDto getUser(int id) throws FatalException {
+  public UserDto getUser(int id) {
+    UserDto userDto;
     try {
       dalService.startTransaction();
-      return userDao.getUser(id);
-    } catch (FatalException ex) {
+      userDto = userDao.getUser(id);
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
+    return userDto;
   }
 
   @Override
-  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws FatalException {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
+    List<UserDto> userDtoList;
     try {
       dalService.startTransaction();
-      return userDao.getUsers(usersFilterDto);
-    } catch (FatalException ex) {
+      userDtoList = userDao.getUsers(usersFilterDto);
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
+    return userDtoList;
   }
 
   @Override
-  public UserDto changeUserStatus(int userId, UserStatus newStatus)
-      throws FatalException, BizException {
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws BizException {
     UserDto user;
     try {
       dalService.startTransaction();
@@ -116,16 +110,17 @@ public class UserUccImpl implements UserUcc {
       }
 
       if (status == newStatus) {
-        return userDao.getUser(userId);
-      }
+        user = userDao.getUser(userId);
+      } else {
 
-      if (!UserStatus.NOT_ACCEPTED.equals(status)) {
-        throw new BizException("Le status de l'utilisateur doit être égal à "
-            + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
-      }
+        if (!UserStatus.NOT_ACCEPTED.equals(status)) {
+          throw new BizException("Le status de l'utilisateur doit être égal à "
+              + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
+        }
 
-      user = userDao.changeUserStatus(userId, newStatus);
-    } catch (FatalException ex) {
+        user = userDao.changeUserStatus(userId, newStatus);
+      }
+    } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {

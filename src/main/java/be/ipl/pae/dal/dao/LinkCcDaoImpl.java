@@ -2,7 +2,7 @@ package be.ipl.pae.dal.dao;
 
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ public class LinkCcDaoImpl implements LinkCcDao {
   private DalService dalService;
 
   @Override
-  public void link(int customerId, int userId) throws FatalException {
+  public void link(int customerId, int userId) throws DalException {
     PreparedStatement ps = dalService
         .getPreparedStatement("UPDATE mystherbe.customers SET id_user = ?  WHERE id_customer = ?");
 
@@ -22,7 +22,7 @@ public class LinkCcDaoImpl implements LinkCcDao {
       ps.setInt(2, customerId);
       ps.execute();
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 }

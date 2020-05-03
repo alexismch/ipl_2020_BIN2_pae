@@ -7,6 +7,7 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dependencies.Injected;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,30 @@ public class MockQuoteDao implements QuoteDao {
 
   @Injected
   private DtoFactory dtoFactory;
+
+  private ArrayList<QuoteDto> liste = new ArrayList<>();
+
+  private void setList() {
+    if (liste.isEmpty()) {
+      QuoteDto quoteDto1 = dtoFactory.getQuote();
+      QuoteDto quoteDto2 = dtoFactory.getQuote();
+      QuoteDto quoteDto3 = dtoFactory.getQuote();
+
+      quoteDto1.setIdQuote("introduit");
+      quoteDto2.setIdQuote("ok");
+      quoteDto3.setIdQuote("dateConfirme");
+
+      QuoteDto quoteDto4 = dtoFactory.getQuote();
+      quoteDto4.setIdQuote("Total");
+
+      quoteDto2.setIdCustomer(1);
+
+      liste.add(quoteDto1);
+      liste.add(quoteDto2);
+      liste.add(quoteDto3);
+      liste.add(quoteDto4);
+    }
+  }
 
   /*
    * @Override public List<QuoteDto> getAllQuote() { List<QuoteDto> liste = new ArrayList<>();
@@ -32,24 +57,20 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public boolean checkQuoteIdInDb(String quoteId) {
-    return quoteId != null;
+    return "false".equals(quoteId);
   }
 
   @Override
   public QuoteDto getQuote(String idQuote) {
-    QuoteDto quoteDto = dtoFactory.getQuote();
-    quoteDto.setIdQuote(idQuote);
-    quoteDto.setIdCustomer(1);
     if (idQuote != null) {
-      if (idQuote.equals("confirm")) {
-        quoteDto.setState(QuoteState.PLACED_ORDERED);
-      } else if (idQuote.equals("setDate")) {
-        quoteDto.setState(QuoteState.CONFIRMED_DATE);
-      } else {
-        quoteDto.setState(QuoteState.QUOTE_ENTERED);
+      setList();
+      for (QuoteDto quoteDto : liste) {
+        if (quoteDto.getIdQuote().equals(idQuote)) {
+          return quoteDto;
+        }
       }
     }
-    return quoteDto;
+    return dtoFactory.getQuote();
   }
 
   @Override
@@ -60,12 +81,24 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public void setStartDate(QuoteDto quote) {
-
+    setList();
+    for (QuoteDto quoteDto : liste) {
+      if (quoteDto.getIdQuote().equals(quote.getIdQuote())) {
+        quoteDto.setStartDate(LocalDate.now());
+        break;
+      }
+    }
   }
 
   @Override
-  public void setStateQuote(QuoteState confirmedDate, String quoteId) {
-
+  public void setStateQuote(QuoteState state, String quoteId) {
+    setList();
+    for (QuoteDto quoteDto : liste) {
+      if (quoteDto.getIdQuote().equals(quoteId)) {
+        quoteDto.setState(state);
+        break;
+      }
+    }
   }
 
   @Override
@@ -80,29 +113,27 @@ public class MockQuoteDao implements QuoteDao {
       customerDto.setLastName(quotesFilterDto.getCustomerName());
       quoteDto.setCustomer(customerDto);
     }
-    // if(quotesFilterDto.getTotalAmountMin()!= null) {
-    // quoteDto.setTotalAmount(quotesFilterDto.getTotalAmountMin());
-    // }
-    // if(quotesFilterDto.getTotalAmountMin()!= null) {
-    //
-    // }
-    return null;
+    testArray.add(quoteDto);
+
+    return testArray;
   }
 
   @Override
-  public int getWorkduRation(String idQuote) {
+  public int getWorkDuration(String idQuote) {
     if (idQuote.equals("dateConfirme")) {
       return 20;
     }
-    return 0;
+    return 5;
   }
 
   @Override
   public QuoteState getStateQuote(String idQuote) {
-    if (idQuote.equals("introduit")) {
-      return QuoteState.QUOTE_ENTERED;
-    } else if (idQuote.equals("dateConfirme")) {
-      return QuoteState.CONFIRMED_DATE;
+    switch (idQuote) {
+      case "introduit":
+        return QuoteState.QUOTE_ENTERED;
+      case "dateConfirme":
+      case "Total":
+        return QuoteState.CONFIRMED_DATE;
     }
     return null;
   }

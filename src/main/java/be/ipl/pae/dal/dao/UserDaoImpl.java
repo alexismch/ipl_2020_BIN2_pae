@@ -7,7 +7,7 @@ import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dal.util.DalUtils;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -27,12 +27,12 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public UserDto getUserByPseudo(String pseudo) {
+  public UserDto getUserByPseudo(String pseudo) throws DalException {
 
     UserDto userDto = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE pseudo =?"
-        + " ORDER BY lastname, firstname");
+    ps = dalService.getPreparedStatement(
+        "Select * FROM mystherbe.users WHERE pseudo =?" + " ORDER BY lastname, firstname");
 
     try {
 
@@ -45,18 +45,18 @@ public class UserDaoImpl implements UserDao {
 
       userDto = users.get(0);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException("error with the db");
     }
     return userDto;
   }
 
   @Override
-  public UserDto getUser(int idUtilisateur) {
+  public UserDto getUser(int idUtilisateur) throws DalException {
 
-    UserDto userDto = null;
+    UserDto userDto;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE id_user =?"
-        + " ORDER BY lastname, firstname");
+    ps = dalService.getPreparedStatement(
+        "Select * FROM mystherbe.users WHERE id_user =?" + " ORDER BY lastname, firstname");
 
     try {
       ps.setInt(1, idUtilisateur);
@@ -68,17 +68,16 @@ public class UserDaoImpl implements UserDao {
 
       userDto = users.get(0);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException(ex);
     }
     return userDto;
   }
 
   @Override
-  public UserStatus getUserStatus(int userId) throws FatalException {
+  public UserStatus getUserStatus(int userId) throws DalException {
     UserStatus userStatus = null;
-    PreparedStatement ps = dalService
-        .getPreparedStatement("SELECT status FROM mystherbe.users WHERE id_user = ?"
-            + " ORDER BY lastname, firstname");
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT status FROM mystherbe.users WHERE id_user = ?" + " ORDER BY lastname, firstname");
     try {
       ps.setInt(1, userId);
       ResultSet resultSet = ps.executeQuery();
@@ -89,13 +88,13 @@ public class UserDaoImpl implements UserDao {
 
       ps.close();
     } catch (SQLException ex) {
-      throw new FatalException(ex);
+      throw new DalException(ex);
     }
     return userStatus;
   }
 
   @Override
-  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) {
+  public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws DalException {
 
     String query;
 
@@ -120,14 +119,13 @@ public class UserDaoImpl implements UserDao {
 
       return getUsersViaPs(ps);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException(ex);
     }
-    return new ArrayList<>();
   }
 
   /**
-   * Return list of users created from the request. If only one user is required you can call {@link
-   * List#get} with the index 0.
+   * Return list of users created from the request. If only one user is required you can call
+   * {@link List#get} with the index 0.
    *
    * @param ps The request that will be executed
    * @return A list of UserDto created form the database
@@ -156,10 +154,10 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public boolean checkEmailInDb(String email) throws FatalException {
+  public boolean checkEmailInDb(String email) throws DalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.users usr WHERE usr.email =?"
-        + " ORDER BY lastname, firstname");
+    ps = dalService.getPreparedStatement(
+        "Select * FROM mystherbe.users usr WHERE usr.email =?" + " ORDER BY lastname, firstname");
 
     try {
 
@@ -170,17 +168,16 @@ public class UserDaoImpl implements UserDao {
 
       }
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public boolean checkPseudoInDb(String pseudo) throws FatalException {
+  public boolean checkPseudoInDb(String pseudo) throws DalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
         "Select * FROM mystherbe.users usr WHERE REGEXP_REPLACE(LOWER(usr.pseudo), '\\s', '', 'g') "
-            + "=REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')"
-            + " ORDER BY lastname, firstname");
+            + "=REGEXP_REPLACE(LOWER(?), '\\s', '', 'g')" + " ORDER BY lastname, firstname");
 
     try {
 
@@ -191,12 +188,12 @@ public class UserDaoImpl implements UserDao {
 
       }
     } catch (SQLException ex) {
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public UserDto insertUser(UserDto userDto) throws FatalException {
+  public UserDto insertUser(UserDto userDto) throws DalException {
     PreparedStatement ps;
     String query = "INSERT INTO mystherbe.users " + "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?) "
         + "RETURNING id_user;";
@@ -222,36 +219,33 @@ public class UserDaoImpl implements UserDao {
       }
 
     } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public boolean isLinked(int userId) throws FatalException {
-    PreparedStatement ps =
-        dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_user = ?"
-            + " ORDER BY lastname, firstname");
+  public boolean isLinked(int userId) throws DalException {
+    PreparedStatement ps = dalService.getPreparedStatement(
+        "SELECT * FROM mystherbe.customers WHERE id_user = ?" + " ORDER BY lastname, firstname");
     try {
       ps.setInt(1, userId);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws FatalException {
-    PreparedStatement ps = dalService
-        .getPreparedStatement("UPDATE mystherbe.users SET status = ? WHERE id_user = ?");
+  public UserDto changeUserStatus(int userId, UserStatus newStatus) throws DalException {
+    PreparedStatement ps =
+        dalService.getPreparedStatement("UPDATE mystherbe.users SET status = ? WHERE id_user = ?");
     try {
       ps.setString(1, newStatus.getCode());
       ps.setInt(2, userId);
 
       ps.executeUpdate();
     } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
     return getUser(userId);
   }

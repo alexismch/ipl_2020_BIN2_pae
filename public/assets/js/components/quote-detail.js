@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../main.js';
-import {ajaxDELETE, ajaxGET, ajaxPUT} from '../utils/ajax.js';
+import {ajaxGET, ajaxPUT} from '../utils/ajax.js';
 import {Page} from './page.js';
 import {isWorker} from '../utils/userUtils.js';
 import {onSubmitWithAjax, serializeFormToJson} from '../utils/forms.js';
@@ -81,7 +81,7 @@ export class QuoteDetailPage extends Page {
     this._createQuoteDetailClient(quote.customer);
     this._createQuoteDetailDevelopmentTypeList(quote.developmentTypes);
     this._createQuoteDetailPhotoBefore(quote.idQuote, quote.listPhotoBefore);
-    this._createQuoteDetailPhotoAfter(quote.idQuote, quote.listPhotoAfter);
+    this._createQuoteDetailPhotoAfter(quote.idQuote, quote.listPhotoAfter, quote.photo ? quote.photo.id : undefined);
     this._createWorkerButton(quote);
   }
 
@@ -239,24 +239,18 @@ export class QuoteDetailPage extends Page {
    * @param {*} quoteId 
    */
   _deleteStartDate(quoteId) {
-    const $deleteStartDateButton = $(`<button class="btn btn-danger btn-sm deleteStartDate" type="button">Supprimer date des débuts de travaux</button>`);
+    const $form = $(`<form action="/api/quote?quoteId=${quoteId}" class="w-100" method="delete" novalidate>
+                      <button class="btn btn-danger btn-sm deleteStartDate">Supprimer date des débuts de travaux</button>
+                    </form>`);
 
-    $deleteStartDateButton.on('click', () => {
-
-      this.isLoading = true;
-
-      ajaxDELETE(`/api/quote?quoteId=${quoteId}`, null, (data) => {
-        this._changeView(data.quote);
-        this.isLoading = false;
-        createAlert('success', 'La date de début des travaux a été supprimée !');
-      }, () => {
-        this.isLoading = false;
-        createAlert('danger', 'La date de début des travaux n\'a pas pu être supprimée !');
-      });
+    onSubmitWithAjax($form, (data) => {
+      this._changeView(data.quote);
+      createAlert('success', 'La date de début des travaux a été supprimée');
+    }, () => {
+      createAlert('danger', 'La date de début des travaux n\'a pas pu être supprimée');
     });
 
-
-    return $deleteStartDateButton;
+    return $form;
   }
 
   /**
@@ -385,13 +379,13 @@ export class QuoteDetailPage extends Page {
               this._createPhotoItem($list, quoteId, {
                 base64: data['pictureData'][i],
                 title: data['pictureTitle'][i]
-              });
+              }, false);
             }
           } else {
             this._createPhotoItem($list, quoteId, {
               base64: data['pictureData'],
               title: data['pictureTitle']
-            });
+            }, false);
           }
 
           $addPictureForm.remove();
@@ -512,25 +506,25 @@ export class QuoteDetailPage extends Page {
    * give all the photos of the quote after development
    * @param {*} typeList
    */
-  _createQuoteDetailPhotoAfter(quoteId, photoList) {
+  _createQuoteDetailPhotoAfter(quoteId, photoList, photoFavId = -1) {
     const $quoteDetailPhoto = this._$view.find('.detail-quote-photos-after');
     $quoteDetailPhoto.empty().append('<div class="card-header d-flex justify-content-between"><h4>Photos après aménagements</h4></div>');
-    this._createPhotoList($quoteDetailPhoto, quoteId, photoList, false);
+    this._createPhotoList($quoteDetailPhoto, quoteId, photoList, false, photoFavId);
   }
 
-  _createPhotoList($container, quoteId, photoList, isBefore = true) {
+  _createPhotoList($container, quoteId, photoList, isBefore = true, photoFavId = -1) {
     const $cardBody = $('<div class="card-body"></div>');
+    const $list = $('<div>', {class: 'list'});
     if (photoList.length == 0) {
       $cardBody.append(`<p class="empty">Il n'y a pas de photo d'${isBefore ? 'avant' : 'après'} aménagement !</p>`);
     } else {
-      const $list = $('<div>', {class: 'list'});
-      photoList.forEach(photo => this._createPhotoItem($list, quoteId, photo, isBefore));
-      $cardBody.append($list);
+      photoList.forEach(photo => this._createPhotoItem($list, quoteId, photo, isBefore, photoFavId));
     }
+    $cardBody.append($list);
     $container.append($cardBody);
   }
 
-  _createPhotoItem($container, quoteId, photo, isBefore = true) {
+  _createPhotoItem($container, quoteId, photo, isBefore = true, photoFavId = -1) {
     const $div = $(`<div class="d-flex"><img src="${photo.base64}" alt="${photo.title}"></div>`);
     if (!isBefore) {
       const $iconContainer = $('<div class="likeIcon">');
@@ -549,7 +543,11 @@ export class QuoteDetailPage extends Page {
       });
       $iconContainer.append($icon);
       $div.prepend($iconContainer);
+      if (photoFavId === photo.id) {
+        $icon.removeClass('far').addClass('fas');
+      }
     }
+    $container.parent().find('.empty').remove();
     $container.append($div);
   }
 

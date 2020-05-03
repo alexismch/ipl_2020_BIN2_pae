@@ -4,7 +4,7 @@ import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,6 @@ public class MockPhotoDao implements PhotoDao {
 
   @Injected
   private DtoFactory dtoFactory;
-
-  @Override
-  public PhotoDto getPhotoPerDevelopmentType() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   @Override
   public void insert(PhotoDto photoDto) {
@@ -31,11 +25,10 @@ public class MockPhotoDao implements PhotoDao {
     PhotoDto photoDto = dtoFactory.getPhoto();
     if (isBefore) {
       photoDto.setId(1);
-      photoDto.setBeforeWork(isBefore);
     } else {
       photoDto.setId(2);
-      photoDto.setBeforeWork(isBefore);
     }
+    photoDto.setBeforeWork(isBefore);
     listToReturn.add(photoDto);
     return listToReturn;
   }
@@ -54,7 +47,7 @@ public class MockPhotoDao implements PhotoDao {
 
 
   @Override
-  public PhotoDto getPhotoById(int idPhoto) throws FatalException {
+  public PhotoDto getPhotoById(int idPhoto) throws DalException {
     // TODO Auto-generated method stub
     return null;
   }

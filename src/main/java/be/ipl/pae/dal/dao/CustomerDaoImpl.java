@@ -6,7 +6,7 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dal.util.DalUtils;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class CustomerDaoImpl implements CustomerDao {
   private DtoFactory customerDtoFactory;
 
   @Override
-  public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) {
+  public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) throws DalException {
 
     String query;
 
@@ -59,10 +59,8 @@ public class CustomerDaoImpl implements CustomerDao {
       }
       return getCustomersViaPs(ps);
     } catch (SQLException ex) {
-      ex.printStackTrace();
+      throw new DalException("error with the db");
     }
-
-    return new ArrayList<>();
   }
 
   /**
@@ -97,7 +95,7 @@ public class CustomerDaoImpl implements CustomerDao {
   }
 
   @Override
-  public CustomerDto insertCustomer(CustomerDto customer) throws FatalException {
+  public CustomerDto insertCustomer(CustomerDto customer) throws DalException {
 
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.customers(\r\n"
         + "    id_customer, lastname, firstname, address, postal_code, city, email, tel_nbr)\r\n"
@@ -122,13 +120,12 @@ public class CustomerDaoImpl implements CustomerDao {
       }
 
     } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db!");
     }
   }
 
   @Override
-  public boolean exists(int customerId) throws FatalException {
+  public boolean exists(int customerId) throws DalException {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT * FROM mystherbe.customers WHERE id_customer = ?"
             + " ORDER BY lastname, firstname");
@@ -137,12 +134,12 @@ public class CustomerDaoImpl implements CustomerDao {
       ps.setInt(1, customerId);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public boolean isLinked(int customerId) throws FatalException {
+  public boolean isLinked(int customerId) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
         "SELECT * FROM mystherbe.customers WHERE id_customer = ? AND id_user IS NOT NULL"
             + " ORDER BY lastname, firstname");
@@ -150,12 +147,12 @@ public class CustomerDaoImpl implements CustomerDao {
       ps.setInt(1, customerId);
       return ps.executeQuery().next();
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public CustomerDto getCustomer(int idCustomer) throws FatalException {
+  public CustomerDto getCustomer(int idCustomer) throws DalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_customer =? "
         + " ORDER BY lastname, firstname");
@@ -163,10 +160,10 @@ public class CustomerDaoImpl implements CustomerDao {
   }
 
   @Override
-  public CustomerDto getCustomerByIdUser(int idUser) throws FatalException {
+  public CustomerDto getCustomerByIdUser(int idUser) throws DalException {
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * FROM mystherbe.customers WHERE id_user =? "
-        + " ORDER BY lastname, firstname");
+    ps = dalService.getPreparedStatement(
+        "Select * FROM mystherbe.customers WHERE id_user =? " + " ORDER BY lastname, firstname");
     return getCustomerViaPs(ps, idUser);
   }
 
@@ -176,9 +173,9 @@ public class CustomerDaoImpl implements CustomerDao {
    * @param ps the PreparedStatement
    * @param id the first paramter of the ps
    * @return the CustomerDto or null
-   * @throws FatalException if an error occurred with the db
+   * @throws DalException if an error occurred with the db
    */
-  private CustomerDto getCustomerViaPs(PreparedStatement ps, int id) throws FatalException {
+  private CustomerDto getCustomerViaPs(PreparedStatement ps, int id) throws DalException {
     CustomerDto customerDto = customerDtoFactory.getCustomer();
     try {
       ps.setInt(1, id);
@@ -198,7 +195,7 @@ public class CustomerDaoImpl implements CustomerDao {
         }
       }
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
     return customerDto;
   }

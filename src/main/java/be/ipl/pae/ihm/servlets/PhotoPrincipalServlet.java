@@ -3,8 +3,6 @@ package be.ipl.pae.ihm.servlets;
 import be.ipl.pae.biz.ucc.PhotoUcc;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
-import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.ihm.Util;
 
 import com.owlike.genson.GensonBuilder;
 
@@ -25,15 +23,11 @@ public class PhotoPrincipalServlet extends AbstractServlet {
     int idPhoto = Integer.parseInt(id);
 
     try {
-      GensonBuilder gensonBuilder = Util.createGensonBuilder().acceptSingleValueAsList(true);
+      GensonBuilder gensonBuilder = createGensonBuilder().acceptSingleValueAsList(true);
       sendSuccessWithJson(resp, "photosPrincipal",
           gensonBuilder.create().serialize(photoUcc.getPhotoById(idPhoto)));
-    } catch (FatalException fatalE) {
-      sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fatalE.getMessage());
     } catch (BizException bizE) {
       sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
-    } catch (Exception ex) {
-      sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
 }

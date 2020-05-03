@@ -5,7 +5,7 @@ import be.ipl.pae.biz.dto.PhotoVisibleDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dal.services.DalService;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.exceptions.DalException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,17 +22,7 @@ public class PhotoDaoImpl implements PhotoDao {
   private DtoFactory photoDtoFactory;
 
   @Override
-  public PhotoDto getPhotoPerDevelopmentType() {
-    // autre uce case, pour plus tard
-    // PhotoDto photoDto;
-    // PreparedStatement ps;
-    // ps = dalService.getPreparedStatement("Select * FROM mystherbe.users WHERE ");
-    // TODO: méthode + javadoc
-    return null;
-  }
-
-  @Override
-  public void insert(PhotoDto photoDto) throws FatalException {
+  public void insert(PhotoDto photoDto) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.photos "
         + "(title, base64, id_quote, is_visible, id_type, before_work) "
         + "VALUES (?, ?, ?, ?, ?, ?)");
@@ -46,13 +36,12 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setBoolean(6, photoDto.isBeforeWork());
       ps.execute();
     } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new FatalException("error with the db");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public List<PhotoDto> getPhotos(String idQuote, Boolean isBefore) throws FatalException {
+  public List<PhotoDto> getPhotos(String idQuote, Boolean isBefore) throws DalException {
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
         "Select * FROM mystherbe.photos WHERE id_quote =? AND before_work =?");
@@ -62,7 +51,7 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setBoolean(2, isBefore);
       return getPhotosViaPs(ps);
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
@@ -72,9 +61,9 @@ public class PhotoDaoImpl implements PhotoDao {
    *
    * @param ps The request that will be executed
    * @return A list of PhotoDto created form the database
-   * @throws FatalException if an SQL error occurred
+   * @throws DalException if an SQL error occurred
    */
-  private List<PhotoDto> getPhotosViaPs(PreparedStatement ps) throws FatalException {
+  private List<PhotoDto> getPhotosViaPs(PreparedStatement ps) throws DalException {
 
     try {
       List<PhotoDto> photos = new ArrayList<>();
@@ -94,24 +83,22 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.close();
       return photos;
     } catch (Exception ex) {
-      throw new FatalException(ex.getMessage());
+      throw new DalException(ex.getMessage());
     }
   }
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos() throws FatalException {
+  public List<PhotoVisibleDto> getVisiblePhotos() throws DalException {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type"
             + " FROM mystherbe.photos p, mystherbe.development_types dt, mystherbe.quotes q"
             + " WHERE p.id_type = dt.id_type AND p.is_visible = true"
-            + " AND q.id_quote = p.id_quote"
-            + " AND q.id_state = 7"
-            + " ORDER BY title");
+            + " AND q.id_quote = p.id_quote" + " AND q.id_state = 7" + " ORDER BY title");
     return getVisiblePhotosViaPs(ps);
   }
 
   @Override
-  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws FatalException {
+  public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws DalException {
     PreparedStatement ps =
         dalService.getPreparedStatement("SELECT p.title title, p.base64 base64, dt.title dev_type "
             + "FROM mystherbe.photos p, mystherbe.development_types dt "
@@ -122,11 +109,11 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.setInt(1, typeId);
       return getVisiblePhotosViaPs(ps);
     } catch (SQLException ex) {
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
-  private List<PhotoVisibleDto> getVisiblePhotosViaPs(PreparedStatement ps) throws FatalException {
+  private List<PhotoVisibleDto> getVisiblePhotosViaPs(PreparedStatement ps) throws DalException {
     try {
       List<PhotoVisibleDto> photos = new ArrayList<>();
       try (ResultSet rs = ps.executeQuery()) {
@@ -141,17 +128,16 @@ public class PhotoDaoImpl implements PhotoDao {
       ps.close();
       return photos;
     } catch (SQLException sqlE) {
-      sqlE.printStackTrace();
-      throw new FatalException("error with the db!");
+      throw new DalException("error with the db");
     }
   }
 
   @Override
-  public PhotoDto getPhotoById(int idPhoto) throws FatalException {
+  public PhotoDto getPhotoById(int idPhoto) throws DalException {
     PhotoDto photoDtoToReturn = null;
     PreparedStatement ps;
-    ps = dalService.getPreparedStatement("Select * " + "FROM mystherbe.photos WHERE id_photo =? "
-        + " ORDER BY title");
+    ps = dalService.getPreparedStatement(
+        "Select * " + "FROM mystherbe.photos WHERE id_photo =? " + " ORDER BY title");
 
     try {
 
@@ -168,8 +154,7 @@ public class PhotoDaoImpl implements PhotoDao {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new FatalException("error in the db!");
+      throw new DalException("error in the db");
     }
     return photoDtoToReturn;
   }
