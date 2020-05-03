@@ -18,6 +18,7 @@ class DatabaseConfig {
   @Injected("password")
   private String password;
 
+  @SuppressWarnings("unused")
   @AfterInjection
   private void checkDriver() {
     try {
