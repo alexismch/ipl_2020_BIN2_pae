@@ -204,7 +204,6 @@ class QuoteUccImpl implements QuoteUcc {
     return workDuration;
   }
 
-
   /**
    * Set the state of the in the db.
    *

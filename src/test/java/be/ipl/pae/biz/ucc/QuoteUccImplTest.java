@@ -69,7 +69,6 @@ public class QuoteUccImplTest {
         () -> assertTrue(quote.getListPhotoBefore().get(0).isBeforeWork()),
         () -> assertFalse(quote.getListPhotoAfter().get(0).isBeforeWork())
     );
-
   }
 
   @DisplayName("id quote is null")
@@ -179,5 +178,29 @@ public class QuoteUccImplTest {
     QuoteDto quoteDto = dtoFactory.getQuote();
     quoteDto.setIdQuote("true");
     assertDoesNotThrow(() -> qcc.insert(quoteDto));
+  }
+
+  @DisplayName("test set favorite photo with non-existent quote")
+  @Test
+  public void testSetFavoritePhotoKo1() {
+    assertThrows(BizException.class, () -> qcc.setFavoritePhoto("false", 2));
+  }
+
+  @DisplayName("test set favorite photo with non-existent photo")
+  @Test
+  public void testSetFavoritePhotoKo2() {
+    assertThrows(BizException.class, () -> qcc.setFavoritePhoto("ok", 8));
+  }
+
+  @DisplayName("test set favorite photo with non-linked photo")
+  @Test
+  public void testSetFavoritePhotoKo3() {
+    assertThrows(BizException.class, () -> qcc.setFavoritePhoto("ok", 5));
+  }
+
+  @DisplayName("test set favorite photo with linked photo")
+  @Test
+  public void testSetFavoritePhotoOk() {
+    assertThrows(BizException.class, () -> qcc.setFavoritePhoto("ok", 4));
   }
 }
