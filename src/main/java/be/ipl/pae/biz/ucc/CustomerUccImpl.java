@@ -8,6 +8,7 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
+import be.ipl.pae.ihm.Util;
 
 import java.util.List;
 
@@ -23,6 +24,15 @@ public class CustomerUccImpl implements CustomerUcc {
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
     CustomerDto customer = null;
     try {
+      if (Util.verifyNotEmpty(customerDto.getFirstName())
+          || Util.verifyNotEmpty(customerDto.getLastName())
+          || Util.verifyNotEmpty(customerDto.getAddress())
+          || Util.verifyNotEmpty(customerDto.getEmail())
+          || Util.verifyNotEmpty(customerDto.getCity())
+          || Util.verifyNotEmpty(customerDto.getPhoneNumber())) {
+        throw new BizException("echec insertion: un ou plusieurs champ(s) invalide");
+      }
+
       dalService.startTransaction();
       customer = customerDao.insertCustomer(customerDto);
 

@@ -1,6 +1,7 @@
 package be.ipl.pae.biz.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.biz.dto.CustomerDto;
@@ -8,6 +9,7 @@ import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
+import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -84,32 +86,45 @@ class CustomerUccImplTest {
     assertNotNull(custcc.getCustomers(custoFilt));
   }
 
-  /*
-   * @DisplayName("ucc test different from null")
-   *
-   * @Test public void testInsertCustomer1() { custo.setFirstName("");
-   * assertThrows(BizException.class, () -> custcc.insert(custo)); }
-   *
-   * @DisplayName("ucc test different from null")
-   *
-   * @Test public void testInsertCustomer2() { custo.setLastName("");
-   * assertThrows(BizException.class, () -> custcc.insert(custo)); }
-   *
-   * @DisplayName("ucc test different from null")
-   *
-   * @Test public void testInsertCustomer3() { custo.setCity(""); assertThrows(BizException.class,
-   * () -> custcc.insert(custo)); }
-   *
-   * @DisplayName("ucc test different from null")
-   *
-   * @Test public void testInsertCustomer4() { custo.setEmail(""); assertThrows(BizException.class,
-   * () -> custcc.insert(custo)); }
-   *
-   * @DisplayName("ucc test different from null")
-   *
-   * @Test public void testInsertCustomer5() { custo.setPhoneNumber("");
-   * assertThrows(BizException.class, () -> custcc.insert(custo)); }
-   */
+
+  @DisplayName("empty parameter 1")
+  @Test
+  public void testInsertCustomer1() {
+    custo.setFirstName("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
+
+  @DisplayName("empty parameter 2")
+  @Test
+  public void testInsertCustomer2() {
+    custo.setLastName("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
+
+  @DisplayName("empty parameter 3")
+  @Test
+  public void testInsertCustomer3() {
+    custo.setCity("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
+
+  @DisplayName("empty parameter 4")
+  @Test
+  public void testInsertCustomer4() {
+    custo.setEmail("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
+  @DisplayName("empty parameter 5")
+  @Test
+  public void testInsertCustomer5() {
+    custo.setPhoneNumber("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
 
 
 }
