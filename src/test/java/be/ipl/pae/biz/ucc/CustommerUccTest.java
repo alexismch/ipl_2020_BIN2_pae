@@ -1,11 +1,13 @@
 package be.ipl.pae.biz.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
+import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -53,6 +55,11 @@ class CustommerUccTest {
     assertNotNull(custcc);
   }
 
+  @Test
+  public void testInsertCustomer1() {
+    custo.setFirstName("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
   /*
    * @DisplayName("ucc test different from null")
    * 

@@ -22,7 +22,8 @@ public class CustomerUccImpl implements CustomerUcc {
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
     try {
       try {
-
+        if (customerDto.getFirstName() == "")
+          throw new BizException("nom vide");
         dalService.startTransaction();
         return customerDao.insertCustomer(customerDto);
 
