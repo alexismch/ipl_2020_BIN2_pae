@@ -254,19 +254,24 @@ public class QuoteUccImplTest {
   @Test
   public void testSetStartDateQuoteKo() {
     QuoteDto quoteDto = dtoFactory.getQuote();
-    assertAll(() -> {
-      quoteDto.setIdQuote("dateConfirme");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("partiel");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("Total");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("ok");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    });
+    assertAll(
+        () -> {
+          quoteDto.setIdQuote("dateConfirme");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("partiel");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("Total");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("ok");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        }
+     );
   }
 
   @DisplayName("test set start date with good state")
