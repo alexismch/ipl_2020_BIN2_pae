@@ -43,7 +43,7 @@ public class LinkUccImplTest {
   @DisplayName("link test with non-existent user")
   @Test
   public void testLinkKo2() {
-    assertThrows(BizException.class, () -> linkCcUcc.link(1, 3));
+    assertThrows(BizException.class, () -> linkCcUcc.link(1, 4));
   }
 
   @DisplayName("link test with linked customer")

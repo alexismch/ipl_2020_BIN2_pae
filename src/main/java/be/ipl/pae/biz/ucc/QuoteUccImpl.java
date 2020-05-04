@@ -65,16 +65,15 @@ class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto getQuote(String idQuote) throws BizException {
-    QuoteDto quoteDto = null;
     try {
       dalService.startTransaction();
-      quoteDto = getQuoteBis(idQuote);
+      return getQuoteBis(idQuote);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
+      throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
-    return quoteDto;
   }
 
   private QuoteDto getQuoteBis(String idQuote) throws BizException, DalException {
