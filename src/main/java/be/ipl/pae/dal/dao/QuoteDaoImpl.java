@@ -156,33 +156,6 @@ class QuoteDaoImpl implements QuoteDao {
     return quotesList;
   }
 
-  private List<QuoteDto> getCustomerQuotesViaPs(PreparedStatement ps)
-      throws SQLException, DalException {
-
-    List<QuoteDto> customerQuotes = new ArrayList<>();
-    try (ResultSet resultSet = ps.executeQuery()) {
-      while (resultSet.next()) {
-        QuoteDto quoteDto = quoteDtoFactory.getQuote();
-        quoteDto.setIdQuote(resultSet.getString(1));
-        quoteDto.setIdCustomer(resultSet.getInt(2));
-        quoteDto.setQuoteDate(resultSet.getDate(3).toLocalDate());
-        quoteDto.setTotalAmount(resultSet.getDouble(4));
-        quoteDto.setWorkDuration(resultSet.getInt(5));
-        quoteDto.setState(QuoteState.getById(resultSet.getInt(6)));
-        Date startDate = resultSet.getDate(7);
-        if (startDate != null) {
-          quoteDto.setStartDate(startDate.toLocalDate());
-        }
-        customerQuotes.add(quoteDto);
-      }
-    } catch (SQLException ex) {
-      throw new DalException(ex);
-    }
-    ps.close();
-
-    return customerQuotes;
-  }
-
   @Override
   public void linkToType(String quoteId, int typeId) throws DalException {
     PreparedStatement ps = dalService.getPreparedStatement(
