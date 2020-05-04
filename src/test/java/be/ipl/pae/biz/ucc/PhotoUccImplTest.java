@@ -86,19 +86,28 @@ public class PhotoUccImplTest {
     assertThrows(BizException.class, () -> photoUcc.insert(list));
   }
 
-  @DisplayName("insert photos with right infos")
+  @DisplayName("insert photos with right infos, state 6")
   @Test
-  public void testInsertOk() {
-    PhotoDto photoDto1 = dtoFactory.getPhoto();
-    photoDto1.setIdType(1);
-    photoDto1.setIdQuote("Total");
-
-    PhotoDto photoDto2 = dtoFactory.getPhoto();
-    photoDto2.setIdType(1);
-    photoDto2.setIdQuote("ok");
+  public void testInsertOk1() {
+    PhotoDto photoDto = dtoFactory.getPhoto();
+    photoDto.setIdType(1);
+    photoDto.setIdQuote("Total");
 
     List<PhotoDto> list = new ArrayList<>();
-    list.add(photoDto2);
+    list.add(photoDto);
+
+    assertDoesNotThrow(() -> photoUcc.insert(list));
+  }
+
+  @DisplayName("insert photos with right infos, state 7")
+  @Test
+  public void testInsertOk2() {
+    PhotoDto photoDto = dtoFactory.getPhoto();
+    photoDto.setIdType(1);
+    photoDto.setIdQuote("ok");
+
+    List<PhotoDto> list = new ArrayList<>();
+    list.add(photoDto);
 
     assertDoesNotThrow(() -> photoUcc.insert(list));
   }

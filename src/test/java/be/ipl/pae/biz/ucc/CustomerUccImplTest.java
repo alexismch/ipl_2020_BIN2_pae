@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import be.ipl.pae.biz.dto.CustomerDto;
@@ -13,7 +12,6 @@ import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.dependencies.InjectionService;
-import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.main.PropertiesLoader;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,8 +57,6 @@ class CustomerUccImplTest {
     custoFilt = dtoFactory.getCustomersFilter();
   }
 
-
-
   @DisplayName("ucc test different from null")
   @Test
   public void testUcc() {
@@ -92,49 +88,11 @@ class CustomerUccImplTest {
     assertNotNull(custcc.getCustomers(custoFilt));
   }
 
-  @DisplayName("empty parameter 2")
+
+  @DisplayName("test insert customer")
   @Test
-  public void testInsertCustomer2() {
-    custo.setLastName("");
-    assertThrows(BizException.class, () -> custcc.insert(custo));
-  }
-
-
-  @DisplayName("empty parameter 1")
-  @Test
-  public void testInsertCustomer1() {
-    custo.setFirstName("");
-    assertThrows(BizException.class, () -> custcc.insert(custo));
-  }
-
-
-  @DisplayName("empty parameter 3")
-  @Test
-  public void testInsertCustomer3() {
-    custo.setCity("");
-    assertThrows(BizException.class, () -> custcc.insert(custo));
-  }
-
-  @DisplayName("empty parameter 7")
-  @Test
-  public void testCreerContactUtilisateur1() {
-    custo.setIdCustomer(-1);
-    assertThrows(BizException.class, () -> custcc.insert(custo));
-  }
-
-
-  @DisplayName("empty parameter 4")
-  @Test
-  public void testInsertCustomer4() {
-    custo.setEmail("");
-    assertThrows(BizException.class, () -> custcc.insert(custo));
-  }
-
-  @DisplayName("empty parameter 5")
-  @Test
-  public void testInsertCustomer5() {
-    custo.setPhoneNumber("");
-    assertThrows(BizException.class, () -> custcc.insert(custo));
+  public void testInsertCustomer() {
+    assertEquals(3, custcc.insert(custo).getIdCustomer());
   }
 
   @DisplayName("list customer without filter")

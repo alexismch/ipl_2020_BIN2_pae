@@ -2,7 +2,6 @@ package be.ipl.pae.biz.ucc;
 
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.CustomersFilterDto;
-import be.ipl.pae.exceptions.BizException;
 
 import java.util.List;
 
@@ -13,9 +12,8 @@ public interface CustomerUcc {
    *
    * @param customerDto the cusyomer to insert
    * @return a CustomerDto object that represents the customer
-   * @throws BizException if some attributes of customerDto are empty
    */
-  CustomerDto insert(CustomerDto customerDto) throws BizException;
+  CustomerDto insert(CustomerDto customerDto);
 
   /**
    * Get all customers saved in the database.
