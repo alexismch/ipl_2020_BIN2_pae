@@ -19,30 +19,34 @@ public class MockUserDao implements UserDao {
 
   @Override
   public UserDto changeUserStatus(int userId, UserStatus newStatus) {
-    if (userId == 1) {
-      UserDto userDto = dtoFactory.getUser();
-      userDto.setPseudo("sousou");
-      userDto.setId(userId);
-      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      userDto.setStatus(newStatus);
-      return userDto;
-    } else if (userId == 2) {
-      UserDto userDto = dtoFactory.getUser();
-      userDto.setPseudo("yessai");
-      userDto.setId(userId);
-      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      userDto.setStatus(newStatus);
-      return userDto;
-    } else if (userId == 3) {
-      UserDto userDto = dtoFactory.getUser();
-      userDto.setPseudo("nop");
-      userDto.setId(userId);
-      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      userDto.setStatus(newStatus);
-      return userDto;
+    switch (userId) {
+      case 1: {
+        UserDto userDto = dtoFactory.getUser();
+        userDto.setPseudo("sousou");
+        userDto.setId(userId);
+        userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        userDto.setStatus(newStatus);
+        return userDto;
+      }
+      case 2: {
+        UserDto userDto = dtoFactory.getUser();
+        userDto.setPseudo("yessai");
+        userDto.setId(userId);
+        userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        userDto.setStatus(newStatus);
+        return userDto;
+      }
+      case 3: {
+        UserDto userDto = dtoFactory.getUser();
+        userDto.setPseudo("nop");
+        userDto.setId(userId);
+        userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        userDto.setStatus(newStatus);
+        return userDto;
+      }
+      default:
+        return null;
     }
-
-    return null;
   }
 
   @Override
@@ -72,8 +76,9 @@ public class MockUserDao implements UserDao {
         utilisateurDto.setStatus(UserStatus.NOT_ACCEPTED);
         return utilisateurDto;
       }
+      default:
+        return null;
     }
-    return null;
   }
 
   @Override
@@ -103,8 +108,9 @@ public class MockUserDao implements UserDao {
         userDto.setStatus(UserStatus.NOT_ACCEPTED);
         return userDto;
       }
+      default:
+        return null;
     }
-    return null;
   }
 
   @Override
@@ -116,8 +122,9 @@ public class MockUserDao implements UserDao {
         return UserStatus.CUSTOMER;
       case 3:
         return UserStatus.NOT_ACCEPTED;
+      default:
+        return null;
     }
-    return null;
   }
 
   @Override
