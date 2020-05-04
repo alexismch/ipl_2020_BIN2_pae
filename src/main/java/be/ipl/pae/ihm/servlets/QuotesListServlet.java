@@ -126,10 +126,11 @@ public class QuotesListServlet extends AbstractServlet {
         listToReturn = quoteUcc.getQuotesFiltered(quotesFilterDto, id);
       }
     }
-
+    int i = 0;
     for (QuoteDto quoteDto2 : listToReturn) {
+      i++;
       for (DevelopmentTypeDto dev : quoteDto2.getDevelopmentTypes()) {
-        System.out.println("test dev : " + dev.getTitle());
+        System.out.println("test : " + i + dev.getTitle());
 
       }
     }
