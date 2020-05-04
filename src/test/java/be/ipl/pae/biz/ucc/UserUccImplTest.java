@@ -180,4 +180,14 @@ public class UserUccImplTest {
             ucc.changeUserStatus(3, UserStatus.WORKER).getStatus())
     );
   }
+
+  @DisplayName("test get user")
+  @Test
+  public void testGetUser() {
+    assertAll(
+        () -> assertEquals("sousou", ucc.getUser(1).getPseudo()),
+        () -> assertEquals("yessai", ucc.getUser(2).getPseudo()),
+        () -> assertEquals("nop", ucc.getUser(3).getPseudo())
+    );
+  }
 }

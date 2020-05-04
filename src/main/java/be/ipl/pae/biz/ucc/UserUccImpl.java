@@ -70,17 +70,15 @@ class UserUccImpl implements UserUcc {
 
   @Override
   public UserDto getUser(int id) {
-    UserDto userDto;
     try {
       dalService.startTransaction();
-      userDto = userDao.getUser(id);
+      return userDao.getUser(id);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
-    return userDto;
   }
 
   @Override
