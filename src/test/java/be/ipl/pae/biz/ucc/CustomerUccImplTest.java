@@ -59,6 +59,8 @@ class CustomerUccImplTest {
     custoFilt = dtoFactory.getCustomersFilter();
   }
 
+
+
   @DisplayName("ucc test different from null")
   @Test
   public void testUcc() {
@@ -112,6 +114,14 @@ class CustomerUccImplTest {
     custo.setCity("");
     assertThrows(BizException.class, () -> custcc.insert(custo));
   }
+
+  @DisplayName("empty parameter 7")
+  @Test
+  public void testCreerContactUtilisateur1() {
+    custo.setIdCustomer(-1);
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
 
   @DisplayName("empty parameter 4")
   @Test
