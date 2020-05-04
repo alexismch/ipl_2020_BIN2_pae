@@ -9,8 +9,7 @@ public interface Quote extends QuoteDto {
    * QuoteState#CANCELLED} this method will always return true
    *
    * @param state the state of the quote in the db
-   * @return true if the state in the db is the same that we received or if the ste state ==
-   * CANCELED, otherwise false
+   * @return true if the state is the same or if the state == CANCELED, otherwise false
    */
   boolean checkState(QuoteState state);
 }
