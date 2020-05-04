@@ -1,5 +1,7 @@
 package be.ipl.pae.biz.ucc;
 
+import static be.ipl.pae.ihm.servlets.utils.Util.verifyNotEmpty;
+
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.CustomersFilterDto;
 import be.ipl.pae.dal.dao.CustomerDao;
@@ -8,7 +10,6 @@ import be.ipl.pae.dependencies.Injected;
 import be.ipl.pae.exceptions.BizException;
 import be.ipl.pae.exceptions.DalException;
 import be.ipl.pae.exceptions.FatalException;
-import be.ipl.pae.ihm.servlets.utils.Util;
 
 import java.util.List;
 
@@ -24,26 +25,23 @@ class CustomerUccImpl implements CustomerUcc {
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
     CustomerDto customer;
     try {
-      if (Util.verifyNotEmpty(customerDto.getFirstName())
-          || Util.verifyNotEmpty(customerDto.getLastName())
-          || Util.verifyNotEmpty(customerDto.getAddress())
-          || Util.verifyNotEmpty(customerDto.getEmail())
-          || Util.verifyNotEmpty(customerDto.getCity())
-          || Util.verifyNotEmpty(customerDto.getPhoneNumber())) {
+      //TODO : supprimer ?
+      if (verifyNotEmpty(customerDto.getFirstName(), customerDto.getLastName(),
+          customerDto.getAddress(), customerDto.getEmail(), customerDto.getCity(),
+          customerDto.getPhoneNumber())) {
         throw new BizException("echec insertion: un ou plusieurs champ(s) invalide");
       }
 
       dalService.startTransaction();
       customer = customerDao.insertCustomer(customerDto);
 
+      return customer;
     } catch (DalException fx) {
       dalService.rollbackTransaction();
       throw new FatalException(fx);
     } finally {
       dalService.commitTransaction();
     }
-
-    return customer;
   }
 
   @Override
