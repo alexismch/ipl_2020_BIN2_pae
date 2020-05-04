@@ -62,14 +62,11 @@ public class QuoteUccImplTest {
   @Test
   public void testGetQuoteOk() throws BizException {
     QuoteDto quote = qcc.getQuote("ok");
-    assertAll(
-        () -> assertNotNull(quote),
-        () -> assertEquals(1, quote.getIdCustomer()),
+    assertAll(() -> assertNotNull(quote), () -> assertEquals(1, quote.getIdCustomer()),
         () -> assertFalse(quote.getListPhotoBefore().isEmpty()),
         () -> assertFalse(quote.getListPhotoAfter().isEmpty()),
         () -> assertTrue(quote.getListPhotoBefore().get(0).isBeforeWork()),
-        () -> assertFalse(quote.getListPhotoAfter().get(0).isBeforeWork())
-    );
+        () -> assertFalse(quote.getListPhotoAfter().get(0).isBeforeWork()));
   }
 
   @DisplayName("id quote is null")
@@ -125,7 +122,7 @@ public class QuoteUccImplTest {
   public void testUseStateManagerOk2() throws BizException {
     QuoteDto quote = dtoFactory.getQuote();
 
-    quote.setIdQuote("dateConfirme");
+    quote.setIdQuote("dateConfirme2");
     quote.setState(QuoteState.CONFIRMED_DATE);
     quote.setIdCustomer(1);
 
@@ -142,7 +139,7 @@ public class QuoteUccImplTest {
   public void testUseStateManagerOk3() throws BizException {
     QuoteDto quote = dtoFactory.getQuote();
 
-    quote.setIdQuote("Total");
+    quote.setIdQuote("dateConfirme");
     quote.setState(QuoteState.CONFIRMED_DATE);
     quote.setIdCustomer(1);
 
@@ -150,6 +147,54 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.TOTAL_INVOICE, quoteToTest.getState()));
+
+  }
+
+  @Test
+  @DisplayName("test useStateManager when all is good  and state == PARTIAL_INVOICE")
+  public void testUseStateManagerOk4() throws BizException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("partiel");
+    quote.setState(QuoteState.PARTIAL_INVOICE);
+    quote.setIdCustomer(1);
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertSame(QuoteState.TOTAL_INVOICE, quoteToTest.getState()));
+
+  }
+
+  @Test
+  @DisplayName("test useStateManager when all is good  and state == Total_INVOICE")
+  public void testUseStateManagerOk5() throws BizException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("Total");
+    quote.setState(QuoteState.TOTAL_INVOICE);
+    quote.setIdCustomer(1);
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertSame(QuoteState.VISIBLE, quoteToTest.getState()));
+
+  }
+
+  @Test
+  @DisplayName("test useStateManager when all is good  and state == Cancelled")
+  public void testUseStateManagerOk6() throws BizException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("annule");
+    quote.setState(QuoteState.CANCELLED);
+    quote.setIdCustomer(1);
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertSame(QuoteState.CANCELLED, quoteToTest.getState()));
 
   }
 
@@ -209,28 +254,19 @@ public class QuoteUccImplTest {
   @Test
   public void testSetStartDateQuoteKo() {
     QuoteDto quoteDto = dtoFactory.getQuote();
-    assertAll(
-        () -> {
-          quoteDto.setIdQuote("dateConfirme");
-          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-        },
-        () -> {
-          quoteDto.setIdQuote("partiel");
-          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-        },
-        () -> {
-          quoteDto.setIdQuote("Total");
-          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-        },
-        () -> {
-          quoteDto.setIdQuote("ok");
-          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-        },
-        () -> {
-          quoteDto.setIdQuote("annule");
-          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-        }
-    );
+    assertAll(() -> {
+      quoteDto.setIdQuote("dateConfirme");
+      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+    }, () -> {
+      quoteDto.setIdQuote("partiel");
+      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+    }, () -> {
+      quoteDto.setIdQuote("Total");
+      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+    }, () -> {
+      quoteDto.setIdQuote("ok");
+      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+    });
   }
 
   @DisplayName("test set start date with good state")
@@ -238,15 +274,12 @@ public class QuoteUccImplTest {
   public void testSetStartDateQuoteOk() {
     QuoteDto quoteDto = dtoFactory.getQuote();
     quoteDto.setStartDate(LocalDate.now());
-    assertAll(
-        () -> {
-          quoteDto.setIdQuote("introduit");
-          assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
-        },
-        () -> {
-          quoteDto.setIdQuote("commandePassee");
-          assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
-        }
-    );
+    assertAll(() -> {
+      quoteDto.setIdQuote("introduit");
+      assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
+    }, () -> {
+      quoteDto.setIdQuote("commandePassee");
+      assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
+    });
   }
 }

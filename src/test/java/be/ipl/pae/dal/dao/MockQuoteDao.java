@@ -54,8 +54,13 @@ public class MockQuoteDao implements QuoteDao {
 
     QuoteDto quoteDto8 = dtoFactory.getQuote();
     quoteDto8.setIdQuote("annule");
-    quoteDto8.setState(QuoteState.VISIBLE);
+    quoteDto8.setState(QuoteState.QUOTE_ENTERED);
     liste.add(quoteDto8);
+
+    QuoteDto quoteDto9 = dtoFactory.getQuote();
+    quoteDto9.setIdQuote("dateConfirme2");
+    quoteDto9.setState(QuoteState.CONFIRMED_DATE);
+    liste.add(quoteDto9);
   }
 
   /*
@@ -135,7 +140,7 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public int getWorkDuration(String idQuote) {
-    if (idQuote.equals("dateConfirme")) {
+    if (idQuote.equals("dateConfirme2")) {
       return 20;
     }
     return 5;
@@ -147,8 +152,15 @@ public class MockQuoteDao implements QuoteDao {
       case "introduit":
         return QuoteState.QUOTE_ENTERED;
       case "dateConfirme":
-      case "Total":
         return QuoteState.CONFIRMED_DATE;
+      case "dateConfirme2":
+        return QuoteState.CONFIRMED_DATE;
+      case "partiel":
+        return QuoteState.PARTIAL_INVOICE;
+      case "Total":
+        return QuoteState.TOTAL_INVOICE;
+      case "annule":
+        return QuoteState.CANCELLED;
       default:
         return null;
     }
