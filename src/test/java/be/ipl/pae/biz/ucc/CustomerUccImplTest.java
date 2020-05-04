@@ -90,6 +90,14 @@ class CustomerUccImplTest {
     assertNotNull(custcc.getCustomers(custoFilt));
   }
 
+  @DisplayName("empty parameter 2")
+  @Test
+  public void testInsertCustomer2() {
+    custo.setLastName("");
+    assertThrows(BizException.class, () -> custcc.insert(custo));
+  }
+
+
   @DisplayName("empty parameter 1")
   @Test
   public void testInsertCustomer1() {
@@ -97,12 +105,6 @@ class CustomerUccImplTest {
     assertThrows(BizException.class, () -> custcc.insert(custo));
   }
 
-  @DisplayName("empty parameter 2")
-  @Test
-  public void testInsertCustomer2() {
-    custo.setLastName("");
-    assertThrows(BizException.class, () -> custcc.insert(custo));
-  }
 
   @DisplayName("empty parameter 3")
   @Test
@@ -153,10 +155,8 @@ class CustomerUccImplTest {
   @DisplayName("get customer via non-linked users")
   @Test
   public void testGetCustomerByIdUserKo() {
-    assertAll(
-        () -> assertNull(custcc.getCustomerByIdUser(1)),
-        () -> assertNull(custcc.getCustomerByIdUser(3))
-    );
+    assertAll(() -> assertNull(custcc.getCustomerByIdUser(1)),
+        () -> assertNull(custcc.getCustomerByIdUser(3)));
   }
 
   @DisplayName("get customer via linked user")
