@@ -79,7 +79,7 @@ class QuoteUccImpl implements QuoteUcc {
   private QuoteDto getQuoteBis(String idQuote) throws BizException, DalException {
     QuoteDto quoteDto;
     quoteDto = quoteDao.getQuote(idQuote);
-    if (quoteDto.getIdQuote() == null) {
+    if (quoteDto == null) {
       throw new BizException("Devis non existant");
     }
 
