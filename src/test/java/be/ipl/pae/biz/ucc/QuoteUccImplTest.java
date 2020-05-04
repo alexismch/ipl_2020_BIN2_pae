@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -188,13 +189,69 @@ public class QuoteUccImplTest {
   }
 
   @Test
+  @DisplayName("test useStateManager when all is good and state == VISIBLE")
+  public void testUseStateManagerOk7() throws BizException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("ok");
+    quote.setState(QuoteState.VISIBLE);
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertNull(quoteToTest);
+  }
+
+  @Test
+  @DisplayName("test useStateManager when all is good and state == PLACED_ORDERED")
+  public void testUseStateManagerOk8() throws BizException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("commandePassee");
+    quote.setState(QuoteState.PLACED_ORDERED);
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertSame(QuoteState.CONFIRMED_DATE, quoteToTest.getState()));
+  }
+
+  @Test
+  @DisplayName("test useStateManager when all is good and state == PLACED_ORDERED")
+  public void testUseStateManagerOk9() throws BizException {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("commandePassee");
+    quote.setState(QuoteState.PLACED_ORDERED);
+    quote.setStartDate(LocalDate.of(2020, 1, 20));
+
+    QuoteDto quoteToTest = qcc.useStateManager(quote);
+
+    assertAll(() -> assertNotNull(quoteToTest),
+        () -> assertSame(QuoteState.PLACED_ORDERED, quoteToTest.getState()),
+        () -> assertEquals(2020, quote.getStartDate().getYear()),
+        () -> assertEquals(1, quote.getStartDate().getMonthValue()),
+        () -> assertEquals(20, quote.getStartDate().getDayOfMonth()));
+  }
+
+  @Test
   @DisplayName("test useStateManager when idQuote == null")
-  public void testUseStateManagerko1() {
+  public void testUseStateManagerKo1() {
     QuoteDto quote = dtoFactory.getQuote();
 
     quote.setIdQuote(null);
     quote.setState(QuoteState.QUOTE_ENTERED);
     quote.setIdCustomer(1);
+
+    assertThrows(BizException.class, () -> qcc.useStateManager(quote));
+  }
+
+  @Test
+  @DisplayName("test useStateManager when quote state != quote.getState")
+  public void testUseStateManagerKo2() {
+    QuoteDto quote = dtoFactory.getQuote();
+
+    quote.setIdQuote("partiel");
+    quote.setState(QuoteState.TOTAL_INVOICE);
 
     assertThrows(BizException.class, () -> qcc.useStateManager(quote));
   }

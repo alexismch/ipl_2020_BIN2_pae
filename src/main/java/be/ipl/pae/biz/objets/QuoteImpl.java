@@ -3,7 +3,6 @@ package be.ipl.pae.biz.objets;
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
-import be.ipl.pae.biz.dto.QuoteDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -163,10 +162,10 @@ class QuoteImpl implements Quote {
   }
 
   @Override
-  public boolean checkStateQuote(QuoteDto quote, QuoteState state) {
-    if (quote.getState() == QuoteState.CANCELLED) {
+  public boolean checkState(QuoteState state) {
+    if (this.state == QuoteState.CANCELLED) {
       return true;
     }
-    return quote.getState() == state;
+    return this.state == state;
   }
 }

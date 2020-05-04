@@ -142,22 +142,12 @@ public class MockQuoteDao implements QuoteDao {
 
   @Override
   public QuoteState getStateQuote(String idQuote) {
-    switch (idQuote) {
-      case "introduit":
-        return QuoteState.QUOTE_ENTERED;
-      case "dateConfirme":
-        return QuoteState.CONFIRMED_DATE;
-      case "dateConfirme2":
-        return QuoteState.CONFIRMED_DATE;
-      case "partiel":
-        return QuoteState.PARTIAL_INVOICE;
-      case "Total":
-        return QuoteState.TOTAL_INVOICE;
-      case "annule":
-        return QuoteState.CANCELLED;
-      default:
-        return null;
+    for (QuoteDto quoteDto : liste) {
+      if (quoteDto.getIdQuote().equals(idQuote)) {
+        return quoteDto.getState();
+      }
     }
+    return null;
   }
 
   @Override

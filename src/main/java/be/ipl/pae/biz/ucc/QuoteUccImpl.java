@@ -136,11 +136,12 @@ class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto useStateManager(QuoteDto quote) throws BizException {
-    QuoteDto quoteToReturn = quoteDtoFactory.getQuote();
 
-    if (!((Quote) quoteToReturn).checkStateQuote(quote, getStateQuote(quote))) {
+    if (!((Quote) quote).checkState(getStateQuote(quote))) {
       throw new BizException("L'état du devis a déjà été modifié");
     }
+
+    QuoteDto quoteToReturn = null;
 
     switch (quote.getState()) {
       case QUOTE_ENTERED:
