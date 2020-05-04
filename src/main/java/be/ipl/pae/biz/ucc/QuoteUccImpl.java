@@ -239,7 +239,7 @@ class QuoteUccImpl implements QuoteUcc {
   public void setFavoritePhoto(String quoteId, int photoId) throws BizException {
     try {
       dalService.startTransaction();
-      if (quoteDao.getQuote(quoteId) == null) {
+      if (quoteDao == null || quoteDao.getQuote(quoteId) == null) {
         throw new BizException("Devis non existant");
       }
       PhotoDto photoDto = photoDao.getPhotoById(photoId);
