@@ -157,7 +157,7 @@ public class UserUccImplTest {
   @Test
   void testChangeUserStatusKo1() {
     for (UserStatus userStatus : UserStatus.values()) {
-      assertThrows(BizException.class, () -> ucc.changeUserStatus(3, userStatus));
+      assertThrows(BizException.class, () -> ucc.changeUserStatus(4, userStatus));
     }
   }
 
