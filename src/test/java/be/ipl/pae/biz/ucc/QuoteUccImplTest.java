@@ -269,7 +269,7 @@ public class QuoteUccImplTest {
           quoteDto.setIdQuote("ok");
           assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
         }
-     );
+    );
   }
 
   @DisplayName("test set start date with good state")
@@ -277,12 +277,15 @@ public class QuoteUccImplTest {
   public void testSetStartDateQuoteOk() {
     QuoteDto quoteDto = dtoFactory.getQuote();
     quoteDto.setStartDate(LocalDate.now());
-    assertAll(() -> {
-      quoteDto.setIdQuote("introduit");
-      assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("commandePassee");
-      assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
-    });
+    assertAll(
+        () -> {
+          quoteDto.setIdQuote("introduit");
+          assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("commandePassee");
+          assertDoesNotThrow(() -> qcc.setStartDateQuoteInDb(quoteDto));
+        }
+    );
   }
 }
