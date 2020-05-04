@@ -8,7 +8,6 @@ import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.UserStatus;
 import be.ipl.pae.biz.ucc.CustomerUcc;
 import be.ipl.pae.dependencies.Injected;
-import be.ipl.pae.exceptions.BizException;
 
 import java.io.IOException;
 
@@ -88,8 +87,6 @@ public class CustomerServlet extends AbstractServlet {
         customerUcc.insert(customerToInsert);
 
         sendSuccess(resp);
-      } catch (BizException bizE) {
-        sendError(resp, HttpServletResponse.SC_CONFLICT, bizE.getMessage());
       } catch (NumberFormatException ex) {
         sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Code postal invalide");
       } catch (Exception ex) {
