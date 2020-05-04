@@ -70,6 +70,7 @@ public class PhotoUccImplTest {
   public void testInsertKo1() {
     PhotoDto photoDto = dtoFactory.getPhoto();
     photoDto.setIdType(5);
+    photoDto.setIdQuote("ok");
     List<PhotoDto> list = new ArrayList<>();
     list.add(photoDto);
     assertThrows(BizException.class, () -> photoUcc.insert(list));
