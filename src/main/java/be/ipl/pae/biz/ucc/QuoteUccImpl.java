@@ -4,7 +4,6 @@ import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
-import be.ipl.pae.biz.objets.DtoFactory;
 import be.ipl.pae.biz.objets.Quote;
 import be.ipl.pae.biz.objets.QuoteState;
 import be.ipl.pae.dal.dao.CustomerDao;
@@ -36,9 +35,6 @@ class QuoteUccImpl implements QuoteUcc {
 
   @Injected
   private DalServiceTransaction dalService;
-
-  @Injected
-  private DtoFactory quoteDtoFactory;
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws BizException {
