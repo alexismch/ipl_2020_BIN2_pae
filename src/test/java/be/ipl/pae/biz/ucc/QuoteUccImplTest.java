@@ -269,7 +269,7 @@ public class QuoteUccImplTest {
           quoteDto.setIdQuote("ok");
           assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
         }
-    );
+     );
   }
 
   @DisplayName("test set start date with good state")
