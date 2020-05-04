@@ -17,10 +17,9 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-
 class DalServiceImpl implements DalService, DalServiceTransaction {
 
-  private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
+  private static final ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
   private static volatile DataSource dataSource;
 
@@ -135,7 +134,6 @@ class DalServiceImpl implements DalService, DalServiceTransaction {
 
   @Override
   public void commitTransaction() throws FatalException {
-
     if (threadLocal.get() == null) {
       return;
     }
@@ -152,7 +150,6 @@ class DalServiceImpl implements DalService, DalServiceTransaction {
 
   @Override
   public void rollbackTransaction() throws FatalException {
-
     if (threadLocal.get() == null) {
       return;
     }

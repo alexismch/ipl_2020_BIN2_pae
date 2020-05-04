@@ -24,7 +24,6 @@ class CustomerDaoImpl implements CustomerDao {
 
   @Override
   public List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto) throws DalException {
-
     String query;
 
     if (customersFilterDto == null) {
@@ -72,8 +71,8 @@ class CustomerDaoImpl implements CustomerDao {
    * @throws SQLException if an SQL error occurred
    */
   private List<CustomerDto> getCustomersViaPs(PreparedStatement ps) throws SQLException {
-
     List<CustomerDto> customers = new ArrayList<>();
+
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
         CustomerDto customerDto = customerDtoFactory.getCustomer();
@@ -96,7 +95,6 @@ class CustomerDaoImpl implements CustomerDao {
 
   @Override
   public CustomerDto insertCustomer(CustomerDto customer) throws DalException {
-
     PreparedStatement ps = dalService.getPreparedStatement("INSERT INTO mystherbe.customers(\r\n"
         + "    id_customer, lastname, firstname, address, postal_code, city, email, tel_nbr)\r\n"
         + "    VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?) RETURNING id_customer;");

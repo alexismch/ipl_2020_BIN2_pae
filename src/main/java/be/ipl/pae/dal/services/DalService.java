@@ -11,6 +11,4 @@ public interface DalService {
    * @return An PrepareStatement object
    */
   PreparedStatement getPreparedStatement(String request);
-
-
 }

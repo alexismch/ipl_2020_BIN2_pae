@@ -33,7 +33,9 @@ public class PropertiesLoader {
    * Get the value of a property.
    *
    * @param name The name of the file
-   * @throws IllegalStateException Exception thrown if no properties file are loaded
+   * @return the value of the  property
+   * @throws IllegalStateException     Exception thrown if no properties file are loaded
+   * @throws PropertiesLoaderException if property doesn't exist
    */
   public String getProperty(String name) throws PropertiesLoaderException {
     if (properties == null) {

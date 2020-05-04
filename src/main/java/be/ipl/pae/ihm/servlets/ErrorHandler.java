@@ -90,5 +90,4 @@ public class ErrorHandler extends ErrorPageErrorHandler {
         .replace("\t", "\\t")
         .replace("\"", "\\\"");
   }
-
 }

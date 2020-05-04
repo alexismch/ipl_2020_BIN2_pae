@@ -17,7 +17,7 @@ public class MockQuoteDao implements QuoteDao {
   @Injected
   private DtoFactory dtoFactory;
 
-  private ArrayList<QuoteDto> liste = new ArrayList<>();
+  private final ArrayList<QuoteDto> liste = new ArrayList<>();
 
   @AfterInjection
   private void setList() {
@@ -93,12 +93,6 @@ public class MockQuoteDao implements QuoteDao {
       }
     }
     return dtoFactory.getQuote();
-  }
-
-  @Override
-  public List<QuoteDto> getCustomerQuotes(int idCustomer) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override

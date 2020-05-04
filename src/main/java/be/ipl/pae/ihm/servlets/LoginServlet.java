@@ -26,7 +26,6 @@ public class LoginServlet extends AbstractServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     String token = (String) req.getSession().getAttribute("token");
     System.out.println("\tUsed token : " + token);
 
@@ -45,7 +44,6 @@ public class LoginServlet extends AbstractServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     String token = (String) req.getSession().getAttribute("token");
     if (token != null) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Already connected.");
@@ -77,6 +75,5 @@ public class LoginServlet extends AbstractServlet {
 
     GensonBuilder genson = createGensonBuilder();
     sendSuccessWithJson(resp, "user", genson.create().serialize(userDto));
-
   }
 }

@@ -114,7 +114,6 @@ public class UserUccImplTest {
     for (UserDto userDto : users) {
       assertTrue(userDto.getLastName().startsWith("A"));
     }
-
   }
 
   @DisplayName("users list with filter on name case insensitive")
@@ -130,7 +129,6 @@ public class UserUccImplTest {
     for (UserDto userDto : users) {
       assertTrue(userDto.getLastName().startsWith("A"));
     }
-
   }
 
   @DisplayName("users list with filter on city")
@@ -146,7 +144,6 @@ public class UserUccImplTest {
     for (UserDto userDto : users) {
       assertTrue(userDto.getCity().startsWith("2"));
     }
-
   }
 
   @Test
@@ -155,7 +152,6 @@ public class UserUccImplTest {
     for (UserStatus userStatus : UserStatus.values()) {
       assertThrows(BizException.class, () -> ucc.changeUserStatus(3, userStatus));
     }
-
   }
 
   @Test

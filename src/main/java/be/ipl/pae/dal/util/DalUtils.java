@@ -9,13 +9,10 @@ public class DalUtils {
    * @return A string with '_' and '%' escaped
    */
   public static String escapeSpecialLikeChar(String string) {
-
     if (string == null) {
       return "";
     }
 
     return string.replace("\\", "\\\\").replace("_", "\\_").replace("%", "\\%");
-
   }
-
 }

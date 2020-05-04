@@ -54,7 +54,6 @@ abstract class AbstractServlet extends HttpServlet {
     resp.setCharacterEncoding("UTF-8");
     resp.setStatus(status);
     resp.getWriter().write(msg);
-    // System.out.println("\tRéponse : " + msg + "\n");
   }
 
   /**

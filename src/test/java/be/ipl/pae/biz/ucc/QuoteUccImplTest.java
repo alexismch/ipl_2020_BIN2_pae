@@ -77,7 +77,7 @@ public class QuoteUccImplTest {
 
   /*
    * @Test
-   * 
+   *
    * @DisplayName("test getQuotes") public void testGetQuotes() throws BizException {
    * assertNotNull(qcc.getQuotes()); }
    */
@@ -130,7 +130,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.PARTIAL_INVOICE, quoteToTest.getState()));
-
   }
 
   @Test
@@ -147,7 +146,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.TOTAL_INVOICE, quoteToTest.getState()));
-
   }
 
   @Test

@@ -34,7 +34,6 @@ class PhotoUccImpl implements PhotoUcc {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos() {
-
     List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
@@ -51,7 +50,6 @@ class PhotoUccImpl implements PhotoUcc {
 
   @Override
   public List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws BizException {
-
     List<PhotoVisibleDto> list;
     try {
       dalService.startTransaction();
@@ -100,7 +98,6 @@ class PhotoUccImpl implements PhotoUcc {
     } finally {
       dalService.commitTransaction();
     }
-
   }
 
   @Override

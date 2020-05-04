@@ -1,6 +1,5 @@
 package be.ipl.pae.ihm.servlets;
 
-
 import static be.ipl.pae.ihm.servlets.utils.Util.hasAccess;
 
 import be.ipl.pae.biz.dto.CustomerDto;

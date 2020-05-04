@@ -27,6 +27,13 @@ public interface CustomerDao {
    */
   boolean exists(int customerId) throws DalException;
 
+  /**
+   * Insert a customer in the db.
+   *
+   * @param customerDto the customer to insert
+   * @return the customer inserted
+   * @throws DalException if an error occurred with the db
+   */
   CustomerDto insertCustomer(CustomerDto customerDto) throws DalException;
 
   /**

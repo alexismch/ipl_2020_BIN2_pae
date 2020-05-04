@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class InjectionService {
 
-  private PropertiesLoader properties;
-  private Map<String, Object> injectedObjects = new HashMap<>();
+  private final PropertiesLoader properties;
+  private final Map<String, Object> injectedObjects = new HashMap<>();
 
   public InjectionService(PropertiesLoader propertiesLoader) {
     this.properties = propertiesLoader;
@@ -26,7 +26,6 @@ public class InjectionService {
    * @throws InjectionException if an injection fail
    */
   public void inject(Object ob) throws InjectionException {
-
     for (Field field : ob.getClass().getDeclaredFields()) {
       Injected injected = field.getAnnotation(Injected.class);
 
@@ -94,11 +93,8 @@ public class InjectionService {
               "AfterInjectionError can not call " + method.getName() + " on " + ob.getClass()
                   + " !", ex);
         }
-
       }
-
     }
-
   }
 
   public static class InjectionException extends RuntimeException {
@@ -114,7 +110,5 @@ public class InjectionService {
     public InjectionException(Throwable cause) {
       super(cause);
     }
-
   }
-
 }

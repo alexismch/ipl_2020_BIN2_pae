@@ -1,6 +1,5 @@
 package be.ipl.pae.biz.objets;
 
-
 import be.ipl.pae.biz.dto.CustomerDto;
 import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.PhotoDto;
@@ -25,171 +24,142 @@ class QuoteImpl implements Quote {
   private List<DevelopmentTypeDto> developmentType = new ArrayList<>();
   private PhotoDto photo;
 
-
-
-  /**
-   * Create a QuoteImpl object.
-   *
-   * @param iqQuote the id of the quote
-   * @param idCustomer the id of the customer that asked for the quote
-   * @param quoteDate the date when the quote was created
-   * @param totalAmount the total amount of the quote
-   * @param workDuration the work duration
-   * @param state the state of the quote
-   * @param startDate the start date of work
-   * @param customer the customer that has asked a quote
-   */
-  public QuoteImpl(String iqQuote, int idCustomer, LocalDate quoteDate, double totalAmount,
-      int workDuration, QuoteState state, LocalDate startDate, CustomerDto customer,
-      PhotoDto photo) {
-    super();
-    this.idQuote = iqQuote;
-    this.idCustomer = idCustomer;
-    this.quoteDate = quoteDate;
-    this.totalAmount = totalAmount;
-    this.workDuration = workDuration;
-    this.state = state;
-    this.startDate = startDate;
-    this.customer = customer;
-    this.photo = photo;
-  }
-
-
   public QuoteImpl() {
     super();
   }
 
-
+  @Override
   public String getIdQuote() {
     return idQuote;
   }
 
-
+  @Override
   public void setIdQuote(String idQuote) {
     this.idQuote = idQuote;
   }
 
-
+  @Override
   public int getIdCustomer() {
     return idCustomer;
   }
 
-
+  @Override
   public void setIdCustomer(int idCustomer) {
     this.idCustomer = idCustomer;
   }
 
-
+  @Override
   public LocalDate getQuoteDate() {
     return quoteDate;
   }
 
-
+  @Override
   public void setQuoteDate(LocalDate quoteDate) {
     this.quoteDate = quoteDate;
   }
 
-
+  @Override
   public double getTotalAmount() {
     return totalAmount;
   }
 
-
+  @Override
   public void setTotalAmount(double totalAmount) {
     this.totalAmount = totalAmount;
   }
 
-
+  @Override
   public int getWorkDuration() {
     return workDuration;
   }
 
-
+  @Override
   public void setWorkDuration(int workDuration) {
     this.workDuration = workDuration;
   }
 
-
+  @Override
   public QuoteState getState() {
     return state;
   }
 
-
+  @Override
   public void setState(QuoteState state) {
     this.state = state;
   }
 
-
+  @Override
   public void setState(String state) {
     this.state = QuoteState.valueOf(state);
   }
 
-
+  @Override
   public LocalDate getStartDate() {
     return startDate;
   }
 
-
+  @Override
   public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
 
-
+  @Override
   public List<PhotoDto> getListPhotoBefore() {
     return listPhotoBefore;
   }
 
-
-  public void addToListPhotoBefore(PhotoDto photoDto) {
-    this.listPhotoBefore.add(photoDto);
-  }
-
-
-  public List<PhotoDto> getListPhotoAfter() {
-    return listPhotoAfter;
-  }
-
-
-  public void addToListPhotoAfter(PhotoDto photoDto) {
-    this.listPhotoAfter.add(photoDto);
-  }
-
-
-  public CustomerDto getCustomer() {
-    return customer;
-  }
-
-
-  public void setCustomer(CustomerDto customer) {
-    this.customer = customer;
-  }
-
-
-  public List<DevelopmentTypeDto> getDevelopmentTypes() {
-    return developmentType;
-  }
-
-
-  public void setDevelopmentType(List<DevelopmentTypeDto> developmentType) {
-    this.developmentType = developmentType;
-  }
-
-
-  public void addDevelopmentType(DevelopmentTypeDto developmentType) {
-    this.developmentType.add(developmentType);
-  }
-
+  @Override
   public void setListPhotoBefore(List<PhotoDto> listPhotoBefore) {
     this.listPhotoBefore = listPhotoBefore;
   }
 
+  @Override
+  public void addToListPhotoBefore(PhotoDto photoDto) {
+    this.listPhotoBefore.add(photoDto);
+  }
+
+  @Override
+  public List<PhotoDto> getListPhotoAfter() {
+    return listPhotoAfter;
+  }
 
   public void setListPhotoAfter(List<PhotoDto> listPhotoAfter) {
     this.listPhotoAfter = listPhotoAfter;
   }
 
+  @Override
+  public CustomerDto getCustomer() {
+    return customer;
+  }
+
+  @Override
+  public void setCustomer(CustomerDto customer) {
+    this.customer = customer;
+  }
+
+  @Override
+  public List<DevelopmentTypeDto> getDevelopmentTypes() {
+    return developmentType;
+  }
+
+  @Override
+  public void setDevelopmentType(List<DevelopmentTypeDto> developmentType) {
+    this.developmentType = developmentType;
+  }
+
+  @Override
+  public void addDevelopmentType(DevelopmentTypeDto developmentType) {
+    this.developmentType.add(developmentType);
+  }
+
+  @Override
   public PhotoDto getPhoto() {
     return photo;
+  }
+
+  @Override
+  public void setPhoto(PhotoDto photo) {
+    this.photo = photo;
   }
 
   @Override
@@ -199,11 +169,4 @@ class QuoteImpl implements Quote {
     }
     return quote.getState() == state;
   }
-
-
-
-  public void setPhoto(PhotoDto photo) {
-    this.photo = photo;
-  }
-
 }

@@ -33,6 +33,7 @@ public interface UserDao {
    *
    * @param userId id of the user
    * @return An userDto object with all the informations that the db gave you or null
+   * @throws DalException if an error occurred with the db
    */
   UserDto getUser(int userId) throws DalException;
 
@@ -50,6 +51,7 @@ public interface UserDao {
    *
    * @param usersFilterDto a filter applied to the results or null if no filter should be applied
    * @return A list of all users
+   * @throws DalException if an error occurred with the  db
    */
   List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws DalException;
 

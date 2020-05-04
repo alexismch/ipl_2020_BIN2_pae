@@ -1,13 +1,12 @@
 package be.ipl.pae.biz.objets;
 
 public enum UserStatus {
-
   NOT_ACCEPTED("n", "Non-accepté"),
   CUSTOMER("c", "Client"),
   WORKER("o", "Ouvrier");
 
-  private String code;
-  private String name;
+  private final String code;
+  private final String name;
 
   UserStatus(String code, String name) {
     this.code = code;
