@@ -15,7 +15,7 @@ public class MockPhotoDao implements PhotoDao {
 
   @Override
   public Integer insert(PhotoDto photoDto) {
-    return null;
+    return 1;
   }
 
   @Override

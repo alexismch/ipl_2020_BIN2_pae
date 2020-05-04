@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import be.ipl.pae.biz.dto.DevelopmentTypeDto;
 import be.ipl.pae.biz.dto.QuoteDto;
 import be.ipl.pae.biz.dto.QuotesFilterDto;
 import be.ipl.pae.biz.objets.DtoFactory;
@@ -74,13 +75,6 @@ public class QuoteUccImplTest {
   public void testGetQuoteKo1() {
     assertThrows(BizException.class, () -> qcc.getQuote(null));
   }
-
-  /*
-   * @Test
-   *
-   * @DisplayName("test getQuotes") public void testGetQuotes() throws BizException {
-   * assertNotNull(qcc.getQuotes()); }
-   */
 
   @Test
   @DisplayName("test getQuotesFiltered with null parameter")
@@ -161,7 +155,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.TOTAL_INVOICE, quoteToTest.getState()));
-
   }
 
   @Test
@@ -177,7 +170,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.VISIBLE, quoteToTest.getState()));
-
   }
 
   @Test
@@ -193,7 +185,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.CANCELLED, quoteToTest.getState()));
-
   }
 
   @Test
@@ -220,6 +211,13 @@ public class QuoteUccImplTest {
   @DisplayName("test insertQuote with non-existent quoteId")
   public void testInsertQuoteOk() {
     QuoteDto quoteDto = dtoFactory.getQuote();
+
+    DevelopmentTypeDto developmentTypeDto = dtoFactory.getDevelopmentType();
+    developmentTypeDto.setIdType(1);
+    quoteDto.addDevelopmentType(developmentTypeDto);
+
+    quoteDto.addToListPhotoBefore(dtoFactory.getPhoto());
+
     quoteDto.setIdQuote("true");
     assertDoesNotThrow(() -> qcc.insert(quoteDto));
   }

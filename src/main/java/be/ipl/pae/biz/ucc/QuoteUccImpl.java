@@ -42,7 +42,6 @@ class QuoteUccImpl implements QuoteUcc {
 
   @Override
   public QuoteDto insert(QuoteDto quoteDto) throws BizException {
-    QuoteDto quoteDtoRet;
     try {
       dalService.startTransaction();
       if (quoteDao.checkQuoteIdInDb(quoteDto.getIdQuote())) {
@@ -55,14 +54,13 @@ class QuoteUccImpl implements QuoteUcc {
       for (PhotoDto photoDto : quoteDto.getListPhotoBefore()) {
         photoDao.insert(photoDto);
       }
-      quoteDtoRet = quoteDto;
+      return quoteDto;
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
-    return quoteDtoRet;
   }
 
   @Override

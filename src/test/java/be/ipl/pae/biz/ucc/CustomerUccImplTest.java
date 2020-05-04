@@ -88,7 +88,6 @@ class CustomerUccImplTest {
     assertNotNull(custcc.getCustomers(custoFilt));
   }
 
-
   @DisplayName("test insert customer")
   @Test
   public void testInsertCustomer() {
