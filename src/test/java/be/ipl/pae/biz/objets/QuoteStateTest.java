@@ -16,11 +16,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-
 class QuoteStateTest {
 
   static Stream<Arguments> quoteStates() {
-
     Arguments[] arguments = new Arguments[]{
         Arguments.of(QUOTE_ENTERED, 1),
         Arguments.of(PLACED_ORDERED, 2),
@@ -32,7 +30,6 @@ class QuoteStateTest {
     };
 
     return Stream.of(arguments);
-
   }
 
   @DisplayName("Test if id and QuoteState match")

@@ -46,7 +46,6 @@ public class DevelopmentTypeUccImplTest {
     developmentType = dtoFactory.getDevelopmentType();
     developmentType.setIdType(1);
     developmentType.setTitle("Aménagement de jardin de ville");
-
   }
 
   @DisplayName("Injection worked")

@@ -25,7 +25,6 @@ class LinkCcUccImpl implements LinkCcUcc {
 
   @Override
   public void link(int customerId, int userId) throws BizException {
-
     try {
       dalService.startTransaction();
 
@@ -49,6 +48,5 @@ class LinkCcUccImpl implements LinkCcUcc {
     } finally {
       dalService.commitTransaction();
     }
-
   }
 }

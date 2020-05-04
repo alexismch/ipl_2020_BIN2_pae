@@ -239,5 +239,4 @@ public class Util {
   public static String cryptPwd(String pwd) {
     return BCrypt.hashpw(pwd, BCrypt.gensalt());
   }
-
 }

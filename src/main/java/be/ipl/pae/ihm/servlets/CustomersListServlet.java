@@ -57,7 +57,5 @@ public class CustomersListServlet extends AbstractServlet {
 
     sendSuccessWithJson(resp, "customers",
         gensonBuilder.create().serialize(customerUcc.getCustomers(customersFilterDto)));
-
   }
-
 }

@@ -37,6 +37,7 @@ class DtoFactoryImpl implements DtoFactory {
     return new DevelopmentTypeImpl();
   }
 
+  @Override
   public CustomerDto getCustomer() {
     return new CustomerImpl();
   }
@@ -51,6 +52,7 @@ class DtoFactoryImpl implements DtoFactory {
     return new PhotoVisibleImpl();
   }
 
+  @Override
   public QuotesFilterDto getQuotesFilter() {
     return new QuotesFilterImpl();
   }

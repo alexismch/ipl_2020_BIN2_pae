@@ -8,17 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ParametersUtils {
 
   /**
-   * Check if the request has a parameter identified by {@code name}.
-   *
-   * @param req the request
-   * @param name the name of the parameter
-   * @return true if the request has a parameter for the {@code name}
-   */
-  public static boolean checkParamExist(HttpServletRequest req, String name) {
-    return req.getParameter(name) != null;
-  }
-
-  /**
    * Get the parameter identified by {@code name} in the request.
    *
    * @param req       the request
@@ -69,7 +58,6 @@ public class ParametersUtils {
    *         integer
    */
   public static int getParamAsInt(HttpServletRequest req, String name) throws ParameterException {
-
     String param = getParam(req, name);
 
     try {
@@ -91,7 +79,6 @@ public class ParametersUtils {
    */
   public static QuoteState getParamAsQuoteState(HttpServletRequest req, String name)
       throws ParameterException {
-
     String param = getParam(req, name);
 
     try {
@@ -99,7 +86,6 @@ public class ParametersUtils {
     } catch (IllegalArgumentException ex) {
       throw new ParameterException(name + ":" + param + " n'est pas un état du devis");
     }
-
   }
 
   /**
@@ -113,7 +99,6 @@ public class ParametersUtils {
    */
   public static UserStatus getParamAsUserStatus(HttpServletRequest req, String name)
       throws ParameterException {
-
     String param = getParam(req, name);
 
     try {
@@ -121,7 +106,5 @@ public class ParametersUtils {
     } catch (IllegalArgumentException ex) {
       throw new ParameterException(name + ":" + param + " n'est pas un status d'utilisateur");
     }
-
   }
-
 }

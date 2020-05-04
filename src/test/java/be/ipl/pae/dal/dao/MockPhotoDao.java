@@ -102,5 +102,4 @@ public class MockPhotoDao implements PhotoDao {
     }
     return null;
   }
-
 }

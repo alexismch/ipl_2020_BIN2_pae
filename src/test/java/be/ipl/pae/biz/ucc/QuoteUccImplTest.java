@@ -77,7 +77,7 @@ public class QuoteUccImplTest {
 
   /*
    * @Test
-   * 
+   *
    * @DisplayName("test getQuotes") public void testGetQuotes() throws BizException {
    * assertNotNull(qcc.getQuotes()); }
    */
@@ -130,7 +130,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.PARTIAL_INVOICE, quoteToTest.getState()));
-
   }
 
   @Test
@@ -147,7 +146,6 @@ public class QuoteUccImplTest {
 
     assertAll(() -> assertNotNull(quoteToTest),
         () -> assertSame(QuoteState.TOTAL_INVOICE, quoteToTest.getState()));
-
   }
 
   @Test
@@ -254,19 +252,24 @@ public class QuoteUccImplTest {
   @Test
   public void testSetStartDateQuoteKo() {
     QuoteDto quoteDto = dtoFactory.getQuote();
-    assertAll(() -> {
-      quoteDto.setIdQuote("dateConfirme");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("partiel");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("Total");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    }, () -> {
-      quoteDto.setIdQuote("ok");
-      assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
-    });
+    assertAll(
+        () -> {
+          quoteDto.setIdQuote("dateConfirme");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("partiel");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("Total");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        },
+        () -> {
+          quoteDto.setIdQuote("ok");
+          assertThrows(BizException.class, () -> qcc.setStartDateQuoteInDb(quoteDto));
+        }
+     );
   }
 
   @DisplayName("test set start date with good state")

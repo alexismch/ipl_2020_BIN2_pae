@@ -62,5 +62,4 @@ public class MockCustomerDao implements CustomerDao {
     customerDto.setIdCustomer(1);
     return customerDto;
   }
-
 }

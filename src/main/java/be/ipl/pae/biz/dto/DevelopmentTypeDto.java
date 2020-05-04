@@ -9,5 +9,4 @@ public interface DevelopmentTypeDto {
   String getTitle();
 
   void setTitle(String title);
-
 }

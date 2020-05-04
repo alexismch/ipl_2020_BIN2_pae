@@ -28,7 +28,6 @@ class UserDaoImpl implements UserDao {
 
   @Override
   public UserDto getUserByPseudo(String pseudo) throws DalException {
-
     UserDto userDto;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
@@ -52,7 +51,6 @@ class UserDaoImpl implements UserDao {
 
   @Override
   public UserDto getUser(int idUtilisateur) throws DalException {
-
     UserDto userDto;
     PreparedStatement ps;
     ps = dalService.getPreparedStatement(
@@ -95,7 +93,6 @@ class UserDaoImpl implements UserDao {
 
   @Override
   public List<UserDto> getUsers(UsersFilterDto usersFilterDto) throws DalException {
-
     String query;
 
     if (usersFilterDto != null) {

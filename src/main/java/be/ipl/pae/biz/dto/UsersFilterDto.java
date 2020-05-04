@@ -9,5 +9,4 @@ public interface UsersFilterDto extends FilterDto {
   String getCity();
 
   void setCity(String city);
-
 }

@@ -38,7 +38,6 @@ public class FrontendServlet extends DefaultServlet {
     } else {
       super.doGet(req, resp);
     }
-
   }
 
   @Override
@@ -51,5 +50,4 @@ public class FrontendServlet extends DefaultServlet {
   protected void doOptions(HttpServletRequest req, HttpServletResponse resp) {
     resp.setHeader("Allow", "GET,HEAD,OPTIONS");
   }
-
 }

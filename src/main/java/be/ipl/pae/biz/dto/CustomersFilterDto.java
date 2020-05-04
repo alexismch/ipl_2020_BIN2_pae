@@ -17,5 +17,4 @@ public interface CustomersFilterDto {
   boolean isOnlyNotLinked();
 
   void setOnlyNotLinked(boolean onlyNotLinked);
-
 }

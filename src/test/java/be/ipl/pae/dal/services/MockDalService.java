@@ -15,5 +15,4 @@ public class MockDalService implements DalServiceTransaction {
   @Override
   public void rollbackTransaction() throws FatalException {
   }
-
 }
