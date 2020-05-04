@@ -1,5 +1,6 @@
 package be.ipl.pae.biz.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -66,6 +67,12 @@ public class UserUccImplTest {
   @Test
   public void testLoginKo2() {
     assertThrows(BizException.class, () -> ucc.login("blabla", "test"));
+  }
+
+  @DisplayName("login test when we give a good pseudo and pwd but not accepted status")
+  @Test
+  public void testLoginKo3() {
+    assertThrows(BizException.class, () -> ucc.login("nop", "123456"));
   }
 
   @DisplayName("register test when you give a good pseudo and a good mail")
@@ -146,20 +153,31 @@ public class UserUccImplTest {
     }
   }
 
+  @DisplayName("test change user status with wrong id")
   @Test
-  void changeUserStatusWrongId() {
-
+  void testChangeUserStatusKo1() {
     for (UserStatus userStatus : UserStatus.values()) {
       assertThrows(BizException.class, () -> ucc.changeUserStatus(3, userStatus));
     }
   }
 
+  @DisplayName("test change user status with already good status")
   @Test
-  void changeUserStatusSameAsExisting() throws BizException {
-    for (int i = 1; i <= 2; i++) {
-      UserDto userDto = ucc.getUser(i);
-      assertNotNull(userDto);
-      assertEquals(userDto.getPseudo(), ucc.changeUserStatus(i, userDto.getStatus()).getPseudo());
-    }
+  void testChangeUserStatusKo2() {
+    assertAll(
+        () -> assertThrows(BizException.class, () -> ucc.changeUserStatus(1, UserStatus.CUSTOMER)),
+        () -> assertThrows(BizException.class, () -> ucc.changeUserStatus(2, UserStatus.WORKER))
+    );
+  }
+
+  @DisplayName("test change user status with not connected status")
+  @Test
+  void testChangeUserStatusOk() {
+    assertAll(
+        () -> assertEquals(UserStatus.CUSTOMER,
+            ucc.changeUserStatus(3, UserStatus.CUSTOMER).getStatus()),
+        () -> assertEquals(UserStatus.WORKER,
+            ucc.changeUserStatus(3, UserStatus.WORKER).getStatus())
+    );
   }
 }

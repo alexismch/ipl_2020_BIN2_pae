@@ -33,6 +33,13 @@ public class MockUserDao implements UserDao {
       userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
       userDto.setStatus(newStatus);
       return userDto;
+    } else if (userId == 3) {
+      UserDto userDto = dtoFactory.getUser();
+      userDto.setPseudo("nop");
+      userDto.setId(userId);
+      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+      userDto.setStatus(newStatus);
+      return userDto;
     }
 
     return null;
@@ -40,51 +47,75 @@ public class MockUserDao implements UserDao {
 
   @Override
   public UserDto getUserByPseudo(String pseudo) {
-    if (pseudo.equals("sousou")) {
-      UserDto utilisateurDto = dtoFactory.getUser();
-      utilisateurDto.setPseudo("sousou");
-      utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      utilisateurDto.setId(1);
-      utilisateurDto.setStatus(UserStatus.WORKER);
-      return utilisateurDto;
-    } else if (pseudo.equals("yessai")) {
-      UserDto utilisateurDto = dtoFactory.getUser();
-      utilisateurDto.setPseudo("yessai");
-      utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      utilisateurDto.setId(2);
-      utilisateurDto.setStatus(UserStatus.CUSTOMER);
-      return utilisateurDto;
+    switch (pseudo) {
+      case "sousou": {
+        UserDto utilisateurDto = dtoFactory.getUser();
+        utilisateurDto.setPseudo("sousou");
+        utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        utilisateurDto.setId(1);
+        utilisateurDto.setStatus(UserStatus.WORKER);
+        return utilisateurDto;
+      }
+      case "yessai": {
+        UserDto utilisateurDto = dtoFactory.getUser();
+        utilisateurDto.setPseudo("yessai");
+        utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        utilisateurDto.setId(2);
+        utilisateurDto.setStatus(UserStatus.CUSTOMER);
+        return utilisateurDto;
+      }
+      case "nop": {
+        UserDto utilisateurDto = dtoFactory.getUser();
+        utilisateurDto.setPseudo("nop");
+        utilisateurDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        utilisateurDto.setId(3);
+        utilisateurDto.setStatus(UserStatus.NOT_ACCEPTED);
+        return utilisateurDto;
+      }
     }
     return null;
   }
 
   @Override
   public UserDto getUser(int idUtilisateur) {
-    if (idUtilisateur == 1) {
-      UserDto userDto = dtoFactory.getUser();
-      userDto.setPseudo("sousou");
-      userDto.setId(idUtilisateur);
-      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      userDto.setStatus(UserStatus.WORKER);
-      return userDto;
-    } else if (idUtilisateur == 2) {
-      UserDto userDto = dtoFactory.getUser();
-      userDto.setPseudo("yessai");
-      userDto.setId(idUtilisateur);
-      userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
-      userDto.setStatus(UserStatus.CUSTOMER);
-      return userDto;
+    switch (idUtilisateur) {
+      case 1: {
+        UserDto userDto = dtoFactory.getUser();
+        userDto.setPseudo("sousou");
+        userDto.setId(idUtilisateur);
+        userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        userDto.setStatus(UserStatus.WORKER);
+        return userDto;
+      }
+      case 2: {
+        UserDto userDto = dtoFactory.getUser();
+        userDto.setPseudo("yessai");
+        userDto.setId(idUtilisateur);
+        userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        userDto.setStatus(UserStatus.CUSTOMER);
+        return userDto;
+      }
+      case 3: {
+        UserDto userDto = dtoFactory.getUser();
+        userDto.setPseudo("nop");
+        userDto.setId(idUtilisateur);
+        userDto.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt()));
+        userDto.setStatus(UserStatus.NOT_ACCEPTED);
+        return userDto;
+      }
     }
     return null;
   }
 
   @Override
   public UserStatus getUserStatus(int id) {
-    if (id == 1) {
-      return UserStatus.WORKER;
-    }
-    if (id == 2) {
-      return UserStatus.CUSTOMER;
+    switch (id) {
+      case 1:
+        return UserStatus.WORKER;
+      case 2:
+        return UserStatus.CUSTOMER;
+      case 3:
+        return UserStatus.NOT_ACCEPTED;
     }
     return null;
   }

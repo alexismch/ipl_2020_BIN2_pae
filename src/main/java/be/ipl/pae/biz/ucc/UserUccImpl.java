@@ -100,7 +100,6 @@ class UserUccImpl implements UserUcc {
 
   @Override
   public UserDto changeUserStatus(int userId, UserStatus newStatus) throws BizException {
-    UserDto user;
     try {
       dalService.startTransaction();
       UserStatus status = userDao.getUserStatus(userId);
@@ -109,23 +108,17 @@ class UserUccImpl implements UserUcc {
         throw new BizException("Il n'y a aucun utilisateur avec l'id " + userId);
       }
 
-      if (status == newStatus) {
-        user = userDao.getUser(userId);
-      } else {
-
-        if (!UserStatus.NOT_ACCEPTED.equals(status)) {
-          throw new BizException("Le status de l'utilisateur doit être égal à "
-              + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
-        }
-
-        user = userDao.changeUserStatus(userId, newStatus);
+      if (!UserStatus.NOT_ACCEPTED.equals(status)) {
+        throw new BizException("Le status de l'utilisateur doit être égal à "
+            + UserStatus.NOT_ACCEPTED.getName() + " pour pouvoir être changé.");
       }
+
+      return userDao.changeUserStatus(userId, newStatus);
     } catch (DalException ex) {
       dalService.rollbackTransaction();
       throw new FatalException(ex);
     } finally {
       dalService.commitTransaction();
     }
-    return user;
   }
 }
