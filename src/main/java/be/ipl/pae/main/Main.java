@@ -8,7 +8,6 @@ import be.ipl.pae.ihm.servlets.utils.Util;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class Main {
 
   /**
@@ -18,7 +17,6 @@ public class Main {
    * @throws Exception Thrown if an error occurred during initialization or server startup
    */
   public static void main(String[] args) throws Exception {
-
     PropertiesLoader propertiesLoader = new PropertiesLoader();
     List<String> argsList = Arrays.asList(args);
 

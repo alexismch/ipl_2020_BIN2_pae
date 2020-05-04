@@ -26,7 +26,6 @@ public class UserServlet extends AbstractServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-
     System.out.println("POST /api/user by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
@@ -49,7 +48,6 @@ public class UserServlet extends AbstractServlet {
   @Override
   protected void doPut(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-
     System.out.println("PUT /api/user by " + req.getRemoteAddr());
 
     String token = (String) req.getSession().getAttribute("token");
@@ -61,7 +59,6 @@ public class UserServlet extends AbstractServlet {
     GensonBuilder gensonBuilder = createGensonBuilder();
 
     try {
-
       int userId = getParamAsInt(req, "userId");
       UserStatus status = getParamAsUserStatus(req, "status");
 

@@ -20,19 +20,6 @@ class UserImpl implements User {
     super();
   }
 
-  public UserImpl(String pseudo, String lastName, String firstName, String password, String city,
-      String email,
-      UserStatus status) {
-    this.pseudo = pseudo;
-    this.lastName = lastName;
-    this.firstName = firstName;
-    this.password = password;
-    this.city = city;
-    this.email = email;
-    this.registrationDate = LocalDate.now();
-    this.status = status;
-  }
-
   @Override
   public String getPseudo() {
     return this.pseudo;

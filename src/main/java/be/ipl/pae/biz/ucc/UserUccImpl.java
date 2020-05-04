@@ -128,5 +128,4 @@ class UserUccImpl implements UserUcc {
     }
     return user;
   }
-
 }

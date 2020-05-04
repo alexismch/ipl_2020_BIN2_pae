@@ -17,24 +17,6 @@ class QuotesFilterImpl implements QuotesFilter {
     super();
   }
 
-  /**
-   * Create a QuotesFilterImpl object.
-   *
-   * @param customerName   the name of the customer
-   * @param quoteDate      the date of the quote
-   * @param totalAmountMin the minimum of the amount range
-   * @param totalAmountMax the maximum of the amount range
-   */
-  public QuotesFilterImpl(String customerName, LocalDate quoteDate, int totalAmountMin,
-      int totalAmountMax, ArrayList<DevelopmentTypeDto> developmentTypeDto) {
-    super();
-    this.customerName = customerName;
-    this.quoteDate = quoteDate;
-    this.totalAmountMin = totalAmountMin;
-    this.totalAmountMax = totalAmountMax;
-    this.developmentTypeList = developmentTypeDto;
-  }
-
   public String getCustomerName() {
     return customerName;
   }
@@ -74,6 +56,4 @@ class QuotesFilterImpl implements QuotesFilter {
   public void setDevelopmentType(ArrayList<DevelopmentTypeDto> developmentTypeDto) {
     this.developmentTypeList = developmentTypeDto;
   }
-
-
 }

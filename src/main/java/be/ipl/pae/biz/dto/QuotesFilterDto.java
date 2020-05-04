@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public interface QuotesFilterDto {
 
-
-
   String getCustomerName();
 
   void setCustomerName(String customerName);
@@ -26,5 +24,4 @@ public interface QuotesFilterDto {
   ArrayList<DevelopmentTypeDto> getDevelopmentTypeDto();
 
   void setDevelopmentType(ArrayList<DevelopmentTypeDto> developmentTypeDto);
-
 }

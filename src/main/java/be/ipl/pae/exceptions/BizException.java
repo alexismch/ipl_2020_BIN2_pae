@@ -15,9 +15,7 @@ public class BizException extends Exception {
     super(cause);
   }
 
-
   public BizException(String string) {
     super(string);
   }
-
 }

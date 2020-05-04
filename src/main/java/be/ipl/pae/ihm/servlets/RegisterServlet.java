@@ -36,7 +36,6 @@ public class RegisterServlet extends AbstractServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     String token = (String) req.getSession().getAttribute("token");
     if (token != null) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Already connected.");

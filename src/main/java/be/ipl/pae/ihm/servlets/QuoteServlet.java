@@ -38,7 +38,7 @@ public class QuoteServlet extends AbstractServlet {
   @Injected
   private DevelopmentTypeUcc developmentTypeUcc;
 
-  private GensonBuilder genson = createGensonBuilder().exclude("idQuote", PhotoDto.class);
+  private final GensonBuilder genson = createGensonBuilder().exclude("idQuote", PhotoDto.class);
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -188,12 +188,10 @@ public class QuoteServlet extends AbstractServlet {
     } catch (BizException | ParameterException ex) {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, ex.getMessage());
     }
-
   }
 
   @Override
   protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     String quoteId = req.getParameter("quoteId");
 
     if (verifyNotEmpty(quoteId)) {
@@ -210,6 +208,4 @@ public class QuoteServlet extends AbstractServlet {
       sendError(resp, HttpServletResponse.SC_PRECONDITION_FAILED, "Paramètres invalides");
     }
   }
-
-
 }

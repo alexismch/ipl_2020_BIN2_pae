@@ -48,6 +48,7 @@ public interface DevelopmentTypeDao {
    *
    * @param title the title
    * @return true if exists, true if not
+   * @throws DalException if an error occurred with the  db
    */
   boolean exists(String title) throws DalException;
 }

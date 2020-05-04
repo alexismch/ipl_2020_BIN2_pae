@@ -25,7 +25,6 @@ public class CustomerServlet extends AbstractServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
     String token = (String) req.getSession().getAttribute("token");
     if (!hasAccess(token, UserStatus.CUSTOMER)) {
       sendError(resp, HttpServletResponse.SC_UNAUTHORIZED, "Wrong token.");
@@ -52,7 +51,6 @@ public class CustomerServlet extends AbstractServlet {
     System.out.println("idUser=" + idUser);
     CustomerDto customerDto = customerUcc.getCustomerByIdUser(idUser);
     sendSuccessWithJson(resp, "customer", createGensonBuilder().create().serialize(customerDto));
-
   }
 
   @Override

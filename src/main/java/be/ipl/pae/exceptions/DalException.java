@@ -22,6 +22,4 @@ public class DalException extends Exception {
   public DalException(Throwable cause) {
     super(cause);
   }
-
-
 }

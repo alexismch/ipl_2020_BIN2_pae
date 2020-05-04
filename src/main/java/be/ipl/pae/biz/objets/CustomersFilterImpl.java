@@ -11,20 +11,6 @@ class CustomersFilterImpl implements CustomersFilter {
     super();
   }
 
-  /**
-   * Create a CustomersFilterImpl object.
-   *
-   * @param name       the name of the customer
-   * @param postalCode the postal code of the customer
-   * @param city       the city of the customer
-   */
-  public CustomersFilterImpl(String name, int postalCode, String city) {
-    super();
-    this.name = name;
-    this.postalCode = postalCode;
-    this.city = city;
-  }
-
   public String getName() {
     return name;
   }
@@ -64,6 +50,4 @@ class CustomersFilterImpl implements CustomersFilter {
     return "CustomersFilterImpl [name=" + name + ", postalCode=" + postalCode + ", city=" + city
         + "]";
   }
-
-
 }

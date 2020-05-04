@@ -1,4 +1,3 @@
-
 package be.ipl.pae.biz.objets;
 
 class DevelopmentTypeImpl implements DevelopmentType {
@@ -8,18 +7,6 @@ class DevelopmentTypeImpl implements DevelopmentType {
 
   public DevelopmentTypeImpl() {
     super();
-  }
-
-  /**
-   * Create a DevelopmentTypeImpl object.
-   *
-   * @param idType the development type id
-   * @param title the development type title
-   */
-  public DevelopmentTypeImpl(int idType, String title) {
-    super();
-    this.idType = idType;
-    this.title = title;
   }
 
   @Override
@@ -73,7 +60,5 @@ class DevelopmentTypeImpl implements DevelopmentType {
       return title.equals(other.title);
     }
   }
-
-
 }
 

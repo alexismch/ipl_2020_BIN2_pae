@@ -4,6 +4,4 @@ import be.ipl.pae.biz.dto.QuotesFilterDto;
 
 public interface QuotesFilter extends QuotesFilterDto {
 
-
-
 }

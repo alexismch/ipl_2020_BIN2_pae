@@ -13,6 +13,7 @@ public interface CustomerUcc {
    *
    * @param customerDto the cusyomer to insert
    * @return a CustomerDto object that represents the customer
+   * @throws BizException if some attributes of customerDto are empty
    */
   CustomerDto insert(CustomerDto customerDto) throws BizException;
 
@@ -26,5 +27,4 @@ public interface CustomerUcc {
   List<CustomerDto> getCustomers(CustomersFilterDto customersFilterDto);
 
   CustomerDto getCustomerByIdUser(int idUser);
-
 }

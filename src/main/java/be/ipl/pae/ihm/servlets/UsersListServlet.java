@@ -48,6 +48,5 @@ public class UsersListServlet extends AbstractServlet {
 
     sendSuccessWithJson(resp, "users",
         gensonBuilder.create().serialize(userUcc.getUsers(usersFilterDto)));
-
   }
 }

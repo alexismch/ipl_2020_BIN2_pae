@@ -14,29 +14,6 @@ class PhotoImpl implements Photo {
     super();
   }
 
-  /**
-   * Create a PhotoImpl object.
-   *
-   * @param base64 the base64 infos
-   * @param id the photo id
-   * @param title the photo title
-   * @param idQuote the quote id which is linked with the photo
-   * @param isVisible the visibility of the photo
-   * @param idType the development type on the photo
-   * @param beforeWork the moment when the photo was taken
-   */
-  public PhotoImpl(String base64, int id, String title, String idQuote, boolean isVisible,
-      int idType, boolean beforeWork) {
-    super();
-    this.base64 = base64;
-    this.id = id;
-    this.title = title;
-    this.idQuote = idQuote;
-    this.isVisible = isVisible;
-    this.idType = idType;
-    this.beforeWork = beforeWork;
-  }
-
   /*
    * (non-Javadoc)
    *
@@ -122,6 +99,7 @@ class PhotoImpl implements Photo {
    *
    * @see be.ipl.pae.biz.objets.PhotoTest#isVisible()
    */
+  @Override
   public boolean isVisible() {
     return isVisible;
   }

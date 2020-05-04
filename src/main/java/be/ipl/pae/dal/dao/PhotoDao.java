@@ -46,11 +46,11 @@ public interface PhotoDao {
    */
   List<PhotoVisibleDto> getVisiblePhotos(int typeId) throws DalException;
 
-
   /**
    * retrieve a photo from the db with the id.
    *
    * @param idPhoto the id of the photo to retrieve
+   * @return the photo
    * @throws DalException if you have an error with the db
    */
   PhotoDto getPhotoById(int idPhoto) throws DalException;

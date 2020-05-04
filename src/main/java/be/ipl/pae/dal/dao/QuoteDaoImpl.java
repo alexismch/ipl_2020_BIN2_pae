@@ -156,22 +156,6 @@ class QuoteDaoImpl implements QuoteDao {
     return quotesList;
   }
 
-  @Override
-  public List<QuoteDto> getCustomerQuotes(int idCustomer) throws DalException {
-    String query = "Select id_quote, id_customer, quote_date, "
-        + "total_amount, work_duration, id_state, start_date"
-        + " FROM mystherbe.quotes WHERE id_customer =?" + " ORDER BY id_quote";
-
-    PreparedStatement ps = dalService.getPreparedStatement(query);
-
-    try {
-      ps.setInt(1, idCustomer);
-      return getCustomerQuotesViaPs(ps);
-    } catch (SQLException ex) {
-      throw new DalException(ex);
-    }
-  }
-
   private List<QuoteDto> getCustomerQuotesViaPs(PreparedStatement ps)
       throws SQLException, DalException {
 
@@ -198,35 +182,6 @@ class QuoteDaoImpl implements QuoteDao {
 
     return customerQuotes;
   }
-
-  /*
-   * Create a new Quote with all the informations collected in the db.
-   *
-   * @param res the result from the query
-   * 
-   * @return the quote collected as a dto object
-   * 
-   * @throws FatalException if a problem occurred with the db
-   */
-  /*
-   * private QuoteDto createQuoteDto(ResultSet res) throws FatalException { QuoteDto quote =
-   * quoteDtoFactory.getQuote(); PhotoDto pho = new PhotoImpl("test", 1, "test", "test", true, 1,
-   * true); pho.setTitle("test photo"); try {
-   * 
-   * quote.setIdQuote(res.getString(1)); quote.setIdCustomer(res.getInt(2));
-   * quote.setQuoteDate(res.getDate(3).toLocalDate()); quote.setTotalAmount(res.getDouble(4));
-   * quote.setWorkDuration(res.getInt(5)); Date startDate = res.getDate(7); if (startDate != null) {
-   * quote.setStartDate(startDate.toLocalDate()); }
-   * quote.setState(QuoteState.getById(res.getInt(6)));
-   * 
-   * CustomerDto customer = customerDao.getCustomer(res.getInt(2)); PhotoDto photo =
-   * photoDao.getPhotoById(res.getInt(8)); quote.setCustomer(customer); quote.setPhoto(pho); } catch
-   * (SQLException ex) { ex.printStackTrace(); throw new FatalException(ex);
-   * 
-   * }
-   * 
-   * return quote; }
-   */
 
   @Override
   public void linkToType(String quoteId, int typeId) throws DalException {
