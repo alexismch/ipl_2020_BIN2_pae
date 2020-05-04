@@ -225,7 +225,7 @@ public class QuoteUccImplTest {
   @DisplayName("test set favorite photo with non-existent quote")
   @Test
   public void testSetFavoritePhotoKo1() {
-    assertThrows(BizException.class, () -> qcc.setFavoritePhoto("false", 2));
+    assertThrows(BizException.class, () -> qcc.setFavoritePhoto(null, 2));
   }
 
   @DisplayName("test set favorite photo with non-existent photo")

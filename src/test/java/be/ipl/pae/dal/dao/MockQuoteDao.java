@@ -92,7 +92,7 @@ public class MockQuoteDao implements QuoteDao {
         }
       }
     }
-    return dtoFactory.getQuote();
+    return null;
   }
 
   @Override
