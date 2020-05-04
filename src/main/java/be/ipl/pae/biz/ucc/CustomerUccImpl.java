@@ -24,12 +24,8 @@ class CustomerUccImpl implements CustomerUcc {
   public CustomerDto insert(CustomerDto customerDto) throws BizException {
     CustomerDto customer;
     try {
-      if (Util.verifyNotEmpty(customerDto.getFirstName())
-          || Util.verifyNotEmpty(customerDto.getLastName())
-          || Util.verifyNotEmpty(customerDto.getAddress())
-          || Util.verifyNotEmpty(customerDto.getEmail())
-          || Util.verifyNotEmpty(customerDto.getCity())
-          || Util.verifyNotEmpty(customerDto.getPhoneNumber())) {
+      if (Util.verifyNotEmpty(customerDto.getFirstName(), customerDto.getLastName(),
+          customerDto.getAddress(), customerDto.getEmail(), customerDto.getPhoneNumber())) {
         throw new BizException("echec insertion: un ou plusieurs champ(s) invalide");
       }
 
