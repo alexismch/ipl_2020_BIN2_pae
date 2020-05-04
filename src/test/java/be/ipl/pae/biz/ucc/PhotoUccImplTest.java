@@ -113,7 +113,7 @@ public class PhotoUccImplTest {
   @Test
   public void testGetPhotoByIdOk() throws BizException {
     for (int i = 1; i <= 6; i++) {
-      assertEquals(i%2 == 0 ? "ok" : "introduit",
+      assertEquals(i % 2 == 0 ? "ok" : "introduit",
           photoUcc.getPhotoById(i).getIdQuote());
     }
   }
