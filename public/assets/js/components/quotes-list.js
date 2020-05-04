@@ -149,7 +149,7 @@ export class QuotesListPage extends Page {
   }
 
   _createQuotesListItem($quotesList, quote) {
-    const quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
+    let quoteListItem = `<li class="quotes-list-item shadow border border-left-primary rounded mb-2">
   ${quote.photo ? '<img src="' + quote.photo.base64 + '" alt="' + quote.photo.title + '" />'
         : '<img src="/assets/img/img-placeholder.jpg" alt="pas de photo" />'}
   <p class="quote-first-col">Devis n°${quote.idQuote} introduit le ${moment(quote.quoteDate).format('L')}</p>
@@ -157,8 +157,11 @@ export class QuotesListPage extends Page {
   <p class="quote-first-col">Date de début des travaux: ${quote.startDate === null ? 'Non determinée' : moment(quote.startDate).format('L')}</p>
   <p class="quote-first-col">Durée des travaux: ${quote.workDuration}</p>
   <p class="quote-first-col">Montant: ${quote.totalAmount}€</p>
-  <ul class="quote-development-types">
-  </ul>
+  <ul class="quote-development-types">`
+    for (const developmentType of quote.developmentTypes) {
+      quoteListItem += '<li class="badge badge-primary">' + developmentType.title + '</li>';
+    }
+    quoteListItem += `</ul>
   <p class="quote-state"><span class="badge badge-info font-size-100">${quote.state.title}</span></p>
   <a class="quote-details-btn btn btn-primary w-min" data-navigo href="devis/${quote.idQuote}">Détails</a>
 </li>`;

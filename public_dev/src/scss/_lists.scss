@@ -75,10 +75,10 @@
   @include elements-list('quotes');
   grid-template-columns: 1fr;
   @media (min-width: 992px) {
-    grid-template-columns: min-content 1fr fit-content(100%);
+    grid-template-columns: min-content 1fr min-content;
   }
   @media (min-width: 1200px) {
-    grid-template-columns: min-content 1fr 1fr fit-content(100%);
+    grid-template-columns: min-content 5fr 4fr min-content;
   }
 }
 
@@ -96,6 +96,7 @@
     grid-column: 1/2;
     grid-row: 1/6;
     justify-self: center;
+    align-self: center;
   }
 
   & .quote-first-col {
@@ -126,6 +127,8 @@
 
     & li {
       margin: .25rem;
+      font-size: 1em;
+      white-space: normal;
     }
   }
 
