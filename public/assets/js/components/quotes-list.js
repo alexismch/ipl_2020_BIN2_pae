@@ -142,6 +142,7 @@ export class QuotesListPage extends Page {
       $quotesList.append('<li class="empty-list-item shadow border border-left-danger rounded mb-2"><p>' + emptyMsg + '</p></li>')
     } else {
       for (const quote of quotes) {
+    	
         this._createQuotesListItem($quotesList, quote);
       }
     }
