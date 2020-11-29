@@ -119,7 +119,6 @@ class DalServiceImpl implements DalService, DalServiceTransaction {
     }
   }
 
-
   @Override
   public void startTransaction() throws FatalException {
     getConnexion();
@@ -130,7 +129,6 @@ class DalServiceImpl implements DalService, DalServiceTransaction {
       throw new FatalException(ex);
     }
   }
-
 
   @Override
   public void commitTransaction() throws FatalException {
@@ -146,7 +144,6 @@ class DalServiceImpl implements DalService, DalServiceTransaction {
       closeConnection();
     }
   }
-
 
   @Override
   public void rollbackTransaction() throws FatalException {
